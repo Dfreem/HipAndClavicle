@@ -26,5 +26,6 @@
         "titleBar.border": "#123654",
         "titleBar.inactiveBackground": "#12365499",
         "titleBar.inactiveForeground": "#e7e7e799"
-    }
+    },
+    "markdownTablePrettify.columnPadding": 4
 }
