@@ -18,5 +18,6 @@ namespace HipAndClavicle.Models
         public int OnHand { get; set; } = default!;
         public string? shape { get; set; }
 
+
     }
 }

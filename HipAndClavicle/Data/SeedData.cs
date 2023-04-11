@@ -174,7 +174,3 @@ public static class SeedData
         };
         await _context.Orders.AddRangeAsync(order1, order2, order3, order4);
         await _context.SaveChangesAsync();
-    }
-}
-
-

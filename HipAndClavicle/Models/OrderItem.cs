@@ -11,5 +11,6 @@
         public Product Item { get; set; } = default!;
         public ProductCategory ItemType { get; set; } = default!;
         public SetSize? SetSize { get; set; }
+
     }
 }
