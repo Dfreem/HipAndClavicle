@@ -14,7 +14,7 @@ git commit -m "$message" > .log
 
 status=$?
 
-[[ $status -eq 1 ]] && git push || echo "something went wrong, exit code: $status"
+[[ $status -eq 0 ]] && git push || echo "something went wrong, exit code: $status"
 
 
 
