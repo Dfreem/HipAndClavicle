@@ -6,15 +6,15 @@ git fetch origin
 
 git pull origin main
 
-git add -A > /dev/null
+git add -A > .log
 
 read -p "please enter a commit message." message
 
-git commit -m "$message" > /dev/null
+git commit -m "$message" > .log
 
 status=$?
 
-[ $status -eq 1] && git push || echo "something went wrong, exit code: $status"
+[[ $status -eq 1 ]] && git push || echo "something went wrong, exit code: $status"
 
 
 
