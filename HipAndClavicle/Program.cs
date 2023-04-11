@@ -2,32 +2,14 @@ var builder = WebApplication.CreateBuilder(args);
 string? connectionString;
 // Add services to the container.
 
-#region On Mac
-
-if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-{
-    connectionString = builder.Configuration.GetConnectionString("MYSQL_CONNECTION");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseMySql(connectionString, MySqlServerVersion.Parse("mysql-8.0")));
-}
-
-#endregion
-
-#region On Windows
-
-else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && builder.Environment.IsDevelopment())
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlite(connectionString));
-}
-
-#endregion
+connectionString = builder.Configuration.GetConnectionString("MYSQL_CONNECTION");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, MySqlServerVersion.Parse("mysql-8.0")));
 
 builder.Services.AddTransient<IHipRepo, HipRepo>();
 
 #region Identity
-builder.Services.AddIdentity<AppUser, IdentityRole>(options => 
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedAccount = false)
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();

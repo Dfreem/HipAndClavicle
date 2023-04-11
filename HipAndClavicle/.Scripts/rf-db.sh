@@ -12,14 +12,14 @@ dotnet ef database drop -f > .log
 
 echo "removed old migrations and database"
 
-dotnet ef migrations remove --no-build > .log
+dotnet ef migrations remove > .log
 
 echo "building database"
 
 # Add a new migration with the user input as the name 
-dotnet ef migrations add $migration_name --no-build > .log
+dotnet ef migrations add $migration_name > .log
 
 # Update the database with the new migration 
-dotnet ef database update -f > .log
+dotnet ef database update > .log
 
 echo "success"

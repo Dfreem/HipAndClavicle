@@ -1,4 +1,5 @@
-﻿namespace HipAndClavicle.Models
+﻿
+namespace HipAndClavicle.Models
 {
     public class Listing
     {
@@ -12,5 +13,7 @@
         public DateTime DateCreated { get; } = DateTime.Now;
         [Range(0, int.MaxValue)]
         public int OnHand { get; set; } = default!;
+        
+
     }
 }

@@ -12,5 +12,6 @@ public class Product
     public int QuantityOnHand { get; set; } = default!;
     public List<Review> Reviews { get; set; } = new();
     public int? QuantityOrdered { get; set; } = default!;
+    public List<SetSize> SetSizes { get; set; } = new();
 
 }

@@ -9,6 +9,8 @@
         public bool IsFolded { get; set; }
         public bool IsStickered { get; set; }
         public Product Item { get; set; } = default!;
-        public ProductCategory ItemType { get; set; } = default!; 
+        public ProductCategory ItemType { get; set; } = default!;
+        public int? SetSize { get; set; }
+
     }
 }

@@ -111,18 +111,21 @@ public static class SeedData
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
-            ItemColor = blue
+            ItemColor = blue,
+            SetSize = new SetSize() {Size = 6 }
         };
         OrderItem item2 = new()
         {
             Item = butterfly,
             ItemColor = red,
-            ItemType = ProductCategory.ButterFlys
+            ItemType = ProductCategory.ButterFlys,
+            SetSize = 10
         };
         OrderItem item3 = new()
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons
+            SetSize = 20
         };
         Order order1 = new()
         {
