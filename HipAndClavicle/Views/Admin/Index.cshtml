@@ -1,8 +1,7 @@
 ﻿@model MerchantVM
 @{
 }
-
-<table class="table table-success">
+<table class="table table">
     <thead>
         <tr>
             <th>Qty</th>
@@ -15,13 +14,16 @@
         </tr>
     </thead>
     <tr>
-        @*@foreach (Order order in Model.CurrentOrders)
+        @foreach (Order order in Model.CurrentOrders)
         {
-                <td>
-            for (int i = 0; i < order.Items.Count; i++)
-            {
+            <td>
+                <details>
+                    @Model.
+                    <summary>
 
-            }
-
-        }*@
+                    </summary>
+                </details>
+            </td>
+        }
     </tr>
+</table>

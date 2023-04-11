@@ -16,5 +16,6 @@ public class MerchantVM
     public MerchantVM(AppUser merchant)
     {
         Admin = merchant;
+        
     }
 }

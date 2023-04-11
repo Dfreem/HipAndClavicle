@@ -7,6 +7,7 @@ public class Order
     public List<OrderItem> Items { get; set; } = new();
     [Required]
     public string PurchaserId { get; set; } = default!;
+    public AppUser Purchaser { get; set; } = default!;
     public bool IsPaid { get; set; }
     public bool IsShipped { get; set; }
     public DateTime DateOrdered { get; set; } = DateTime.Now;
