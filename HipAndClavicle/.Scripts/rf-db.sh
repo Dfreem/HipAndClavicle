@@ -24,4 +24,8 @@ dotnet ef migrations add $migration_name > .log
 # Update the database with the new migration 
 dotnet ef database update > .log
 
+<<<<<<< HEAD
 echo "success"
+=======
+echo "success"
+>>>>>>> 1f86abf4896a501a5e9520aa6c388dbe8d9ec0f5
