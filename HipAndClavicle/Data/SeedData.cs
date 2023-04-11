@@ -84,19 +84,26 @@ public static class SeedData
             Name = "Butterfly Test",
             InStock = true,
             QuantityOnHand = 100,
-            QuantityOrdered = 3,
-            ColorOptions = { red, blue, green }
-            // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
-       
+        // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+
+
         Product dragon = new()
         {
             Category = ProductCategory.Dragons,
             Name = "Dragon Test",
             InStock = true,
             QuantityOnHand = 100,
-            QuantityOrdered = 7,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
         Product dragonfly = new()
         {
@@ -104,32 +111,36 @@ public static class SeedData
             Name = "Butterfly",
             InStock = true,
             QuantityOnHand = 100,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
 
         OrderItem item1 = new()
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
-            ItemColor = blue,
-            SetSize = new SetSize() {Size = 6 }
+            ItemColor = { blue },
+            SetSize = new SetSize() { Size = 6 }
         };
         OrderItem item2 = new()
         {
             Item = butterfly,
-            ItemColor = red,
+            ItemColor = { red },
             ItemType = ProductCategory.ButterFlys,
-            SetSize = 10
+            SetSize = new() { Size = 15 }
         };
         OrderItem item3 = new()
         {
             Item = dragon,
-            ItemType = ProductCategory.Dragons
-            SetSize = 20
+            ItemType = ProductCategory.Dragons,
+            SetSize = new() { Size = 22 }
         };
         Order order1 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1!},
             DateOrdered = DateTime.Now,
             PurchaserId = await _userManager.GetUserIdAsync(devin),
             ShippingAddress = devin!.Address!,
@@ -138,7 +149,7 @@ public static class SeedData
         };
         Order order2 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1!},
             DateOrdered = DateTime.Now,
             PurchaserId = michael!.Id,
             ShippingAddress = michael!.Address!,
@@ -146,7 +157,7 @@ public static class SeedData
         };
         Order order3 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1! },
             DateOrdered = DateTime.Now,
             PurchaserId = steven!.Id,
             ShippingAddress = steven!.Address!,
@@ -155,7 +166,7 @@ public static class SeedData
         };
         Order order4 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1! },
             DateOrdered = DateTime.Now,
             PurchaserId = nehemiah!.Id,
             ShippingAddress = nehemiah!.Address!,

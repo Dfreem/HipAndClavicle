@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(pwd)"
+
 # Prompt the user for a name for the new migration
 read -p "Enter a name for the new migration: " migration_name
 

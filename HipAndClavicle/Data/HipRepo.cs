@@ -59,16 +59,16 @@ namespace HipAndClavicle.Data
 
         public async Task<Product> GetProductById(int id) =>
             await _context.Products
-                .Include(p => p.ColorOptions)
+                .Include(p => p.Colors)
                 .Include(p => p.Reviews)
                 .FirstAsync(p => p.ProductId.Equals(id));
 
 
         public async Task<List<Product>> GetAvailableProductsAsync() =>
             await _context.Products
-            .Include(p => p.ColorOptions)
-            .Include(p => p.Reviews)
-            .ToListAsync();
+                .Include(p => p.Colors)
+                .Include(p => p.Reviews)
+                .ToListAsync();
 
         public async Task UpdateProductAsync(Product product)
         {
@@ -106,7 +106,7 @@ namespace HipAndClavicle.Data
             await _context.OrderItems
                 .Include(oi => oi.Item)
                 .Include(oi => oi.ItemColor)
-            .ToListAsync();
+                .ToListAsync();
 
         public async Task UpdateOrderItemAsync(OrderItem orderItem)
         {
