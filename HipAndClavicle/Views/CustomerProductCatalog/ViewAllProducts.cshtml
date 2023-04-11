@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "All Products";
+}
+@model ProductListingVM
+
+@foreach (var listing in Model.Listings)
+{
+    <h1>@listing.ListingProduct.Name</h1>
+}
+
