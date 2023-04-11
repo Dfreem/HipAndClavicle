@@ -83,20 +83,28 @@ public static class SeedData
             Category = ProductCategory.ButterFlys,
             Name = "Butterfly Test",
             InStock = true,
+<<<<<<< HEAD
             QuantityOnHand = 100,
-            QuantityOrdered = 3,
-            ColorOptions = { red, blue, green }
-            // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
-       
+        // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+
+
         Product dragon = new()
         {
             Category = ProductCategory.Dragons,
             Name = "Dragon Test",
             InStock = true,
             QuantityOnHand = 100,
-            QuantityOrdered = 7,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
         Product dragonfly = new()
         {
@@ -104,29 +112,36 @@ public static class SeedData
             Name = "Butterfly",
             InStock = true,
             QuantityOnHand = 100,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
         };
 
         OrderItem item1 = new()
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
-            ItemColor = blue
+            ItemColor = { blue },
+            SetSize = new SetSize() { Size = 6 }
         };
         OrderItem item2 = new()
         {
             Item = butterfly,
-            ItemColor = red,
-            ItemType = ProductCategory.ButterFlys
+            ItemColor = { red },
+            ItemType = ProductCategory.ButterFlys,
+            SetSize = new() { Size = 15 }
         };
         OrderItem item3 = new()
         {
             Item = dragon,
-            ItemType = ProductCategory.Dragons
+            ItemType = ProductCategory.Dragons,
+            SetSize = new() { Size = 22 }
         };
         Order order1 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1!},
             DateOrdered = DateTime.Now,
             PurchaserId = await _userManager.GetUserIdAsync(devin),
             ShippingAddress = devin!.Address!,
@@ -135,7 +150,7 @@ public static class SeedData
         };
         Order order2 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1!},
             DateOrdered = DateTime.Now,
             PurchaserId = michael!.Id,
             ShippingAddress = michael!.Address!,
@@ -143,7 +158,7 @@ public static class SeedData
         };
         Order order3 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1! },
             DateOrdered = DateTime.Now,
             PurchaserId = steven!.Id,
             ShippingAddress = steven!.Address!,
@@ -152,7 +167,7 @@ public static class SeedData
         };
         Order order4 = new()
         {
-            Items = new() { item1!, item2!, item3! },
+            Items = new() { item1! },
             DateOrdered = DateTime.Now,
             PurchaserId = nehemiah!.Id,
             ShippingAddress = nehemiah!.Address!,
@@ -164,3 +179,96 @@ public static class SeedData
 }
 
 
+=======
+            QuantityOnHand = 100,
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
+        };
+        // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+
+
+        Product dragon = new()
+        {
+            Category = ProductCategory.Dragons,
+            Name = "Dragon Test",
+            InStock = true,
+            QuantityOnHand = 100,
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
+        };
+        Product dragonfly = new()
+        {
+            Category = ProductCategory.Dragonflys,
+            Name = "Butterfly",
+            InStock = true,
+            QuantityOnHand = 100,
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                new SetSize() { Size = 20 }
+            }
+        };
+
+        OrderItem item1 = new()
+        {
+            Item = dragonfly,
+            ItemType = ProductCategory.Dragonflys,
+            ItemColor = { blue },
+            SetSize = new SetSize() { Size = 6 }
+        };
+        OrderItem item2 = new()
+        {
+            Item = butterfly,
+            ItemColor = { red },
+            ItemType = ProductCategory.ButterFlys,
+            SetSize = new() { Size = 15 }
+        };
+        OrderItem item3 = new()
+        {
+            Item = dragon,
+            ItemType = ProductCategory.Dragons,
+            SetSize = new() { Size = 22 }
+        };
+        Order order1 = new()
+        {
+            Items = new() { item1!},
+            DateOrdered = DateTime.Now,
+            PurchaserId = await _userManager.GetUserIdAsync(devin),
+            ShippingAddress = devin!.Address!,
+            TotalPrice = 25.00d,
+
+        };
+        Order order2 = new()
+        {
+            Items = new() { item1!},
+            DateOrdered = DateTime.Now,
+            PurchaserId = michael!.Id,
+            ShippingAddress = michael!.Address!,
+            TotalPrice = 125.00d,
+        };
+        Order order3 = new()
+        {
+            Items = new() { item1! },
+            DateOrdered = DateTime.Now,
+            PurchaserId = steven!.Id,
+            ShippingAddress = steven!.Address!,
+            TotalPrice = 25.00d,
+
+        };
+        Order order4 = new()
+        {
+            Items = new() { item1! },
+            DateOrdered = DateTime.Now,
+            PurchaserId = nehemiah!.Id,
+            ShippingAddress = nehemiah!.Address!,
+            TotalPrice = 125.00d
+        };
+        await _context.Orders.AddRangeAsync(order1, order2, order3, order4);
+        await _context.SaveChangesAsync();
+>>>>>>> 1f86abf4896a501a5e9520aa6c388dbe8d9ec0f5

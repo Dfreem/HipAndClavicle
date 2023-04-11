@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "be sure to run this script in your current working branch"
+
+git fetch origin
+
+git pull origin main
+
+git add -A > .log
+
+read -p "please enter a commit message." message
+
+git commit -m "$message" > .log
+
+status=$?
+
+[[ $status -eq 0 ]] && git push || echo "something went wrong, exit code: $status"
+
+
+
+

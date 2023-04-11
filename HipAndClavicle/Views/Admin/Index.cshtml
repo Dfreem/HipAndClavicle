@@ -1,27 +1,74 @@
 ﻿@model MerchantVM
 @{
 }
-
-<table class="table table-success">
+<table class="table table-bordered table-responsive-sm">
     <thead>
         <tr>
+            <th>Name</th>
+            <th>Order Date</th>
             <th>Qty</th>
-            <th>Set Qty</th>
+            <th>Set Size</th>
             <th>Type</th>
-            <th>Pulled</th>
+            <th>Paid</th>
             <th>Cut</th>
             <th>Folded</th>
             <th>Stickered</th>
         </tr>
     </thead>
-    <tr>
-        @*@foreach (Order order in Model.CurrentOrders)
+    <tbody>
+        @foreach (Order order in Model.CurrentOrders)
         {
-                <td>
-            for (int i = 0; i < order.Items.Count; i++)
-            {
+            <tr>
+                @for (int i = 0; i < order.Items.Count; i++)
+                {
+                    <td>
+                        @order.Purchaser.FName <br /> @order.OrderId
+                    </td>
+                    <td>
+                        @order.DateOrdered
+                    </td>
+                    <td>
+                        @order.Items[i].Item.QuantityOnHand
 
-            }
+                    </td>
+                    <td>
+                        @order.Items[i].SetSize
+                    </td>
+                    <td>
 
-        }*@
-    </tr>
+                        @order.Items[i].Item.Category
+
+                    </td>
+                    <td>
+
+                        @if (order.IsPaid)
+                        {
+                            <span class="text-success">@Html.DisplayText("Paid");</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">@Html.DisplayText("Unpaid")</span>
+                        }
+
+                    </td>
+                    <td>
+
+                        @Html.CheckBoxFor(model => order.Items[i].IsCut)
+
+                    </td>
+                    <td>
+
+                        @Html.CheckBoxFor(model => order.Items[i].IsFolded)
+
+
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => order.Items[i].IsFolded)
+
+
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
