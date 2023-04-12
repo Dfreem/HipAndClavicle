@@ -13,6 +13,6 @@
         public ProductCategory ItemType { get; set; } = default!;
         public int? SetSizeId { get; set; }
         public SetSize? SetSize { get; set; }
-
+        public int AmountOrdered { get; set; }
     }
 }

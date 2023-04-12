@@ -352,10 +352,6 @@ MigrationBackup/
 appsettings.*
 .DS_Store
 Migrations/
-<<<<<<< HEAD
-
 app.db*
 Hours-tracking*
-=======
-app.db*
->>>>>>> f6b757a49d1eddb176cd701cc052bdbe39ddf702
+*log

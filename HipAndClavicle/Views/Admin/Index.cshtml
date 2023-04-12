@@ -16,11 +16,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Order order in Model.CurrentOrders)
-        {
-            <tr>
-                @for (int i = 0; i < order.Items.Count; i++)
+        <tr>
+            <td>
+                @foreach (Order order in Model.CurrentOrders)
                 {
+                    @for (int i = 0; i < order.Items.Count; i++)
+                    {
+
                     <td>
                         @order.Purchaser.FName
                     </td>
@@ -28,7 +30,7 @@
                         @order.DateOrdered
                     </td>
                     <td>
-                        @order.Items[i].Item.QuantityOnHand
+                        @order.Items[i].
 
                     </td>
                     <td>
@@ -67,7 +69,8 @@
 
                     </td>
                 }
+                }
             </tr>
-        }
-    </tbody>
-</table>
+            </td>
+        </tbody>
+    </table>
