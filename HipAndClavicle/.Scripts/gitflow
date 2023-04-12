@@ -1,16 +1,24 @@
 #!/bin/bash
 
-echo "be sure to run this script in your current working branch"
+echo "Please do not run this script from the main branch."
 
-git fetch origin
+read -p "are you on a different branch than main? y/n" answer
+
+if [ $answer != "y" ] 
+  then
+
+  exit 0
+fi
+
+git fetch origin >> .log
 
 git pull origin main
 
-git add -A > .log
+git add -A
 
-read -p "please enter a commit message." message
+read -p "please enter a commit message. no qoutes are needed.: " message
 
-git commit -m "$message" > .log
+git commit -m "$message" >> .log
 
 status=$?
 
