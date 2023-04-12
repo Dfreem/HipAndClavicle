@@ -1,0 +1,49 @@
+﻿@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="mx-auto">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h2>Create a new account.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating">
+                    <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" />
+                    <label asp-for="UserName"></label>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="FName" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="FName"></label>
+                    <span asp-validation-for="FName" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="LName" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="LName"></label>
+                    <span asp-validation-for="LName" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" />
+                    <label asp-for="Email"></label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Password" type="password" class="form-control" aria-required="true" />
+                    <label asp-for="Password"></label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" aria-required="true" />
+                    <label asp-for="ConfirmPassword"></label>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Register" />
+            </form>
+        </div>
+    </div>
+</div>
