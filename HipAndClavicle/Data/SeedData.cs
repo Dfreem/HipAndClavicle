@@ -1,4 +1,4 @@
-﻿using Color = HipAndClavicle.Models.Color;
+using Color = HipAndClavicle.Models.Color;
 namespace HipAndClavicle.Data;
 
 public static class SeedData
