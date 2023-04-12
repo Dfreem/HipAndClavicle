@@ -1,4 +1,5 @@
-﻿using SQLitePCL;
+﻿using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 using System;
 namespace HipAndClavicle.Data
 {
@@ -30,8 +31,10 @@ namespace HipAndClavicle.Data
             var orders = await _context.Orders
                 .Include(o => o.Purchaser)
                 .Include(o => o.Items)
-                .ThenInclude(oi => oi.Item)
-                .Where(o => o.IsShipped.Equals(false)).ToListAsync();
+                .ThenInclude(i => i.Item)
+                .ThenInclude(i => i.SetSizes)
+                .Where(o => !o.IsShipped)
+                .ToListAsync();
             return orders;
         }
 

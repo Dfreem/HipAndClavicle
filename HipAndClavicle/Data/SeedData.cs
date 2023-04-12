@@ -1,4 +1,4 @@
-﻿using Color = HipAndClavicle.Models.Color;
+using Color = HipAndClavicle.Models.Color;
 namespace HipAndClavicle.Data;
 
 public static class SeedData
@@ -29,6 +29,7 @@ public static class SeedData
             HexValue = "#00ff00",
             RGB = (0, 255, 0)
         };
+        await context.NamedColors.AddRangeAsync(blue, green, red);
 
         Product butterfly = new()
         {
@@ -66,9 +67,55 @@ public static class SeedData
             Colors = { red, blue, green },
             SetSizes = new()
             {
+
                 new SetSize() { Size = 20 }
             }
         };
+        //await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
+
+        await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
+
+        var devin = await userManager.FindByNameAsync("dfreem987");
+        var michael = await userManager.FindByNameAsync("michael123");
+        var steven = await userManager.FindByNameAsync("steven123");
+        var nehemiah = await userManager.FindByNameAsync("nehemiah123");
+
+        Order order1 = new()
+        {
+            DateOrdered = DateTime.Now,
+            Purchaser = devin!,
+            ShippingAddress = devin!.Address!,
+            TotalPrice = 25.00d,
+
+        };
+        Order order2 = new()
+        {
+            DateOrdered = DateTime.Now,
+            Purchaser = michael!,
+            ShippingAddress = michael!.Address!,
+            TotalPrice = 125.00d,
+        };
+        Order order3 = new()
+        {
+            DateOrdered = DateTime.Now,
+            Purchaser = steven!,
+            ShippingAddress = steven!.Address!,
+            TotalPrice = 25.00d,
+
+        };
+        Order order4 = new()
+        {
+            DateOrdered = DateTime.Now,
+            Purchaser = nehemiah!,
+            ShippingAddress = nehemiah!.Address!,
+            TotalPrice = 125.00d
+        };
+
+        SetSize two = new() { Size = 2 };
+        SetSize seven = new() { Size = 7 };
+        SetSize ten = new() { Size = 10 };
+        SetSize fifteen = new() { Size = 15 };
+        await context.SetSizes.AddRangeAsync(two, seven, ten, fifteen);
 
         OrderItem item1 = new()
         {
@@ -90,45 +137,20 @@ public static class SeedData
             ItemType = ProductCategory.Dragons,
             SetSize = new() { Size = 22 }
         };
+        
+        OrderItem item4 = new()
+        {
+            Item = dragon,
+            ItemType = ProductCategory.Dragons,
+            SetSize = new() { Size = 22 }
+        };
 
-        var devin = await userManager.FindByNameAsync("dfreem987");
-        var michael = await userManager.FindByNameAsync("michael123");
-        var steven = await userManager.FindByNameAsync("steven123");
-        var nehemiah = await userManager.FindByNameAsync("nehemiah123");
-        Order order1 = new()
-        {
-            Items = new() { item1!},
-            DateOrdered = DateTime.Now,
-            PurchaserId = await userManager.GetUserIdAsync(devin!),
-            ShippingAddress = devin!.Address!,
-            TotalPrice = 25.00d,
+        await context.OrderItems.AddRangeAsync(item1, item2, item3);
 
-        };
-        Order order2 = new()
-        {
-            Items = new() { item1!},
-            DateOrdered = DateTime.Now,
-            PurchaserId = michael!.Id,
-            ShippingAddress = michael!.Address!,
-            TotalPrice = 125.00d,
-        };
-        Order order3 = new()
-        {
-            Items = new() { item1! },
-            DateOrdered = DateTime.Now,
-            PurchaserId = steven!.Id,
-            ShippingAddress = steven!.Address!,
-            TotalPrice = 25.00d,
+        order1.Items.Add(item1);
+        order2.Items.Add(item2);
+        order3.Items.Add(item3);
 
-        };
-        Order order4 = new()
-        {
-            Items = new() { item1! },
-            DateOrdered = DateTime.Now,
-            PurchaserId = nehemiah!.Id,
-            ShippingAddress = nehemiah!.Address!,
-            TotalPrice = 125.00d
-        };
         await context.Orders.AddRangeAsync(order1, order2, order3, order4);
         await context.SaveChangesAsync();
     }
