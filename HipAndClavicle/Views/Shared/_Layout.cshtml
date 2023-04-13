@@ -11,9 +11,13 @@
 <body>
     <header>
 
+
+        <a asp-action="login" asp-controller="accounts" class="nav-link text-dark" style="float:right">Login</a>
+
+
         <br />
         <a asp-area="" asp-controller="Home" asp-action="Index">
-            <img class="SiteLogo" src="https://i.etsystatic.com/isbl/433b39/23850902/isbl_3360x840.23850902_dpuju5sb.jpg?version=0" alt="Site logo." width="960" height="200" /> <br />
+            <img class="SiteLogo" src="https://i.etsystatic.com/isbl/433b39/23850902/isbl_3360x840.23850902_dpuju5sb.jpg?version=0" alt="Site logo." width="960" height="150" /> <br />
         </a>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -64,7 +68,30 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - HipAndClavicle - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+
+            @*NOTE TO FUTURE SELF - NJ:
+                -Might need to come back and update some names for the nav!*@
+            <h10>
+
+                <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a><br />
+                <a class="text-dark" asp-area="" asp-controller="" asp-action="">About</a><br />
+                <a class="text-dark" asp-area="" asp-controller="" asp-action="">Contact</a><br />
+                <a class="text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a><br />
+                <a class="text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a><br />
+                &copy; 2023 - HipAndClavicle - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+                <a href="https://www.facebook.com/hipandclavicle/">Facebook<i class=""></i></a>
+                <a href="https://www.pinterest.com/hipandclavicle/">Pinterest<i class=""></i></a>
+
+            </h10>
+
+            @*<li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>*@
+
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
