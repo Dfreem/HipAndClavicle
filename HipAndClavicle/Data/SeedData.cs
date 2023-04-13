@@ -156,6 +156,7 @@ public static class SeedData
         order1.Items.Add(item1);
         order2.Items.Add(item2);
         order3.Items.Add(item3);
+        order3.Items.Add(item4);
 
         await context.Orders.AddRangeAsync(order1, order2, order3, order4);
         await context.SaveChangesAsync();
