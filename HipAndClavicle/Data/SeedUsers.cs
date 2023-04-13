@@ -6,7 +6,7 @@ namespace HipAndClavicle.Data
 {
     public static class SeedUsers
     {
-        public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
+        public static async Task Seed(IServiceProvider services)
         {
             UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
             if (userManager!.Users.Any())

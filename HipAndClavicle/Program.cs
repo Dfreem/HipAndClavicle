@@ -65,7 +65,7 @@ using (var scope = app.Services.CreateAsyncScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
-    await SeedUsers.Seed(services, context);
+    await SeedUsers.Seed(services);
     await SeedData.Seed(services, context);
     await SeedRoles.SeedCustomerRole(services);
     await SeedRoles.SeedAdminRole(services);

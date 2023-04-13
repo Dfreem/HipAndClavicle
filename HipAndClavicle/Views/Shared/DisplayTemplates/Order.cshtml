@@ -1,0 +1,74 @@
+﻿@model Order
+
+<tr>
+    <td>
+        @Model.Purchaser.FName
+    </td>
+    <td>
+        @Model.DateOrdered
+    </td>
+    <td>
+        <table class="table table-bordered table-responsive-sm">
+            <thead>
+                <tr>
+                    <th># Ordered</th>
+                    <th>Set Size</th>
+                    <th>Type</th>
+                    <th>Paid</th>
+                    <th>Cut</th>
+                    <th>Folded</th>
+                    <th>Stickered</th>
+
+                </tr>
+
+            </thead>
+            @foreach (OrderItem item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @item.AmountOrdered
+                    </td>
+                    <td>
+                        @item.SetSize?.Size
+                    </td>
+                    <td>
+                        @item.Item.Category
+                    </td>
+
+                    <td>
+
+                        @if (Model.IsPaid)
+                        {
+                            <span class="text-success">Paid</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Unpaid</span>
+                        }
+
+                    </td>
+
+                    <td>
+
+                        @Html.CheckBoxFor(model => item.IsCut)
+
+                    </td>
+                    <td>
+
+                        @Html.CheckBoxFor(model => item.IsFolded)
+
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => item.IsFolded)
+
+
+                    </td>
+
+
+
+                </tr>
+
+            }
+        </table>
+    </td>
+</tr>
