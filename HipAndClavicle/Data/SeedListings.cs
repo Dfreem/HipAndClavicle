@@ -2,15 +2,15 @@
 
 namespace HipAndClavicle.Data
 {
-    public class SeedItems
+    public class SeedListings
     {
         public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
         {
             Color col1 = new Color()
             {
-                ColorName = "Midnight Plumb Metalic",
-                HexValue = "#2d2063",
-                RGB = (45, 32, 99)
+                ColorName = "Victorian Lace",
+                HexValue = "#e9836f",
+                RGB = (233, 131, 111)
             };
             Color col2 = new Color()
             {
@@ -69,6 +69,29 @@ namespace HipAndClavicle.Data
                 ListingProduct = dragon
             };
             await context.AddRangeAsync(listing1, listing2, listing3 , listing4 );
+            await context.SaveChangesAsync();
+
+            ColorFamily cf1 = new ColorFamily()
+            {
+                ColorFamilyName = "Reds",
+                Color = col2
+            };
+            ColorFamily cf2 = new ColorFamily()
+            {
+                ColorFamilyName = "Yellows",
+                Color = col2
+            };
+            ColorFamily cf3 = new ColorFamily()
+            {
+                ColorFamilyName = "Yellows",
+                Color = col3
+            };
+            ColorFamily cf4 = new ColorFamily()
+            {
+                ColorFamilyName = "Reds",
+                Color = col1
+            };
+            await context.AddRangeAsync(cf1, cf2, cf3, cf4);
             await context.SaveChangesAsync();
         }
     }
