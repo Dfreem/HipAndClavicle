@@ -4,9 +4,9 @@ namespace HipAndClavicle.Controllers
 {
     public class CustomerProductCatalogController : Controller
     {
-        private readonly IHipRepo _repo;
+        private readonly ICustRepo _repo;
         private readonly ApplicationDbContext _context;
-        public CustomerProductCatalogController(IHipRepo repo, ApplicationDbContext context)
+        public CustomerProductCatalogController(ICustRepo repo, ApplicationDbContext context)
         {
             _repo = repo;
             _context = context;
@@ -16,22 +16,28 @@ namespace HipAndClavicle.Controllers
             return View();
         }
 
-        public IActionResult SearchByColor()
+        public async Task<IActionResult> SearchByColor(string colorFamilyName)
         {
             return View();
         }
-
-        public async Task<IActionResult> ViewAllProducts()
+        public async Task<IActionResult> ColorSearchResults(string colorFamilyName)
         {
-            var products = await _context.Products.ToListAsync();
-            var listings = await _context.Listings.ToListAsync();
-            ProductListingVM productsVM = new ProductListingVM();
-            productsVM.Products = products;
-            productsVM.Listings = listings;
+            var listings = await _repo.GetListingsByColorFamilyAsync(colorFamilyName);
+            return View(listings);
+        }
 
-
-
-            return View(productsVM);
+        public async Task<IActionResult> CustFindListings(string colorFamilyName)
+        {
+            List<Listing> listings;
+            if (colorFamilyName != null)
+            {
+                listings = await _repo.GetListingsByColorFamilyAsync(colorFamilyName);
+            }
+            else
+            {
+                listings = await _repo.GetAllListingsAsync();
+            }
+            return View(listings);
         }
     }
 }

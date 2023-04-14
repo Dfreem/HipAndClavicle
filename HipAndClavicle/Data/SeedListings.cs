@@ -6,6 +6,11 @@ namespace HipAndClavicle.Data
     {
         public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
         {
+            if (await context.Listings.AnyAsync())
+            {
+                return;
+            }
+            #region MakeColors
             Color col1 = new Color()
             {
                 ColorName = "Victorian Lace",
@@ -25,21 +30,50 @@ namespace HipAndClavicle.Data
                 HexValue = "#ffd447",
                 RGB = (255, 212, 71)
             };
-            await context.AddRangeAsync(col1, col2 , col3 );
+            await context.AddRangeAsync(col1, col2 , col3);
             await context.SaveChangesAsync();
+            #endregion
 
-            Product butterfly = await context.Products.Where(p => p.Name == "Butterfly Test").FirstOrDefaultAsync();
-            Product dragon = await context.Products.Where(p => p.Name == "Dragon Test").FirstOrDefaultAsync();
+            #region MakeProducts
+            Product butterfly = new Product()
+            {
+                Category = ProductCategory.ButterFlys,
+                Name = "ListingButterfly",
+                InStock = true,
+                QuantityOnHand = 100,
+                Colors = { col1, col2, col3},
+                SetSizes = new()
+                {
+                    new SetSize() { Size = 20 }
+                }
+            };
+            Product dragon = new Product()
+            {
+                Category = ProductCategory.Dragons,
+                Name = "ListingDragon",
+                InStock = true,
+                QuantityOnHand = 100,
+                Colors = { col1, col2, col3 },
+                SetSizes = new()
+                {
+                    new SetSize() { Size = 20 }
+                }
+            };
+            await context.AddRangeAsync( butterfly, dragon );
+            await context.SaveChangesAsync();
+            #endregion
 
-
+            #region MakeListings
             Listing listing1 = new Listing()
             {
                 Price = 20.00d,
-                Colors = 
+                Colors =
                 {
                     col1
                 },
-                ListingProduct = butterfly
+                ListingProduct = butterfly,
+                ListingTitle = "Butterflies in Victorian Lace",
+                ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             Listing listing2 = new Listing()
             {
@@ -48,7 +82,9 @@ namespace HipAndClavicle.Data
                 {
                     col2
                 },
-                ListingProduct = butterfly
+                ListingProduct = butterfly,
+                ListingTitle = "Butterflies in Carrot Orange",
+                ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             Listing listing3 = new Listing()
             {
@@ -57,7 +93,9 @@ namespace HipAndClavicle.Data
                 {
                     col3
                 },
-                ListingProduct = butterfly
+                ListingProduct = butterfly,
+                ListingTitle = "Butterflies in Canary Yellow",
+                ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             Listing listing4 = new Listing()
             {
@@ -66,10 +104,14 @@ namespace HipAndClavicle.Data
                 {
                     col1
                 },
-                ListingProduct = dragon
+                ListingProduct = dragon,
+                ListingTitle = "Dragons in Victorian Lace",
+                ListingDescription = "Really great dragons lorem ipsum etc etc"
             };
-            await context.AddRangeAsync(listing1, listing2, listing3 , listing4 );
+            await context.AddRangeAsync(listing1, listing2, listing3, listing4);
+
             await context.SaveChangesAsync();
+            #endregion
 
             ColorFamily cf1 = new ColorFamily()
             {

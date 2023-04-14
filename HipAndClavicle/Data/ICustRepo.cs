@@ -3,13 +3,14 @@
     public interface ICustRepo
     {
         //Get all 
-        public Task<List<Listing>> GetAllListings();
+        public Task<List<Listing>> GetAllListingsAsync();
 
         //Get specific
-        public Task<List<Listing>> GetItemsByColorFamily(string colorFamily);
+        public Task<List<Color>> GetColorsByColorFamilyNameAsync(string colorFamilyName);
+        public Task<List<Listing>> GetListingsByColorFamilyAsync(string colorFamilyName);
 
-        //Update db
-        public Task UpdateColorFamilyAsync(ColorFamily colorFamily);
+        //Make Updates
+        public Task AddColorFamilyAsync(ColorFamily colorFamily);
 
 
 

@@ -21,5 +21,6 @@ public class Color
     public int Blue { get; set; } = 0;
     [Range(0, 255)]
     public int Green { get; set; } = 0;
+    public List<ColorFamily> ColorFamilies { get; set; } = new List<ColorFamily>();
 }
 
