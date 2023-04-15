@@ -20,11 +20,6 @@ namespace HipAndClavicle.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> ColorSearchResults(string colorFamilyName)
-        {
-            var listings = await _repo.GetListingsByColorFamilyAsync(colorFamilyName);
-            return View(listings);
-        }
 
         public async Task<IActionResult> CustFindListings(string colorFamilyName)
         {
@@ -38,6 +33,12 @@ namespace HipAndClavicle.Controllers
                 listings = await _repo.GetAllListingsAsync();
             }
             return View(listings);
+        }
+
+        public async Task<IActionResult> CustListing(int listingId)
+        {
+            var listing = await _repo.GetListingByIdAsync(listingId);
+            return View(listing);
         }
     }
 }

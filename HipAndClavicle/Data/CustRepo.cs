@@ -26,7 +26,11 @@ namespace HipAndClavicle.Data
         #endregion
 
         #region GetSpecific
-
+        public async Task<Listing> GetListingByIdAsync(int listingId)
+        {
+            var listing = await _context.Listings.Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
+            return listing;
+        }
         public async Task<List<Color>> GetColorsByColorFamilyNameAsync(string colorFamilyName)
         {
             var colors = await _context.NamedColors
