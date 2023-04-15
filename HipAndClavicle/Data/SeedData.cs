@@ -31,6 +31,15 @@ public static class SeedData
         };
         await context.NamedColors.AddRangeAsync(blue, green, red);
 
+        SetSize two = new() { Size = 2 };
+        SetSize seven = new() { Size = 7 };
+        SetSize ten = new() { Size = 10 };
+        SetSize twelve = new() { Size = 12 };
+        SetSize fifteen = new() { Size = 15 };
+        SetSize twenty = new() { Size = 20 };
+
+        await context.SetSizes.AddRangeAsync(two, seven, ten, twelve, fifteen, twenty);
+
         Product butterfly = new()
         {
             Category = ProductCategory.ButterFlys,
@@ -40,7 +49,9 @@ public static class SeedData
             Colors = { red, blue, green },
             SetSizes = new()
             {
-                new SetSize() { Size = 20 }
+                two,
+                seven,
+                twelve
             }
         };
         // TODO add a check to see if the app user has purchased the product before being able to leave a review.
@@ -55,7 +66,9 @@ public static class SeedData
             Colors = { red, blue, green },
             SetSizes = new()
             {
-                new SetSize() { Size = 20 }
+                two,
+                ten,
+                fifteen
             }
         };
         Product dragonfly = new()
@@ -67,8 +80,8 @@ public static class SeedData
             Colors = { red, blue, green },
             SetSizes = new()
             {
-
-                new SetSize() { Size = 20 }
+                seven,
+                twelve
             }
         };
         //await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
@@ -110,32 +123,25 @@ public static class SeedData
             ShippingAddress = nehemiah!.Address!,
             TotalPrice = 125.00d
         };
-
-        SetSize two = new() { Size = 2 };
-        SetSize seven = new() { Size = 7 };
-        SetSize ten = new() { Size = 10 };
-        SetSize fifteen = new() { Size = 15 };
-        await context.SetSizes.AddRangeAsync(two, seven, ten, fifteen);
-
         OrderItem item1 = new()
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
             ItemColor = { blue },
-            SetSize = new SetSize() { Size = 6 }
+            SetSize = two
         };
         OrderItem item2 = new()
         {
             Item = butterfly,
             ItemColor = { red },
             ItemType = ProductCategory.ButterFlys,
-            SetSize = new() { Size = 15 }
+            SetSize = fifteen
         };
         OrderItem item3 = new()
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            SetSize = new() { Size = 22 }
+            SetSize = ten
         };
         
         OrderItem item4 = new()
@@ -150,6 +156,7 @@ public static class SeedData
         order1.Items.Add(item1);
         order2.Items.Add(item2);
         order3.Items.Add(item3);
+        order3.Items.Add(item4);
 
         await context.Orders.AddRangeAsync(order1, order2, order3, order4);
         await context.SaveChangesAsync();
