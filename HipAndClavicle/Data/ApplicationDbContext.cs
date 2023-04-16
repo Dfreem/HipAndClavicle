@@ -18,7 +18,9 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Color> NamedColors { get; set; }
     public DbSet<AdminSettings> Settings { get; set; }
     public DbSet<Listing> Listings { get; set; }
-    //public DbSet<Address> Addresses { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<UserMessage> Messages { get; set; }
+    public DbSet<SetSize> SetSizes { get; set; }
+    public DbSet<ColorFamily> ColorFamilies { get; set; }
 }
 

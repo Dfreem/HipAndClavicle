@@ -1,0 +1,91 @@
+﻿@model Order
+<tr>
+    <td class="d-flex flex-col">
+        <div class="m-auto">
+            @Model.Purchaser.FName
+
+        </div>
+        <div class="m-auto">
+            <a asp-controller="Admin" asp-action="Shipping" asp-route-id="@Model.OrderId" class="btn btn-primary rounded"><i class="bi bi-mailbox"></i></a>
+        </div>
+
+
+
+    </td>
+    <td>
+        Order Date @Model.DateOrdered <br />
+        Ship By @*TODO set days to ship in admin settings*@
+    </td>
+    <td>
+        <table class="table table-bordered table-responsive-sm">
+            <thead>
+                <tr>
+                    <th># Ordered</th>
+                    <th>Set Size</th>
+                    <th>Type</th>
+                    <th>Paid</th>
+                    <th>Cut</th>
+                    <th>Folded</th>
+                    <th>Stickered</th>
+
+                </tr>
+
+            </thead>
+            @foreach (OrderItem item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @*TODO check that AmountOrdered works*@
+                        @*TODO make this button go where i want and make it look better*@
+                        @item.AmountOrdered
+                    </td>
+                    <td>
+                        @item.SetSize?.Size
+                    </td>
+                    <td>
+                        @*TODO add wing shape*@
+                        @item.Item.Category
+                    </td>
+
+                    <td>
+
+                        @if (Model.IsPaid)
+                        {
+                            <span class="text-success">Paid</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Unpaid</span>
+                        }
+
+                    </td>
+
+                    <td>
+
+                        @Html.CheckBoxFor(model => item.IsCut)
+
+                    </td>
+                    <td>
+
+                        @Html.CheckBoxFor(model => item.IsFolded)
+
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => item.IsFolded)
+
+
+                    </td>
+
+
+
+                </tr>
+
+            }
+        </table>
+
+
+    </td>
+</tr>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/wwwroot/lib/bootstrap/dist/bootstrap.css" />
+<link rel="stylesheet" href="/wwwroot/css/site.css" />

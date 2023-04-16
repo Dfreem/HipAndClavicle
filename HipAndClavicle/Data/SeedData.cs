@@ -1,63 +1,15 @@
-﻿using Color = HipAndClavicle.Models.Color;
+using Color = HipAndClavicle.Models.Color;
 namespace HipAndClavicle.Data;
 
 public static class SeedData
 {
-    static ApplicationDbContext? _context;
-    static UserManager<AppUser>? _userManager;
+    
 
-    public static async Task Init(IServiceProvider services, ApplicationDbContext context)
+    public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
     {
-        _context = context;
-        _userManager = services.GetRequiredService<UserManager<AppUser>>();
-
-        if (_userManager!.Users.Any())
-        {
-            return;
-        }
-        AppUser michael = new()
-        {
-            UserName = "michael123",
-            Email = "paulsonM@my.lanecc.edu",
-            EmailConfirmed = true,
-            FName = "Michael",
-            LName = "Pauslon",
-            Address = "123 fake st. Eugene, OR 97448"
-        };
-
-        AppUser devin = new()
-        {
-            UserName = "dfreem987",
-            Email = "freemand@my.lanecc.edu",
-            EmailConfirmed = true,
-            FName = "Devin",
-            LName = "Freeman",
-            Address = "123 fake st. Eugene, OR 97448"
-        };
-
-        AppUser steven = new()
-        {
-            UserName = "steven123",
-            Email = "bradyS@my.lanecc.edu",
-            EmailConfirmed = true,
-            FName = "Steven",
-            LName = "Brady",
-            Address = "123 fake st. Eugene, OR 97448"
-        };
-
-        AppUser nehemiah = new()
-        {
-            UserName = "nehemiah123",
-            Email = "johnn@my.lanecc.edu",
-            EmailConfirmed = true,
-            FName = "Nehemiah",
-            LName = "John",
-            Address = "123 fake st. Eugene, OR 97448"
-        };
-        _ = await _userManager!.CreateAsync(devin, "!BassCase987");
-        _ = await _userManager!.CreateAsync(nehemiah, "@Password123");
-        _ = await _userManager!.CreateAsync(michael, "@Password123");
-        _ = await _userManager!.CreateAsync(steven, "@Password123");
+        UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
+        if (await context.NamedColors.AnyAsync())
+        { return; }
 
         Color blue = new()
         {
@@ -77,6 +29,16 @@ public static class SeedData
             HexValue = "#00ff00",
             RGB = (0, 255, 0)
         };
+        await context.NamedColors.AddRangeAsync(blue, green, red);
+
+        SetSize two = new() { Size = 2 };
+        SetSize seven = new() { Size = 7 };
+        SetSize ten = new() { Size = 10 };
+        SetSize twelve = new() { Size = 12 };
+        SetSize fifteen = new() { Size = 15 };
+        SetSize twenty = new() { Size = 20 };
+
+        await context.SetSizes.AddRangeAsync(two, seven, ten, twelve, fifteen, twenty);
 
         Product butterfly = new()
         {
@@ -84,19 +46,30 @@ public static class SeedData
             Name = "Butterfly Test",
             InStock = true,
             QuantityOnHand = 100,
-            QuantityOrdered = 3,
-            ColorOptions = { red, blue, green }
-            // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                two,
+                seven,
+                twelve
+            }
         };
-       
+        // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+
+
         Product dragon = new()
         {
             Category = ProductCategory.Dragons,
             Name = "Dragon Test",
             InStock = true,
             QuantityOnHand = 100,
-            QuantityOrdered = 7,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                two,
+                ten,
+                fifteen
+            }
         };
         Product dragonfly = new()
         {
@@ -104,63 +77,89 @@ public static class SeedData
             Name = "Butterfly",
             InStock = true,
             QuantityOnHand = 100,
-            ColorOptions = { red, blue, green }
+            Colors = { red, blue, green },
+            SetSizes = new()
+            {
+                seven,
+                twelve
+            }
         };
+        //await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
 
-        OrderItem item1 = new()
-        {
-            Item = dragonfly,
-            ItemType = ProductCategory.Dragonflys,
-            ItemColor = blue
-        };
-        OrderItem item2 = new()
-        {
-            Item = butterfly,
-            ItemColor = red,
-            ItemType = ProductCategory.ButterFlys
-        };
-        OrderItem item3 = new()
-        {
-            Item = dragon,
-            ItemType = ProductCategory.Dragons
-        };
+        await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
+
+        var devin = await userManager.FindByNameAsync("dfreem987");
+        var michael = await userManager.FindByNameAsync("michael123");
+        var steven = await userManager.FindByNameAsync("steven123");
+        var nehemiah = await userManager.FindByNameAsync("nehemiah123");
+
         Order order1 = new()
         {
-            Items = new() { item1!, item2!, item3! },
             DateOrdered = DateTime.Now,
-            PurchaserId = await _userManager.GetUserIdAsync(devin),
+            Purchaser = devin!,
             ShippingAddress = devin!.Address!,
             TotalPrice = 25.00d,
 
         };
         Order order2 = new()
         {
-            Items = new() { item1!, item2!, item3! },
             DateOrdered = DateTime.Now,
-            PurchaserId = michael!.Id,
+            Purchaser = michael!,
             ShippingAddress = michael!.Address!,
             TotalPrice = 125.00d,
         };
         Order order3 = new()
         {
-            Items = new() { item1!, item2!, item3! },
             DateOrdered = DateTime.Now,
-            PurchaserId = steven!.Id,
+            Purchaser = steven!,
             ShippingAddress = steven!.Address!,
             TotalPrice = 25.00d,
 
         };
         Order order4 = new()
         {
-            Items = new() { item1!, item2!, item3! },
             DateOrdered = DateTime.Now,
-            PurchaserId = nehemiah!.Id,
+            Purchaser = nehemiah!,
             ShippingAddress = nehemiah!.Address!,
             TotalPrice = 125.00d
         };
-        await _context.Orders.AddRangeAsync(order1, order2, order3, order4);
-        await _context.SaveChangesAsync();
+        OrderItem item1 = new()
+        {
+            Item = dragonfly,
+            ItemType = ProductCategory.Dragonflys,
+            ItemColor = { blue },
+            SetSize = two
+        };
+        OrderItem item2 = new()
+        {
+            Item = butterfly,
+            ItemColor = { red },
+            ItemType = ProductCategory.ButterFlys,
+            SetSize = fifteen
+        };
+        OrderItem item3 = new()
+        {
+            Item = dragon,
+            ItemType = ProductCategory.Dragons,
+            SetSize = ten
+        };
+        
+        OrderItem item4 = new()
+        {
+            Item = dragon,
+            ItemType = ProductCategory.Dragons,
+            SetSize = new() { Size = 22 }
+        };
+
+        await context.OrderItems.AddRangeAsync(item1, item2, item3);
+
+        order1.Items.Add(item1);
+        order2.Items.Add(item2);
+        order3.Items.Add(item3);
+        order3.Items.Add(item4);
+
+        await context.Orders.AddRangeAsync(order1, order2, order3, order4);
+        await context.SaveChangesAsync();
     }
 }
-
 

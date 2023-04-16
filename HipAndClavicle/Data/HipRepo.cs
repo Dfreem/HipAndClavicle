@@ -1,4 +1,5 @@
-﻿using SQLitePCL;
+﻿using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 using System;
 namespace HipAndClavicle.Data
 {
@@ -28,9 +29,12 @@ namespace HipAndClavicle.Data
         public async Task<List<Order>> GetAdminCurrentOrdersAsync()
         {
             var orders = await _context.Orders
+                .Include(o => o.Purchaser)
                 .Include(o => o.Items)
-                .ThenInclude(oi => oi.Item)
-                .Where(o => o.IsShipped.Equals(false)).ToListAsync();
+                .ThenInclude(i => i.Item)
+                .ThenInclude(i => i.SetSizes)
+                .Where(o => !o.IsShipped)
+                .ToListAsync();
             return orders;
         }
 
@@ -58,16 +62,16 @@ namespace HipAndClavicle.Data
 
         public async Task<Product> GetProductById(int id) =>
             await _context.Products
-                .Include(p => p.ColorOptions)
+                .Include(p => p.Colors)
                 .Include(p => p.Reviews)
                 .FirstAsync(p => p.ProductId.Equals(id));
 
 
         public async Task<List<Product>> GetAvailableProductsAsync() =>
             await _context.Products
-            .Include(p => p.ColorOptions)
-            .Include(p => p.Reviews)
-            .ToListAsync();
+                .Include(p => p.Colors)
+                .Include(p => p.Reviews)
+                .ToListAsync();
 
         public async Task UpdateProductAsync(Product product)
         {
@@ -105,7 +109,7 @@ namespace HipAndClavicle.Data
             await _context.OrderItems
                 .Include(oi => oi.Item)
                 .Include(oi => oi.ItemColor)
-            .ToListAsync();
+                .ToListAsync();
 
         public async Task UpdateOrderItemAsync(OrderItem orderItem)
         {

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "Please do not run this script from the main branch."
+
+read -p "are you on a different branch than main? y/n" answer
+
+if [ $answer != "y" ] 
+  then
+
+  exit 0
+fi
+
+git fetch origin >> .log
+
+git pull origin main
+
+git add -A
+
+read -p "please enter a commit message. no qoutes are needed.: " message
+
+git commit -m "$message" >> .log
+
+status=$?
+
+[[ $status -eq 0 ]] && git push || echo "something went wrong, exit code: $status"
+
+
+
+

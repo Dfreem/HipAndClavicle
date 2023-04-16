@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Products";
+}
+@model List<Listing>
+
+@foreach (var listing in Model)
+{
+    string backgroundColor = "gray";
+    @if (listing.Colors.Count() > 0)
+    {
+        backgroundColor = listing.Colors.First().HexValue.ToString();
+    }
+    <a asp-action="CustListing" asp-route-listingId="@listing.ListingId" class="card test-center m-3" style="width: 250px; padding:25px;">
+
+        <div class="text-center" style="width:200px; height:200px; background:@backgroundColor;"> </div>
+        <h3 class="text-center">@listing.ListingTitle</h3>
+    </a>
+}
+
