@@ -6,10 +6,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
 
     }
-    public ApplicationDbContext()
-    {
-
-    }
     public DbSet<Image> Images { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Product> Products { get; set; }
