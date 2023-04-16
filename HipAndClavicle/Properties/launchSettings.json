@@ -9,7 +9,8 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:45681",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "codegen_trace": "1"
       }
     }
   }

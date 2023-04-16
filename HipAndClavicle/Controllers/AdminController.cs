@@ -14,7 +14,7 @@ public class AdminController : Controller
         _repo = services.GetRequiredService<IHipRepo>();
     }
 
-    public async Task<IActionResult> Orders()
+    public async Task<IActionResult> CurrentOrders()
     {
         // since the entire class is restricted to Admin Only,
         // no need to check for admin role in the controller methods.
@@ -28,4 +28,5 @@ public class AdminController : Controller
 
         return View(mvm);
     }
+
 }
