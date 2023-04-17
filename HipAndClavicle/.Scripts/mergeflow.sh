@@ -1,5 +1,5 @@
 #!/bin/bash
-currentBranch='(git branch --show-current)' 
+currentBranch="(git branch --show-current)" 
 git checkout main 
 git fetch origin
 git pull origin main
