@@ -7,7 +7,7 @@
     "HipAndClavicle": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:45681",
+      "applicationUrl": "http://localhost:40496",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "codegen_trace": "1"

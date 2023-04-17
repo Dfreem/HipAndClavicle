@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,24 +7,57 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HipAndClavicle.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+        <a asp-action="login" asp-controller="accounts" class="nav-link text-dark" style="float:right">Login</a>
+
+        <br />
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img class="SiteLogo" src="https://i.etsystatic.com/isbl/433b39/23850902/isbl_3360x840.23850902_dpuju5sb.jpg?version=0" alt="Site logo." width="800" height="80" /> <br />
+        </a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HipAndClavicle</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between nam-div">
+                    <ul class="navbar-nav justify-content-center flex-grow-1">
+
+                        @*NOTE TO FUTURE SELF - NJ:
+                            -Might need to come back and update some names for the nav!*@
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">About</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
+                        </li>
+
+                        @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -33,17 +66,50 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+
+            <p>
+                THIS IS A TEST!! <br />
+                Hip & Clavicle is an Etsy shop that sells handmade jewelry and accessories. The business is owned and operated by a designer named Jillian,
+                who creates unique pieces inspired by her love of vintage and bohemian style. Hip & Clavicle's product line includes necklaces, earrings,
+                bracelets, and rings, all made with high-quality materials such as gold-filled and sterling silver wire, semi-precious gemstones, and freshwater
+                pearls. Many of the pieces feature delicate and intricate wire wrapping and weaving techniques, giving them a one-of-a-kind, artisanal look. In addition
+                to their handmade jewelry, Hip & Clavicle also offers a selection of hair accessories, including hairpins and combs adorned with pearls and crystals.
+                Their products have received positive reviews from customers, who praise the quality and beauty of the jewelry as well as the friendly and responsive customer service.
+            </p>
+
+
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - HipAndClavicle - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <div class="footer-basic border-top">
+        <footer>
+            <div class="social">
+                <a href="#"><i class="icon ion-social-instagram"></i></a>
+                <a href="https://www.pinterest.com/hipandclavicle/"><i class="icon ion-social-pinterest"></i></a>
+                <a href="#"><i class="icon ion-social-twitter"></i></a>
+                <a href="https://www.facebook.com/hipandclavicle/"><i class="icon ion-social-facebook"></i></a>
+            </div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Home</a></li>
+                <li class="list-inline-item"><a href="#">About</a></li>
+                <li class="list-inline-item"><a href="#">Contact</a></li>
+                <li class="list-inline-item"><a href="#">Shop by Color</a></li>
+                <li class="list-inline-item"><a href="#">Shop by Category</a></li>
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">Team 3 © 2023</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
