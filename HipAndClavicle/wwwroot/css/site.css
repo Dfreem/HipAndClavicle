@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 html {
     font-size: 14px;
 }
@@ -8,6 +8,7 @@ html {
         font-size: 16px;
     }
 }
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -66,7 +67,7 @@ img.SiteLogo {
     }
 
         .footer-basic ul a:hover {
-            opacity: 1;
+            opacity: 2;
         }
 
     .footer-basic .social {
@@ -99,27 +100,24 @@ img.SiteLogo {
         color: #aaa;
         margin-bottom: 0;
     }
-=======
-html {
-  font-size: 14px;
+
+/* Image styles for screens smaller than 768px wide */
+@media (max-width: 767px) {
+    img {
+        width: 100%; /* Resize the image to fit the width of its container */
+    }
 }
 
+/* Image styles for screens larger than 768px wide */
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    img {
+        max-width: 100%; /* Set the maximum width of the image to 100% of its container */
+        height: auto; /* Allow the image height to adjust automatically */
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+/*NEW CSS 4-16-23*/
 
-body {
-  margin-bottom: 60px;
-}
->>>>>>> main
+/*footer specific media query*/
+

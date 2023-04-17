@@ -49,8 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Admin\" />
+    <None Remove="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

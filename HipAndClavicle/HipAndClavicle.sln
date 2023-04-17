@@ -1,35 +1,4 @@
-<<<<<<< HEAD
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1705.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HipAndClavicle", "HipAndClavicle.csproj", "{36945F98-4CA0-4E87-9E32-E7FDFC4E1476}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E21CFACA-EFE8-46AA-B596-E294B3AC3512}"
-	ProjectSection(SolutionItems) = preProject
-		appsettings.json = appsettings.json
-	EndProjectSection
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{36945F98-4CA0-4E87-9E32-E7FDFC4E1476}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36945F98-4CA0-4E87-9E32-E7FDFC4E1476}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36945F98-4CA0-4E87-9E32-E7FDFC4E1476}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36945F98-4CA0-4E87-9E32-E7FDFC4E1476}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6423E685-66A4-43F4-A51C-454DFAD5DFAC}
-	EndGlobalSection
-EndGlobal
-=======
+
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
