@@ -6,7 +6,7 @@ connectionString = builder.Configuration.GetConnectionString("MYSQL_CONNECTION")
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, MySqlServerVersion.Parse("mysql-8.0")));
 
-builder.Services.AddTransient<IHipRepo, HipRepo>();
+builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
 
 #region Identity

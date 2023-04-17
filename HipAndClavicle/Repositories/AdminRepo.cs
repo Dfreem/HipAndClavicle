@@ -3,13 +3,13 @@ using SQLitePCL;
 using System;
 namespace HipAndClavicle.Data
 {
-    public class HipRepo : IHipRepo
+    public class AdminRepo : IAdminRepo
     {
         private readonly IServiceProvider _services;
         private readonly UserManager<AppUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public HipRepo(IServiceProvider services, ApplicationDbContext context)
+        public AdminRepo(IServiceProvider services, ApplicationDbContext context)
         {
             _services = services;
             _context = context;
@@ -60,17 +60,18 @@ namespace HipAndClavicle.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Product> GetProductById(int id) =>
+        public async Task<Product> GetProductByIdAsync(int id) =>
             await _context.Products
                 .Include(p => p.Colors)
                 .Include(p => p.Reviews)
+                .Include(p => p.ProductImage)
                 .FirstAsync(p => p.ProductId.Equals(id));
-
 
         public async Task<List<Product>> GetAvailableProductsAsync() =>
             await _context.Products
                 .Include(p => p.Colors)
                 .Include(p => p.Reviews)
+                .Include(p => p.ProductImage)
                 .ToListAsync();
 
         public async Task UpdateProductAsync(Product product)
@@ -125,5 +126,35 @@ namespace HipAndClavicle.Data
 
 
         #endregion
+
+        #region Colors
+
+        public async Task<List<Color>> GetNamedColorsAsync()
+        {
+            return await _context.NamedColors.ToListAsync();
+        }
+
+        #endregion
+
+        public async Task<List<SetSize>> GetSetSizesAsync()
+        {
+            return await _context.SetSizes.ToListAsync();
+        }
+
+        public async Task AddNewSizeAsync(int size)
+        {
+            if (!_context.SetSizes.Any(s => s.Size == size))
+            {
+                SetSize newSize = new() { Size = size };
+                _context.SetSizes.Add(newSize);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SaveImageAsync(Image fromUpload)
+        {
+            await _context.Images.AddAsync(fromUpload);
+            await _context.SaveChangesAsync();
+        }
     }
 }

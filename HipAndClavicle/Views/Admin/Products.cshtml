@@ -1,0 +1,23 @@
+﻿@model MerchantVM
+@{
+    ViewData["Title"] = "Product management";
+}
+
+<div class="product-list-view">
+    <ul>
+        @foreach (var product in Model.Products)
+        {
+            <li style="list-style:none;">
+                @Html.DisplayFor(model => product);
+                @if (product.ProductImage is not null)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage!.ImageData!)" width="@product.ProductImage.Width" />
+                    <a type="button" asp-controller="Admin" asp-action="DeleteProductAsync" asp-route-id="@product.ProductId">Delete</a>
+                }
+
+            </li>
+        }
+    </ul>
+</div>
+
+<a asp-action="AddProduct" asp-controller="Admin" class="btn btn-primary">Add<i class="bi bi-add"></i></a> a new Product to the lineup

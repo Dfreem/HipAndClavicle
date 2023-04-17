@@ -13,6 +13,7 @@ global using HipAndClavicle.Data;
 
 global using AspNetCoreHero;
 global using AspNetCoreHero.ToastNotification.Extensions;
+global using AspNetCoreHero.ToastNotification.Abstractions;
 global using AspNetCoreHero.ToastNotification;
 
 global using Microsoft.AspNetCore.Identity;
@@ -25,13 +26,9 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Http.Features;
 global using Microsoft.AspNetCore.Mvc.RazorPages;
 global using Microsoft.AspNetCore.Authentication;
-//global using Microsoft.AspNetCore.Identity.UI;
+global using Microsoft.AspNetCore.Identity.UI;
 global using Microsoft.Extensions.Logging;
 global using System.Runtime.InteropServices;
 global using Microsoft.Extensions.DependencyInjection;
 
 global using Pomelo.EntityFrameworkCore;
-global using Microsoft.Data.Sqlite;
-global using Microsoft.SqlServer;
-
-global using AspNetCoreHero.ToastNotification.Abstractions;
