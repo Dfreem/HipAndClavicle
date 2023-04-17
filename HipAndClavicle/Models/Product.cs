@@ -12,5 +12,5 @@ public class Product
     public int QuantityOnHand { get; set; } = default!;
     public List<Review> Reviews { get; set; } = new();
     public List<SetSize> SetSizes { get; set; } = new();
-
+    public Image? ProductImage { get; set; }
 }

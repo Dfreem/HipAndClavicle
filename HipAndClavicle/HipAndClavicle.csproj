@@ -47,12 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Admin\" />
-    <None Remove="Views\Admin\Products\" />
+    <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Admin\Products\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 </Project>
