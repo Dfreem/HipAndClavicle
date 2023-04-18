@@ -1,4 +1,4 @@
-namespace HipAndClavicle.Repositories;
+namespace HipAndClavicle.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
 {

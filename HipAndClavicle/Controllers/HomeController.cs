@@ -1,7 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
-using HipAndClavicle.Models;
-
 namespace HipAndClavicle.Controllers;
 
 public class HomeController : Controller
