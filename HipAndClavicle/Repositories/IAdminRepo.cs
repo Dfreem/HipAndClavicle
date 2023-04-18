@@ -1,15 +1,6 @@
-
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-namespace HipAndClavicle.Repositories
-=======
 namespace HipAndClavicle.Repositories;
 
 public interface IAdminRepo
->>>>>>> Stashed changes
-=======
-namespace HipAndClavicle.Repositories
->>>>>>> 0e2caf93db62ed4bf180cb53b56a25ece680dbd9
 {
     public Task CreateOrderAsync(Order order);
     public Task CreateProductAsync(Product product);
@@ -24,5 +15,5 @@ namespace HipAndClavicle.Repositories
     public Task<List<SetSize>> GetSetSizesAsync();
     public Task UpdateOrderAsync(Order order);
     public Task UpdateProductAsync(Product product);
-    Task SaveImageAsync(Image fromUpload);
+    public Task SaveImageAsync(Image fromUpload);
 }
