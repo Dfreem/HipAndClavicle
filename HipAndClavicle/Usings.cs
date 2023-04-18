@@ -38,6 +38,7 @@ global using SQLitePCL;
 global using shippingapi;
 global using shippingapi.Client;
 global using shippingapi.Model;
+<<<<<<< HEAD
 global using shippingapi.Api;
 =======
 ﻿global using System.ComponentModel;
@@ -76,3 +77,6 @@ global using Microsoft.Extensions.DependencyInjection;
 
 global using Pomelo.EntityFrameworkCore;
 >>>>>>> Stashed changes
+=======
+global using shippingapi.Api;
+>>>>>>> 0e2caf93db62ed4bf180cb53b56a25ece680dbd9

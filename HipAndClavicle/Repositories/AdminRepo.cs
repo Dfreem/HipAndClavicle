@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ﻿
 namespace HipAndClavicle.Repositories
@@ -9,6 +10,10 @@ namespace HipAndClavicle.Repositories;
 
 public class AdminRepo : IAdminRepo
 >>>>>>> Stashed changes
+=======
+﻿
+namespace HipAndClavicle.Repositories
+>>>>>>> 0e2caf93db62ed4bf180cb53b56a25ece680dbd9
 {
     private readonly IServiceProvider _services;
     private readonly UserManager<AppUser> _userManager;
