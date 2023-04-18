@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes©</help_text><element><id>UMLClass</id><coordinates><x>232</x><y>768</y><w>168</w><h>144</h></coordinates><panel_attributes>Listing
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes©</help_text><element><id>UMLClass</id><coordinates><x>224</x><y>778</y><w>168</w><h>144</h></coordinates><panel_attributes>Listing
 --
 
 + ListingId : int
@@ -9,21 +9,28 @@
 + QuantitySold : int
 + DateCreated : DateTime
 + OnHand : int
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>8</x><y>552</y><w>168</w><h>88</h></coordinates><panel_attributes>Image
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>562</y><w>168</w><h>88</h></coordinates><panel_attributes>Image
 --
 
 + ImageId: int
 + Data : byte[]
 + Width : int
-+ Height? : int (not sure yet)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>264</y><w>168</w><h>120</h></coordinates><panel_attributes>Shipment
++ Height? : int (not sure yet)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1064</x><y>402</y><w>208</w><h>192</h></coordinates><panel_attributes>Shipment
 --
 
-+ ShipmentId : int
++ ShipmentId : string
 + OrderID : int?
 + ShippedOn : DateTime
-+ TrackingNumber : string?
-+ ShippingCost : double
-+ DestinationAddress : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>752</x><y>448</y><w>168</w><h>160</h></coordinates><panel_attributes>Order
++ FromAddress : Address
++ Parcel : Parcel
++ Rates : List&lt;Rate&gt;
++ ToAddress : Address
++ CarrierPayments : List&lt;CarrierPayment&gt;?
++ ParcelTrackingNumber : string?
++ ShipmentOptions : List&lt;Parameter&gt;?
++ ShipmentType : string?
++ SoldToAddress : Address?
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>744</x><y>458</y><w>168</w><h>160</h></coordinates><panel_attributes>Order
 --
 
 + Orderld : int
@@ -33,20 +40,20 @@
 + DateOrdered DateTime
 + Shipmentld : int
 + TotalPrice : double
-+ ShippingAddress : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>472</x><y>256</y><w>160</w><h>88</h></coordinates><panel_attributes>ShoppingCart
++ ShippingAddress : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>464</x><y>266</y><w>160</w><h>88</h></coordinates><panel_attributes>ShoppingCart
 --
 
 + ShoppingCartId : int
 + Products : List&lt;Product&gt;
 + Customer : AppUser
-+ DateCreated : DateTime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>64</x><y>344</y><w>168</w><h>104</h></coordinates><panel_attributes>Review
++ DateCreated : DateTime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>56</x><y>354</y><w>168</w><h>104</h></coordinates><panel_attributes>Review
 --
 
 + ReviewId : int
 + ReviewerId? : int
 + Message : string
 + VerifiedOrderID : int
-+ ReviewedProduct : ProductId?</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>296</x><y>464</y><w>168</w><h>128</h></coordinates><panel_attributes>Product
++ ReviewedProduct : ProductId?</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>288</x><y>474</y><w>168</w><h>128</h></coordinates><panel_attributes>Product
 --
 
 + ProductId : int
@@ -55,14 +62,15 @@
 + Colors : List&lt;int(hex)&gt;
 + InStock : bool
 + Quantity : int
-+ Reviews : List&lt;Review&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>792</x><y>24</y><w>208</w><h>112</h></coordinates><panel_attributes>AdminSettings
++ Reviews : List&lt;Review&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>784</x><y>34</y><w>208</w><h>112</h></coordinates><panel_attributes>AdminSettings
 --
     
 + PreferredContactType : enum
 + AutoReply : bool
 + AutoReplyMessage? : string
 + ShowContactInfo : bool
-+ VerifiedPurchaseForReview : bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>248</y><w>168</w><h>120</h></coordinates><panel_attributes>AppUser : IdentityUser
++ VerifiedPurchaseForReview : bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>712</x><y>258</y><w>168</w><h>120</h></coordinates><panel_attributes>AppUser : IdentityUser
+(Customer)
 --
 
 + Id : string
@@ -71,10 +79,10 @@
 + Address : string
 + UserName : string
 + Email : string
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>312</x><y>584</y><w>32</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1= 1</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>176</x><y>440</y><w>136</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>304</x><y>594</y><w>32</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1= 1</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>168</x><y>450</y><w>136</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=0..n
-m2=1</panel_attributes><additional_attributes>10;10;10;110;150;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>536</x><y>672</y><w>168</w><h>136</h></coordinates><panel_attributes>NamedColor
+m2=1</panel_attributes><additional_attributes>10;10;10;110;150;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>682</y><w>168</w><h>136</h></coordinates><panel_attributes>NamedColor
 --
 
 ColorId: int
@@ -84,7 +92,7 @@ Red : int
 Blue : int
 Green : int
 Listingld : int
-Productld : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>536</x><y>448</y><w>168</w><h>152</h></coordinates><panel_attributes>OrderItem
+Productld : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>458</y><w>168</w><h>152</h></coordinates><panel_attributes>OrderItem
 --
 
 + Orderltemld : int
@@ -95,14 +103,14 @@ Productld : int</panel_attributes><additional_attributes></additional_attributes
 + IsFolded : bool
 + IsStickered : bool
 + ItemProductld : int
-+ Item : Product</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>288</y><w>152</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;220;10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>832</x><y>128</y><w>40</w><h>136</h></coordinates><panel_attributes>lt=-
++ Item : Product</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>298</y><w>152</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;220;10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>824</x><y>138</y><w>40</w><h>136</h></coordinates><panel_attributes>lt=-
 m1=0..n
 m2=0..1
-</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>696</x><y>528</y><w>72</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>456</x><y>528</y><w>96</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>296</y><w>136</w><h>40</h></coordinates><panel_attributes>lt=-
-recieves a ^
+</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>688</x><y>538</y><w>72</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>448</x><y>538</y><w>96</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>306</y><w>304</w><h>112</h></coordinates><panel_attributes>lt=-
+&lt; recieves a
 m1=1
 m2=0..n
-</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>Relation</id><coordinates><x>824</x><y>360</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>464</y><w>168</w><h>136</h></coordinates><panel_attributes>AppUser : IdentityUser
+</panel_attributes><additional_attributes>10;20;340;20;340;120</additional_attributes></element><element><id>Relation</id><coordinates><x>816</x><y>370</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>760</x><y>674</y><w>168</w><h>136</h></coordinates><panel_attributes>AppUser : IdentityUser
 (Admin/Merchant)
 --
 
@@ -111,4 +119,59 @@ m2=0..n
 + LName : string
 + Address : string
 + UserName : string
-+ Email : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>376</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>624</x><y>296</y><w>112</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>608</x><y>592</y><w>24</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>376</x><y>584</y><w>176</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;160;10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>168</x><y>568</y><w>144</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element></diagram>
++ Email : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>864</x><y>586</y><w>248</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>290;10;290;70;10;70;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>616</x><y>306</y><w>112</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>602</y><w>24</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>368</x><y>594</y><w>176</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;160;10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>578</y><w>144</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>904</x><y>482</y><w>176</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>200;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>984</x><y>234</y><w>744</w><h>752</h></coordinates><panel_attributes>lt=.
+Pitney-Bowes Shipping Api</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1016</x><y>714</y><w>144</w><h>224</h></coordinates><panel_attributes>Address
+--
+
++ AddressLines : List\&lt;string&gt;
++ CarrierRoute : string
++ CityTown : string
++ Company : string
++ CountryCode : string
++ DeliveryPoint : string
++ Email : string
++ Name : string string
++ Phone : string
++ PostalCode : string
++ Residential : bool
++ StateProvince : string
++ Status : string
++ Taxld : string
++ TaxIdType : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1352</x><y>386</y><w>152</w><h>96</h></coordinates><panel_attributes>Parcel
+--
+
++ Dimension : ParcelDimension
++ Weight : ParcelWeight
++ ValueOfGoods : decimal
++ CurrencyCode : string
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1152</x><y>586</y><w>56</w><h>176</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>50;10;50;200;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>1264</x><y>442</y><w>104</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1296</x><y>666</y><w>240</w><h>216</h></coordinates><panel_attributes>Rate
+--
+
++ Carrier : Carrier
++ Currency Code : string?
++ DeliveryCommitment : DeliveryCommitment?
++ DestinationZone :decimal?
++ DimensionalWeight : ParcelWeight?
++ Discounts : List\&lt;Discount&gt;?
++ InductionPostalCode : string?
++ ParcelType : ParcelType
++ RateTypeld : string?
++ Surcharges :  List\&lt;Surcharge&gt;?
++ TotalCarrierCharge : decimal?
++ TotalTaxAmount : decimal?</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1232</x><y>586</y><w>80</w><h>136</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;150;80;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1344</x><y>530</y><w>136</w><h>104</h></coordinates><panel_attributes>CarrierPayment
+--
+
++ AccountNumber : string
++ CountryCode : string
++ Party : string
++ PostalCode : string
++ TypeOfCharge : string
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1256</x><y>562</y><w>96</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1560</x><y>386</y><w>152</w><h>104</h></coordinates><panel_attributes>ParcelDimensions
+--
+
++ Length : decimal
++ Height : decimal
++ Width : decimal
++ UnitOfMeasurement : UnitOfDimension
++ IrregularParcelGirth : decimal
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1494</x><y>434</y><w>80</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element></diagram>

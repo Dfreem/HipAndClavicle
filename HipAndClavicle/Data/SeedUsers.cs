@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HipAndClavicle.Data
+namespace HipAndClavicle.Repositories
 {
     public static class SeedUsers
     {

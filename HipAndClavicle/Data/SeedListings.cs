@@ -1,6 +1,6 @@
 ﻿using Listing = HipAndClavicle.Models.Listing;
 
-namespace HipAndClavicle.Data
+namespace HipAndClavicle.Repositories
 {
     public class SeedListings
     {
