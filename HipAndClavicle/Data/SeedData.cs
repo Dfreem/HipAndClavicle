@@ -1,5 +1,5 @@
 using Color = HipAndClavicle.Models.Color;
-namespace HipAndClavicle.Data;
+namespace HipAndClavicle.Repositories;
 
 public static class SeedData
 {

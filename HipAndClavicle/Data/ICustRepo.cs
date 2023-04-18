@@ -1,4 +1,4 @@
-﻿namespace HipAndClavicle.Data
+﻿namespace HipAndClavicle.Repositories
 {
     public interface ICustRepo
     {

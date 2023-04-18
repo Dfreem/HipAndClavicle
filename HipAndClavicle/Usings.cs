@@ -10,7 +10,6 @@ global using HipAndClavicle.ViewModels;
 global using HipAndClavicle.Controllers;
 global using HipAndClavicle.Models;
 global using HipAndClavicle.Models.Enums;
-global using HipAndClavicle.Data;
 
 global using AspNetCoreHero;
 global using AspNetCoreHero.ToastNotification.Extensions;
@@ -33,3 +32,9 @@ global using System.Runtime.InteropServices;
 global using Microsoft.Extensions.DependencyInjection;
 
 global using Pomelo.EntityFrameworkCore;
+global using SQLitePCL;
+
+global using shippingapi;
+global using shippingapi.Client;
+global using shippingapi.Model;
+global using shippingapi.Api;
