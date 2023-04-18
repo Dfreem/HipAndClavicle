@@ -5,6 +5,7 @@ global using System.Diagnostics;
 global using System;
 
 global using HipAndClavicle;
+global using HipAndClavicle.Repositories;
 global using HipAndClavicle.ViewModels;
 global using HipAndClavicle.Controllers;
 global using HipAndClavicle.Models;
