@@ -19,6 +19,12 @@ curl -X POST https://shipping-api-sandbox.pitneybowes.com/oauth/token
 
 Example of address verification and OAuth configuration
 
+<details>
+  
+  <summary>
+    VerifyAddress
+  </summary>
+
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -58,6 +64,8 @@ namespace Example
 }
 ```
 
-## Carrier & CarrierRules
+</details>
 
-Example `GetCarrierServiceRules`
+## Parcel &  Rate
+
+<summary>

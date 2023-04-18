@@ -1,13 +1,20 @@
-#!/bin/bash
-read "this command should be executed from your topic branch that is ready to submit for review.
+#!/usr/bin/bash
+read -p "this command should be executed from your topic branch that is ready to submit for review. Are you on 
+your 
+topic branch? y/n" onTopic
+if [[ $onTopic = 'y' ]]; then
+  currentBranch=$(git branch --show-current) 
+  git checkout main 
+  git fetch origin
+  git pull origin main
+else
+  echo "please switch off of your main branch"
+  exit 1
+fi
 
-currentBranch=$(git branch --show-current) 
-git checkout main 
-git fetch origin
-git pull origin main
-  if [[ $? = 0 ]]; then 
-git checkout $currentBranch 
-echo "currently on $currentBranch"
+if [[ $? = 0 ]]; then 
+  git checkout $currentBranch
+  echo "success! currently on branch $currentBranch"
 fi
 
 # git add -A; 
