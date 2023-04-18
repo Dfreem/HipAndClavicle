@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 
-namespace HipAndClavicle.Data
+namespace HipAndClavicle.Repositories
 {
     public class CustRepo : ICustRepo
     {

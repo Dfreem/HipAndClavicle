@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
-using System;
-namespace HipAndClavicle.Data
+﻿
+namespace HipAndClavicle.Repositories
 {
     public class AdminRepo : IAdminRepo
     {
