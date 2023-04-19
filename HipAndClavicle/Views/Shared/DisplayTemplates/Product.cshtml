@@ -1,23 +1,27 @@
 ﻿@model Product
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
-<div class="d-flex">
-    <div class="card product-card">
-        <div class="card-header">
-
-            @Model.Name
-
-        </div>
-        <div class="card-body">
+<div class="container">
+    <div class="card-columns">
+        <div class="card">
             <img src="~/images/butterflys.png" />
+            @*@if (Model.ProductImage is not null)
+                {
+                    <img class="card-img-top" src="@Model.ProductImage.ImageData" alt="Card image cap">
+                }*@
 
-        </div>
-        <div class="card-footer">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">
+                    @Model.Description
+                </p>
                 @foreach (Color color in Model.Colors)
                 {
                     <div class="color-splotch" style="background-color:@color.HexValue">
                     </div>
                 }
+                <p class="card-text"><small class="text-muted"><i class="fas fa-eye"></i>1000<i class="far fa-user"></i>admin<i class="fas fa-calendar-alt"></i>Jan 20, 2018</small></p>
+            </div>
         </div>
     </div>
 </div>
