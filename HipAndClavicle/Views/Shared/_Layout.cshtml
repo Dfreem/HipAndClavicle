@@ -15,8 +15,8 @@
 <body>
     <header>
 
-        <a asp-action="login" asp-controller="accounts" class="nav-link text-dark" style="float:right">Login</a>
-
+@*        <a asp-action="login" asp-controller="accounts" class="nav-link text-dark" style="float:right">Login</a>
+*@
         <br />
         <a asp-area="" asp-controller="Home" asp-action="Index">
             <img class="SiteLogo" src="https://i.etsystatic.com/isbl/433b39/23850902/isbl_3360x840.23850902_dpuju5sb.jpg?version=0" alt="Site logo." width="800" height="80" /> <br />
@@ -60,6 +60,8 @@
                             </li>*@
                     </ul>
                 </div>
+
+                @await Html.PartialAsync("_LoginPartial.cshtml")
             </div>
         </nav>
     </header>
@@ -99,6 +101,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
