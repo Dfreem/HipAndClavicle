@@ -1,4 +1,23 @@
 ﻿@model Product
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
+<div class="d-flex">
+    <div class="card product-card">
+        <div class="card-header">
 
-<a class="btn btn-primary" asp-action="AddProduct" asp-controller="Admin"><i class="bi bi-add text-success"></i></a>
+            @Model.Name
+
+        </div>
+        <div class="card-body">
+            <img src="~/images/butterflys.png" />
+
+        </div>
+        <div class="card-footer">
+                @foreach (Color color in Model.Colors)
+                {
+                    <div class="color-splotch" style="background-color:@color.HexValue">
+                    </div>
+                }
+        </div>
+    </div>
+</div>
