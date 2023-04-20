@@ -14,15 +14,18 @@
                     <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage!.ImageData!)" width="@product.ProductImage.Width" />
                     <a type="button" asp-controller="Admin" asp-action="DeleteProductAsync" asp-route-id="@product.ProductId">Delete</a>
                 }
-<div class="container">
+            </li>
+        }
+    </ul>
+    <div class="container">
 
-    @foreach (var product in Model.Products)
-    {
-        @Html.DisplayFor(_ => product)
-    }
+        @foreach (var product in Model.Products)
+        {
+            @Html.DisplayFor(_ => product)
+        }
 
-</div>
+    </div>
 
-<a asp-action="AddProduct" asp-controller="Product" class="notyf__icon">New Product + &emsp;<img src="~/images/butterfly_icon.png" /></a>
+    <a asp-action="AddProduct" asp-controller="Product" class="notyf__icon">New Product + &emsp;<img src="~/images/butterfly_icon.png" /></a>
 
-<link rel="stylesheet" href="/Views/Admin/Products.cshtml.css" />
+    <link rel="stylesheet" href="/Views/Admin/Products.cshtml.css" />
