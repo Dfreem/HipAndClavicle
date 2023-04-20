@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Indie+Flower&family=Nova+Oval&display=swap');
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;*/
 
 html {
     font-size: 14px;
+    position: relative;
 }
 
 @media (min-width: 768px) {
@@ -9,40 +15,56 @@ html {
     }
 }
 
+.nav-link:hover {
+    background-color: #acc16f;
+    color: white;
+}
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
-    margin-bottom: 60px;
+    min-height: 100vh;
+    /*    margin-bottom: 60px;*/
 }
 
-img.SiteLogo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.logo-login {
+    margin-top: 6em;
+    position: relative;
+    margin-inline: auto;
+    max-width: fit-content;
 }
 
-.navbar .navbar-nav .nav-link:hover {
-    background-color: grey;
-    color: #fff;
+.login-partial {
+    right: 2em;
+    margin-inline: 3em;
+    position: absolute;
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.5em;
 }
 
+    .login-partial a:any-link {
+        font-weight: 600;
+        text-decoration: none;
+        color: lightseagreen;
+    }
 
-.navbar-nav > li {
-    padding-left: 25px;
-    padding-right: 25px;
-}
+    .login-partial:hover a:any-link {
+        filter: saturate(200%);
+        color: lightseagreen;
+    }
 
+    .login-partial button {
+        color: mediumturquoise;
+    }
+
+        .login-partial button:hover {
+            filter: saturate(200%)
+        }
 
 .footer-basic {
-    padding: 40px 0;
+    padding: 1em 0;
     background-color: #ffffff;
     color: #4b4c4d;
 }
@@ -53,7 +75,7 @@ img.SiteLogo {
         text-align: center;
         font-size: 18px;
         line-height: 1.6;
-        margin-bottom: 0;
+        bottom: 0;
     }
 
     .footer-basic li {
@@ -61,18 +83,18 @@ img.SiteLogo {
     }
 
     .footer-basic ul a {
-        color: inherit;
+        color: #dab8e8;
         text-decoration: none;
-        opacity: 0.8;
+        opacity: 0.7;
     }
 
-        .footer-basic ul a:hover {
-            opacity: 2;
-        }
+    .footer-basic a:any-link:hover {
+        opacity: 0.6;
+    }
 
     .footer-basic .social {
         text-align: center;
-        padding-bottom: 25px;
+        /*        padding-bottom: 1em;*/
     }
 
         .footer-basic .social > a {
@@ -95,26 +117,33 @@ img.SiteLogo {
 
     .footer-basic .copyright {
         margin-top: 15px;
-        text-align: center;
+        /*        text-align: center;*/
         font-size: 13px;
         color: #aaa;
         margin-bottom: 0;
     }
 
-/* Image styles for screens smaller than 768px wide */
-@media (max-width: 767px) {
-    img {
-        width: 100%; /* Resize the image to fit the width of its container */
-    }
+.footer {
+    position: absolute;
+    margin-inline: auto;
+    bottom: 0;
+    width: 100%;
 }
 
-/* Image styles for screens larger than 768px wide */
-@media (min-width: 768px) {
+/* Image styles for screens smaller than 768px wide */
+/*@media (max-width: 767px) {
     img {
-        max-width: 100%; /* Set the maximum width of the image to 100% of its container */
-        height: auto; /* Allow the image height to adjust automatically */
+        width: 100%;*/ /* Resize the image to fit the width of its container */
+/*}
+}*/
+
+/* Image styles for screens larger than 768px wide */
+/*@media (min-width: 768px) {
+    img {
+        max-width: 100%;*/ /* Set the maximum width of the image to 100% of its container */
+/*height: auto;  Allow the image height to adjust automatically 
     }
-}
+}*/
 
 
 /*NEW CSS 4-16-23*/

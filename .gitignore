@@ -355,3 +355,10 @@ Migrations/
 app.db*
 Hours-tracking*
 *log
+<<<<<<< Updated upstream
+=======
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes

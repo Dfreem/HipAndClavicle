@@ -14,6 +14,12 @@
                     <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage!.ImageData!)" width="@product.ProductImage.Width" />
                     <a type="button" asp-controller="Admin" asp-action="DeleteProductAsync" asp-route-id="@product.ProductId">Delete</a>
                 }
+<div class="container">
+
+    @foreach (var product in Model.Products)
+    {
+        @Html.DisplayFor(_ => product)
+    }
 
             </li>
         }

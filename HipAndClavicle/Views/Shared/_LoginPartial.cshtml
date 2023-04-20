@@ -4,10 +4,10 @@
 
 }
 
-<div>
+<div class="text-nowrap my-1 mx-md-5">
     @if (SignInManager.IsSignedIn(User))
     {
-        <ul>
+        <ul style="list-style:none;" class="list-inline">
             <li class="logged-in">
                 <a asp-controller="Account" asp-action="Index" asp-route-returnUrl="@Url.Action("Index", "Account")">Hello @User.Identity?.Name!</a>
                 <form class="form-inline" method="post" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
@@ -23,3 +23,4 @@
     }
 </div>
 
+<link rel="stylesheet" href="~/css/site.css" />
