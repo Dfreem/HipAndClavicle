@@ -14,10 +14,17 @@
 		<Compile Remove="Models\Address.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Remove="Views\Shared\_ViewImports.cshtml" />
+	  <Content Remove="Views\Shared\_ViewStart.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
 		<Content Update="Properties\launchSettings.json">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\images\Logo.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
@@ -51,6 +58,7 @@
 	<ItemGroup>
 		<None Remove="Views\Admin" />
 		<None Remove="Repositories" />
+		<None Remove="Views\Shared\_Layout.cshtml.css" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />

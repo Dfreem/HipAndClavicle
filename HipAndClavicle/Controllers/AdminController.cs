@@ -43,48 +43,48 @@ public class AdminController : Controller
         return View(mvm);
     }
 
-    public async Task<IActionResult> AddProduct()
-    {
-        var colorOptions = await _repo.GetNamedColorsAsync();
-        var setSizes = await _repo.GetSetSizesAsync();
-        AddProductVM product = new()
-        {
-            NamedColors = colorOptions,
-            SetSizes = setSizes
-        };
-        return View(product);
-    }
+    //public async Task<IActionResult> AddProduct()
+    //{
+    //    var colorOptions = await _repo.GetNamedColorsAsync();
+    //    var setSizes = await _repo.GetSetSizesAsync();
+    //    AddProductVM product = new()
+    //    {
+    //        NamedColors = colorOptions,
+    //        SetSizes = setSizes
+    //    };
+    //    return View(product);
+    //}
 
-    [HttpPost]
-    public async Task<IActionResult> AddProduct(AddProductVM product)
-    {
-        if (!ModelState.IsValid)
-        {
-            _toast.Error("ModelState is not valid");
-            return View(product);
-        }
+    //[HttpPost]
+    //public async Task<IActionResult> AddProduct(AddProductVM product)
+    //{
+    //    if (!ModelState.IsValid)
+    //    {
+    //        _toast.Error("ModelState is not valid");
+    //        return View(product);
+    //    }
 
-        using (var memoryStream = new MemoryStream())
-        {
-            await product.ImageFile.CopyToAsync(memoryStream);
-            Image fromUpload = new()
-            {
-                ImageData = memoryStream.ToArray(),
-                Width = 100
-            };
-            product.ProductImage = fromUpload;
-            await _repo.SaveImageAsync(fromUpload);
-            await _repo.CreateProductAsync((Product)product);
-            _toast.Success("Successfully created new product");
-            return RedirectToAction("Products");
-        }
-    }
+    //    using (var memoryStream = new MemoryStream())
+    //    {
+    //        await product.ImageFile.CopyToAsync(memoryStream);
+    //        Image fromUpload = new()
+    //        {
+    //            ImageData = memoryStream.ToArray(),
+    //            Width = 100
+    //        };
+    //        product.ProductImage = fromUpload;
+    //        await _repo.SaveImageAsync(fromUpload);
+    //        await _repo.CreateProductAsync((Product)product);
+    //        _toast.Success("Successfully created new product");
+    //        return RedirectToAction("Products");
+    //    }
+    //}
 
-    public async Task<IActionResult> DeleteProductAsync(int id)
-    {
-        Product toDelete = await _repo.GetProductByIdAsync(id);
-        await _repo.DeleteProductAsync(toDelete);
-        return RedirectToAction("Products");
-    }
+    //public async Task<IActionResult> DeleteProductAsync(int id)
+    //{
+    //    Product toDelete = await _repo.GetProductByIdAsync(id);
+    //    await _repo.DeleteProductAsync(toDelete);
+    //    return RedirectToAction("Products");
+    //}
 
 }
