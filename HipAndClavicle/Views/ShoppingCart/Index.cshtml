@@ -1,0 +1,70 @@
+﻿@*@model HipAndClavicle.ProductListingVM;*@
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="container">
+    <h1>Number of items in Cart</h1>
+
+    <form method="post">
+        <table class="table">
+            @*<thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title & Description</th>
+                    <th>Quantity & Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>*@
+            <tbody>
+                @*view testing*@
+                @for(var i = 0; i < 4; i++)
+                {
+                    <tr>
+                        <td><img src="~/images/placeholder.png" alt="Placeholder" width="100" /></td>
+                        <td>
+                            <strong>Placeholder</strong><br />
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, nisl eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nunc.
+                        </td>
+                        <td>
+                            <label>Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" /><br />
+                            <strong>Price Total:</strong> $0.00<br />
+                            <em>($0.00 each)</em>
+                        </td>
+                        <td>
+                            <input type="hidden" name="productId" value="0" />
+                            <button type="submit" class="btn btn-warning" asp-page-handler="SaveForLater">Save for Later</button><br />
+                            <button type="submit" class="btn btn-danger" asp-page-handler="RemoveItem">Delete</button>
+                        </td>
+                    </tr>
+                }
+                @* @foreach (var product in Model.ShoppingCart.Products)
+                {
+                    <tr>
+                        <td><img src="@product.ImageUrl" alt="@product.Name" width="100" /></td>
+                        <td>
+                            <strong>@product.Name</strong><br />
+                            @product.Description
+                        </td>
+                        <td>
+                            <label>Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" /><br />
+                            <strong>Price Total:</strong> @product.Price.ToString("C")<br />
+                            <em>(@product.Price.ToString("C") each)</em>
+                        </td>
+                        <td>
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn btn-warning" asp-page-handler="SaveForLater">Save for Later</button><br />
+                            <button type="submit" class="btn btn-danger" asp-page-handler="RemoveItem">Delete</button>
+                        </td>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+        <a>Update Cart</a>
+        <a>Proceed to Checkout</a>
+        @*<button type="submit" class="btn btn-primary" asp-page-handler="UpdateCart">Update Cart</button>
+        <a href="/checkout" class="btn btn-success">Proceed to Checkout</a>*@
+    </form>
+</div>
