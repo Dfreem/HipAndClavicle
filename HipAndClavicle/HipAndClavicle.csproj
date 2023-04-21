@@ -14,10 +14,6 @@
 		<Compile Remove="Models\Address.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="Views\Shared\_ViewImports.cshtml" />
-	  <Content Remove="Views\Shared\_ViewStart.cshtml" />
-	</ItemGroup>
-	<ItemGroup>
 		<Content Update="Properties\launchSettings.json">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
