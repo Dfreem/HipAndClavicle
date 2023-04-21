@@ -1,9 +1,5 @@
 ﻿
 
-body {
-    background: #232321;
-}
-
 .color-splotch {
     min-width: 20px;
     max-width: 20px;
@@ -11,7 +7,38 @@ body {
     max-height: 20px;
     border-radius: 50%;
     display: inline-block;
+    position: center;
     margin: 4px;
+}
+
+.card-description {
+    visibility: hidden;
+    transition: all ease-in-out 0.8s;
+    color: white;
+    position: absolute;
+}
+
+.card:hover .card-description {
+    visibility: visible;
+    opacity: .9;
+    transition: all ease-in-out 0.8s;
+}
+
+.card:hover .card-body {
+    transition: all ease-in-out 0.8s;
+    backdrop-filter: brightness(50%);
+}
+
+.hide-instructions {
+    visibility: hidden;
+    color: white;
+    font-size: 10pt;
+    /*    transform: translateY(-25px);*/
+    width: 100px;
+}
+
+.card:hover .hide-instructions {
+    visibility: visible;
 }
 
 h1 {
@@ -21,23 +48,46 @@ h1 {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
+    transition: all ease-in-out 0.8s;
     border: none;
+    max-width: 200px;
+    min-width: 200px;
+    position: relative;
+    margin-block: 2em;
 }
 
-    .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
-    }
+.card-body {
+    min-height: 10em;
+    max-height: 10em;
+}
 
-a {
-    text-decoration:none;
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+}
+
+a:any-link {
+    text-decoration: none;
     color: initial;
 }
-    a:hover {
-        text-decoration: initial;
-    }
+
+a:hover {
+    text-decoration: initial;
+}
 
 .text-muted i {
     margin: 0 10px;
 }
+
+.color-viewer {
+    background-color: #08071a53;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 40px;
+    max-height: 40px;
+    position: relative;
+    margin-block: 0;
+    margin-inline: auto;
+    border-radius: 25px;
+    padding-inline: 3px;
+    padding-top: 4px
 }

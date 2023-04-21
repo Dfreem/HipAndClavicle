@@ -15,10 +15,18 @@
                 </form>
             </li>
         </ul>
+        if (User.IsInRole("Admin"))
+        {
+            <div class="bi-border-style-solid border-info border-2 rounded-2">
+                <a class="btn btn-outline-info rounded-1" asp-action="Products" asp-controller="Admin"> Products</a>
+            </div>
+        }
     }
     else
     {
-        <a asp-controller="Account" asp-action="Register">Register</a><br />
+        <a asp-controller="Account" asp-action="Register">Register</a>
+
+        <br />
         <a asp-controller="Account" asp-action="Login">Login</a>
     }
 </div>
