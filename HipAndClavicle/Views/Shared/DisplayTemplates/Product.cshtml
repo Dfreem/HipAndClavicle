@@ -18,17 +18,17 @@
     <h5 class="card-title">@Model.Name</h5>
     @*TODO set tooltip for color viewer.*@
 
-    <p class="hide-instructions">Edit this Product</p>
-    <a data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
-        <div class="color-viewer">
-            @foreach (Color color in Model.Colors)
-            {
-                <div class="color-splotch" style="background-color:@color.HexValue;">
-                </div>
-                // TODO change where this link leads. This should change colors.
-            }
-        </div>
-    </a>
+        <p class="hide-instructions">Edit this Product</p>
+        <a data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
+            <div class="color-viewer">
+                @foreach (Color color in Model.Colors)
+                {
+                    <div class="color-splotch" style="background-color:@color.HexValue;">
+                    </div>
+                    // TODO change where this link leads. This should change colors.
+                }
+            </div>
+        </a>
 
 
 </div>
