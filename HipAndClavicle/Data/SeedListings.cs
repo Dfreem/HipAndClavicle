@@ -67,14 +67,11 @@ namespace HipAndClavicle.Repositories
             Listing listing1 = new Listing()
             {
                 Price = 20.00d,
-                Colors =
-                {
-                    col1
-                },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Victorian Lace",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
+            listing1.Colors.Add(col1);
             Listing listing2 = new Listing()
             {
                 Price = 20.00d,
