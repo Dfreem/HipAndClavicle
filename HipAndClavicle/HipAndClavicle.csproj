@@ -55,7 +55,4 @@
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Repositories" />
-	</ItemGroup>
 </Project>
