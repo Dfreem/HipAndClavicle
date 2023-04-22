@@ -15,6 +15,10 @@ html {
     }
 }
 
+.nav-link {
+    justify-content:space-around;
+}
+
 .nav-link:hover {
     background-color: #acc16f;
     color: white;
