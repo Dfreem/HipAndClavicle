@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Indie+Flower&family=Nova+Oval&display=swap');
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;*/
 
 html {
     font-size: 14px;
+    position: relative;
 }
 
 @media (min-width: 768px) {
@@ -9,40 +15,56 @@ html {
     }
 }
 
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.nav-link:hover {
+    background-color: #acc16f;
+    color: white;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem silver, 0 0 0 0.25rem #258cfb;
 }
 
 body {
-    margin-bottom: 60px;
+    min-height: 100vh;
+    /*    margin-bottom: 60px;*/
 }
 
-img.SiteLogo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.logo-login {
+    margin-top: 1em;
+    position: relative;
+    margin-inline: auto;
+    max-width: fit-content;
 }
 
-.navbar .navbar-nav .nav-link:hover {
-    background-color: grey;
-    color: #fff;
+.login-partial {
+    right: 2em;
+    margin-inline: 3em;
+    position: absolute;
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.5em;
 }
 
+    .login-partial a:any-link {
+        font-weight: 600;
+        text-decoration: none;
+        color: lightseagreen;
+    }
 
-.navbar-nav > li {
-    padding-left: 25px;
-    padding-right: 25px;
-}
+    .login-partial:hover a:any-link {
+        filter: saturate(200%);
+        color: lightseagreen;
+    }
 
+    .login-partial button {
+        color: mediumturquoise;
+    }
+
+        .login-partial button:hover {
+            filter: saturate(200%)
+        }
 
 .footer-basic {
-    padding: 40px 0;
+    padding: 1em 0;
     background-color: #ffffff;
     color: #4b4c4d;
 }
@@ -53,7 +75,6 @@ img.SiteLogo {
         text-align: center;
         font-size: 18px;
         line-height: 1.6;
-        margin-bottom: 0;
     }
 
     .footer-basic li {
@@ -61,60 +82,81 @@ img.SiteLogo {
     }
 
     .footer-basic ul a {
-        color: inherit;
+        color: #dab8e8;
         text-decoration: none;
-        opacity: 0.8;
+        opacity: 0.7;
     }
 
-        .footer-basic ul a:hover {
-            opacity: 2;
-        }
-
-    .footer-basic .social {
-        text-align: center;
-        padding-bottom: 25px;
+    .footer-basic a:any-link:hover {
+        opacity: 0.6;
     }
 
-        .footer-basic .social > a {
-            font-size: 24px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            display: inline-block;
-            text-align: center;
-            border-radius: 50%;
-            border: 1px solid #ccc;
-            margin: 0 8px;
-            color: inherit;
-            opacity: 0.75;
-        }
+.social {
+    text-align: right;
+    right: 2em;
+    margin-inline: 4em;
+    position:absolute;
+    width:fit-content;
+    /*        padding-bottom: 1em;*/
+}
 
-            .footer-basic .social > a:hover {
-                opacity: 0.9;
-            }
+.footer-basic .social > a {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin: 0 8px;
+    color: inherit;
+    opacity: 0.75;
+}
 
-    .footer-basic .copyright {
-        margin-top: 15px;
-        text-align: center;
-        font-size: 13px;
-        color: #aaa;
-        margin-bottom: 0;
+    .footer-basic .social > a:hover {
+        opacity: 0.9;
     }
+
+.copyright {
+    /*    margin-top: 15px;*/
+    font-size: 13px;
+    width: fit-content;
+    position: absolute;
+    bottom: 2em;
+    margin-block:auto;
+    margin-inline: 4em;
+    color: #aaa;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 70px;
+    width: 100%;
+}
+
+.footer-links {
+    position: relative;
+    width:fit-content;
+    margin: auto;
+    margin-bottom: 3em;
+}
 
 /* Image styles for screens smaller than 768px wide */
-@media (max-width: 767px) {
+/*@media (max-width: 767px) {
     img {
-        width: 100%; /* Resize the image to fit the width of its container */
-    }
-}
+        width: 100%;*/ /* Resize the image to fit the width of its container */
+/*}
+}*/
 
 /* Image styles for screens larger than 768px wide */
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     img {
-        max-width: 100%; /* Set the maximum width of the image to 100% of its container */
-        height: auto; /* Allow the image height to adjust automatically */
+        max-width: 100%;*/ /* Set the maximum width of the image to 100% of its container */
+/*height: auto;  Allow the image height to adjust automatically 
     }
-}
+}*/
 
 
 /*NEW CSS 4-16-23*/

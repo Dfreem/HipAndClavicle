@@ -4,10 +4,10 @@
 
 }
 
-<div>
+<div class="text-nowrap my-1 mx-md-5">
     @if (SignInManager.IsSignedIn(User))
     {
-        <ul>
+        <ul style="list-style:none;" class="list-inline">
             <li class="logged-in">
                 <a asp-controller="Account" asp-action="Index" asp-route-returnUrl="@Url.Action("Index", "Account")">Hello @User.Identity?.Name!</a>
                 <form class="form-inline" method="post" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
@@ -15,11 +15,20 @@
                 </form>
             </li>
         </ul>
+        if (User.IsInRole("Admin"))
+        {
+            <div class="bi-border-style-solid border-info border-2 rounded-2">
+                <a class="btn btn-outline-info rounded-1" asp-action="Products" asp-controller="Admin"> Products</a>
+            </div>
+        }
     }
     else
     {
-        <a asp-controller="Account" asp-action="Register">Register</a><br />
+        <a asp-controller="Account" asp-action="Register">Register</a>
+
+        <br />
         <a asp-controller="Account" asp-action="Login">Login</a>
     }
 </div>
 
+<link rel="stylesheet" href="~/css/site.css" />

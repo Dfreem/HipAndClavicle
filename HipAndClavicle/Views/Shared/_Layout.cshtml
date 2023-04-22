@@ -9,92 +9,85 @@
     <link rel="stylesheet" href="~/HipAndClavicle.styles.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
 </head>
 <body>
     <header>
 
-@*        <a asp-action="login" asp-controller="accounts" class="nav-link text-dark" style="float:right">Login</a>
-*@
-        <br />
-        <a asp-area="" asp-controller="Home" asp-action="Index">
-            <img class="SiteLogo" src="https://i.etsystatic.com/isbl/433b39/23850902/isbl_3360x840.23850902_dpuju5sb.jpg?version=0" alt="Site logo." width="800" height="80" /> <br />
-        </a>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+        <div class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between nam-div">
-                    <ul class="navbar-nav justify-content-center flex-grow-1">
+            <div class="navbar-collapse collapse justify-content-center">
+                <ul class="nav nav-tabs nav-justified text-nowrap">
 
-                        @*NOTE TO FUTURE SELF - NJ:
-                            -Might need to come back and update some names for the nav!*@
+                    <li class="nav-item">
+                        <a class="nav-link flex-sm-fill text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">About</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">About</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
-                        </li>
-
-                        @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>*@
-                    </ul>
-                </div>
-
-                @await Html.PartialAsync("_LoginPartial.cshtml")
+                    @*<li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>*@
+                </ul>
             </div>
-        </nav>
+
+        </div>
+
     </header>
+    <div class="login-partial">
+        @await Html.PartialAsync("_LoginPartial.cshtml")
+    </div>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="px-1">
+            <div class="logo-login">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/images/hp-logo.png" width="100" alt="Site logo." />
+                </a>
+            </div>
             @RenderBody()
-
-
 
         </main>
     </div>
 
-    <br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-    <div class="footer-basic border-top">
-        <footer>
-            <div class="social">
-                <a href="#"><i class="icon ion-social-instagram"></i></a>
-                <a href="https://www.pinterest.com/hipandclavicle/"><i class="icon ion-social-pinterest"></i></a>
-                <a href="#"><i class="icon ion-social-twitter"></i></a>
-                <a href="https://www.facebook.com/hipandclavicle/"><i class="icon ion-social-facebook"></i></a>
-            </div>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Home</a></li>
-                <li class="list-inline-item"><a href="#">About</a></li>
-                <li class="list-inline-item"><a href="#">Contact</a></li>
-                <li class="list-inline-item"><a href="#">Shop by Color</a></li>
-                <li class="list-inline-item"><a href="#">Shop by Category</a></li>
-                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-            </ul>
-            <p class="copyright">Team 3 © 2023</p>
-        </footer>
-    </div>
+    <footer class="footer footer-basic border-top">
+
+        <div class="social">
+            <a href="#"><i class="icon ion-social-instagram"></i></a>
+            <a href="https://www.pinterest.com/hipandclavicle/"><i class="icon ion-social-pinterest"></i></a>
+            <a href="#"><i class="icon ion-social-twitter"></i></a>
+            <a href="https://www.facebook.com/hipandclavicle/"><i class="icon ion-social-facebook"></i></a>
+        </div>
+        <ul class="list-inline footer-links">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><a href="#">About</a></li>
+            <li class="list-inline-item"><a href="#">Contact</a></li>
+            <li class="list-inline-item"><a href="#">Shop by Color</a></li>
+            <li class="list-inline-item"><a href="#">Shop by Category</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+
+        <p class="copyright">Team 3 © 2023</p>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>

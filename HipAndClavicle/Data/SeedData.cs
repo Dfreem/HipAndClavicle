@@ -3,7 +3,7 @@ namespace HipAndClavicle.Repositories;
 
 public static class SeedData
 {
-    
+
 
     public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
     {
@@ -52,7 +52,7 @@ public static class SeedData
                 two,
                 seven,
                 twelve
-            }
+            },
         };
         // TODO add a check to see if the app user has purchased the product before being able to leave a review.
 
@@ -143,7 +143,7 @@ public static class SeedData
             ItemType = ProductCategory.Dragons,
             SetSize = ten
         };
-        
+
         OrderItem item4 = new()
         {
             Item = dragon,

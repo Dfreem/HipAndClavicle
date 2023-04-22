@@ -1,4 +1,40 @@
 ﻿@model Product
 
 
-<a class="btn btn-primary" asp-action="AddProduct" asp-controller="Admin"><i class="bi bi-add text-success"></i></a>
+<div class="card">
+    @if (Model.ProductImage is not null)
+    {
+        <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
+    }
+    else
+    {
+
+        <img src="~/images/butterflys.png" class="card-img-top" />
+    }
+<div class="card-body">
+    <p class="my-0 card-text card-description">
+        @Model.Description
+    </p>
+    <h5 class="card-title">@Model.Name</h5>
+    @*TODO set tooltip for color viewer.*@
+
+    <p class="hide-instructions">Edit this Product</p>
+    <a data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
+        <div class="color-viewer">
+            @foreach (Color color in Model.Colors)
+            {
+                <div class="color-splotch" style="background-color:@color.HexValue;">
+                </div>
+                // TODO change where this link leads. This should change colors.
+            }
+        </div>
+    </a>
+
+
+</div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>

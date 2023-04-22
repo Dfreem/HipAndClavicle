@@ -4,20 +4,40 @@
 }
 
 <div class="product-list-view">
-    <ul>
+
+
+    <a asp-action="AddProduct" asp-controller="Product" class="notyf__icon sticky-lg-top">New Product + &emsp;<img src="~/images/butterfly_icon.png" /></a>
+
+    <div class="container d-flex flex-row flex-sm-wrap m-lg-5">
         @foreach (var product in Model.Products)
         {
-            <li style="list-style:none;">
-                @Html.DisplayFor(model => product);
-                @if (product.ProductImage is not null)
-                {
-                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.ProductImage!.ImageData!)" width="@product.ProductImage.Width" />
-                    <a type="button" asp-controller="Admin" asp-action="DeleteProductAsync" asp-route-id="@product.ProductId">Delete</a>
-                }
+            <div class="col">
+                @Html.DisplayFor(_ => product)
+            </div>
+         
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-edit-product" aria-labelledby="offcanvas-edit-productLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvas-edit-productLabel">Offcanvas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form method="post" asp-action="EditProduct" asp-controller="Product">
+                        @Html.EditorFor(_ => product)
+                        
+                        <input type="submit" />
+                    </form>
+                </div>
+            </div>
 
-            </li>
+            <script>
+                var myModal = document.getElementById('offcanvas-edit-product')
+                var myInput = document.getElementById('offcanvas-edit-productLabel')
+                myModal.addEventListener('shown.bs.modal', function () {
+                    myInput.focus()
+                })
+            </script>
+
         }
-    </ul>
-</div>
+    </div>
 
-<a asp-action="AddProduct" asp-controller="Admin" class="btn btn-primary">Add<i class="bi bi-add"></i></a> a new Product to the lineup
+</div>

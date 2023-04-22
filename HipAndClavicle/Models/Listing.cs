@@ -16,6 +16,5 @@ namespace HipAndClavicle.Models
         [Range(0, int.MaxValue)]
         public int OnHand { get; set; } = default!;
         public string? shape { get; set; }
-
     }
 }
