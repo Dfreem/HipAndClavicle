@@ -9,15 +9,12 @@
     display: inline-block;
     position: center;
     margin: 4px;
-<<<<<<< Updated upstream
-=======
     transition: all ease-in-out 0.8s;
 }
 
 .card-body:hover .color-viewer {
     outline: 2px solid #38aea4;
     transition: all ease-in-out 0.8s;
->>>>>>> Stashed changes
 }
 
 .card-description {
@@ -27,11 +24,6 @@
     position: absolute;
 }
 
-<<<<<<< Updated upstream
-.card:hover .card-description {
-    visibility: visible;
-    opacity: .9;
-=======
 .card:hover .card-img-top {
     visibility: hidden;
     transition: all ease-in-out 0.8s;
@@ -40,7 +32,6 @@
 .card:hover .card-description {
     visibility: visible;
     color: white;
->>>>>>> Stashed changes
     transition: all ease-in-out 0.8s;
 }
 
@@ -50,15 +41,11 @@
 }
 
 .hide-instructions {
-<<<<<<< Updated upstream
     visibility: hidden;
     color: white;
     font-size: 10pt;
     /*    transform: translateY(-25px);*/
     width: 100px;
-}
-
-=======
     transition: all ease-in-out 0.8s;
     visibility: hidden;
     color: white;
@@ -75,7 +62,6 @@ font-family: 'Amatic SC', cursive;
 font-family: 'Indie Flower', cursive;
 font-family: 'Nova Oval', cursive;*/
 
->>>>>>> Stashed changes
 .card:hover .hide-instructions {
     visibility: visible;
     transition: all ease-in-out 0.8s;
@@ -99,18 +85,11 @@ h1 {
 .card-body {
     min-height: 10em;
     max-height: 10em;
-<<<<<<< Updated upstream
-}
-
-.card:hover {
-=======
-    transition: all ease-in-out 0.8s;
 }
 
 .card:hover {
     transition: all ease-in-out 0.8s;
     background-color: black;
->>>>>>> Stashed changes
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
 }
 
@@ -129,24 +108,15 @@ h1 {
     margin-inline: auto;
     border-radius: 25px;
     padding-inline: 3px;
-<<<<<<< Updated upstream
     padding-top: 4px
 }
 
 .nav-link:hover {
     background-color: #acc16f;
     color: white;
-}
-=======
     padding-top: 4px;
     position: static;
     transition: all ease-in-out 0.8s;
-}
-
-.nav-link:hover {
-    transition: all ease-in-out 0.8s;
-    background-color: #acc16f;
-    color: white;
 }
 
 .color-link:any-link {
@@ -181,7 +151,7 @@ h1 {
     visibility: hidden;
     color: #00adb9;
 }
-    .color-viewer:hover .color-viewer-text {
-        visibility: visible;
-    }
->>>>>>> Stashed changes
+
+.color-viewer:hover .color-viewer-text {
+    visibility: visible;
+}
