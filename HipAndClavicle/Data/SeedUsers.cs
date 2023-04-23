@@ -13,6 +13,15 @@ namespace HipAndClavicle.Repositories
             {
                 return;
             }
+            ShippingAddress fakeSt = new()
+            {
+                AddressLine1 = "123 fake st.",
+                CityTown = "Eugene",
+                StateAbr = State.OR,
+                PostalCode = 97448,
+                Country = "USA",
+                PhoneNumber = "541-555-5555"
+            };
             AppUser michael = new()
             {
                 UserName = "michael123",
@@ -20,7 +29,8 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Michael",
                 LName = "Pauslon",
-                Address = "123 fake st. Eugene, OR 97448"
+                Address = fakeSt
+
             };
 
             AppUser devin = new()
@@ -30,7 +40,7 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Devin",
                 LName = "Freeman",
-                Address = "123 fake st. Eugene, OR 97448"
+                Address = fakeSt
             };
 
             AppUser steven = new()
@@ -40,7 +50,7 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Steven",
                 LName = "Brady",
-                Address = "123 fake st. Eugene, OR 97448"
+                Address = fakeSt
             };
 
             AppUser nehemiah = new()
@@ -50,7 +60,7 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Nehemiah",
                 LName = "John",
-                Address = "123 fake st. Eugene, OR 97448"
+                Address = fakeSt
             };
             _ = await userManager!.CreateAsync(devin, "!BassCase987");
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
