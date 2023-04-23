@@ -23,6 +23,12 @@ namespace HipAndClavicle.Repositories
                 .ToListAsync();
             return listings;
         }
+        public async Task<List<Product>> GetAllProductsAsync()
+        {
+            var products = await _context.Products
+                .ToListAsync();
+            return products;
+        }
         #endregion
 
         #region GetSpecific
@@ -59,6 +65,11 @@ namespace HipAndClavicle.Repositories
         {
             await _context.AddAsync(colorFamily);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddListingAsync(Listing listing)
+        {
+            await _context.AddAsync(listing);
         }
         #endregion
     }

@@ -4,6 +4,8 @@
     {
         //Get all 
         public Task<List<Listing>> GetAllListingsAsync();
+        public Task<List<Product>> GetAllProductsAsync();
+
 
         //Get specific
         public Task<Listing> GetListingByIdAsync(int listingId);
@@ -12,7 +14,7 @@
 
         //Make Updates
         public Task AddColorFamilyAsync(ColorFamily colorFamily);
-
+        public Task AddListingAsync(Listing listing);
 
 
     }

@@ -11,26 +11,26 @@ namespace HipAndClavicle.Repositories
                 return;
             }
             #region MakeColors
-            Color col1 = new Color()
+            Color victLace = new Color()
             {
                 ColorName = "Victorian Lace",
                 HexValue = "#e9836f",
                 RGB = (233, 131, 111)
             };
-            Color col2 = new Color()
+            Color carOrg = new Color()
             {
                 ColorName= "Carrot Orange",
                 HexValue = "#e85405",
                 RGB = (232, 84, 5)
             };
 
-            Color col3 = new Color()
+            Color canYl = new Color()
             {
                 ColorName = "Canary Yellow",
                 HexValue = "#ffd447",
                 RGB = (255, 212, 71)
             };
-            await context.AddRangeAsync(col1, col2 , col3);
+            await context.AddRangeAsync(victLace, carOrg , canYl);
             await context.SaveChangesAsync();
             #endregion
 
@@ -41,7 +41,7 @@ namespace HipAndClavicle.Repositories
                 Name = "ListingButterfly",
                 InStock = true,
                 QuantityOnHand = 100,
-                Colors = { col1, col2, col3},
+                Colors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {
                     new SetSize() { Size = 20 }
@@ -53,7 +53,7 @@ namespace HipAndClavicle.Repositories
                 Name = "ListingDragon",
                 InStock = true,
                 QuantityOnHand = 100,
-                Colors = { col1, col2, col3 },
+                Colors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {
                     new SetSize() { Size = 20 }
@@ -71,67 +71,119 @@ namespace HipAndClavicle.Repositories
                 ListingTitle = "Butterflies in Victorian Lace",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
-            listing1.Colors.Add(col1);
+            //await context.Listings.AddAsync(listing1);
+            //await context.SaveChangesAsync();
+            listing1.Colors.Add(victLace);
+            //await context.SaveChangesAsync();
+
             Listing listing2 = new Listing()
             {
                 Price = 20.00d,
-                Colors =
-                {
-                    col2
-                },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Carrot Orange",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
+            //await context.Listings.AddAsync(listing2);
+            //await context.SaveChangesAsync();
+            listing2.Colors.Add(carOrg);
+            //await context.SaveChangesAsync();
+
             Listing listing3 = new Listing()
             {
                 Price = 20.00d,
-                Colors =
-                {
-                    col3
-                },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Canary Yellow",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
+            //await context.Listings.AddAsync(listing3);
+            //await context.SaveChangesAsync();
+            listing3.Colors.Add(canYl);
+            //await context.SaveChangesAsync();
+
             Listing listing4 = new Listing()
             {
                 Price = 20.00d,
-                Colors =
-                {
-                    col1
-                },
                 ListingProduct = dragon,
                 ListingTitle = "Dragons in Victorian Lace",
                 ListingDescription = "Really great dragons lorem ipsum etc etc"
             };
-            await context.AddRangeAsync(listing1, listing2, listing3, listing4);
+            //await context.Listings.AddAsync(listing4);
+            //await context.SaveChangesAsync();
+            listing4.Colors.Add(victLace);
+            //await context.SaveChangesAsync();
 
+            await context.AddRangeAsync(listing1, listing2, listing3, listing4);
             await context.SaveChangesAsync();
+
+            //Listing listing1 = new Listing()
+            //{
+            //    Price = 20.00d,
+            //    Colors = { col1 },
+            //    ListingProduct = butterfly,
+            //    ListingTitle = "Butterflies in Victorian Lace",
+            //    ListingDescription = "Really great butterflies lorem ipsum etc etc"
+            //};
+            //await context.AddAsync( listing1 );
+            //await context.SaveChangesAsync();
+
+            //Listing listing2 = new Listing()
+            //{
+            //    Price = 20.00d,
+            //    Colors = { col1 },
+            //    ListingProduct = butterfly,
+            //    ListingTitle = "Butterflies in Carrot Orange",
+            //    ListingDescription = "Really great butterflies lorem ipsum etc etc"
+            //};
+            //await context.AddAsync(listing2);
+            //await context.SaveChangesAsync();
+
+            //Listing listing3 = new Listing()
+            //{
+            //    Price = 20.00d,
+            //    Colors = { col1 },
+            //    ListingProduct = butterfly,
+            //    ListingTitle = "Butterflies in Canary Yellow",
+            //    ListingDescription = "Really great butterflies lorem ipsum etc etc"
+            //};
+            //await context.AddAsync(listing3);
+            //await context.SaveChangesAsync();
+
+            //Listing listing4 = new Listing()
+            //{
+            //    Price = 20.00d,
+            //    Colors = { col1 },
+            //    ListingProduct = dragon,
+            //    ListingTitle = "Dragons in Victorian Lace",
+            //    ListingDescription = "Really great dragons lorem ipsum etc etc"
+            //};
+            //await context.AddAsync(listing4);
+            //await context.SaveChangesAsync();
             #endregion
 
+            #region MakeColorFamilies
             ColorFamily cf1 = new ColorFamily()
             {
                 ColorFamilyName = "Reds",
-                Color = col2
+                Color = carOrg
             };
             ColorFamily cf2 = new ColorFamily()
             {
                 ColorFamilyName = "Yellows",
-                Color = col2
+                Color = carOrg
             };
             ColorFamily cf3 = new ColorFamily()
             {
                 ColorFamilyName = "Yellows",
-                Color = col3
+                Color = canYl
             };
             ColorFamily cf4 = new ColorFamily()
             {
                 ColorFamilyName = "Reds",
-                Color = col1
+                Color = victLace
             };
             await context.AddRangeAsync(cf1, cf2, cf3, cf4);
             await context.SaveChangesAsync();
+            #endregion
         }
     }
 }

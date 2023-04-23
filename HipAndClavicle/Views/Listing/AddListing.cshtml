@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Add Listing";
+}
+
+@model AddListingVM
+
+<form method="post" asp-action="AddListing">
+    <input asp-for="Listing.ListingTitle"/>
+    <lable asp-for="Listing.ListingTitle">Listing Title: </lable>
+
+    <select asp-for="Listing.ListingProduct"> Product: 
+        @foreach (var prod in Model.Products)
+        {
+            <option value=@prod>@prod.Name</option>
+        } 
+    </select>
+
+    <input type="file" asp-for="Listing.Images"/>
+
+
+</form>
