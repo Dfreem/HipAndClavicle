@@ -8,11 +8,30 @@ public class Order
     [Required]
     public string PurchaserId { get; set; } = default!;
     public AppUser Purchaser { get; set; } = default!;
-    public bool IsPaid { get; set; }
-    public bool IsShipped { get; set; }
+    public OrderStatus Status { get; set; } = OrderStatus.PendingPayment;
     public DateTime DateOrdered { get; set; } = DateTime.Now;
     public int? ShipmentId { get; set; }
     public double TotalPrice { get; set; }
     public ShippingAddress ShippingAddress { get; set; } = default!;
+    [NotMapped]
+    public Dictionary<OrderStatus, string> StatusName
+    {
+        get
+        {
+            return new()
+            {
+                { OrderStatus.PendingPayment, "Pending Payment"
+                },
+                { OrderStatus.Paid, "Paid"
+                },
+                { OrderStatus.ReadyToShip, "Ready To Ship"
+                },
+                { OrderStatus.Shipped, "Shipped"
+                },
+                { OrderStatus.Late, "Late"
+                }
+            };
+        }
+    }
 
 }

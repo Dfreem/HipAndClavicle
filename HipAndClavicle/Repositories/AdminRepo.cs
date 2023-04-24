@@ -32,7 +32,7 @@ public class AdminRepo : IAdminRepo
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
             .ThenInclude(i => i.SetSizes)
-            .Where(o => !o.IsShipped)
+            .Where(o => !o.Status.Equals(OrderStatus.Shipped))
             .ToListAsync();
         return orders;
     }
