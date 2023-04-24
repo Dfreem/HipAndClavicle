@@ -12,8 +12,8 @@
         border: 1px solid black;
     }
     .colorCardChild.selected {
-        padding: 3px;
-        border: 3px solid blue;
+        outline: 4px solid blue;
+        outline-offset: 4px;
     }
 </style>
 
@@ -29,12 +29,12 @@
         <textarea asp-for="@Model.Listing.ListingDescription"></textarea>
     </div>
 
-    <div class="row  g-4">
+    <div class="row col-9 g-4">
         @foreach (var col in Model.AvailableColors)
         {
-            <div class="col colorCard" id="colorCard- @col.ColorName">
+            <div class="col col-4 colorCard" id="colorCard- @col.ColorName">
                 <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
-                    <label class="btn" for="ColorBtn @col.ColorName" style="background-color: @col.HexValue ;">@col.ColorName</label>
+                    <label class="btn" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
                     <div class="text-center">
                         <input type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" hidden>
                     </div>
