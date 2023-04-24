@@ -7,9 +7,42 @@
 
 @model AddListingVM
 
+<style>
+    .colorCardChild {
+        border: 1px solid black;
+    }
+    .colorCardChild.selected {
+        padding: 3px;
+        border: 3px solid blue;
+    }
+</style>
+
 <form method="post" asp-action="AddListing">
-    <input asp-for="Listing.ListingTitle"/>
-    <lable asp-for="Listing.ListingTitle">Listing Title: </lable>
+
+    <div>
+        <label asp-for="@Model.Listing.ListingTitle">Listing Title: </label>
+        <input asp-for="@Model.Listing.ListingTitle" />
+    </div>
+
+    <div>
+        <label asp-for="@Model.Listing.ListingDescription">Listing Description: </label>
+        <textarea asp-for="@Model.Listing.ListingDescription"></textarea>
+    </div>
+
+    <div class="row  g-4">
+        @foreach (var col in Model.AvailableColors)
+        {
+            <div class="col colorCard" id="colorCard- @col.ColorName">
+                <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
+                    <label class="btn" for="ColorBtn @col.ColorName" style="background-color: @col.HexValue ;">@col.ColorName</label>
+                    <div class="text-center">
+                        <input type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" hidden>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
 
     <select asp-for="Listing.ListingProduct"> Product: 
         @foreach (var prod in Model.Products)
@@ -18,7 +51,35 @@
         } 
     </select>
 
-    <input type="file" asp-for="Listing.Images"/>
+    <label asp-for="@Model.Listing.Images"> Upload images:  </label>
+    <input type="file" asp-for="@Model.Listing.Images"/>
 
-
+    <button type="submit">Add</button>
 </form>
+
+
+<script>
+    //function selectCard(){
+    //    this.classList.toggle('selected');
+    //}
+    var cards = document.querySelectorAll('.colorCard');
+    cards.forEach(function(card){
+        card.addEventListener('click', function(){
+            this.classList.toggle('selected');
+            var theid = this.getAttribute("id");
+            console.log(theid);
+            var colorCardChild = this.querySelector('.colorCardChild');
+            var box = this.querySelector('.colorCheckBox');
+            var boxId = box.getAttribute("id");
+            console.log(boxId);
+            if (box.checked){
+                box.checked = false;
+                colorCardChild.classList.remove('selected');
+            }
+            else {
+                box.checked = true;
+                colorCardChild.classList.add('selected');
+            }
+        })
+    })
+</script>

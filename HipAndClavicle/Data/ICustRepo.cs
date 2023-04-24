@@ -5,6 +5,7 @@
         //Get all 
         public Task<List<Listing>> GetAllListingsAsync();
         public Task<List<Product>> GetAllProductsAsync();
+        public Task<List<Color>> GetAllColorsAsync();
 
 
         //Get specific

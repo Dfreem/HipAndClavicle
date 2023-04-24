@@ -29,6 +29,14 @@ namespace HipAndClavicle.Repositories
                 .ToListAsync();
             return products;
         }
+
+        public async Task<List<Color>> GetAllColorsAsync()
+        {
+            var colors = await _context.NamedColors
+                .ToListAsync();
+            return colors;
+        }
+
         #endregion
 
         #region GetSpecific
