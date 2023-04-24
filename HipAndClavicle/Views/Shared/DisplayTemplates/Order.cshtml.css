@@ -1,10 +1,11 @@
-﻿.body {
-    margin-top: 20px;
-    color: #484b51;
-}
+﻿
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;*/
 
 .text-secondary-d1 {
-    color: #728299 !important;
+    color: #4f2c02 !important;
 }
 
 
@@ -27,6 +28,14 @@
     font-size: 1.75rem;
     font-weight: 300;
 }
+
+.btn-order {
+    background-color: #c7fee3;
+    outline: 1px solid #4f2c02;
+    color: #4f2c02;
+}
+
+
 
 .brc-default-l1 {
     border-color: #dce9f0 !important;

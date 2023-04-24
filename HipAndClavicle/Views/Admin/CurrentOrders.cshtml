@@ -1,21 +1,10 @@
 ﻿@model MerchantVM
 @{
 }
-<table class="table table-bordered table-responsive-sm">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Order Date</th>
-            <th>Order Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Order order in Model.CurrentOrders)
-        {
-            <tr>
-                @Html.DisplayFor(_ => order)
-            </tr>
-        }
 
-    </tbody>
-</table>
+@foreach (Order order in Model.CurrentOrders)
+{
+    <tr>
+        @Html.DisplayFor(_ => order)
+    </tr>
+}
