@@ -355,3 +355,15 @@ Migrations/
 app.db*
 Hours-tracking*
 *log
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+
+/Views/Shared/_Layout*
+>>>>>>> 06ec7a8c07254f03cf0d1a71f18e8a7c8ff62714

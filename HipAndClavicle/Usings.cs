@@ -34,3 +34,5 @@ global using Microsoft.Extensions.DependencyInjection;
 
 global using Pomelo.EntityFrameworkCore;
 global using shippingapi.Api;
+global using shippingapi.Client;
+global using shippingapi.Model;

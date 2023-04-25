@@ -6,6 +6,11 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
 
     }
+
+    public ApplicationDbContext()
+    {
+
+    }
     public DbSet<Image> Images { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -19,5 +24,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<UserMessage> Messages { get; set; }
     public DbSet<SetSize> SetSizes { get; set; }
     public DbSet<ColorFamily> ColorFamilies { get; set; }
-}
+    public DbSet<ShippingAddress> Addresses { get; set; }
 
+}

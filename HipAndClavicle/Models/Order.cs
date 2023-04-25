@@ -13,6 +13,6 @@ public class Order
     public DateTime DateOrdered { get; set; } = DateTime.Now;
     public int? ShipmentId { get; set; }
     public double TotalPrice { get; set; }
-    public string ShippingAddress { get; set; } = default!;
+    public ShippingAddress ShippingAddress { get; set; } = default!;
 
 }
