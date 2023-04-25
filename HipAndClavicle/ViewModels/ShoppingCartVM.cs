@@ -3,7 +3,7 @@
     public class ShoppingCartViewModel
     {
         public List<ShoppingCartItemViewModel> Items { get; set; }
-        public decimal TotalPrice => Items.Sum(x => x.TotalPrice);
+        public double TotalPrice => Items.Sum(x => x.TotalPrice);
     }
 
     public class ShoppingCartItemViewModel
@@ -12,8 +12,9 @@
         public int ListingId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public int Quantity { get; set; }
-        public decimal TotalPrice => Quantity * Price;
+        public List<Image> Images { get; set; }
+        public double TotalPrice => Quantity * Price;
     }
 }

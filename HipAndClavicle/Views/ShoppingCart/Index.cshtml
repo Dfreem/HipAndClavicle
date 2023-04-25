@@ -1,83 +1,55 @@
-﻿@*@model HipAndClavicle.ProductListingVM;*@
+﻿@model HipAndClavicle.ViewModels.ShoppingCartViewModel;
 @{
     ViewData["Title"] = "Shopping Cart";
 }
 
-<div class="container">
-    <h1>Number of items in Cart</h1>
+@if (Model.Items.Count == 0)
+    {
+        <p class="text-center">Your shopping cart is empty.</p>
+    }
+    else
+    {
 
-    <form method="post">
-        <table class="table">
-            <tbody>
-                @*view testing*@
-                @for(var i = 0; i < 4; i++)
-                {
-                    <tr class="table-borderless">
-                        <td><img src="~/images/cart.png" alt="Placeholder" width="100" /></td>
-                        <td>
-                            <strong>Placeholder</strong>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </td>
-                        <td>
-                            <label>Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" size="2"/>
-                        </td>
-                        <td>
-                            <strong>Price Total:</strong> $0.00<br />
-                            <em>($0.00 each)</em>
-                        </td>
-                        <td>
-                            <input type="hidden" name="productId" value="0" />
-                            <button type="submit" class="btn btn-dark" asp-page-handler="SaveForLater">Save for Later</button><br />
-                            <button type="submit" class="btn btn-dark" asp-page-handler="RemoveItem">Delete</button>
-                        </td>
-                    </tr>
-                    @*<tr>
-                        <td><img src="~/images/placeholder.png" alt="Placeholder" width="100" /></td>
-                        <td>
-                            <strong>Placeholder</strong><br />
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, nisl eget ultricies lacinia, nunc nisl aliquet nisl, eget aliquet nunc nisl eget nunc.
-                        </td>
-                        <td>
-                            <label>Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" /><br />
-                            <strong>Price Total:</strong> $0.00<br />
-                            <em>($0.00 each)</em>
-                        </td>
-                        <td>
-                            <input type="hidden" name="productId" value="0" />
-                            <button type="submit" class="btn btn-warning" asp-page-handler="SaveForLater">Save for Later</button><br />
-                            <button type="submit" class="btn btn-danger" asp-page-handler="RemoveItem">Delete</button>
-                        </td>
-                    </tr>*@
-                }
-                @* @foreach (var product in Model.ShoppingCart.Products)
-                {
-                    <tr>
-                        <td><img src="@product.ImageUrl" alt="@product.Name" width="100" /></td>
-                        <td>
-                            <strong>@product.Name</strong><br />
-                            @product.Description
-                        </td>
-                        <td>
-                            <label>Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" /><br />
-                            <strong>Price Total:</strong> @product.Price.ToString("C")<br />
-                            <em>(@product.Price.ToString("C") each)</em>
-                        </td>
-                        <td>
-                            <input type="hidden" name="productId" value="@product.Id" />
-                            <button type="submit" class="btn btn-warning" asp-page-handler="SaveForLater">Save for Later</button><br />
-                            <button type="submit" class="btn btn-danger" asp-page-handler="RemoveItem">Delete</button>
-                        </td>
-                    </tr>
-                }*@
-            </tbody>
-        </table>
-        <div class="float-end">
-            <button type="submit" class="btn btn-dark" asp-page-handler="UpdateCart">Update Cart</button>
-            <a href="/checkout" class="btn btn-dark">Checkout    ></a>
+        <div class="container">
+            <h1>@Model.Items.Count items in Cart</h1>
+
+                <table class="table">
+                    <tbody>
+
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="table-borderless">
+                                @*TODO: use later when images are added*@
+                                @*<td><img src="@item.Images[0]" alt="missing image" width="100" /></td>*@
+                                <td><img src="~/images/cart.png" alt="placeholder" width="100" /></td>
+                                <td>
+                                    <strong>@item.Title</strong>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    <label>Quantity:</label>
+                                    @*<input type="number" name="quantity" value="1" min="1" size="2"/>*@
+                                    <form asp-controller="ShoppingCart" asp-action="UpdateItem" method="post">
+                                        <input type="hidden" name="itemId" value="@item.ShoppingCartItemId" />
+                                        <input type="number" name="quantity" value="@item.Quantity" min="1" size="2" />
+                                        <button type="submit" class="btn btn-dark">Update</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <strong>Price Total:</strong> $@item.TotalPrice<br />
+                                    <em>($@item.Price each)</em>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="productId" value="0" />
+                                    <button type="submit" class="btn btn-dark" asp-page-handler="RemoveItem">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="float-end">
+                    <button type="submit" class="btn btn-dark" asp-page-handler="SaveForLater">Save for Later</button>
+                    <a href="/checkout" class="btn btn-dark">Checkout    ></a>
+                </div>
         </div>
-        
-    </form>
-</div>
+    }
