@@ -12,6 +12,8 @@
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
+		<Compile Remove="Models\ShippingAddress.cs" />
+		<Compile Remove="Models\Shippment.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="Properties\launchSettings.json">
@@ -59,8 +61,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Repositories" />
 	</ItemGroup>
 </Project>
