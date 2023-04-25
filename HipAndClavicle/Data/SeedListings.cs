@@ -30,7 +30,7 @@ namespace HipAndClavicle.Repositories
                 HexValue = "#ffd447",
                 RGB = (255, 212, 71)
             };
-            await context.AddRangeAsync(victLace, carOrg , canYl);
+            await context.NamedColors.AddRangeAsync(victLace, carOrg , canYl);
             await context.SaveChangesAsync();
             #endregion
 
@@ -59,7 +59,7 @@ namespace HipAndClavicle.Repositories
                     new SetSize() { Size = 20 }
                 }
             };
-            await context.AddRangeAsync( butterfly, dragon );
+            await context.Products.AddRangeAsync( butterfly, dragon );
             await context.SaveChangesAsync();
             #endregion
 
@@ -112,7 +112,7 @@ namespace HipAndClavicle.Repositories
             listing4.Colors.Add(victLace);
             //await context.SaveChangesAsync();
 
-            await context.AddRangeAsync(listing1, listing2, listing3, listing4);
+            await context.Listings.AddRangeAsync(listing1, listing2, listing3, listing4);
             await context.SaveChangesAsync();
 
             //Listing listing1 = new Listing()
@@ -181,7 +181,7 @@ namespace HipAndClavicle.Repositories
                 ColorFamilyName = "Reds",
                 Color = victLace
             };
-            await context.AddRangeAsync(cf1, cf2, cf3, cf4);
+            await context.ColorFamilies.AddRangeAsync(cf1, cf2, cf3, cf4);
             await context.SaveChangesAsync();
             #endregion
         }

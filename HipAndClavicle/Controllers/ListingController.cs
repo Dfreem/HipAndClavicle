@@ -26,10 +26,23 @@ namespace HipAndClavicle.Controllers
             return View(theVM);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddListing()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> AddListing(AddListingVM addListingVM)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await addListingVM.ListingImageFile.CopyToAsync(memoryStream);
+                Image initialImage = new Image()
+                {
+                    ImageData = memoryStream.ToArray(),
+                    Width = 200
+                };
+                addListingVM.ListingImages.Add(initialImage);
+                await _repo.AddListingImageAsync(initialImage);
+                await _repo.AddListingAsync((Listing)addListingVM);
+                return RedirectToAction("Listing");
 
-        //}
+            }
+        }
     }
 }

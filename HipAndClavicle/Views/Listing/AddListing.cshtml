@@ -20,13 +20,13 @@
 <form method="post" asp-action="AddListing">
 
     <div>
-        <label asp-for="@Model.Listing.ListingTitle">Listing Title: </label>
-        <input asp-for="@Model.Listing.ListingTitle" />
+        <label asp-for="ListingTitle">Listing Title: </label>
+        <input asp-for="ListingTitle" />
     </div>
 
     <div>
-        <label asp-for="@Model.Listing.ListingDescription">Listing Description: </label>
-        <textarea asp-for="@Model.Listing.ListingDescription"></textarea>
+        <label asp-for="ListingDescription">Listing Description: </label>
+        <textarea asp-for="ListingDescription"></textarea>
     </div>
 
     <div class="row col-9 g-4">
@@ -36,7 +36,7 @@
                 <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
                     <label class="btn" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
                     <div class="text-center">
-                        <input type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" hidden>
+                        <input name="ListingColors" type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" hidden>
                     </div>
                 </div>
             </div>
@@ -44,17 +44,17 @@
         }
     </div>
 
-    <select asp-for="Listing.ListingProduct"> Product: 
+    <select asp-for="ListingProduct"> Product: 
         @foreach (var prod in Model.Products)
         {
-            <option value=@prod>@prod.Name</option>
+            <option asp-for="ListingProduct" value="@prod">@prod.Name</option>
         } 
     </select>
 
-    <label asp-for="@Model.Listing.Images"> Upload images:  </label>
-    <input type="file" asp-for="@Model.Listing.Images"/>
+    <label asp-for="ListingImageFile" > Upload images:  </label>
+    <input class="form-control form-file" type="file" asp-for="ListingImageFile" />
 
-    <button type="submit">Add</button>
+    <input type="submit" value="Save"/>
 </form>
 
 

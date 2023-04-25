@@ -71,14 +71,22 @@ namespace HipAndClavicle.Repositories
         #region MakeUpdates
         public async Task AddColorFamilyAsync(ColorFamily colorFamily)
         {
-            await _context.AddAsync(colorFamily);
+            await _context.ColorFamilies.AddAsync(colorFamily);
             await _context.SaveChangesAsync();
         }
 
         public async Task AddListingAsync(Listing listing)
         {
-            await _context.AddAsync(listing);
+            await _context.Listings.AddAsync(listing);
+            await _context.SaveChangesAsync();
         }
+
+        public async Task AddListingImageAsync(Image image)
+        {
+            await _context.Images.AddAsync(image);
+            await _context.SaveChangesAsync();
+        }
+
         #endregion
     }
 }

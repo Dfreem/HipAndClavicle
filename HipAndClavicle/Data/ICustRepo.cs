@@ -16,6 +16,7 @@
         //Make Updates
         public Task AddColorFamilyAsync(ColorFamily colorFamily);
         public Task AddListingAsync(Listing listing);
+        public Task AddListingImageAsync(Image image);
 
 
     }
