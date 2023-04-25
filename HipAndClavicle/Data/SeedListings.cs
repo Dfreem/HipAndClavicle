@@ -67,49 +67,53 @@ namespace HipAndClavicle.Repositories
             Listing listing1 = new Listing()
             {
                 Price = 20.00d,
+                Colors = {victLace},
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Victorian Lace",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             //await context.Listings.AddAsync(listing1);
             //await context.SaveChangesAsync();
-            listing1.Colors.Add(victLace);
+            //listing1.Colors.Add(victLace);
             //await context.SaveChangesAsync();
 
             Listing listing2 = new Listing()
             {
                 Price = 20.00d,
+                Colors = { victLace },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Carrot Orange",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             //await context.Listings.AddAsync(listing2);
             //await context.SaveChangesAsync();
-            listing2.Colors.Add(carOrg);
+            //listing2.Colors.Add(carOrg);
             //await context.SaveChangesAsync();
 
             Listing listing3 = new Listing()
             {
                 Price = 20.00d,
+                Colors = { victLace },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Canary Yellow",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
             //await context.Listings.AddAsync(listing3);
             //await context.SaveChangesAsync();
-            listing3.Colors.Add(canYl);
+            //listing3.Colors.Add(canYl);
             //await context.SaveChangesAsync();
 
             Listing listing4 = new Listing()
             {
                 Price = 20.00d,
+                Colors = { victLace },
                 ListingProduct = dragon,
                 ListingTitle = "Dragons in Victorian Lace",
                 ListingDescription = "Really great dragons lorem ipsum etc etc"
             };
             //await context.Listings.AddAsync(listing4);
             //await context.SaveChangesAsync();
-            listing4.Colors.Add(victLace);
+            //listing4.Colors.Add(victLace);
             //await context.SaveChangesAsync();
 
             await context.Listings.AddRangeAsync(listing1, listing2, listing3, listing4);
