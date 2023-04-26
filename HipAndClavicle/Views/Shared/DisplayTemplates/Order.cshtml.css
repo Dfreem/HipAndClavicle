@@ -1,12 +1,20 @@
-﻿.body {
-    margin-top: 20px;
-    color: #484b51;
-}
+﻿
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;
+font-family: 'Manrope', sans-serif;
+*/
 
 .text-secondary-d1 {
-    color: #728299 !important;
+    color: #4f2c02 !important;
 }
 
+.page-content {
+    padding: 1.25rem;
+    margin: 0 auto;
+    max-width: 95vw;
+}
 
 .page-header {
     margin: 0 0 1rem;
@@ -28,6 +36,23 @@
     font-weight: 300;
 }
 
+.btn-order {
+    background-color: #c7fee3;
+    outline: 1px solid #874a00;
+    max-width: 250px;
+    min-width: 250px;
+    min-height: fit-content;
+    max-height: fit-content;
+    /*    padding-inline-end: 3em;*/
+}
+
+.btn-text {
+    margin-inline-end: 1em;
+    font-weight: 700;
+    color: #874a00;
+}
+
+
 .brc-default-l1 {
     border-color: #dce9f0 !important;
 }
@@ -44,6 +69,20 @@
     margin-bottom: 1.5rem !important;
 }
 
+.address-info {
+    max-width: 13em;
+    min-width: 13em;
+    font-family: 'Nova Oval', cursive;
+    margin: auto;
+    margin-inline: 4em;
+    max-height: fit-content;
+    min-height: fit-content;
+    padding: 1em;
+    outline: 2px solid #9b44b4;
+    border-radius: 1em;
+    box-sizing: border-box;
+}
+
 hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -55,20 +94,12 @@ hr {
     color: #888a8d !important;
 }
 
-.text-success-m2 {
-    color: #86bd68 !important;
-}
-
 .font-bolder, .text-600 {
     font-weight: 600 !important;
 }
 
 .text-110 {
     font-size: 110% !important;
-}
-
-.text-blue {
-    color: #478fcc !important;
 }
 
 .pb-25, .py-25 {
@@ -132,4 +163,8 @@ hr {
 
 .align-bottom {
     vertical-align: bottom !important;
+}
+
+.align-top {
+    vertical-align: top !important;
 }

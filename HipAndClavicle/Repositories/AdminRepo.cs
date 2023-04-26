@@ -32,7 +32,7 @@ public class AdminRepo : IAdminRepo
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
             .ThenInclude(i => i.SetSizes)
-            .Where(o => !o.IsShipped)
+            .Where(o => !o.Status.Equals(OrderStatus.Shipped))
             .ToListAsync();
         return orders;
     }
@@ -135,6 +135,7 @@ public class AdminRepo : IAdminRepo
 
     #endregion
 
+    #region Setsizes
     public async Task<List<SetSize>> GetSetSizesAsync()
     {
         return await _context.SetSizes.ToListAsync();
@@ -155,4 +156,5 @@ public class AdminRepo : IAdminRepo
         await _context.Images.AddAsync(fromUpload);
         await _context.SaveChangesAsync();
     }
+    #endregion
 }

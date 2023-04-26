@@ -14,5 +14,13 @@
         public int? SetSizeId { get; set; }
         public SetSize? SetSize { get; set; }
         public int AmountOrdered { get; set; }
+        [Display(Name = "Item Price")]
+        public double PricePerUnit { get; set; }
+        /// <summary>
+        /// an enum to determine if the price is per unit or per set
+        /// </summary>
+        [Display(Name = "Price Per")]
+        public PriceUnit SetOrEach { get; set; } = PriceUnit.Unit;
+        public enum PriceUnit { Unit, Set }
     }
 }

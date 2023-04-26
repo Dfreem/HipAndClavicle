@@ -97,7 +97,7 @@ public static class SeedData
         {
             DateOrdered = DateTime.Now,
             Purchaser = devin!,
-            ShippingAddress = devin!.Address!,
+            Address = devin!.Address!,
             TotalPrice = 25.00d,
 
         };
@@ -105,14 +105,14 @@ public static class SeedData
         {
             DateOrdered = DateTime.Now,
             Purchaser = michael!,
-            ShippingAddress = michael!.Address!,
+            Address = michael!.Address!,
             TotalPrice = 125.00d,
         };
         Order order3 = new()
         {
             DateOrdered = DateTime.Now,
             Purchaser = steven!,
-            ShippingAddress = steven!.Address!,
+            Address = steven!.Address!,
             TotalPrice = 25.00d,
 
         };
@@ -120,7 +120,7 @@ public static class SeedData
         {
             DateOrdered = DateTime.Now,
             Purchaser = nehemiah!,
-            ShippingAddress = nehemiah!.Address!,
+            Address = nehemiah!.Address!,
             TotalPrice = 125.00d
         };
         OrderItem item1 = new()
