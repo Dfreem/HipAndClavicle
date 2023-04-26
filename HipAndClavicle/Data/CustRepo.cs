@@ -18,8 +18,11 @@ namespace HipAndClavicle.Repositories
         public async Task<List<Listing>> GetAllListingsAsync()
         {
             var listings = await _context.Listings
-                .Include(c => c.Colors)
-                .Include(p => p.ListingProduct)
+                .Include(l => l.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.ProductImage)
                 .ToListAsync();
             return listings;
         }

@@ -15,20 +15,20 @@ namespace HipAndClavicle.Repositories
             {
                 ColorName = "Victorian Lace",
                 HexValue = "#e9836f",
-                RGB = (233, 131, 111)
+                //RGB = (233, 131, 111)
             };
             Color carOrg = new Color()
             {
                 ColorName= "Carrot Orange",
                 HexValue = "#e85405",
-                RGB = (232, 84, 5)
+                //RGB = (232, 84, 5)
             };
 
             Color canYl = new Color()
             {
                 ColorName = "Canary Yellow",
                 HexValue = "#ffd447",
-                RGB = (255, 212, 71)
+                //RGB = (255, 212, 71)
             };
             await context.NamedColors.AddRangeAsync(victLace, carOrg , canYl);
             await context.SaveChangesAsync();
