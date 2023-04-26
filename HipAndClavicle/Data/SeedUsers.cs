@@ -12,15 +12,16 @@ namespace HipAndClavicle.Repositories
             if (userManager!.Users.Any())
             {
                 return;
+
             }
             ShippingAddress fakeSt = new()
             {
-                AddressLine1 = "123 fake st.",
+                AddressLine1 = "123 fake st." ,
+
                 CityTown = "Eugene",
                 StateAbr = State.OR,
                 PostalCode = 97448,
                 Country = "USA",
-                PhoneNumber = "541-555-5555"
             };
             AppUser michael = new()
             {
@@ -29,7 +30,8 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Michael",
                 LName = "Pauslon",
-                Address = fakeSt
+                Address = fakeSt,
+                PhoneNumber = "555-555-5555"
 
             };
 
@@ -40,7 +42,8 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Devin",
                 LName = "Freeman",
-                Address = fakeSt
+                Address = fakeSt,
+                PhoneNumber = "555-555-5555"
             };
 
             AppUser steven = new()
@@ -50,6 +53,7 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Steven",
                 LName = "Brady",
+                PhoneNumber = "555-555-5555",
                 Address = fakeSt
             };
 
@@ -60,6 +64,7 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Nehemiah",
                 LName = "John",
+                PhoneNumber = "555-555-5555",
                 Address = fakeSt
             };
             _ = await userManager!.CreateAsync(devin, "!BassCase987");

@@ -1,4 +1,4 @@
-﻿namespace HipAndClavicle.Repositories;
+﻿ßnamespace HipAndClavicle.Repositories;
 
 public interface IShippmentRepo
 {

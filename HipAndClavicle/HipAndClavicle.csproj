@@ -12,8 +12,8 @@
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
-		<Compile Remove="Models\ShippingAddress.cs" />
-		<Compile Remove="Models\Shippment.cs" />
+		<Compile Remove="Repositories\IShippmentRepo.cs" />
+		<Compile Remove="Repositories\ShippmentRepo.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="Properties\launchSettings.json">

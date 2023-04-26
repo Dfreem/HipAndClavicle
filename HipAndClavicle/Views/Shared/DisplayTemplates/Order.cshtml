@@ -60,13 +60,16 @@
                 </div>
                 <div class="text-grey-m3">
                     <div class="my-1">
-                        @Model.ShippingAddress.AddressLine1
+                        @Model.Address.AddressLine1
                     </div>
+                    @if (Model.Address.AddressLine2 is not null)
+                    {
+                        <div class="my-1">
+                            @Model.Address.AddressLine2
+                        </div>
+                    }
                     <div class="my-1">
-                        @Model.ShippingAddress.AddressLine2
-                    </div>
-                    <div class="my-1">
-                        @Model.ShippingAddress.CityTown, @Model.ShippingAddress.StateAbr
+                        @Model.Address.CityTown, @Model.Address.StateAbr
                     </div>
                     @if (Model.Purchaser.PhoneNumber != null)
                     {
