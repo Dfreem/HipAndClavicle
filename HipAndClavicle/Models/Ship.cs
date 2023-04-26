@@ -1,6 +1,6 @@
 ﻿namespace HipAndClavicle.Models;
 
-public class Shipment
+public class Ship
 {
     public int ShipmentId { get; set; }
     public string APIShippingId { get; set; } = default!;
@@ -13,4 +13,5 @@ public class Shipment
     public int OrderId { get; set; }
     public Order Order { get; set; } = default!;
 }
+
 

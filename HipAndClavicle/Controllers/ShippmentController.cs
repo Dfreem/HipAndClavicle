@@ -52,22 +52,21 @@ namespace HipAndClavicle.Controllers
             return View();
         }
 
-        // POST: Shippment/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ShippingVM svm)
-        //{
-        // TODO left off here 
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(shippment);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PurchaserId", shippment.OrderId);
-        //    return View(shippment);
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add((Shipment)svm);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PurchaserId", shippment.OrderId);
+            return View(shippment);
         }
 
         // GET: Shippment/Edit/5
