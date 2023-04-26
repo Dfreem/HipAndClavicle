@@ -13,6 +13,6 @@ public class AppUser : IdentityUser
     [NotMapped]
     public IList<string>? RoleNames { get; set; }
     public bool IsPersistent { get; set; } = true;
-    public ShippingAddress? Address { get; set; }
+    public Address? Address { get; set; }
 }
 
