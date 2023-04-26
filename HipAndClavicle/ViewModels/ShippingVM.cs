@@ -7,5 +7,6 @@ public class ShippingVM
     public AppUser Customer { get; set; } = default!;
     public AppUser Merchant { get; set; } = default!;
     public AdminSettings Settings { get; set; } = new();
+    public shippingapi.Model.Shipment NewShipment { get; set; } = new();
 }
 
