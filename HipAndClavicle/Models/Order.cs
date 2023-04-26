@@ -12,7 +12,7 @@ public class Order
     public DateTime DateOrdered { get; set; } = DateTime.Now;
     public int? ShipmentId { get; set; }
     public double TotalPrice { get; set; }
-    public ShippingAddress ShippingAddress { get; set; } = default!;
+    public ShippingAddress Address{ get; set; } = default!;
     [NotMapped]
     public Dictionary<OrderStatus, string> StatusName
     {
