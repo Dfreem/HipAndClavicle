@@ -19,7 +19,7 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> Index()
         {
             var shoppingCart = await _shoppingCartRepository.GetOrCreateShoppingCartAsync(GetShoppingCartId());
-            //await AddToCart(1); // for testing
+            //await AddToCart(1); // for testing adds another item when page is reloaded
             var viewModel = new ShoppingCartViewModel
             {
                 Items = shoppingCart.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel
@@ -39,6 +39,7 @@ namespace HipAndClavicle.Controllers
 
         private string GetShoppingCartId()
         {
+            //TODO: use session to store shopping cart id for user?
             /*string shoppingCartId = HttpContext.Session?.GetString("ShoppingCartId");
 
             if (shoppingCartId == null)
@@ -49,7 +50,8 @@ namespace HipAndClavicle.Controllers
             return shoppingCartId;*/
 
             //return "testShoppingCartId"; // for testing
-            return "testShoppingCartId2";
+            //return "testShoppingCartId2"; // for testing
+            return "cart1";
         }
 
         // testing accessing listing in DB by adding to cart
@@ -67,7 +69,7 @@ namespace HipAndClavicle.Controllers
             {
                 ShoppingCartId = shoppingCart.ShoppingCartId,
                 ListingId = listing.ListingId,
-                Quantity = 2
+                Quantity = 4
             };
 
             await _shoppingCartRepository.AddItemAsync(shoppingCartItem);
