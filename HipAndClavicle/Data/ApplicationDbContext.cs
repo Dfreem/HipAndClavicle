@@ -23,5 +23,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<UserMessage> Messages { get; set; }
     public DbSet<SetSize> SetSizes { get; set; }
     public DbSet<ColorFamily> ColorFamilies { get; set; }
-}
+    public DbSet<ShippingAddress> Addresses { get; set; }
 
+}

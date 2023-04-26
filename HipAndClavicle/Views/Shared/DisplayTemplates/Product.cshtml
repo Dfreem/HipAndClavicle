@@ -2,6 +2,7 @@
 
 
 <div class="card">
+<<<<<<< Updated upstream
     @if (Model.ProductImage is not null)
     {
         <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
@@ -18,20 +19,52 @@
     <h5 class="card-title">@Model.Name</h5>
     @*TODO set tooltip for color viewer.*@
 
-    <p class="hide-instructions">Edit this Product</p>
-    <a data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
-        <div class="color-viewer">
-            @foreach (Color color in Model.Colors)
-            {
-                <div class="color-splotch" style="background-color:@color.HexValue;">
-                </div>
-                // TODO change where this link leads. This should change colors.
-            }
-        </div>
-    </a>
+        <p class="hide-instructions">Edit this Product</p>
+        <a data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
+=======
+    <div class="hide-card">
+        @if (Model.ProductImage is not null)
+        {
+            <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
+        }
+        else
+        {
+
+            <img src="~/images/butterflys.png" class="card-img-top" />
+        }
+
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="px-auto hide-instructions">
+            @Model.Description
+        </p>
+        @*TODO set tooltip for color viewer.*@
+
+        <a class="color-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
+>>>>>>> Stashed changes
+            <div class="color-viewer">
+                @foreach (Color color in Model.Colors)
+                {
+                    <div class="color-splotch" style="background-color:@color.HexValue;">
+                    </div>
+                    // TODO change where this link leads. This should change colors.
+                }
+            </div>
+        </a>
+<<<<<<< Updated upstream
 
 
 </div>
+=======
+        <span class="color-viewer-text">
+            click here for colors
+
+        </span>
+
+
+    </div>
+>>>>>>> Stashed changes
 </div>
 
 

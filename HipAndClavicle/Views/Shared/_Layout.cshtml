@@ -13,44 +13,42 @@
 </head>
 <body>
     <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav nav-justified mx-auto text-nowrap justify-content-between">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
 
-            <div class="navbar-collapse collapse justify-content-center">
-                <ul class="nav nav-tabs nav-justified text-nowrap">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link flex-sm-fill text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Shop by Category</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">About</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Shop by Color</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">About</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link  flex-sm-fill text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
-                    </li>
-
-                    @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>*@
-                </ul>
+                        @*<li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>*@
+                    </ul>
+                </div>
             </div>
-
-        </div>
+        </nav>
 
     </header>
     <div class="login-partial">

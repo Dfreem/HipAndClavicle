@@ -9,6 +9,12 @@
     display: inline-block;
     position: center;
     margin: 4px;
+    transition: all ease-in-out 0.8s;
+}
+
+.card-body:hover .color-viewer {
+    outline: 2px solid #38aea4;
+    transition: all ease-in-out 0.8s;
 }
 
 .card-description {
@@ -18,9 +24,14 @@
     position: absolute;
 }
 
+.card:hover .card-img-top {
+    visibility: hidden;
+    transition: all ease-in-out 0.8s;
+}
+
 .card:hover .card-description {
     visibility: visible;
-    opacity: .9;
+    color: white;
     transition: all ease-in-out 0.8s;
 }
 
@@ -35,7 +46,21 @@
     font-size: 10pt;
     /*    transform: translateY(-25px);*/
     width: 100px;
+    transition: all ease-in-out 0.8s;
+    visibility: hidden;
+    color: white;
+    font-size: 12pt;
+    width: max-content;
+    position: absolute;
+    top: -10em;
+    margin-inline: auto;
+    font-family: 'Nova Oval', cursive;
 }
+
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;*/
 
 .card:hover .hide-instructions {
     visibility: visible;
@@ -63,6 +88,8 @@ h1 {
 }
 
 .card:hover {
+    transition: all ease-in-out 0.8s;
+    background-color: black;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
 }
 
@@ -87,4 +114,44 @@ h1 {
 .nav-link:hover {
     background-color: #acc16f;
     color: white;
+    padding-top: 4px;
+    position: static;
+    transition: all ease-in-out 0.8s;
+}
+
+.color-link:any-link {
+    transition: all ease-in-out 0.8s;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.card:hover .color-link:any-link {
+    transition: all ease-in-out 0.8s;
+}
+
+.hide-card {
+    transition: all ease-in-out 0.8s;
+}
+
+.card:hover .hide-card {
+    visibility: hidden;
+    backdrop-filter: brightness(20%);
+    transition: all ease-in-out 0.8s;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+    .card:hover .hide-card:before {
+        transition: all ease-in-out 0.8s;
+        background-color: black;
+        backdrop-filter: brightness(50%);
+    }
+
+.color-viewer-text {
+    transition: all ease-in-out 0.8s;
+    visibility: hidden;
+    color: #00adb9;
+}
+
+.color-viewer:hover .color-viewer-text {
+    visibility: visible;
 }
