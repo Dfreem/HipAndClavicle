@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HipAndClavicle.Data;
-using HipAndClavicle.Models;
-
+﻿
 namespace HipAndClavicle.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ShippmentController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        string _apiKey;
+        string _apiSecret;
+        string _apiUrl =  "https://shipping-api-sandbox.pitneybowes.com/shippingservices";
 
         public ShippmentController(ApplicationDbContext context, IConfiguration configuration)
         {
             _configuration = configuration;
             _context = context;
+            _apiKey = _configuration["PitneyBowes:Key"]!; 
+            _apiSecret = _configuration["PitneyBowes:Secret"]!;
+            _apiUrl = _configuration["ShippingAPI:ApiUrl"]!;
         }
 
         // GET: Shippment
@@ -59,16 +57,17 @@ namespace HipAndClavicle.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShippmentId,APIShippingId,TrackingNumber,Carrier,Status,Notes,DateShipped,DateDelivered,OrderId")] Models.Shipment shippment)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(shippment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PurchaserId", shippment.OrderId);
-            return View(shippment);
+        public async Task<IActionResult> Create(ShippingVM svm)
+        //{
+        // TODO left off here 
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(shippment);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "PurchaserId", shippment.OrderId);
+        //    return View(shippment);
         }
 
         // GET: Shippment/Edit/5

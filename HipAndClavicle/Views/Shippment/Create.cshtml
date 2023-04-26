@@ -18,17 +18,17 @@
                 <span asp-validation-for="NewShipment.ToAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TrackingNumber" class="control-label"></label>
-                <input asp-for="TrackingNumber" class="form-control" />
-                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
+                <label asp-for="NewShipment.Parcel.Weight" class="control-label"></label>
+                <input asp-for="NewShipment.Parcel.Weight" class="form-control" />
+                <span asp-validation-for="NewShipment.Parcel.Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Carrier" class="control-label"></label>
-                <input asp-for="Carrier" class="form-control" />
-                <span asp-validation-for="Carrier" class="text-danger"></span>
+                <label asp-for="NewShipment.Rates" class="control-label"></label>
+                <input asp-for="NewShipment.Rates" class="form-control" />
+                <span asp-validation-for="NewShipment.Rates" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                <label asp-for="NewShipment.CarrierPayments" class="control-label"></label>
                 <select asp-for="Status" class="form-control"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
