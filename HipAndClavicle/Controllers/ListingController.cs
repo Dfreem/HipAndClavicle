@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HipAndClavicle.Controllers
 {
     public class ListingController : Controller
     {
         private readonly ICustRepo _repo;
-        public ListingController(ICustRepo repo)
+        private readonly ApplicationDbContext _context;
+        public ListingController(ICustRepo repo, ApplicationDbContext context)
         {
             _repo = repo;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -29,20 +32,42 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> AddListing(AddListingVM addListingVM)
         {
+
             using (var memoryStream = new MemoryStream())
             {
                 await addListingVM.ListingImageFile.CopyToAsync(memoryStream);
-                Image initialImage = new Image()
+                Image newImage = new()
                 {
                     ImageData = memoryStream.ToArray(),
-                    Width = 200
+                    Width = 100
                 };
-                addListingVM.ListingImages.Add(initialImage);
-                await _repo.AddListingImageAsync(initialImage);
-                await _repo.AddListingAsync((Listing)addListingVM);
-                return RedirectToAction("Listing");
-
+                addListingVM.NewListing.Images = new();
+                addListingVM.NewListing.ListingProduct = await _context.Products.FirstAsync(p => p.Category == addListingVM.NewListing.ListingProduct.Category);
+                addListingVM.NewListing.Images.Add(newImage);
+                await _context.Images.AddAsync(newImage);
+                _context.Products.Update(addListingVM.NewListing.ListingProduct);
+                await _context.Listings.AddAsync((Listing)addListingVM);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("CustListings");
             }
+            //public async Task<IActionResult> AddListing(AddListingVM addListingVM)
+            //{
+            //    using (var memoryStream = new MemoryStream())
+            //    {
+            //        var listing = (Listing)addListingVM;
+            //        //await addListingVM.ListingImageFile.CopyToAsync(memoryStream);
+            //        //Image initialImage = new Image()
+            //        //{
+            //        //    ImageData = memoryStream.ToArray(),
+            //        //    Width = 200
+            //        //};
+            //        //addListingVM.NewListing.Images.Add(initialImage);
+            //        //await _repo.AddListingImageAsync(initialImage);
+            //        await _repo.AddListingAsync(listing);
+            //        return RedirectToAction("Listing");
+
+            //    }
+            //}
         }
     }
 }

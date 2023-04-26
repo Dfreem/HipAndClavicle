@@ -17,16 +17,16 @@
     }
 </style>
 
-<form method="post" asp-action="AddListing">
+<form method="post" asp-action="AddListing" enctype="multipart/form-data">
 
     <div>
-        <label asp-for="ListingTitle">Listing Title: </label>
-        <input asp-for="ListingTitle" />
+        <label asp-for="NewListing.ListingTitle">Listing Title: </label>
+        <input asp-for="NewListing.ListingTitle" />
     </div>
 
     <div>
-        <label asp-for="ListingDescription">Listing Description: </label>
-        <textarea asp-for="ListingDescription"></textarea>
+        <label asp-for="NewListing.ListingDescription">Listing Description: </label>
+        <textarea asp-for="NewListing.ListingDescription"></textarea>
     </div>
 
     <div class="row col-9 g-4">
@@ -34,9 +34,9 @@
         {
             <div class="col col-4 colorCard" id="colorCard- @col.ColorName">
                 <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
-                    <label class="btn" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
+                    <label class="btn" asp-for="NewListing.Colors" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
                     <div class="text-center">
-                        <input name="ListingColors" type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" hidden>
+                        <input name="NewListing.ListingColors" value="@col" asp-for="NewListing.Colors" type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" >
                     </div>
                 </div>
             </div>
@@ -44,7 +44,8 @@
         }
     </div>
 
-    <select asp-for="ListingProduct"> Product: 
+    <select asp-for="NewListing.ListingProduct">
+        Product:
         @foreach (var prod in Model.Products)
         {
             <option asp-for="ListingProduct" value="@prod">@prod.Name</option>
