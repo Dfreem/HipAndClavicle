@@ -2,6 +2,7 @@
 using HipAndClavicle.Repositories;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Identity.Client;
+using System.Net.NetworkInformation;
 
 namespace HipAndClavicle.Controllers;
 
@@ -108,9 +109,14 @@ public class ShipController : Controller
         bool xPBUnifiedErrorsStructure = true;
         var xPBIntegratorCarrierId = "898644";
 
+        Shipment toShip = new()
+        {
+            
+        }
+
         try
         {
-
+            Shipment result = api.CreateShipmentLabel(xPBTransactionId)
         }
     }
 

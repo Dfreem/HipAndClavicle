@@ -1,4 +1,6 @@
-﻿namespace HipAndClavicle;
+﻿using NUnit.Framework;
+
+namespace HipAndClavicle;
 
 public class ShippingVM
 {
@@ -9,7 +11,13 @@ public class ShippingVM
     public ShippingAddress Address { get; set; } = default!;
     public Ship NewShipment { get; set; } = new();
 
-   
+    public static explicit operator Shipment(ShippingVM svm)
+    {
+        return new Shipment()
+        {
+            CarrierPayments = 
+        }
+    }
 
 }
 
