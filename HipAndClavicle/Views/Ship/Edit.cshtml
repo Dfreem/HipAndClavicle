@@ -1,34 +1,35 @@
-﻿@model ShippingVM
+﻿@model HipAndClavicle.Models.Ship
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
-<h4>Shippment</h4>
+<h4>Ship</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ShipId" />
             <div class="form-group">
-                <label asp-for="NewShipment.ToAddress" class="control-label">Shipping Address</label>
-                <input asp-for="NewShipment.ToAddress" class="form-control" />
-                <span asp-validation-for="NewShipment.ToAddress" class="text-danger"></span>
+                <label asp-for="APIShippingId" class="control-label"></label>
+                <input asp-for="APIShippingId" class="form-control" />
+                <span asp-validation-for="APIShippingId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NewShipment.Parcel.Weight" class="control-label"></label>
-                <input asp-for="NewShipment.Parcel.Weight" class="form-control" />
-                <span asp-validation-for="NewShipment.Parcel.Weight" class="text-danger"></span>
+                <label asp-for="TrackingNumber" class="control-label"></label>
+                <input asp-for="TrackingNumber" class="form-control" />
+                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NewShipment.Rates" class="control-label"></label>
-                <input asp-for="NewShipment.Rates" class="form-control" />
-                <span asp-validation-for="NewShipment.Rates" class="text-danger"></span>
+                <label asp-for="Carrier" class="control-label"></label>
+                <input asp-for="Carrier" class="form-control" />
+                <span asp-validation-for="Carrier" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NewShipment.CarrierPayments" class="control-label"></label>
+                <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
@@ -49,10 +50,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="OrderId" class="control-label"></label>
-                <select asp-for="OrderId" class ="form-control" asp-items="ViewBag.OrderId"></select>
+                <select asp-for="OrderId" class="form-control" asp-items="ViewBag.OrderId"></select>
+                <span asp-validation-for="OrderId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -15,14 +15,6 @@ public class AdminRepo : IAdminRepo
     }
 
     #region Orders
-    public async Task CreateOrderAsync(Order order)
-    {
-        await _context.Orders.AddAsync(order);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<Order?> GetOrderById(int id) =>
-        await _context.Orders.FindAsync(id);
 
     public async Task<List<Order>> GetAdminCurrentOrdersAsync()
     {

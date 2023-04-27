@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HipAndClavicle.Models.Shipment>
+﻿@model IEnumerable<HipAndClavicle.Models.Ship>
 
 @{
     ViewData["Title"] = "Index";
@@ -67,9 +67,9 @@
                 @Html.DisplayFor(modelItem => item.Order.PurchaserId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ShipmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShipmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShipmentId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ShipId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ShipId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ShipId">Delete</a>
             </td>
         </tr>
 }

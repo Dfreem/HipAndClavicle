@@ -2,7 +2,7 @@
 
 public class Ship
 {
-    public int ShipmentId { get; set; }
+    public int ShipId { get; set; }
     public string APIShippingId { get; set; } = default!;
     public string? TrackingNumber { get; set; } = default!;
     public string Carrier { get; set; } = default!;
