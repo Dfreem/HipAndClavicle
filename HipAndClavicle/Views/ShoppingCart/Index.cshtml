@@ -1,0 +1,56 @@
+﻿@model HipAndClavicle.ViewModels.ShoppingCartViewModel;
+<link rel="stylesheet" href="~/css/styles.css" />
+@{
+    ViewData["Title"] = "Shopping Cart";
+    double cartTotal = Model.Items.Sum(item => item.TotalPrice);
+}
+
+@if (Model.Items.Count == 0)
+    {
+        <p class="text-center">Your shopping cart is empty.</p>
+    }
+    else
+    {
+        <div class="container">
+            <div class="table-responsive">
+                <h1>@Model.Items.Count items in cart</h1>
+                    <table class="table">
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr class="table-borderless">
+                                    @*TODO: use later when images are added*@
+                                    @*<td><img src="@item.Images[0]" alt="missing image" width="100" /></td>*@
+                                    <td><img src="~/images/cart.png" alt="placeholder" width="100" /></td>
+                                    <td>
+                                        <strong>@item.Title</strong><br />
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        <label>Quantity:</label>
+                                        @*<input type="number" name="quantity" value="1" min="1" size="2"/>*@
+                                            <input type="hidden" name="itemId" value="@item.ShoppingCartItemId" />
+                                            <input type="number" name="quantity" value="@item.Quantity" min="1" size="2" />
+                                            <button type="submit" class="btn btn-dark">Update</button>
+                                    </td>
+                                    <td>
+                                        <strong>Price Total:</strong> $@item.TotalPrice<br />
+                                        <em>($@item.Price each)</em>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="productId" value="0" />
+                                        <button type="submit" class="btn btn-dark" asp-page-handler="RemoveItem">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+            </div>
+            <strong class="float-end">Cart Total: @cartTotal</strong><br />
+            <div class="float-end">
+                <button type="submit" class="btn btn-dark">Save for Later</button>
+                <a href="/checkout" class="btn btn-dark">Checkout    ></a>
+            </div>
+        </div>
+    }

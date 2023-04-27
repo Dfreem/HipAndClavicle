@@ -12,5 +12,5 @@ public class ShippingAddress
     public State StateAbr { get; set; } = default!;
     [DataType(DataType.PostalCode)]
     public int PostalCode { get; set; } = default!;
- 
+    public bool Residential { get; internal set; }
 }

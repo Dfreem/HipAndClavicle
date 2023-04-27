@@ -1,0 +1,73 @@
+﻿@model ShippingVM
+
+@{
+    ViewData["Title"] = "Shipping";
+}
+
+<h1>Shipping</h1>
+
+<h4>Ship</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Shipping">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="NewShipment.ShipId" />
+            <div class="form-group">
+                <label asp-for="NewShipment.APIShippingId" class="control-label"></label>
+                <input asp-for="NewShipment.APIShippingId" class="form-control" />
+                <span asp-validation-for="NewShipment.APIShippingId" class="text-danger"></span>
+            </div>
+@*            <div class="form-group">
+                <label asp-for="TrackingNumber" class="control-label"></label>
+                <input asp-for="TrackingNumber" class="form-control" />
+                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="NewShipment.Carrier" class="control-label"></label>
+                <input asp-for="NewShipment.Carrier" class="form-control" />
+                <span asp-validation-for="NewShipment.Carrier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.Status" class="control-label"></label>
+                <select asp-for="NewShipment.Status" class="form-control"></select>
+                <span asp-validation-for="NewShipment.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.Notes" class="control-label"></label>
+                <textarea rows="4" cols="5"  asp-for="NewShipment.Notes" class="form-control" />
+                <span asp-validation-for="NewShipment.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.DateShipped" class="control-label"></label>
+                <input asp-for="NewShipment.DateShipped" value="@DateTime.Now" class="form-control" />
+                <span asp-validation-for="NewShipment.DateShipped" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewShipment.DateDelivered" class="control-label"></label>
+                <input asp-for="NewShipment.DateDelivered" class="form-control" />
+                <span asp-validation-for="NewShipment.DateDelivered" class="text-danger"></span>
+                <input hidden asp-for="NewShipment.OrderId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Make Label" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <ul>
+                @foreach (OrderItem item in Model.OrderToShip.Items)
+                {
+                    <li><span class="text-left">@item.Item.Name</span><span class="text-right">@item.PricePerUnit X @item.AmountOrdered</span><span class="total">$@(item.PricePerUnit * item.AmountOrdered)</span></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CurrentOrders" asp-action="Admin"><i class="bi bi-chevron-double-left"></i>Back to Orders</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
