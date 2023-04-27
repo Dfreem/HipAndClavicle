@@ -37,24 +37,6 @@ namespace HipAndClavicle.Controllers
             return View(viewModel);
         }
 
-        /*[HttpPost]
-        public async Task<IActionResult> Index(ShoppingCartViewModel viewModel)
-        {
-            var shoppingCart = await _shoppingCartRepository.GetOrCreateShoppingCartAsync(GetShoppingCartId());
-
-            foreach (var itemViewModel in viewModel.Items)
-            {
-                var item = shoppingCart.ShoppingCartItems.FirstOrDefault(i => i.Id == itemViewModel.ShoppingCartItemId);
-                if (item != null)
-                {
-                    item.Quantity = itemViewModel.Quantity;
-                    await _shoppingCartRepository.UpdateItemAsync(item);
-                }
-            }
-
-            return RedirectToAction("Index");
-        }*/
-
         private string GetShoppingCartId()
         {
             //TODO: use session to store shopping cart id for user?
