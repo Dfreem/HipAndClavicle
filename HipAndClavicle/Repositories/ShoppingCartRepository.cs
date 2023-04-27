@@ -30,6 +30,14 @@ namespace HipAndClavicle.Repositories
             return shoppingCart;
         }
 
+        public async Task<ShoppingCartItem> GetCartItemAsync(int cartItemId)
+        {
+            return await _context.ShoppingCartItems
+                .Include(item => item.Listing)
+                .FirstOrDefaultAsync(item => item.Id == cartItemId);
+        }
+
+
         public async Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item)
         {
             _context.ShoppingCartItems.Add(item);
