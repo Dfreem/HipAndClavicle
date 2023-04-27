@@ -97,34 +97,65 @@ public class ShipController : Controller
         }
 
     }
-
     public Document CreateLabel(ShippingVM svm)
     {
+
         Configuration.Default.BasePath = _pbBasePath;
         Configuration.Default.OAuthApiKey = _pbApiKey;
         Configuration.Default.OAuthSecret = _pbSecret;
 
-        var api = new ShipmentApi(Configuration.Default);
-        var xPBTransactionId = $"{DateTime.Now.Millisecond}";
-        bool xPBUnifiedErrorsStructure = true;
-        var xPBIntegratorCarrierId = "898644";
+        var apiClient = new ShipmentApi(Configuration.Default);
 
-        Shipment toShip = new()
+        // Create the shipment request
+        var shipment = new Shipment
         {
-            
-        }
+            Parcel = new Parcel
+            {
+                Weight = svm.ParcelWeight
+            },
+            FromAddress = new Address
+            {
+                CityTown = svm.Address.CityTown,
+                StateProvince = svm.Address.StateAbr.ToString(),
+                PostalCode = "06905",
+                CountryCode = "US",
+                AddressLines = {svm.}
+            },
+            ToAddress = new Address
+            {
+                CityTown = "New York",
+                StateProvince = "NY",
+                PostalCode = "10001",
+                CountryCode = "US"
+            },
+            ServiceType = "Priority",
+            ParcelType = "PKG"
+        };
 
-        try
-        {
-            Shipment result = api.CreateShipmentLabel(xPBTransactionId)
-        }
+        // Create the shipment
+        var createdShipment = apiClient.CreateShipment(shipment);
+
+        // Validate the shipment
+        var validatedShipment = apiClient.ValidateShipment(createdShipment.ShipmentId);
+
+        // Get rates
+        var rates = apiClient.GetRates(validatedShipment.ShipmentId);
+
+        // Buy postage
+        var indicium = apiClient.CreateIndicium(rates.Rates[0].RateId);
+
+        // Print the label
+        var label = apiClient.GetLabel(indicium.LabelUrl, LabelFileType.PDF);
+
+
     }
+
 
     public Address GetAddress(ShippingVM svm)
     {
         var shippingAddress = svm.Address;
 
-     return new Address()
+        return new Address()
         {
             AddressLines = { shippingAddress.AddressLine1, shippingAddress.AddressLine2 },
             CityTown = shippingAddress.CityTown,

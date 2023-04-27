@@ -10,14 +10,28 @@ public class ShippingVM
     public AdminSettings Settings { get; set; } = new();
     public ShippingAddress Address { get; set; } = default!;
     public Ship NewShipment { get; set; } = new();
+    public ParcelWeight ParcelWeight { get; set; } = default!;
 
     public static explicit operator Shipment(ShippingVM svm)
     {
         return new Shipment()
         {
-            CarrierPayments = 
-        }
+            ToAddress = new()
+            {
+
+                CityTown = svm.Address.CityTown,
+                StateProvince = svm.Address.StateAbr.ToString(),
+                PostalCode = $"{svm.Address.PostalCode}",
+                CountryCode = "US",
+                AddressLines = { svm.Address.AddressLine1, svm.Address.AddressLine2 },
+                Name = svm.Customer.FName + " " + svm.Customer.LName
+
+            },
+
+        };
     }
+
+    public static explicit operator Order(ShippingVM svm)
 
 }
 
