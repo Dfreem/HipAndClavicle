@@ -28,9 +28,9 @@ public class ShipController : Controller
         _pbSecret = config["PitneyBowes:Secret"]!;
     }
 
-    public IActionResult Shipping(Order? toShip)
+    public async Task<IActionResult> Shipping(int orderId)
     {
-        toShip ??= new Order();
+        var toShip = await _repo.GetOrderByIdAsync(orderId);
         ShippingVM shippingVM = new()
         {
             OrderToShip = toShip,
@@ -39,7 +39,7 @@ public class ShipController : Controller
             Merchant = toShip.Purchaser,
             NewShipment = new()
         };
-        return View(toShip);
+        return View(shippingVM);
     }
 
     // POST: Ship/Create
@@ -47,14 +47,12 @@ public class ShipController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Shipping(int orderId)
+    public IActionResult Shipping(ShippingVM svm)
     {
-        Order order = await _repo.GetOrderByIdAsync(orderId);
-
 
         if (ModelState.IsValid)
         {
-            //await _repo.CreateShippment(new());
+            CreateLabel(svm);
 
             return RedirectToAction(nameof(Index));
         }
@@ -97,7 +95,7 @@ public class ShipController : Controller
         }
 
     }
-    public Document CreateLabel(ShippingVM svm)
+    public void CreateLabel(ShippingVM svm)
     {
 
         Configuration.Default.BasePath = _pbBasePath;
@@ -113,52 +111,34 @@ public class ShipController : Controller
             {
                 Weight = svm.ParcelWeight
             },
-            FromAddress = new Address
-            {
-                CityTown = svm.Address.CityTown,
-                StateProvince = svm.Address.StateAbr.ToString(),
-                PostalCode = "06905",
-                CountryCode = "US",
-                AddressLines = {svm.}
-            },
-            ToAddress = new Address
-            {
-                CityTown = "New York",
-                StateProvince = "NY",
-                PostalCode = "10001",
-                CountryCode = "US"
-            },
-            ServiceType = "Priority",
-            ParcelType = "PKG"
+            FromAddress = ConvertAddress(svm.Customer.Address!),
+            ToAddress = (Address)svm,
+            ShipmentType = Shipment.ShipmentTypeEnum.OUTBOUND,
         };
 
-        // Create the shipment
-        var createdShipment = apiClient.CreateShipment(shipment);
+        try
+        {
+            // Create the shipment
+            Shipment result = apiClient.CreateShipmentLabel($"{DateTime.Now.Millisecond}", shipment);
 
-        // Validate the shipment
-        var validatedShipment = apiClient.ValidateShipment(createdShipment.ShipmentId);
+            Debug.WriteLine(result);
 
-        // Get rates
-        var rates = apiClient.GetRates(validatedShipment.ShipmentId);
-
-        // Buy postage
-        var indicium = apiClient.CreateIndicium(rates.Rates[0].RateId);
-
-        // Print the label
-        var label = apiClient.GetLabel(indicium.LabelUrl, LabelFileType.PDF);
-
-
+        }
+        catch (ApiException e)
+        {
+            Debug.Print("Exception when calling ShipmentApi.CreateShipment: " + e.Message);
+            Debug.Print("Status Code: " + e.ErrorCode);
+            Debug.Print(e.StackTrace);
+        }
     }
 
-
-    public Address GetAddress(ShippingVM svm)
+    public Address ConvertAddress(ShippingAddress shippingAddress)
     {
-        var shippingAddress = svm.Address;
-
+       
         return new Address()
         {
-            AddressLines = { shippingAddress.AddressLine1, shippingAddress.AddressLine2 },
-            CityTown = shippingAddress.CityTown,
+            AddressLines = { shippingAddress!.AddressLine1, shippingAddress?.AddressLine2 },
+            CityTown = shippingAddress!.CityTown,
             // TODO add this to ShippingAddress model. Lower case, 2 char.
             CountryCode = "us",
             PostalCode = $"{shippingAddress.PostalCode}",
@@ -166,14 +146,8 @@ public class ShipController : Controller
             Residential = shippingAddress.Residential
 
         };
+
     }
-}
-
-    //public Shipment CreateShipment()
-    //{
-
-    //}
-
-    #endregion
+        #endregion
 
 }

@@ -16,22 +16,37 @@ public class ShippingVM
     {
         return new Shipment()
         {
-            ToAddress = new()
+            ToAddress = (Address)svm,
+            FromAddress = new()
             {
-
-                CityTown = svm.Address.CityTown,
-                StateProvince = svm.Address.StateAbr.ToString(),
-                PostalCode = $"{svm.Address.PostalCode}",
+                CityTown = svm.Merchant.Address!.CityTown,
+                StateProvince = svm.Merchant.Address.StateAbr.ToString(),
+                PostalCode = $"{svm.Merchant.Address.PostalCode}",
                 CountryCode = "US",
-                AddressLines = { svm.Address.AddressLine1, svm.Address.AddressLine2 },
-                Name = svm.Customer.FName + " " + svm.Customer.LName
-
+                AddressLines = { svm.Merchant.Address.AddressLine1, svm.Merchant.Address.AddressLine2 },
+                Name = svm.Merchant.FName + " " + svm.Merchant.LName
             },
 
         };
     }
 
     public static explicit operator Order(ShippingVM svm)
+    {
+        return svm.OrderToShip;
+    }
 
+    public static explicit operator Address(ShippingVM svm)
+    {
+        return new Address()
+        {
+            CityTown = svm.Address.CityTown,
+            StateProvince = svm.Address.StateAbr.ToString(),
+            PostalCode = $"{svm.Address.PostalCode}",
+            CountryCode = "US",
+            AddressLines = { svm.Address.AddressLine1, svm.Address.AddressLine2 },
+            Name = svm.Customer.FName + " " + svm.Customer.LName
+        };
+
+    }
 }
 
