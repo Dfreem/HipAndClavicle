@@ -14,6 +14,9 @@ public class ShippingRepo : IShippingRepo
         await _context.Orders
             .Include(o => o.Purchaser)
             .Include(o => o.Address)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Item)
+            .Include(o => o.Address)
             .FirstAsync(o => o.OrderId.Equals(orderId));
 
     public async Task<List<OrderItem>> GetItemsToShipAsync(int OrderId)

@@ -10,7 +10,13 @@ public class ShippingVM
     public AdminSettings Settings { get; set; } = new();
     public ShippingAddress Address { get; set; } = default!;
     public Ship NewShipment { get; set; } = new();
+    [Display(Name = "Package Weight")]
     public ParcelWeight ParcelWeight { get; set; } = default!;
+    [Display(Name = "Unit")]
+    public UnitOfDimension? UnitOfMeasure { get; set; }
+    public decimal ParcelLength { get; set; }
+    public decimal ParcelWidth { get; set; }
+    public decimal ParcelHeight { get; set; }
 
     public static explicit operator Shipment(ShippingVM svm)
     {
@@ -32,6 +38,7 @@ public class ShippingVM
 
     public static explicit operator Order(ShippingVM svm)
     {
+        svm.OrderToShip.Address = svm.Address;
         return svm.OrderToShip;
     }
 

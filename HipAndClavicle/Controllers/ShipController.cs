@@ -28,7 +28,7 @@ public class ShipController : Controller
         _pbSecret = config["PitneyBowes:Secret"]!;
     }
 
-    public async Task<IActionResult> Shipping(int orderId)
+    public async Task<IActionResult> Ship(int orderId)
     {
         var toShip = await _repo.GetOrderByIdAsync(orderId);
         ShippingVM shippingVM = new()
@@ -47,7 +47,7 @@ public class ShipController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Shipping(ShippingVM svm)
+    public IActionResult Ship(ShippingVM svm)
     {
 
         if (ModelState.IsValid)
@@ -62,6 +62,10 @@ public class ShipController : Controller
 
     #region Shipping API
 
+    /// <summary>
+    /// Use to verify an address before creating a label
+    /// </summary>
+    /// <param name="shippingAddress">The <see cref="ShippingAddress"/> representation of the address to ship to</param>
     public void VerifyAddress(ShippingAddress shippingAddress)
     {
         var api = new AddressValidationApi();
@@ -83,7 +87,7 @@ public class ShipController : Controller
 
         try
         {
-            // Address validation
+            // Address Verification
             Address result = api.VerifyAddress(toVerify, xPBUnifiedErrorStructure, minimalAddressValidation);
             Debug.WriteLine(result);
         }
@@ -109,7 +113,14 @@ public class ShipController : Controller
         {
             Parcel = new Parcel
             {
-                Weight = svm.ParcelWeight
+                Weight = svm.ParcelWeight,
+                Dimension = new()
+                {
+                    UnitOfMeasurement = svm.UnitOfMeasure, 
+                    Length = svm.ParcelLength,
+                    Width = svm.ParcelWidth,
+                    Height = svm.ParcelHeight
+                }
             },
             FromAddress = ConvertAddress(svm.Customer.Address!),
             ToAddress = (Address)svm,
@@ -140,7 +151,7 @@ public class ShipController : Controller
             AddressLines = { shippingAddress!.AddressLine1, shippingAddress?.AddressLine2 },
             CityTown = shippingAddress!.CityTown,
             // TODO add this to ShippingAddress model. Lower case, 2 char.
-            CountryCode = "us",
+            CountryCode = shippingAddress.Country,
             PostalCode = $"{shippingAddress.PostalCode}",
             StateProvince = shippingAddress.StateAbr.ToString(),
             Residential = shippingAddress.Residential
