@@ -27,13 +27,11 @@
                                         @item.Description
                                     </td>
                                     <td>
-                                        <form method="post" action="@Url.Action("UpdateCart", "ShoppingCart")">
-                                            <label>Quantity:</label>
-                                            @*<input type="number" name="quantity" value="1" min="1" size="2"/>*@
-                                                <input type="hidden" name="itemId" value="@item.ShoppingCartItemId" />
-                                                <input type="number" name="quantity" value="@item.Quantity" min="1" size="2" />
-                                                <button type="submit" name="submit" class="btn btn-dark">Update</button>
-                                        </form>
+                                        <label>Quantity:</label>
+                                        @*<input type="number" name="quantity" value="1" min="1" size="2"/>*@
+                                            <input type="hidden" name="itemId" value="@item.ShoppingCartItemId" />
+                                            <input type="number" name="quantity" value="@item.Quantity" min="1" size="2" />
+                                            <button type="submit" class="btn btn-dark">Update</button>
                                     </td>
                                     <td>
                                         <strong>Price Total:</strong> $@item.TotalPrice<br />

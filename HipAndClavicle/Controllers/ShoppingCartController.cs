@@ -54,22 +54,6 @@ namespace HipAndClavicle.Controllers
             return "cart1";
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateCart(int itemId, int quantity)
-        {
-            var item = await _shoppingCartRepository.GetCartItemAsync(itemId);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            item.Quantity = quantity;
-            await _shoppingCartRepository.UpdateItemAsync(item);
-
-            return RedirectToAction("Index");
-        }
-
-
         // testing accessing listing in DB by adding to cart
         public async Task<IActionResult> AddToCart(int id)
         {
