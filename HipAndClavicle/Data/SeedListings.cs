@@ -30,6 +30,11 @@ namespace HipAndClavicle.Repositories
                 HexValue = "#ffd447",
                 //RGB = (255, 212, 71)
             };
+            Color frenchVan = new Color()
+            {
+                ColorName = "French Vanilla",
+                HexValue = "#fff5b0"
+            };
             await context.NamedColors.AddRangeAsync(victLace, carOrg , canYl);
             await context.SaveChangesAsync();
             #endregion
@@ -80,7 +85,7 @@ namespace HipAndClavicle.Repositories
             Listing listing2 = new Listing()
             {
                 Price = 20.00d,
-                Colors = { victLace },
+                Colors = { carOrg },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Carrot Orange",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
@@ -93,7 +98,7 @@ namespace HipAndClavicle.Repositories
             Listing listing3 = new Listing()
             {
                 Price = 20.00d,
-                Colors = { victLace },
+                Colors = { canYl },
                 ListingProduct = butterfly,
                 ListingTitle = "Butterflies in Canary Yellow",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"

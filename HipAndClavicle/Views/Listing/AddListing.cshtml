@@ -36,7 +36,7 @@
                 <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
                     <label class="btn" asp-for="NewListing.Colors" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
                     <div class="text-center">
-                        <input name="NewListing.ListingColors" value="@col" asp-for="NewListing.Colors" type="checkbox" class="colorCheckBox" id="ColorBtn @col.ColorName" >
+                        <input name="NewListing.ListingColors" value="@col"  type="checkbox" class="colorCheckBox" id="ColorBtn@col.ColorName" >
                     </div>
                 </div>
             </div>
