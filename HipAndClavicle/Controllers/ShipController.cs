@@ -1,15 +1,11 @@
 ﻿
-using HipAndClavicle.Repositories;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using Microsoft.Identity.Client;
-using System.Net.NetworkInformation;
-
 namespace HipAndClavicle.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class ShipController : Controller
 {
     private readonly IServiceProvider _services;
     private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
     private readonly IShippingRepo _repo;
     private readonly INotyfService _toast;
     private readonly string _pbBasePath;
@@ -19,7 +15,8 @@ public class ShipController : Controller
     public ShipController(IServiceProvider services, IConfiguration config)
     {
         _services = services;
-        _userManager = services.GetRequiredService<UserManager<AppUser>>();
+        _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
+        _userManager = _signInManager.UserManager;
         _repo = services.GetRequiredService<IShippingRepo>();
         _toast = services.GetRequiredService<INotyfService>();
 
@@ -30,14 +27,16 @@ public class ShipController : Controller
 
     public async Task<IActionResult> Ship(int orderId)
     {
-        var toShip = await _repo.GetOrderByIdAsync(orderId);
+        var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+        merchant!.Address = await _repo.FindUserAddress(merchant);
+        var order = await _repo.GetOrderByIdAsync(orderId);
+
+
         ShippingVM shippingVM = new()
         {
-            OrderToShip = toShip,
-            Address = toShip.Address,
-            Customer = toShip.Purchaser,
-            Merchant = toShip.Purchaser,
-            NewShipment = new()
+            OrderToShip = order,
+            Customer = order.Purchaser,
+            Merchant = merchant!,
         };
         return View(shippingVM);
     }
@@ -47,16 +46,43 @@ public class ShipController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Ship(ShippingVM svm)
+    public async Task<IActionResult> Ship(ShippingVM svm)
     {
 
         if (ModelState.IsValid)
         {
-            CreateLabel(svm);
+            var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+
+            if (merchant!.Address is null)
+            {
+                MerchantVM mvm = new()
+                {
+                    Admin = merchant,
+                    FromAddress = new()
+                };
+                return View("NoMerchantAddressError", mvm);
+            }
+            Address shipFrom = ConvertAddress(merchant.Address);
+            Address toAddress = ConvertAddress(svm.OrderToShip.Address);
+            Parcel package = new(
+                dimension: svm.PackageDimension,
+                weight: svm.ParcelWeight,
+                valueOfGoods: svm.ValueOfGoods,
+                currencyCode: "USD");
+
+            Shipment newShipment = new(
+
+                fromAddress: shipFrom,
+                toAddress: toAddress,
+                parcel: package,
+                rates: new()
+
+            );
+            CreateLabel(newShipment);
 
             return RedirectToAction(nameof(Index));
         }
-        return View();
+        return View(svm);
     }
 
 
@@ -99,33 +125,13 @@ public class ShipController : Controller
         }
 
     }
-    public void CreateLabel(ShippingVM svm)
+    public void CreateLabel(Shipment shipment)
     {
-
         Configuration.Default.BasePath = _pbBasePath;
         Configuration.Default.OAuthApiKey = _pbApiKey;
         Configuration.Default.OAuthSecret = _pbSecret;
 
         var apiClient = new ShipmentApi(Configuration.Default);
-
-        // Create the shipment request
-        var shipment = new Shipment
-        {
-            Parcel = new Parcel
-            {
-                Weight = svm.ParcelWeight,
-                Dimension = new()
-                {
-                    UnitOfMeasurement = svm.UnitOfMeasure, 
-                    Length = svm.ParcelLength,
-                    Width = svm.ParcelWidth,
-                    Height = svm.ParcelHeight
-                }
-            },
-            FromAddress = ConvertAddress(svm.Customer.Address!),
-            ToAddress = (Address)svm,
-            ShipmentType = Shipment.ShipmentTypeEnum.OUTBOUND,
-        };
 
         try
         {
@@ -143,12 +149,15 @@ public class ShipController : Controller
         }
     }
 
+    #endregion
+
+    #region Utility
+
     public Address ConvertAddress(ShippingAddress shippingAddress)
     {
-       
         return new Address()
         {
-            AddressLines = { shippingAddress!.AddressLine1, shippingAddress?.AddressLine2 },
+            AddressLines = new() { shippingAddress!.AddressLine1 },
             CityTown = shippingAddress!.CityTown,
             // TODO add this to ShippingAddress model. Lower case, 2 char.
             CountryCode = shippingAddress.Country,
@@ -159,6 +168,21 @@ public class ShipController : Controller
         };
 
     }
-        #endregion
+
+    public ShippingAddress ConvertAddress(Address address)
+    {
+#pragma warning disable CA1305 // Specify IFormatProvider
+        return new ShippingAddress()
+        {
+            AddressLine1 = address.AddressLines[0],
+            AddressLine2 = address.AddressLines[1],
+            CityTown = address.CityTown,
+            Country = address.CountryCode,
+            PostalCode = int.Parse(address.PostalCode, System.Globalization.NumberStyles.Integer)
+        };
+#pragma warning restore CA1305 // Specify IFormatProvider
+    }
+
+    #endregion
 
 }

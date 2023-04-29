@@ -31,13 +31,13 @@ public class ShippingRepo : IShippingRepo
     #endregion
 
     #region Shipping
-    public async Task CreateShippment(Ship shipment)
+    public async Task CreateShipment(Ship shipment)
     {
         await _context.Shipping.AddAsync(shipment);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateShippment(Ship shipment)
+    public async Task UpdateShipment(Ship shipment)
     {
         _context.Shipping.Update(shipment);
         await _context.SaveChangesAsync();
@@ -47,5 +47,11 @@ public class ShippingRepo : IShippingRepo
         await _context.Shipping
             .Include(s => s.Order)
             .Include(s => s.Order.Address).FirstAsync(s => s.ShipId == id);
+
+    public async Task<ShippingAddress> FindUserAddress(AppUser user)
+    {
+        return await _context.Addresses.FirstAsync(a => a.ShippingAddressId.Equals(user.ShippingAddressId));
+    }
+
     #endregion
 }
