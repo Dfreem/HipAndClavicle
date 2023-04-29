@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HipAndClavicle.Models.JunctionTables;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HipAndClavicle.Controllers
@@ -32,24 +33,58 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> AddListing(AddListingVM addListingVM)
         {
-
-            using (var memoryStream = new MemoryStream())
+            var colorsToAdd = new List<Color>();
+            foreach (var colorId in addListingVM.SelectedColors)
             {
-                await addListingVM.ListingImageFile.CopyToAsync(memoryStream);
-                Image newImage = new()
-                {
-                    ImageData = memoryStream.ToArray(),
-                    Width = 100
-                };
-                addListingVM.NewListing.Images = new();
-                addListingVM.NewListing.ListingProduct = await _context.Products.FirstAsync(p => p.Category == addListingVM.NewListing.ListingProduct.Category);
-                addListingVM.NewListing.Images.Add(newImage);
-                await _context.Images.AddAsync(newImage);
-                _context.Products.Update(addListingVM.NewListing.ListingProduct);
-                await _context.Listings.AddAsync((Listing)addListingVM);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("CustListings");
+                var colorToAdd = await _repo.GetColorByIdAsync(colorId);
+                colorsToAdd.Add(colorToAdd);
             }
+
+            var productToAssoc = await _repo.GetProductByIdAsync(addListingVM.ListingProductId);
+
+            addListingVM.NewListing = new Listing()
+            {
+                ListingTitle = addListingVM.Title,
+                ListingDescription = addListingVM.Description,
+                Colors = colorsToAdd,
+                ListingProduct = productToAssoc
+
+            };
+            await _context.Listings.AddAsync(addListingVM.NewListing);
+            foreach (var col in colorsToAdd)
+            {
+                var newListingColorAssoc = new ListingColorJT()
+                {
+                    Listing = addListingVM.NewListing,
+                    ListingColor = col
+                };
+                await _context.ListingColorsJT.AddAsync(newListingColorAssoc);
+            }
+            await _context.SaveChangesAsync();
+            return View("/CustomerProductCatalog/CustFindListings.cshtml");
+
+            //using (var memoryStream = new MemoryStream())
+            //{
+
+            //    //addListingVM.NewListing = new Listing()
+            //    //{
+            //    //    Colors = addListingVM.ListingColors
+            //    //};
+            //    //await addListingVM.ListingImageFile.CopyToAsync(memoryStream);
+            //    //Image newImage = new()
+            //    //{
+            //    //    ImageData = memoryStream.ToArray(),
+            //    //    Width = 100
+            //    //};
+            //    //addListingVM.NewListing.Images = new();
+            //    //addListingVM.NewListing.ListingProduct = await _context.Products.FirstAsync(p => p.Category == addListingVM.NewListing.ListingProduct.Category);
+            //    //addListingVM.NewListing.Images.Add(newImage);
+            //    //await _context.Images.AddAsync(newImage);
+            //    //_context.Products.Update(addListingVM.NewListing.ListingProduct);
+            //    await _context.Listings.AddAsync(addListingVM.NewListing);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction("CustListings");
+            //}
             //public async Task<IActionResult> AddListing(AddListingVM addListingVM)
             //{
             //    using (var memoryStream = new MemoryStream())

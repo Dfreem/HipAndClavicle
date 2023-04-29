@@ -20,16 +20,16 @@
 <form method="post" asp-action="AddListing" enctype="multipart/form-data">
 
     <div>
-        <label asp-for="NewListing.ListingTitle">Listing Title: </label>
-        <input asp-for="NewListing.ListingTitle" />
+        <label asp-for="@Model.Title">Listing Title: </label>
+        <input asp-for="@Model.Title" />
     </div>
 
     <div>
-        <label asp-for="NewListing.ListingDescription">Listing Description: </label>
-        <textarea asp-for="NewListing.ListingDescription"></textarea>
+        <label asp-for="@Model.Description">Listing Description: </label>
+        <textarea asp-for="@Model.Description"></textarea>
     </div>
 
-    <div class="row col-9 g-4">
+@*    <div class="row col-9 g-4">
         @foreach (var col in Model.AvailableColors)
         {
             <div class="col col-4 colorCard" id="colorCard- @col.ColorName">
@@ -42,13 +42,23 @@
             </div>
 
         }
+    </div>*@
+
+    <div>
+        Choose the color(s) for this listing:
+        @foreach (var color in Model.AvailableColors)
+        {
+            <label>@color.ColorName</label>
+            <input type="checkbox" name="SelectedColors" value="@color.ColorId"
+            @(Model.ListingColors?.Contains(color) == true ? "checked" : "")>
+        }
     </div>
 
-    <select asp-for="NewListing.ListingProduct">
+    <select asp-for="@Model.ListingProductId">
         Product:
         @foreach (var prod in Model.Products)
         {
-            <option asp-for="ListingProduct" value="@prod">@prod.Name</option>
+            <option value="@prod.ProductId">@prod.Name</option>
         } 
     </select>
 

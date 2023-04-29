@@ -9,7 +9,7 @@
 
 @if (Model != null)
 {
-    <h1>@Model.ListingTitle</h1>
+    <h1>ListingTitle</h1>
     <div id="imageContainer">
         @if (Model.Images.Count() > 0)
         {
@@ -17,7 +17,7 @@
         }
         else
         {
-            <div style="background-color: "@Model.Colors.First().HexValue"; width: 300px; height: 300px;"></div>
+            <div style="background-color: @Model.ListingColorJTs.First().ListingColor.HexValue; width: 300px; height: 300px;"></div>
         }
     </div>
 

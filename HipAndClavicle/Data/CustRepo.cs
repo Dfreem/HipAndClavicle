@@ -49,7 +49,15 @@ namespace HipAndClavicle.Repositories
         #region GetSpecific
         public async Task<Listing> GetListingByIdAsync(int listingId)
         {
-            var listing = await _context.Listings.Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
+            var listing = await _context.Listings
+                .Include(l => l.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.ProductImage)
+                .Include(l => l.ListingColorJTs)
+                .ThenInclude(lc => lc.ListingColor)
+                .Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
             return listing;
         }
         public async Task<List<Color>> GetColorsByColorFamilyNameAsync(string colorFamilyName)
@@ -70,6 +78,17 @@ namespace HipAndClavicle.Repositories
                 .Include(l => l.ListingProduct)
                 .Where(l => l.Colors.Any(c =>  colors.Contains(c))).ToListAsync();
             return listings;
+        }
+
+        public async Task<Color> GetColorByIdAsync(int searchColorId)
+        {
+            var color = await _context.NamedColors.Where(c => c.ColorId == searchColorId).FirstOrDefaultAsync();
+            return color;
+        }
+        public async Task<Product> GetProductByIdAsync(int productId)
+        {
+            var product = await _context.Products.Where(p => p.ProductId == productId).FirstOrDefaultAsync();
+            return product;
         }
 
 
