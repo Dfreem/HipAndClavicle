@@ -17,7 +17,6 @@
         public Task AddColorFamilyAsync(ColorFamily colorFamily);
         public Task AddListingAsync(Listing listing);
         public Task AddListingImageAsync(Image image);
-
-
+        public Task AddColorToListing(Listing listing, Color color);
     }
 }

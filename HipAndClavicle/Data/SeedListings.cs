@@ -1,4 +1,5 @@
-﻿using Listing = HipAndClavicle.Models.Listing;
+﻿using HipAndClavicle.Models.JunctionTables;
+using Listing = HipAndClavicle.Models.Listing;
 
 namespace HipAndClavicle.Repositories
 {
@@ -77,8 +78,15 @@ namespace HipAndClavicle.Repositories
                 ListingTitle = "Butterflies in Victorian Lace",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
-            //await context.Listings.AddAsync(listing1);
-            //await context.SaveChangesAsync();
+            await context.Listings.AddAsync(listing1);
+            await context.SaveChangesAsync();
+            var listingColorAssoc1 = new ListingColorJT()
+            {
+                ListingColor = victLace,
+                Listing = listing1
+            };
+            await context.ListingColorsJT.AddAsync(listingColorAssoc1);
+            await context.SaveChangesAsync();
             //listing1.Colors.Add(victLace);
             //await context.SaveChangesAsync();
 
@@ -90,8 +98,15 @@ namespace HipAndClavicle.Repositories
                 ListingTitle = "Butterflies in Carrot Orange",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
-            //await context.Listings.AddAsync(listing2);
-            //await context.SaveChangesAsync();
+            await context.Listings.AddAsync(listing2);
+            await context.SaveChangesAsync();
+            var listingColorAssoc2 = new ListingColorJT()
+            {
+                ListingColor = carOrg,
+                Listing = listing2
+            };
+            await context.ListingColorsJT.AddAsync(listingColorAssoc2);
+            await context.SaveChangesAsync();
             //listing2.Colors.Add(carOrg);
             //await context.SaveChangesAsync();
 
@@ -103,8 +118,15 @@ namespace HipAndClavicle.Repositories
                 ListingTitle = "Butterflies in Canary Yellow",
                 ListingDescription = "Really great butterflies lorem ipsum etc etc"
             };
-            //await context.Listings.AddAsync(listing3);
-            //await context.SaveChangesAsync();
+            await context.Listings.AddAsync(listing3);
+            await context.SaveChangesAsync();
+            var listingColorAssoc3 = new ListingColorJT()
+            {
+                ListingColor = canYl,
+                Listing = listing3
+            };
+            await context.ListingColorsJT.AddAsync(listingColorAssoc3);
+            await context.SaveChangesAsync();
             //listing3.Colors.Add(canYl);
             //await context.SaveChangesAsync();
 
@@ -116,12 +138,19 @@ namespace HipAndClavicle.Repositories
                 ListingTitle = "Dragons in Victorian Lace",
                 ListingDescription = "Really great dragons lorem ipsum etc etc"
             };
-            //await context.Listings.AddAsync(listing4);
-            //await context.SaveChangesAsync();
+            await context.Listings.AddAsync(listing4);
+            await context.SaveChangesAsync();
+            var listingColorAssoc4 = new ListingColorJT()
+            {
+                ListingColor = victLace,
+                Listing = listing4
+            };
+            await context.ListingColorsJT.AddAsync(listingColorAssoc4);
+            await context.SaveChangesAsync();
             //listing4.Colors.Add(victLace);
             //await context.SaveChangesAsync();
 
-            await context.Listings.AddRangeAsync(listing1, listing2, listing3, listing4);
+            //await context.Listings.AddRangeAsync(listing1, listing2, listing3, listing4);
             await context.SaveChangesAsync();
 
             //Listing listing1 = new Listing()

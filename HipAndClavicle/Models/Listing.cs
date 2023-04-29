@@ -1,4 +1,6 @@
 ﻿
+using HipAndClavicle.Models.JunctionTables;
+
 namespace HipAndClavicle.Models
 {
     public class Listing
@@ -16,5 +18,7 @@ namespace HipAndClavicle.Models
         [Range(0, int.MaxValue)]
         public int OnHand { get; set; } = default!;
         public string? shape { get; set; }
+
+        public List<ListingColorJT> ListingColorJTs { get; set; } = new List<ListingColorJT>();
     }
 }

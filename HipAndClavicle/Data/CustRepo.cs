@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using HipAndClavicle.Models.JunctionTables;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace HipAndClavicle.Repositories
 {
@@ -23,7 +24,10 @@ namespace HipAndClavicle.Repositories
                 .ThenInclude(p => p.Colors)
                 .Include(l => l.ListingProduct)
                 .ThenInclude(p => p.ProductImage)
+                .Include(l => l.ListingColorJTs)
+                .ThenInclude(lc  => lc.ListingColor)
                 .ToListAsync();
+
             return listings;
         }
         public async Task<List<Product>> GetAllProductsAsync()
@@ -90,6 +94,15 @@ namespace HipAndClavicle.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddColorToListing(Listing listing, Color color)
+        {
+            var listingColorAssociation = new ListingColorJT()
+            {
+                Listing = listing,
+                ListingColor = color
+            };
+            await _context.ListingColorsJT.AddAsync(listingColorAssociation);
+        }
         #endregion
     }
 }

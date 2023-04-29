@@ -7,9 +7,9 @@
 @foreach (var listing in Model)
 {
     string backgroundColor = "gray";
-    @if (listing.Colors.Count() > 0)
+    @if (listing.ListingColorJTs.First().ListingColor != null)
     {
-        backgroundColor = listing.Colors.First().HexValue.ToString();
+        backgroundColor = listing.ListingColorJTs.First().ListingColor.HexValue.ToString();
     }
     <a asp-action="CustListing" asp-route-listingId="@listing.ListingId" class="card test-center m-3" style="width: 250px; padding:25px;">
 
