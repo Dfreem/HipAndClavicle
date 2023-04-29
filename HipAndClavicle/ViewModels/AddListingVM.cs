@@ -11,6 +11,8 @@
         public string Description { get; set; } = default!;
         public List<int> SelectedColors { get; set; } = new List<int> ();
         public List<Color> ListingColors { get; set; } = new List<Color>();
+        public double Price { get; set; } = default!;
+        public int OnHand { get; set; } = default!;
 
         public IFormFile ListingImageFile { get; set; } = default!;
         public Image SingleImage { get; set; }
