@@ -7,7 +7,7 @@ public class Product
     public int ProductId { get; set; }
     public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; } = default!;
-    public List<Color> Colors { get; set; } = new();
+    public List<ColorProduct> Colors { get; set; } = new();
     public bool InStock { get; set; } = default!;
     [Display(Name = "# On-Hand")]
     public int QuantityOnHand { get; set; } = default!;
