@@ -57,6 +57,8 @@ namespace HipAndClavicle.Repositories
                 .ThenInclude(p => p.ProductImage)
                 .Include(l => l.ListingColorJTs)
                 .ThenInclude(lc => lc.ListingColor)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.Reviews)
                 .Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
             return listing;
         }

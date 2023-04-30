@@ -38,7 +38,15 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> CustListing(int listingId)
         {
             var listing = await _repo.GetListingByIdAsync(listingId);
-            return View(listing);
+            var product = await _repo.GetProductByIdAsync(listing.ListingProduct.ProductId);
+
+            var clVM = new CustListingVM()
+            {
+                Product = product,
+                Listing = listing
+            };
+
+            return View(clVM);
         }
 
         public async Task<IActionResult> AddListing()

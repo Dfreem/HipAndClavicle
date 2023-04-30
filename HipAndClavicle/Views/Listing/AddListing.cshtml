@@ -29,21 +29,6 @@
         <textarea asp-for="@Model.Description"></textarea>
     </div>
 
-@*    <div class="row col-9 g-4">
-        @foreach (var col in Model.AvailableColors)
-        {
-            <div class="col col-4 colorCard" id="colorCard- @col.ColorName">
-                <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @col.HexValue ;">
-                    <label class="btn" asp-for="NewListing.Colors" for="ColorBtn @col.ColorName" style="background-color: white ;">@col.ColorName</label>
-                    <div class="text-center">
-                        <input name="NewListing.ListingColors" value="@col"  type="checkbox" class="colorCheckBox" id="ColorBtn@col.ColorName" >
-                    </div>
-                </div>
-            </div>
-
-        }
-    </div>*@
-
     <div class="row col-9 g-4">
         
         @foreach (var color in Model.AvailableColors)
@@ -57,9 +42,6 @@
                     </div>
                 </div>
             </div>
-@*            <label>@color.ColorName</label>
-            <input type="checkbox" name="SelectedColors" value="@color.ColorId"
-            @(Model.ListingColors?.Contains(color) == true ? "checked" : "")>*@
         }
     </div>
 
