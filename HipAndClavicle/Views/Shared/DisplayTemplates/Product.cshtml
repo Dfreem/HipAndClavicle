@@ -23,7 +23,7 @@
 
         <a class="color-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
             <div class="color-viewer">
-                @foreach (Color color in Model.Colors)
+                @foreach (Color color in Model.AvailableColors)
                 {
                     <div class="color-splotch" style="background-color:@color.HexValue;">
                     </div>

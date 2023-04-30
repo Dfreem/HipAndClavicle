@@ -9,6 +9,7 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
+		<Compile Remove="Models\ColorProduct.cs" />
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />

@@ -22,7 +22,7 @@ public class ShippingRepo : IShippingRepo
     public async Task<List<OrderItem>> GetItemsToShipAsync(int OrderId)
     {
         return await _context.OrderItems
-            .Include(i => i.ItemColor)
+            .Include(i => i.ItemColors)
             .Include(i => i.Item)
             .Include(i => i.SetSize)
             .Where(i => i.OrderId == OrderId).ToListAsync();

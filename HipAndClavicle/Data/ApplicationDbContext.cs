@@ -27,7 +27,5 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ColorFamily> ColorFamilies { get; set; }
     public DbSet<ShippingAddress> Addresses { get; set; }
     public DbSet<Ship> Shipping { get; set; } = default!;
-    public DbSet<ColorProduct> ColorProductJunction { get; set; }
-
 
 }

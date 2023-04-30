@@ -2,56 +2,71 @@
 @{
     ViewData["Title"] = "Shipping";
 }
-
 <div class="body">
-<h1>Shipping</h1>
+    <h1>Shipping</h1>
     <hr />
     <form asp-action="Ship">
         <div class="row">
-            <div class="col-md-4 d-flex flex-column py-2 label-btn">
+            <div class="col-md-4 py-2 label-btn">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group">
                     <input type="submit" value="Make Label" class="btn btn-primary" />
                 </div>
 
+                <div class="card mt-2 w-75 mx-auto">
+                    <div class="card-header py-1">
+                        Please confirm that your address is correct<br />
+                    </div>
+                    <div class="card-body" id="unhide">
+                        @Html.DisplayFor(model => model.Merchant.Address)
+                    </div>
+                    <div class="visually-hidden card-body" id="hide">
+                        @Html.EditorFor(model => model.Merchant.Address)
+                    </div>
+                    <button class="btn btn-outline-info mx-auto col-4 mb-3" type="button" onclick="hideAddress()">
+                        <i class="bi bi-pencil text-warning"></i>
+                    </button>
+                    <script>
+                     function hideAddress() {
+                        document.getElementById('hide').classList.toggle('visually-hidden');
+                        document.getElementById('unhide').classList.toggle('visually-hidden');
+                    }
+                    </script>
+                </div>
                 <div class="back-link mt-auto">
                     <a asp-action="CurrentOrders" asp-controller="Admin"><i class="bi bi-chevron-double-left"></i>Back to Orders</a>
                 </div>
-                <div>
-                    Please confirm that your address is correct<br />
-                    @Html.DisplayFor(model => model.Merchant.Address)
-                </div>
 
             </div>
-            <div class="col-md-4 border p-2 border-dark">
-                <label>Package Details</label>
-                <div class="form-floating mb-2 mt-3 input-group">
+            <div class="col-md-4 border border-dark">
+                <label><h4>Package Details</h4></label>
+                <div class="input-group mb-2">
                     <span class="input-group-text">Weight</span>
                     <input asp-for="ParcelWeight.Weight" class="form-control" />
                     <span asp-validation-for="ParcelWeight.Weight" class="text-danger"></span>
                     <span class="input-group-text">unit</span>
                     <select asp-for="ParcelWeight.UnitOfMeasurement" class="form-control" asp-items="Html.GetEnumSelectList<UnitOfWeight>()"></select>
                 </div>
-                <div class="mb-2 mt-4 input-group">
+                <div class="input-group mb-2">
                     <span class="input-group-text">Height</span>
                     <input asp-for="PackageDimension.Height" class="form-control" />
                     <span asp-validation-for="PackageDimension.Height" class="text-danger"></span>
 
                     <span class="input-group-text">Width</span>
                     <input asp-for="PackageDimension.Width" class="form-control" />
-
                     <span asp-validation-for="PackageDimension.Width" class="text-danger"></span>
 
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-2">
+
                     <span class="input-group-text">Length</span>
-                    <input asp-for="PackageDimension.Length" class="form-control" />
+                    <input asp-for="PackageDimension.Length" class="form-control input-group-item" />
 
                     <span asp-validation-for="PackageDimension.Length" class="text-danger"></span>
                     <span class="input-group-text">unit</span>
                     <select asp-for="UnitOfMeasure"
-                            class="form-control"
+                            class="form-control bg-warning-subtle"
                             asp-items="Html.GetEnumSelectList<UnitOfDimension>()">
                     </select>
                 </div>
@@ -59,12 +74,13 @@
             </div>
 
 
-            <div class="col-md-4 ms-auto">
-                <ul class="list-group list-group-horizontal text-nowrap">
+            <div class="col-md-4">
+                <ul class="list-group list-group-horizontal text-nowrapr">
+
                     <li class="list-group-item">&emsp;&emsp;</li>
                     <li class="list-group-item"># ordered</li>
-                    <li class="list-group-item">price / unit</li>
-                    <li class="list-group-item">price</li>
+                    <li class="list-group-item mx-auto">price / unit</li>
+                    <li class="list-group-item ms-auto">price</li>
                 </ul>
                 <hr class="my-0" />
                 @foreach (OrderItem item in Model.OrderToShip.Items)

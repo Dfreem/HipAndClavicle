@@ -13,12 +13,12 @@
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.Colors, new { @class = "control-label" })
-    @for (int i = 0; i < Model.Colors.Count; i++)
+    @Html.LabelFor(model => model.AvailableColors, new { @class = "control-label" })
+    @for (int i = 0; i < Model.AvailableColors.Count; i++)
     {
-        @Html.EditorFor(model => model.Colors[i], new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.AvailableColors[i], new { htmlAttributes = new { @class = "form-control" } })
     }
-    @Html.ValidationMessageFor(model => model.Colors, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.AvailableColors, "", new { @class = "text-danger" })
 </div>
 
 <div class="form-group">
