@@ -3,50 +3,57 @@
 
 }
 
-<form method="post" asp-action="SaveMerchantAddress" asp-controller="Admin">
-    <dl class="card-body">
-        <div class="input-group">
-            <dt class="input-group">
-                @Html.DisplayNameFor(model => model.AddressLine1)
-            </dt>
-
-            <dd>
-                <input class="my-0" type="text" asp-for="AddressLine1">
-            </dd>
-        </div>
-        <div class="input-group">
-            <dt>
-                @Html.DisplayNameFor(model => model.AddressLine2)
-            </dt>
-            <dd>
-                <input class="my-0" type="text" asp-for="AddressLine2">
-            </dd>
-        </div>
+<dl class="card-body">
+    <div class="input-group">
         <dt class="input-group">
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+
+        <dd>
+            <input class="my-0" type="text" asp-for="AddressLine1">
+        </dd>
+    </div>
+    <div class="input-group">
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </dt>
+        <dd>
+            <input class="my-0" type="text" asp-for="AddressLine2">
+        </dd>
+    </div>
+    <div class="input-group">
+        <dt>
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
-        <dt class="input-group">
+
+    </div>
+    <div class="input-group">
+        <dt>
             @Html.DisplayNameFor(model => model.CityTown)
         </dt>
         <dd>
             <input class="my-0" type="text" asp-for="CityTown">
 
         </dd>
-        <dt class="input-group">
+    </div>
+    <div class="input-group">
+        <dt>
             @Html.DisplayNameFor(model => model.StateAbr)
         </dt>
         <dd>
             <select asp-items="Html.GetEnumSelectList<State>()"></select>
         </dd>
+    </div>
+    <div>
         <dt class="input-group">
             @Html.DisplayNameFor(model => model.PostalCode)
         </dt>
         <dd>
             <input class="my-0" type="text" asp-for="PostalCode">
         </dd>
-    </dl>
-    <input type="submit" />
-</form>
+
+    </div>
+</dl>
