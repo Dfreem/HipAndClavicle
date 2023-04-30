@@ -20,7 +20,7 @@ namespace HipAndClavicle.Repositories
 
                 CityTown = "Eugene",
                 StateAbr = State.OR,
-                PostalCode = 97448,
+                PostalCode = "97448",
                 Country = "USA"
             };
             AppUser michael = new()

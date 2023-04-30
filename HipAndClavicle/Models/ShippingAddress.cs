@@ -17,7 +17,7 @@ public class ShippingAddress
     public State StateAbr { get; set; } = default!;
     [DataType(DataType.PostalCode)]
     [Display(Name = "Zip-code")]
-    public int PostalCode { get; set; } = default!;
+    public string PostalCode { get; set; } = default!;
     public bool Residential { get; set; }
 
 }

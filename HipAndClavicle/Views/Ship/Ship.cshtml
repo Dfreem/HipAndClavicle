@@ -10,14 +10,9 @@
         <div class="row">
             <div class="col-md-4 py-2 label-btn">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
-                    <input type="submit" value="Make Label" class="btn btn-primary" />
-                </div>
-
-                <div class="card mt-2 w-75 mx-auto">
-                    <div class="card-header py-1">
-                        Please confirm that your address is correct<br />
+                <div class="card my-2 w-75 mx-auto">
+                    <div class="card-header py-1 text-center">
+                        Is your address correct?<br />
                     </div>
                     <div class="card-body" id="unhide">
                         @Html.DisplayFor(model => model.Merchant.Address)
@@ -25,7 +20,7 @@
                     <div class="visually-hidden card-body" id="hide">
                         <form method="post" asp-action="SaveMerchantAddress" asp-controller="Admin">
                             @Html.EditorFor(model => model.Merchant.Address)
-                            <input type="submit" value="save"/>
+                            <input type="submit" value="save" class="btn btn-block" />
 
                         </form>
                     </div>
@@ -46,41 +41,44 @@
             </div>
             <div class="col-md-4 border border-dark">
                 <h4>Package Details</h4>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Weight</span>
-                    <input asp-for="ParcelWeight.Weight" class="form-control" />
-                    <span asp-validation-for="ParcelWeight.Weight" class="text-danger"></span>
-                    <span class="input-group-text">unit</span>
-                    <select asp-for="ParcelWeight.UnitOfMeasurement" class="form-control" asp-items="Html.GetEnumSelectList<UnitOfWeight>()"></select>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Height</span>
-                    <input asp-for="PackageDimension.Height" class="form-control" />
-                    <span asp-validation-for="PackageDimension.Height" class="text-danger"></span>
+                <form asp-action="Ship" method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Weight</span>
+                        <input asp-for="ParcelWeight.Weight" class="form-control" />
+                        <span asp-validation-for="ParcelWeight.Weight" class="text-danger"></span>
+                        <span class="input-group-text">unit</span>
+                        <select asp-for="ParcelWeight.UnitOfMeasurement" class="form-control" asp-items="Html.GetEnumSelectList<UnitOfWeight>()"></select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Height</span>
+                        <input asp-for="PackageDimension.Height" class="form-control" />
+                        <span asp-validation-for="PackageDimension.Height" class="text-danger"></span>
 
-                    <span class="input-group-text">Width</span>
-                    <input asp-for="PackageDimension.Width" class="form-control" />
-                    <span asp-validation-for="PackageDimension.Width" class="text-danger"></span>
+                        <span class="input-group-text">Width</span>
+                        <input asp-for="PackageDimension.Width" class="form-control" />
+                        <span asp-validation-for="PackageDimension.Width" class="text-danger"></span>
 
-                </div>
-                <div class="input-group mb-3">
+                    </div>
+                    <div class="input-group mb-3">
 
-                    <span class="input-group-text">Length</span>
-                    <input asp-for="PackageDimension.Length" class="form-control input-group-item" />
+                        <span class="input-group-text">Length</span>
+                        <input asp-for="PackageDimension.Length" class="form-control input-group-item" />
 
-                    <span asp-validation-for="PackageDimension.Length" class="text-danger"></span>
-                    <span class="input-group-text">unit</span>
-                    <select asp-for="UnitOfMeasure"
-                            class="form-control bg-warning-subtle"
-                            asp-items="Html.GetEnumSelectList<UnitOfDimension>()">
-                    </select>
-                </div>
+                        <span asp-validation-for="PackageDimension.Length" class="text-danger"></span>
+                        <span class="input-group-text">unit</span>
+                        <select asp-for="UnitOfMeasure"
+                                class="form-control bg-warning-subtle"
+                                asp-items="Html.GetEnumSelectList<UnitOfDimension>()">
+                        </select>
+                    </div>
 
-                <hr class="my-2" />
-                <h4>Destination Address</h4>
-                @Html.EditorFor(model => model.Merchant.Address)
+                    <hr class="my-4" />
+                    <h4>Destination Address</h4>
+                    @Html.EditorFor(model => model.Merchant.Address)
+                    <input type="hidden" value="@Model.OrderToShip.OrderId" asp-for="OrderToShip.OrderId" />
+                    <input type="submit" value="Create Label" />
 
-                <input type="submit" value="Create Label"/>
+                </form>
 
             </div>
 

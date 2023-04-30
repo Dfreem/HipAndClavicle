@@ -48,8 +48,8 @@ public class ShipController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Ship(ShippingVM svm)
     {
-
-        if (ModelState.IsValid)
+        svm.OrderToShip = await _repo.GetOrderByIdAsync(svm.OrderToShip.OrderId);
+        if (svm.OrderToShip is not null)
         {
             var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
 
@@ -63,7 +63,8 @@ public class ShipController : Controller
                 return View("NoMerchantAddressError", mvm);
             }
             Address shipFrom = ConvertAddress(merchant.Address);
-            Address toAddress = ConvertAddress(svm.OrderToShip.Address);
+            // TODO when an order is made, there must be a check for Oroder.Purchaser.Address
+            Address toAddress = ConvertAddress(svm.OrderToShip.Purchaser.Address!);
             Parcel package = new(
                 dimension: svm.PackageDimension,
                 weight: svm.ParcelWeight,
@@ -159,7 +160,6 @@ public class ShipController : Controller
         {
             AddressLines = new() { shippingAddress!.AddressLine1 },
             CityTown = shippingAddress!.CityTown,
-            // TODO add this to ShippingAddress model. Lower case, 2 char.
             CountryCode = shippingAddress.Country,
             PostalCode = $"{shippingAddress.PostalCode}",
             StateProvince = shippingAddress.StateAbr.ToString(),
@@ -178,7 +178,7 @@ public class ShipController : Controller
             AddressLine2 = address.AddressLines[1],
             CityTown = address.CityTown,
             Country = address.CountryCode,
-            PostalCode = int.Parse(address.PostalCode, System.Globalization.NumberStyles.Integer)
+            PostalCode = address.PostalCode
         };
 #pragma warning restore CA1305 // Specify IFormatProvider
     }
