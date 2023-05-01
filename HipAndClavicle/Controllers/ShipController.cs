@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.CodeAnalysis.Rename;
-using RestSharp.Serialization;
+using RestSharp.Serializers;
 
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]

@@ -29,5 +29,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ShippingAddress> Addresses { get; set; }
     public DbSet<UserMessage> UserMessages { get; set; }
 
+    public DbSet<Ship> Shipping { get; set; } = default!;
 
 }
