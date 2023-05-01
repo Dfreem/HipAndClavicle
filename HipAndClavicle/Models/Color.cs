@@ -7,6 +7,10 @@ public class Color
     public int ColorId { get; set; }
     public string? ColorName { get; set; }
     public string? HexValue { get; set; }
+    public int ColorFamilyId { get; set; }
+    public List<ColorFamily> ColorFamilies { get; set; } = new List<ColorFamily>();
+    
+    // Color Functionality
     [NotMapped]
     public (int, int, int) RGB
     {
@@ -21,6 +25,7 @@ public class Color
     public int Blue { get; set; } = 0;
     [Range(0, 255)]
     public int Green { get; set; } = 0;
-    public List<ColorFamily> ColorFamilies { get; set; } = new List<ColorFamily>();
+    public int ProductId { get; set; }
+    public List<Product> ApplicableProducts { get; set; } = new();
 }
 

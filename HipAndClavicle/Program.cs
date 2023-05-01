@@ -8,6 +8,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
+builder.Services.AddTransient <IShippingRepo, ShippingRepo>();
 
 #region Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>

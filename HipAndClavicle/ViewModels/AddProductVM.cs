@@ -24,7 +24,7 @@ public class AddProductVM
             Name = v.Name,
             SetSizes = v.SetSizes,
             Category = v.Category,
-            Colors = v.ProductColors,
+            AvailableColors = v.ProductColors,
             ProductImage = v.ProductImage,
             QuantityOnHand = v.QuantityOnHand
         };
