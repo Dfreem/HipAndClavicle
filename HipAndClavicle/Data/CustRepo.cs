@@ -23,7 +23,7 @@ namespace HipAndClavicle.Repositories
             var listings = await _context.Listings
                 .Include(l => l.Colors)
                 .Include(l => l.ListingProduct)
-                .ThenInclude(p => p.Colors)
+                .ThenInclude(p => p.AvailableColors)
                 .Include(l => l.ListingProduct)
                 .ThenInclude(p => p.ProductImage)
                 .Include(l => l.ListingColorJTs)
@@ -54,7 +54,7 @@ namespace HipAndClavicle.Repositories
             var listing = await _context.Listings
                 .Include(l => l.Colors)
                 .Include(l => l.ListingProduct)
-                .ThenInclude(p => p.Colors)
+                .ThenInclude(p => p.AvailableColors)
                 .Include(l => l.ListingProduct)
                 .ThenInclude(p => p.ProductImage)
                 .Include(l => l.ListingColorJTs)
@@ -130,6 +130,14 @@ namespace HipAndClavicle.Repositories
 
         public async Task AddReviewAsync(CustReviewVM crVM)
         {
+            //Review newReview = new Review()
+            //{
+            //    Reviewer = crVM.Reviewer,
+            //    ReviewedProductId = crVM.ProductId,
+            //    Message = crVM.Review.Message,
+            //};
+            var product = crVM.Product;
+            product.Reviews.Add(crVM.Review);
             await _context.Reviews.AddAsync(crVM.Review);
             await _context.SaveChangesAsync();
         }

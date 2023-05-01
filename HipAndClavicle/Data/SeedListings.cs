@@ -47,7 +47,7 @@ namespace HipAndClavicle.Repositories
                 Name = "ListingButterfly",
                 InStock = true,
                 QuantityOnHand = 100,
-                Colors = { victLace, carOrg, canYl },
+                AvailableColors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {
                     new SetSize() { Size = 20 }
@@ -59,7 +59,7 @@ namespace HipAndClavicle.Repositories
                 Name = "ListingDragon",
                 InStock = true,
                 QuantityOnHand = 100,
-                Colors = { victLace, carOrg, canYl },
+                AvailableColors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {
                     new SetSize() { Size = 20 }

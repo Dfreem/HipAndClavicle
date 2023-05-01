@@ -22,7 +22,7 @@ namespace HipAndClavicle.Data
                 AddressLine1 = "321 New St",
                 CityTown = "Anytown",
                 StateAbr = State.OK,
-                PostalCode = 12345,
+                PostalCode = "12345",
                 Country = "USA"
             };
             #region anneDetails
