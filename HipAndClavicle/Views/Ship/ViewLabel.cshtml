@@ -1,0 +1,11 @@
+﻿@model List<Document>
+@{
+    ViewData["Title"] = "ViewLabel";
+}
+
+<h1>Shipping Labels</h1>
+
+@foreach (Document item in Model)
+{
+    Html.DisplayFor(model => item);
+}

@@ -1,3 +1,5 @@
+﻿using Microsoft.EntityFrameworkCore;
+using HipAndClavicle.Models;
 namespace HipAndClavicle.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
@@ -23,7 +25,9 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<UserMessage> Messages { get; set; }
     public DbSet<SetSize> SetSizes { get; set; }
     public DbSet<ColorFamily> ColorFamilies { get; set; }
+
     public DbSet<ShippingAddress> Addresses { get; set; }
     public DbSet<UserMessage> UserMessages { get; set; }
+
 
 }

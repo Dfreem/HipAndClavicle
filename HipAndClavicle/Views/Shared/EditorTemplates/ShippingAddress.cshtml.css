@@ -1,0 +1,32 @@
+﻿
+.list-group-item {
+    outline: none;
+    border: none;
+}
+
+.body {
+    padding-block-end: 5em;
+}
+
+.back-link > a:any-link {
+    text-decoration: none;
+    color: #00ff90;
+    font-family: 'Nova Oval', cursive;
+}
+
+.label-btn {
+    position: relative;
+}
+
+.input-group {
+    outline: 1px solid #00968d;
+    border-radius:5px;
+}
+
+@media only screen and (max-width: 740px) {
+    .label-btn {
+        position:absolute;
+        bottom: 5em;
+    }
+
+}

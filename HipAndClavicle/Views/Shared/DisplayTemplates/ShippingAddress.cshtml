@@ -1,0 +1,49 @@
+﻿@model ShippingAddress
+
+@{
+    ViewData["Title"] = "ShippingAddress";
+}
+<div class="body">
+    <dl class="list-group">
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.AddressLine1)
+        </dd>
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.AddressLine2)
+        </dd>
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.CityTown)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.CityTown)
+        </dd>
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.StateAbr)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.StateAbr)
+        </dd>
+        <dt class="card-text list-group-item">
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+        <dd class="card-text list-group-item">
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+    </dl>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+</div>

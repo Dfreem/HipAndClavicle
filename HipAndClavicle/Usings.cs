@@ -36,3 +36,7 @@ global using Pomelo.EntityFrameworkCore;
 global using shippingapi.Api;
 global using shippingapi.Client;
 global using shippingapi.Model;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using Microsoft.AspNetCore.Mvc.Rendering;

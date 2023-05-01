@@ -9,6 +9,7 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
+		<Compile Remove="Models\ColorProduct.cs" />
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
@@ -30,7 +31,6 @@
 		<PackageReference Include="bootstrap" Version="5.2.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
@@ -48,10 +48,11 @@
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
-		<PackageReference Include="RestSharp" Version="110.2.0" />
+		<PackageReference Include="RestSharp" Version="106.15.0" />
 		<PackageReference Include="Json.Net" Version="1.0.33" />
 		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.15.0" />
 		<PackageReference Include="shippingapiv2" Version="1.6.3" />
 	</ItemGroup>
 	<ItemGroup>
