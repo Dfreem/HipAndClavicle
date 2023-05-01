@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.CodeAnalysis.Rename;
+using RestSharp.Serialization;
+
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
 public class ShipController : Controller
@@ -11,6 +14,8 @@ public class ShipController : Controller
     private readonly string _pbBasePath;
     private readonly string _pbApiKey;
     private readonly string _pbSecret;
+    private readonly string _pbMerchantId;
+
 
     public ShipController(IServiceProvider services, IConfiguration config)
     {
@@ -23,6 +28,7 @@ public class ShipController : Controller
         _pbBasePath = config["PitneyBowes:BasePath"]!;
         _pbApiKey = config["PitneyBowes:Key"]!;
         _pbSecret = config["PitneyBowes:Secret"]!;
+        _pbMerchantId = config["PitneyBowes:DefaultMerchentId"]!;
     }
 
     public async Task<IActionResult> Ship(int orderId)
@@ -65,6 +71,19 @@ public class ShipController : Controller
             Address shipFrom = ConvertAddress(merchant.Address);
             // TODO when an order is made, there must be a check for Oroder.Purchaser.Address
             Address toAddress = ConvertAddress(svm.OrderToShip.Purchaser.Address!);
+            //TODO make modal for selecting shipping rates
+            Rate rate = new(carrier: Carrier.USPS, serviceId: Services.PM, parcelType: ParcelType.PKG, inductionPostalCode: toAddress.PostalCode);
+            Document label = new(type: "SHIPPING_LABEL", contentType: Document.ContentTypeEnum.URL, size: Document.SizeEnum._4X6, fileFormat: Document.FileFormatEnum.PDF, printDialogOption: Document.PrintDialogOptionEnum.EMBEDPRINTDIALOG);
+
+            List<Parameter> shippingOptions = new List<Parameter>()
+            {
+                new Parameter("SHIPPING_ID", _pbMerchantId),
+                new Parameter("ADD_TO_MANIFEST", "false"),
+                new Parameter("HIDE_TOTAL_CARRIER_CHARGE", "false"),
+                new Parameter("PRINT_CUSTOM_MESSAGE_1", "Print this label"),
+                new Parameter("SHIPPING_LABEL_RECEIPT", "NO_OPTIONS")
+            };
+
             Parcel package = new(
                 dimension: svm.PackageDimension,
                 weight: svm.ParcelWeight,
@@ -76,16 +95,31 @@ public class ShipController : Controller
                 fromAddress: shipFrom,
                 toAddress: toAddress,
                 parcel: package,
-                rates: new()
-
+                rates: new() { rate },
+                documents: new() { label },
+                shipmentOptions: shippingOptions
             );
-            CreateLabel(newShipment);
 
-            return RedirectToAction(nameof(Index));
+            Shipment? toShip = CreateLabel(newShipment);
+
+            return RedirectToAction(nameof(ViewLabel));
+
         }
+
+        _toast.Error("Could not find order in system");
         return View(svm);
     }
 
+    private IActionResult ViewLabel(Shipment shipment)
+    {
+        return View(shipment.Documents);
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
 
     #region Shipping API
 
@@ -126,7 +160,7 @@ public class ShipController : Controller
         }
 
     }
-    public void CreateLabel(Shipment shipment)
+    public Shipment CreateLabel(Shipment shipment)
     {
         Configuration.Default.BasePath = _pbBasePath;
         Configuration.Default.OAuthApiKey = _pbApiKey;
@@ -134,20 +168,8 @@ public class ShipController : Controller
 
         var apiClient = new ShipmentApi(Configuration.Default);
 
-        try
-        {
-            // Create the shipment
-            Shipment result = apiClient.CreateShipmentLabel($"{DateTime.Now.Millisecond}", shipment);
+        return apiClient.CreateShipmentLabel($"{DateTime.Now.Millisecond}", shipment, xPBUnifiedErrorStructure: true, xPBIntegratorCarrierId: "898644");
 
-            Debug.WriteLine(result);
-
-        }
-        catch (ApiException e)
-        {
-            Debug.Print("Exception when calling ShipmentApi.CreateShipment: " + e.Message);
-            Debug.Print("Status Code: " + e.ErrorCode);
-            Debug.Print(e.StackTrace);
-        }
     }
 
     #endregion
@@ -171,7 +193,6 @@ public class ShipController : Controller
 
     public ShippingAddress ConvertAddress(Address address)
     {
-#pragma warning disable CA1305 // Specify IFormatProvider
         return new ShippingAddress()
         {
             AddressLine1 = address.AddressLines[0],
@@ -180,7 +201,6 @@ public class ShipController : Controller
             Country = address.CountryCode,
             PostalCode = address.PostalCode
         };
-#pragma warning restore CA1305 // Specify IFormatProvider
     }
 
     #endregion
