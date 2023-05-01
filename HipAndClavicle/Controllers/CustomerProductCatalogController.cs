@@ -89,11 +89,10 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReview(CustReviewVM crVM)
         {
-            var listing = _repo.GetListingByIdAsync(crVM.ListingId);
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
             crVM.Review.Reviewer =  currentUser;
             await _repo.AddReviewAsync(crVM);
-            return RedirectToAction("CustListing", new { listingId = crVM.ListingId });
+            return RedirectToAction("CustFindListings", "CustomerProductCatalog");
         }
     }
 }
