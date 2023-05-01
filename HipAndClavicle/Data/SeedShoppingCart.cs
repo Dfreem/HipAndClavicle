@@ -1,59 +1,56 @@
 ﻿
+using HipAndClavicle.Models;
+
 namespace HipAndClavicle.Data
 {
     public class SeedShoppingCart
     {
-        public static async Task Seed(ApplicationDbContext context)
+        public static async Task Seed(ApplicationDbContext context, IServiceProvider services)
         {
-            if (await context.ShoppingCarts.AnyAsync())
+            if (await context.ShoppingCartItems.AnyAsync())
             {
                 return;
             }
 
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            var devin = await userManager.FindByNameAsync("dfreem987");
+            var michael = await userManager.FindByNameAsync("michael123");
+            var steven = await userManager.FindByNameAsync("steven123");
+            var nehemiah = await userManager.FindByNameAsync("nehemiah123");
 
-            var cart = new ShoppingCart { ShoppingCartId = "cart1" };
-            var listing1 = await context.Listings.FindAsync(1);
-            var listing2 = await context.Listings.FindAsync(2);
-            var listing3 = await context.Listings.FindAsync(4);
+            ShoppingCart[] carts = {
+            new ShoppingCart { Owner = devin },
+            new ShoppingCart { Owner = michael },
+            new ShoppingCart { Owner = steven },
+            new ShoppingCart { Owner = nehemiah }
+            };
 
-            if (listing1 != null)
+            var product1 = await context.Products.FirstOrDefaultAsync(p => p.ProductId == 1);
+            var product2 = await context.Products.FirstOrDefaultAsync(p => p.ProductId == 3);
+
+            for (int i = 0; i < carts.Length; i++)
             {
-                var cartItem = new ShoppingCartItem
+                var cart = carts[i];
+
+                var shoppingCartItem1 = new ShoppingCartItem
                 {
-                    ShoppingCartId = cart.ShoppingCartId,
-                    ListingId = listing1.ListingId,
-                    Listing = listing1,
-                    Quantity = 1,
+                    ShoppingCart = cart,
+                    Product = product1,
+                    Quantity = 2
                 };
-                cart.ShoppingCartItems.Add(cartItem);
+
+                var shoppingCartItem2 = new ShoppingCartItem
+                {
+                    ShoppingCart = cart,
+                    Product = product2,
+                    Quantity = 1
+                };
+
+                await context.ShoppingCarts.AddAsync(cart);
+                await context.ShoppingCartItems.AddRangeAsync(shoppingCartItem1, shoppingCartItem2);
             }
 
-            if (listing2 != null)
-            {
-                var cartItem = new ShoppingCartItem
-                {
-                    ShoppingCartId = cart.ShoppingCartId,
-                    ListingId = listing2.ListingId,
-                    Listing = listing2,
-                    Quantity = 1,
-                };
-                cart.ShoppingCartItems.Add(cartItem);
-            }
-
-            if (listing3 != null)
-            {
-                var cartItem = new ShoppingCartItem
-                {
-                    ShoppingCartId = cart.ShoppingCartId,
-                    ListingId = listing3.ListingId,
-                    Listing = listing3,
-                    Quantity = 1,
-                };
-                cart.ShoppingCartItems.Add(cartItem);
-            }
-            await context.ShoppingCarts.AddAsync(cart);
             await context.SaveChangesAsync();
-
         }
-    }
+    } 
 }

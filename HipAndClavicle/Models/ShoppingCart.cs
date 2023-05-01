@@ -3,13 +3,10 @@ namespace HipAndClavicle.Models;
 
 public class ShoppingCart
 {
-    public ShoppingCart() 
-    {
-        ShoppingCartItems = new List<ShoppingCartItem>();
-    }
-
-    public string ShoppingCartId { get; set; }
-    public List<ShoppingCartItem>? ShoppingCartItems { get; set; }
+    public int ShoppingCartId { get; set; }
+    public List<ShoppingCartItem> ShoppingCartItems { get; set; }
+    public AppUser Owner { get; set; } = default!;
+    public double CartTotal { get; set; }
 
 }
 

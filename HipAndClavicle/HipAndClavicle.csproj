@@ -62,4 +62,7 @@
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
 </Project>

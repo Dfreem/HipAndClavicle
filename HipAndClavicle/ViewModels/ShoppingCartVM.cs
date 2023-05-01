@@ -2,19 +2,27 @@
 {
     public class ShoppingCartViewModel
     {
-        public List<ShoppingCartItemViewModel> Items { get; set; }
-        public double TotalPrice => Items.Sum(x => x.TotalPrice);
+        public List<ShoppingCartItemViewModel> ShoppingCartItems { get; set; }
+        public double CartTotal { get; set; }
+        //public bool IsUserLoggedIn { get; set; }
     }
 
     public class ShoppingCartItemViewModel
     {
-        public int ShoppingCartItemId { get; set; }
-        public int ListingId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
-        public int Quantity { get; set; }
-        public List<Image> Images { get; set; }
-        public double TotalPrice => Quantity * Price;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public Image Img { get; set; }
+        public double ItemPrice { get; set; }
+        public int Qty { get; set; }
     }
+
+    /*public class ListingViewModel
+    {
+        public int ListingId { get; set; }
+        public string ListingTitle { get; set; }
+        public string ListingDescription { get; set; }
+        public string ListingImage { get; set; }
+        public double ListingPrice { get; set; }
+    }*/
 }

@@ -2,10 +2,10 @@
 {
     public class ShoppingCartItem
     {
-        public int Id { get; set; }
-        public string ShoppingCartId { get; set; }
-        public int ListingId { get; set; }
-        public Listing Listing { get; set; }
+        public int ShoppingCartItemId { get; set; }
+        public int ShoppingCartId { get; set; }
+        public Product Product { get; set; } = default!;
+        public ShoppingCart ShoppingCart { get; set; } = default!;
         public int Quantity { get; set; }
     }
 }

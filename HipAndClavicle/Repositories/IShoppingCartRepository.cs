@@ -6,8 +6,10 @@ namespace HipAndClavicle.Repositories
     public interface IShoppingCartRepository
     {
         Task<ShoppingCart> GetOrCreateShoppingCartAsync(string shoppingCartId);
-        Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item);
-        Task UpdateItemAsync(ShoppingCartItem item);
-        Task DeleteItemAsync(int itemId);
+        Task<ShoppingCart> GetShoppingCartByUser(string userId);
+        Task<List<ShoppingCartItem>> GetItemsAsync(string userId);
+        Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item, string userId);
+        Task UpdateQuantityAsync(int itemId, int quantity);
+        Task RemoveItemAsync(int itemId);
     }
 }
