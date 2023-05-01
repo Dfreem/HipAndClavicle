@@ -1,5 +1,7 @@
 ﻿using HipAndClavicle.Models.JunctionTables;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace HipAndClavicle.Repositories
 {
@@ -59,6 +61,7 @@ namespace HipAndClavicle.Repositories
                 .ThenInclude(lc => lc.ListingColor)
                 .Include(l => l.ListingProduct)
                 .ThenInclude(p => p.Reviews)
+                .ThenInclude(r => r.Reviewer)
                 .Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
             return listing;
         }
@@ -124,6 +127,47 @@ namespace HipAndClavicle.Repositories
             };
             await _context.ListingColorsJT.AddAsync(listingColorAssociation);
         }
+
+        public async Task AddReviewAsync(CustReviewVM crVM)
+        {
+            await _context.Reviews.AddAsync(crVM.Review);
+            await _context.SaveChangesAsync();
+        }
         #endregion
+
+        #region Checks
+        public async Task<bool> UserPurchasedProduct(int productId, AppUser currentUser)
+        {
+            //var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var purchacedOrders = _context.Orders
+                .Include(o => o.Purchaser)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .Where(o => o.Purchaser == currentUser)
+                .ToListAsync();
+
+            var currentProduct = _context.Products
+                .Where(p => p.ProductId == productId)
+                .FirstOrDefaultAsync();
+
+            List<Product> products = new List<Product>();
+
+            foreach (var order in await purchacedOrders)
+            {
+                foreach (var orderItem in order.Items)
+                {
+                    if (orderItem.Item.ProductId == productId)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            
+
+            return false;
+        }
+
+        #endregion Checks
     }
 }

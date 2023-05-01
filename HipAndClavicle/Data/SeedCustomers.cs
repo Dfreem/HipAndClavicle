@@ -120,7 +120,41 @@ namespace HipAndClavicle.Data
             #endregion addCustRole
 
             #region AddOrders
+            SetSize eleven = new SetSize() { Size = 10 };
+            var butterfly = await context.Products.Where(p => p.Name == "ListingButterfly").FirstOrDefaultAsync();
+            var dragon = await context.Products.Where(p => p.Name == "ListingDragon").FirstOrDefaultAsync();
+            var newColor = new Color()
+            {
+                ColorName = "newYellow",
+                HexValue = "#edcd2b"
+            };
+            await context.NamedColors.AddAsync(newColor);
 
+            Order order1 = new Order()
+            {
+                DateOrdered = DateTime.Now,
+                Purchaser = anne!,
+                Address = anne!.Address!,
+                TotalPrice = 30.00d
+            };
+            Order order2 = new Order()
+            {
+                DateOrdered = DateTime.Now,
+                Purchaser = ane!,
+                Address = ane!.Address!,
+                TotalPrice = 30.00d
+            };
+
+            OrderItem item1 = new OrderItem()
+            {
+                Item = butterfly,
+                ItemType = ProductCategory.ButterFlys,
+
+            };
+            await context.OrderItems.AddAsync(item1);
+            order1.Items.Add(item1);
+
+            await context.Orders.AddRangeAsync(order1, order2);
             #endregion AddOrders
 
             if (await context.Reviews.AnyAsync())
@@ -129,9 +163,23 @@ namespace HipAndClavicle.Data
             }
             Review rev1 = new Review()
             {
-                ReviewerId = 1,
-                Message = ""
+                Reviewer = anne,
+                Message = "These were great butterflys.",
+                VerifiedOrderId = order1.OrderId,
+                ReviewedProductId = butterfly!.ProductId
             };
+            Review rev2 = new Review()
+            {
+                Reviewer = ane,
+                Message = "These were super great butterflys.",
+                VerifiedOrderId = order1.OrderId,
+                ReviewedProductId = butterfly!.ProductId
+            };
+            await context.Reviews.AddRangeAsync(rev1, rev2);
+            butterfly.Reviews.Add(rev1);
+            butterfly.Reviews.Add(rev2);
+
+            await context.SaveChangesAsync();
         }
     }
 }

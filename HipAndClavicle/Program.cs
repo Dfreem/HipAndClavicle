@@ -70,7 +70,7 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedListings.Seed(services, context);
     await SeedRoles.SeedCustomerRole(services);
     await SeedRoles.SeedAdminRole(services);
-    await SeedCustomers.Seed(services);
+    await SeedCustomers.Seed(services, context);
 }
 
 app.Run();

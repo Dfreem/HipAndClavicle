@@ -16,10 +16,16 @@
         public Task<Product> GetProductByIdAsync(int productId);
 
 
+
         //Make Updates
         public Task AddColorFamilyAsync(ColorFamily colorFamily);
         public Task AddListingAsync(Listing listing);
         public Task AddListingImageAsync(Image image);
         public Task AddColorToListing(Listing listing, Color color);
+        public Task AddReviewAsync(CustReviewVM crVM);
+
+
+        //Checks
+        public Task<bool> UserPurchasedProduct(int productId, AppUser currentUser);
     }
 }
