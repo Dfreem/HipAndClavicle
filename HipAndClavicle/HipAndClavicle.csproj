@@ -58,8 +58,12 @@
 		<None Remove="Views\Admin" />
 		<None Remove="Repositories" />
 		<None Remove="Views\Shared\_Layout.cshtml.css" />
+		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Views\Contact\" />
 	</ItemGroup>
 </Project>

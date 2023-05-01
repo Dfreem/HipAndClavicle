@@ -1,0 +1,184 @@
+﻿@model List<MessageViewModel>
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <!-- User list -->
+            @* <ul class="list-group">
+                    <li class="list-group-item active">Users</li>
+                    <li class="list-group-item">User 1</li>
+                    <li class="list-group-item">User 2</li>
+                    <li class="list-group-item">User 3</li>
+                </ul>*@
+        </div>
+        <div class="col-md-8">
+            <!-- Message list -->
+            <div class="message-list">
+                <div class="message received">Seller: Hello! Welcome!</div>
+                <div class="message sent">You: Hi! I have a quick question!</div>
+                @foreach (var item in Model)
+                {
+
+                }
+            </div>
+            <!-- Message input field and send button -->
+            <form class="message-input">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="Message" id="Message" placeholder="Type your message...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        border-radius: 20px;
+    }
+
+    .message {
+        position: relative;
+        padding: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        clear: both;
+    }
+
+        .message.received {
+            background: linear-gradient(to bottom right, #f2f2f2, #c1c1c1);
+            border-radius: 20px 20px 20px 0;
+            margin-left: 10px;
+            float: left;
+        }
+
+        .message.sent {
+            background: linear-gradient(to bottom right, #007bff, #4ac1ff);
+            color: #fff;
+            border-radius: 20px 20px 0 20px;
+            margin-right: 10px;
+            float: right;
+        }
+
+            .message.sent:before {
+                content: '';
+                position: absolute;
+                right: -10px;
+                top: 50%;
+                border-width: 10px 0 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent transparent #007bff;
+                transform: translateY(-50%);
+            }
+
+        .message.received:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent #f2f2f2 transparent transparent;
+            transform: translateY(-50%);
+        }
+</style>
+
+@section CutomerChatScript{
+    <script>$(document).ready(function () {
+            // Get the message input field and send button
+            var messageInput = $('.message-input input');
+            var sendButton = $('.message-input button');
+
+            // Disable send button if input field is empty
+            sendButton.prop('disabled', true);
+            messageInput.keyup(function () {
+                sendButton.prop('disabled', $(this).val().trim() === '');
+            });
+
+            // Handle send button click
+            //sendButton.click(function (e) {
+            //    e.preventDefault();
+            //    var message = messageInput.val().trim();
+            //    if (message !== '') {
+            //        // Add message to message list
+            //        var messageList = $('.message-list');
+            //        var newMessage = $('<div class="message sent">You: ' + message + '</div>');
+            //        messageList.append(newMessage);
+            //        var formData = $(this).serialize();
+            //        console.log(formData)
+            //        // Clear input field and disable send button
+            //        messageInput.val('');
+            //        sendButton.prop('disabled', true);
+
+            //        // Scroll to bottom of message list
+            //        messageList.scrollTop(messageList[0].scrollHeight);
+
+            //        $.ajax({
+            //            type: 'POST',
+            //            url: '/Contact/SaveMessage',
+            //            data: formData,
+            //            processData: false,
+            //            success: function (response) {
+            //                // Code to execute when the request succeeds
+            //                console.log(response);
+            //            },
+            //            error: function (jqXHR, textStatus, errorThrown) {
+            //                // Code to execute when the request fails
+            //                console.log(textStatus, errorThrown);
+            //            }
+            //        });
+            //    }
+            //});
+
+            $('form.message-input').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serializeArray();
+                var jsonData = {};
+                $.each(formData, function (index, field) {
+                    jsonData[field.name] = field.value;
+                });
+                var messageInput = $('.message-input input');
+                var message = messageInput.val().trim();
+                if (message !== '') {
+                    // Add message to message list
+                    var messageList = $('.message-list');
+                    var newMessage = $('<div class="message sent">You: ' + message + '</div>');
+                    messageList.append(newMessage);
+                    var formData = $(this).serialize();
+                    console.log(formData)
+                    // Clear input field and disable send button
+                    messageInput.val('');
+                    sendButton.prop('disabled', true);
+
+                    // Scroll to bottom of message list
+                    messageList.scrollTop(messageList[0].scrollHeight);
+
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Contact/SaveMessage',
+                    data: JSON.stringify(jsonData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        // Code to execute when the request succeeds
+                        console.log(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Code to execute when the request fails
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            });
+
+            // Handle message input form submit
+            $('.message-input').submit(function (e) {
+                e.preventDefault();
+                sendButton.click();
+            });
+
+
+        });</script>
+}
