@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HipAndClavicle.Models;
+using HipAndClavicle.Models.JunctionTables;
+
 namespace HipAndClavicle.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
@@ -28,4 +30,5 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ShippingAddress> Addresses { get; set; }
     public DbSet<Ship> Shipping { get; set; } = default!;
 
+    public DbSet<ListingColorJT> ListingColorsJT { get; set;}
 }

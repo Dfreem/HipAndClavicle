@@ -1,0 +1,87 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Add Listing";
+}
+
+@model AddListingVM
+
+<style>
+    .colorCardChild {
+        border: 1px solid black;
+    }
+    .colorCardChild.selected {
+        outline: 4px solid blue;
+        outline-offset: 4px;
+    }
+</style>
+
+<form method="post" asp-action="AddListing" enctype="multipart/form-data">
+
+    <div>
+        <label asp-for="@Model.Title">Listing Title: </label>
+        <input asp-for="@Model.Title" />
+    </div>
+
+    <div>
+        <label asp-for="@Model.Description">Listing Description: </label>
+        <textarea asp-for="@Model.Description"></textarea>
+    </div>
+
+    <div class="row col-9 g-4">
+        
+        @foreach (var color in Model.AvailableColors)
+        {
+            <div class="col col-4 colorCard" id="colorCard- @color.ColorName">
+                <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @color.HexValue ;">
+                    <label class="btn" style="background-color: white ;" for="ColorBtn @color.ColorName">@color.ColorName</label>
+                    <div class="text-center">
+                        <input type="checkbox" name="SelectedColors" value="@color.ColorId" class="colorCheckBox" id="ColorBtn @color.ColorName" hidden
+                        @(Model.ListingColors?.Contains(color) == true ? "checked" : "")>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <select asp-for="@Model.ListingProductId">
+        Product:
+        @foreach (var prod in Model.Products)
+        {
+            <option value="@prod.ProductId">@prod.Name</option>
+        } 
+    </select>
+
+    <label asp-for="ListingImageFile" > Upload images:  </label>
+    <input class="form-control form-file" type="file" asp-for="ListingImageFile" />
+
+    <input type="submit" value="Save"/>
+</form>
+
+
+<script>
+    //function selectCard(){
+    //    this.classList.toggle('selected');
+    //}
+    var cards = document.querySelectorAll('.colorCard');
+    cards.forEach(function(card){
+        card.addEventListener('click', function(){
+            this.classList.toggle('selected');
+            var theid = this.getAttribute("id");
+            console.log(theid);
+            var colorCardChild = this.querySelector('.colorCardChild');
+            var box = this.querySelector('.colorCheckBox');
+            var boxId = box.getAttribute("id");
+            console.log(boxId);
+            if (box.checked){
+                box.checked = false;
+                colorCardChild.classList.remove('selected');
+            }
+            else {
+                box.checked = true;
+                colorCardChild.classList.add('selected');
+            }
+        })
+    })
+</script>

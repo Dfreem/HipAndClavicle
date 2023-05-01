@@ -1,4 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using HipAndClavicle.Models.JunctionTables;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace HipAndClavicle.Repositories
 {
@@ -18,17 +21,48 @@ namespace HipAndClavicle.Repositories
         public async Task<List<Listing>> GetAllListingsAsync()
         {
             var listings = await _context.Listings
-                .Include(c => c.Colors)
-                .Include(p => p.ListingProduct)
+                .Include(l => l.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.AvailableColors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.ProductImage)
+                .Include(l => l.ListingColorJTs)
+                .ThenInclude(lc  => lc.ListingColor)
                 .ToListAsync();
+
             return listings;
         }
+        public async Task<List<Product>> GetAllProductsAsync()
+        {
+            var products = await _context.Products
+                .ToListAsync();
+            return products;
+        }
+
+        public async Task<List<Color>> GetAllColorsAsync()
+        {
+            var colors = await _context.NamedColors
+                .ToListAsync();
+            return colors;
+        }
+
         #endregion
 
         #region GetSpecific
         public async Task<Listing> GetListingByIdAsync(int listingId)
         {
-            var listing = await _context.Listings.Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
+            var listing = await _context.Listings
+                .Include(l => l.Colors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.AvailableColors)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.ProductImage)
+                .Include(l => l.ListingColorJTs)
+                .ThenInclude(lc => lc.ListingColor)
+                .Include(l => l.ListingProduct)
+                .ThenInclude(p => p.Reviews)
+                .ThenInclude(r => r.Reviewer)
+                .Where(l => l.ListingId == listingId).FirstOrDefaultAsync();
             return listing;
         }
         public async Task<List<Color>> GetColorsByColorFamilyNameAsync(string colorFamilyName)
@@ -51,15 +85,97 @@ namespace HipAndClavicle.Repositories
             return listings;
         }
 
+        public async Task<Color> GetColorByIdAsync(int searchColorId)
+        {
+            var color = await _context.NamedColors.Where(c => c.ColorId == searchColorId).FirstOrDefaultAsync();
+            return color;
+        }
+        public async Task<Product> GetProductByIdAsync(int productId)
+        {
+            var product = await _context.Products.Where(p => p.ProductId == productId).FirstOrDefaultAsync();
+            return product;
+        }
+
 
         #endregion
 
         #region MakeUpdates
         public async Task AddColorFamilyAsync(ColorFamily colorFamily)
         {
-            await _context.AddAsync(colorFamily);
+            await _context.ColorFamilies.AddAsync(colorFamily);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddListingAsync(Listing listing)
+        {
+            await _context.Listings.AddAsync(listing);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddListingImageAsync(Image image)
+        {
+            await _context.Images.AddAsync(image);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddColorToListing(Listing listing, Color color)
+        {
+            var listingColorAssociation = new ListingColorJT()
+            {
+                Listing = listing,
+                ListingColor = color
+            };
+            await _context.ListingColorsJT.AddAsync(listingColorAssociation);
+        }
+
+        public async Task AddReviewAsync(CustReviewVM crVM)
+        {
+            //Review newReview = new Review()
+            //{
+            //    Reviewer = crVM.Reviewer,
+            //    ReviewedProductId = crVM.ProductId,
+            //    Message = crVM.Review.Message,
+            //};
+            var product = crVM.Product;
+            product.Reviews.Add(crVM.Review);
+            await _context.Reviews.AddAsync(crVM.Review);
             await _context.SaveChangesAsync();
         }
         #endregion
+
+        #region Checks
+        public async Task<bool> UserPurchasedProduct(int productId, AppUser currentUser)
+        {
+            //var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var purchacedOrders = _context.Orders
+                .Include(o => o.Purchaser)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .Where(o => o.Purchaser == currentUser)
+                .ToListAsync();
+
+            var currentProduct = _context.Products
+                .Where(p => p.ProductId == productId)
+                .FirstOrDefaultAsync();
+
+            List<Product> products = new List<Product>();
+
+            foreach (var order in await purchacedOrders)
+            {
+                foreach (var orderItem in order.Items)
+                {
+                    if (orderItem.Item.ProductId == productId)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            
+
+            return false;
+        }
+
+        #endregion Checks
     }
 }
