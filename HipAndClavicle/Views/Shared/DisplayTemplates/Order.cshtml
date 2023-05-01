@@ -75,7 +75,7 @@
                     {
                         <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">@Model.Purchaser.PhoneNumber</b></div>
                     }
-                    <a asp-action="CreateLabel" asp-controller="Shipping" asp-route-orderId="@Model.OrderId">
+                    <a asp-action="Ship" asp-controller="Ship" asp-route-orderId="@Model.OrderId">
                         <i class="bi bi-box2-heart  text-success"></i>
                     </a>
                 </div>

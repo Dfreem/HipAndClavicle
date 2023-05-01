@@ -8,11 +8,11 @@ namespace HipAndClavicle.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        private readonly IShoppingCartRepository _shoppingCartRepository;
+        private readonly IShoppingCartRepo _shoppingCartRepository;
         private readonly ICustRepo _custRepo;
         private readonly UserManager<AppUser> _userManager;
 
-        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository, ICustRepo custRepo)
+        public ShoppingCartController(IShoppingCartRepo shoppingCartRepository, ICustRepo custRepo)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _custRepo = custRepo;

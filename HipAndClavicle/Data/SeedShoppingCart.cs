@@ -25,8 +25,8 @@ namespace HipAndClavicle.Data
             new ShoppingCart { Owner = nehemiah }
             };
 
-            var product1 = await context.Products.FirstOrDefaultAsync(p => p.ProductId == 1);
-            var product2 = await context.Products.FirstOrDefaultAsync(p => p.ProductId == 3);
+            var listing1 = await context.Listings.FirstOrDefaultAsync(p => p.ListingId == 1);
+            var listing2 = await context.Listings.FirstOrDefaultAsync(p => p.ListingId == 3);
 
             for (int i = 0; i < carts.Length; i++)
             {
@@ -34,15 +34,13 @@ namespace HipAndClavicle.Data
 
                 var shoppingCartItem1 = new ShoppingCartItem
                 {
-                    ShoppingCart = cart,
-                    Product = product1,
+                    ListingItem = listing1,
                     Quantity = 2
                 };
 
                 var shoppingCartItem2 = new ShoppingCartItem
                 {
-                    ShoppingCart = cart,
-                    Product = product2,
+                    ListingItem = listing2,
                     Quantity = 1
                 };
 

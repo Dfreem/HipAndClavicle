@@ -1,0 +1,99 @@
+﻿@model ShippingAddress
+@{
+
+}
+
+<div class="card-body">
+
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </span>
+        <input asp-for="AddressLine1" class="form-control" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </span>
+        <input asp-for="AddressLine2" class="form-control" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </span>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.CityTown)
+
+        </span>
+        <input asp-for="CityTown" class="form-control" />
+
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.StateAbr)
+
+        </span>
+        <select asp-items="Html.GetEnumSelectList<State>()" asp-for="StateAbr"></select>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+        @Html.DisplayNameFor(model => model.PostalCode)
+        </span>
+        <input type="text" asp-for="PostalCode" class="form-control" />
+    </div>
+ 
+</div>
+
+@*
+
+<div class="card-body">
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </span>
+
+            <input class="input-group-item" class="my-0" type="text" asp-for="AddressLine1">
+
+
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </span>
+
+        <input class="my-0" type="text" asp-for="AddressLine2">
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </span>
+
+        @Html.DisplayFor(model => model.PhoneNumber)
+
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.CityTown)
+        </span>
+
+        <input class="my-0" type="text" asp-for="CityTown">
+
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.StateAbr)
+        </span>
+
+        <select asp-items="Html.GetEnumSelectList<State>()"></select>
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </span>
+
+        <input class="my-0" type="text" asp-for="PostalCode">
+
+    </div>
+</div>
+*@

@@ -11,6 +11,7 @@ public class AppUser : IdentityUser
     [MaxLength(20, ErrorMessage = "limit last name to 20 characters")]
     public string LName { get; set; } = default!;
     public bool IsPersistent { get; set; } = true;
-    public ShippingAddress? Address { get; set; }
+    public int? ShippingAddressId { get; set; }
+    public ShippingAddress? Address { get; set; } = new();
 }
 

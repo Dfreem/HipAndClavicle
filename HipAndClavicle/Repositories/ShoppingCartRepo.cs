@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HipAndClavicle.Repositories
 {
-    public class ShoppingCartRepository : IShoppingCartRepository
+    public class ShoppingCartRepo : IShoppingCartRepo
     {
         private readonly ApplicationDbContext _context;
 
-        public ShoppingCartRepository(ApplicationDbContext context) 
+        public ShoppingCartRepo(ApplicationDbContext context) 
         {
             _context = context;
         }
@@ -19,7 +19,7 @@ namespace HipAndClavicle.Repositories
         {
             var shoppingCart = await _context.ShoppingCarts
                 .Include(sc => sc.ShoppingCartItems)
-                .ThenInclude(sci => sci.Product)
+                .ThenInclude(sci => sci.ListingItem)
                 .FirstOrDefaultAsync(sc => sc.Owner.Id == shoppingCartId);
 
             // If the cart doesn't exist, create a new one for the user
@@ -33,25 +33,25 @@ namespace HipAndClavicle.Repositories
             return shoppingCart;
         }
 
-        public async Task<ShoppingCart> GetShoppingCartByUser(string userId)
+        /*public async Task<ShoppingCart> GetShoppingCartByUser(string userId)
         {
             return _context.ShoppingCarts
                 .Include(sc => sc.ShoppingCartItems)
-                    .ThenInclude(sci => sci.Product)
+                    .ThenInclude(sci => sci.ListingItem)
                 .FirstOrDefault(sc => sc.Owner.Id == userId);
-        }
+        }*/
 
-        public async Task<List<ShoppingCartItem>> GetItemsAsync(string userId)
+        /*public async Task<List<ShoppingCartItem>> GetItemsAsync(string userId)
         {
             var cart = await GetOrCreateShoppingCartAsync(userId);
             return cart.ShoppingCartItems;
-        }
+        }*/
 
-        public async Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item, string userId)
+        /*public async Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item, string userId)
         {
             // Check if the item already exists in the cart
-            var existingItem = await _context.ShoppingCartItems
-                .FirstOrDefaultAsync(i => i.ShoppingCart.Owner.Id == userId && i.Product.ProductId == item.Product.ProductId);
+            var existingItem = await _context.ShoppingCarts.FirstOrDefaultAsync(i => i.ShoppingCartId ==
+                //.FirstOrDefaultAsync(i => i.ShoppingCart.Owner.Id == userId && i.Product.ProductId == item.Product.ProductId);
 
             if (existingItem != null)
             {
@@ -68,9 +68,9 @@ namespace HipAndClavicle.Repositories
             _context.ShoppingCartItems.Add(item);
             await _context.SaveChangesAsync();
             return item;
-        }
+        }*/
 
-        public async Task UpdateQuantityAsync(int itemId, int quantity)
+        /*public async Task UpdateQuantityAsync(int itemId, int quantity)
         {
             var item = await _context.ShoppingCartItems.FindAsync(itemId);
 
@@ -80,9 +80,9 @@ namespace HipAndClavicle.Repositories
                 _context.Entry(item).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-        }
+        }*/
 
-        public async Task RemoveItemAsync(int itemId)
+        /*public async Task RemoveItemAsync(int itemId)
         {
             var item = await _context.ShoppingCartItems.FindAsync(itemId);
             if (item != null)
@@ -90,6 +90,6 @@ namespace HipAndClavicle.Repositories
                 _context.ShoppingCartItems.Remove(item);
                 await _context.SaveChangesAsync();
             }
-        }
+        }*/
     }
 }

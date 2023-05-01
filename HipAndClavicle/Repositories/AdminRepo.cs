@@ -15,14 +15,6 @@ public class AdminRepo : IAdminRepo
     }
 
     #region Orders
-    public async Task CreateOrderAsync(Order order)
-    {
-        await _context.Orders.AddAsync(order);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<Order?> GetOrderById(int id) =>
-        await _context.Orders.FindAsync(id);
 
     public async Task<List<Order>> GetAdminCurrentOrdersAsync()
     {
@@ -32,6 +24,8 @@ public class AdminRepo : IAdminRepo
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
             .ThenInclude(i => i.SetSizes)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.ItemColors)
             .Where(o => !o.Status.Equals(OrderStatus.Shipped))
             .ToListAsync();
         return orders;
@@ -61,14 +55,14 @@ public class AdminRepo : IAdminRepo
 
     public async Task<Product> GetProductByIdAsync(int id) =>
         await _context.Products
-            .Include(p => p.Colors)
+            .Include(p => p.AvailableColors)
             .Include(p => p.Reviews)
             .Include(p => p.ProductImage)
             .FirstAsync(p => p.ProductId.Equals(id));
 
     public async Task<List<Product>> GetAvailableProductsAsync() =>
         await _context.Products
-            .Include(p => p.Colors)
+            .Include(p => p.AvailableColors)
             .Include(p => p.Reviews)
             .Include(p => p.ProductImage)
             .ToListAsync();
@@ -98,7 +92,8 @@ public class AdminRepo : IAdminRepo
     public async Task<OrderItem> GetOrderItemById(int id) =>
         await _context.OrderItems
             .Include(oi => oi.Item)
-            .Include(oi => oi.ItemColor)
+            .ThenInclude(i => i.ProductImage)
+            .Include(oi => oi.ParentOrder)
             .FirstAsync(p => p.OrderItemId.Equals(id));
 
     /// <summary>
@@ -108,7 +103,7 @@ public class AdminRepo : IAdminRepo
     public async Task<List<OrderItem>> GetOrderItemsAsync() =>
         await _context.OrderItems
             .Include(oi => oi.Item)
-            .Include(oi => oi.ItemColor)
+            .ThenInclude(i => i.AvailableColors)
             .ToListAsync();
 
     public async Task UpdateOrderItemAsync(OrderItem orderItem)

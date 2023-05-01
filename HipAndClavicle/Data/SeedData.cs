@@ -46,7 +46,7 @@ public static class SeedData
             Name = "Butterfly Test",
             InStock = true,
             QuantityOnHand = 100,
-            Colors = { red, blue, green },
+            AvailableColors = { red, blue, green },
             SetSizes = new()
             {
                 two,
@@ -63,7 +63,7 @@ public static class SeedData
             Name = "Dragon Test",
             InStock = true,
             QuantityOnHand = 100,
-            Colors = { red, blue, green },
+            AvailableColors = { red, blue, green },
             SetSizes = new()
             {
                 two,
@@ -77,7 +77,7 @@ public static class SeedData
             Name = "Butterfly",
             InStock = true,
             QuantityOnHand = 100,
-            Colors = { red, blue, green },
+            AvailableColors = { red, blue, green },
             SetSizes = new()
             {
                 seven,
@@ -127,13 +127,13 @@ public static class SeedData
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
-            ItemColor = { blue },
+            ItemColors = { blue },
             SetSize = two
         };
         OrderItem item2 = new()
         {
             Item = butterfly,
-            ItemColor = { red },
+            ItemColors = { red },
             ItemType = ProductCategory.ButterFlys,
             SetSize = fifteen
         };
