@@ -18,7 +18,7 @@ public class UserMessage
     public int? OrderId { get; set; }
 
     //Added new columns 'Email & Contact' 4-18-23
-    public string? Email { get; set; }
+    public string Email { get; set; }
     public string? Number { get; set; }
 
 
