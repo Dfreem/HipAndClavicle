@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using HipAndClavicle.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
+using Microsoft.IdentityModel.Tokens;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -84,6 +85,7 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> CustomerChat()
         {
             var customers = await _userManager.GetUsersInRoleAsync("Customer");
+            //var allUsers =
             //var messages = _context.UserMessages
             //    .Where(x => x.SenderUserName == User.Identity.Name || x.ReceiverUserName == User.Identity.Name)
 
@@ -96,8 +98,23 @@ namespace HipAndClavicle.Controllers
             //    DateSent = m.DateSent
             //}).ToList();
 
-            ViewBag.customers = customers.Where(c => c.UserName != User.Identity.Name).ToList();
+            //ViewBag.customers = customers.Where(c => c.UserName != User.Identity.Name).ToList();
+            ViewBag.customers = _context.Users.ToList();
             var messages = new List<MessageViewModel>();
+            if (!User.IsInRole("Admin"))
+            {
+                messages = _context.UserMessages
+                   .Where(x => x.SenderUserName == User.Identity.Name || x.ReceiverUserName == User.Identity.Name)
+
+                   .Select(m => new MessageViewModel
+                   {
+                       Id = m.Id,
+                       Sender = m.SenderUserName,
+                       Receiver = m.ReceiverUserName,
+                       Content = m.Content,
+                       DateSent = m.DateSent
+                   }).ToList();
+            }
             return View(messages);
         }
 
@@ -116,6 +133,7 @@ namespace HipAndClavicle.Controllers
                 }).ToList();
             return View(messages);
         }
+
         [HttpPost]
         public async Task<IActionResult> SaveMessage([FromBody] CustomerMessage customerMessage)
         {
@@ -130,10 +148,11 @@ namespace HipAndClavicle.Controllers
                 Content = customerMessage.Message,
                 SenderUserName = currentUser.UserName,
             };
-            if (customerMessage.SendTo == null)
+            if (customerMessage.SendTo.IsNullOrEmpty())
             {
                 var admin = adminUsers.Count > 0 ? adminUsers[0] : null;
-                userMessage.ReceiverUserName = admin?.UserName;
+                //userMessage.ReceiverUserName = admin?.UserName;
+                userMessage.ReceiverUserName = "michael123";
             }
             else
             {
@@ -141,8 +160,6 @@ namespace HipAndClavicle.Controllers
             }
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
-
-
 
 
             return Json(new { success = true });
@@ -172,11 +189,6 @@ namespace HipAndClavicle.Controllers
         {
             var currentUser = User.Identity.Name;
 
-            //var messegesUser = _context.UserMessages
-            //    .Where(m => ((m.SenderUserName == username && m.ReceiverUserName == currentUser) 
-            //    || (m.SenderUserName == currentUser && m.ReceiverUserName == username)
-            //    )
-            //   ).OrderBy(m => m.DateSent.Date).AsEnumerable();
 
             var messegesUser = await _context.UserMessages
     .Where(m => (m.SenderUserName == currentUser && m.ReceiverUserName == username) ||

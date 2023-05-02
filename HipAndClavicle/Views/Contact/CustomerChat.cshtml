@@ -11,18 +11,19 @@
 <br />
 
 <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
 
-        <div class="col-md-4">
-            @if (User.IsInRole("Admin"))
-            {
-                <!-- User list -->
-                @* <ul class="list-group">
-                        <li class="list-group-item active">Users</li>
-                        <li class="list-group-item">User 1</li>
-                        <li class="list-group-item">User 2</li>
-                        <li class="list-group-item">User 3</li>
-                    </ul>*@
+
+        @if (User.IsInRole("Admin"))
+        {
+            <!-- User list -->
+            @* <ul class="list-group">
+                    <li class="list-group-item active">Users</li>
+                    <li class="list-group-item">User 1</li>
+                    <li class="list-group-item">User 2</li>
+                    <li class="list-group-item">User 3</li>
+                </ul>*@
+            <div class="col-md-4">
                 <ul class="list-group">
                     <li class="list-group-item active">Users</li>
                     @foreach (var user in customers)
@@ -30,10 +31,11 @@
                         <li class="list-group-item user-item" data-user="@user.UserName">@user.UserName</li>
                     }
                 </ul>
+            </div>
 
-            }
+        }
 
-        </div>
+
         <div class="col-md-8">
             <!-- Bordered message area with a specific height and rounded borders -->
             <div class="message-area rounded" style="border: 2px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; padding-bottom: 50px;">
@@ -49,7 +51,7 @@
                         }
                         else
                         {
-                            <div class="message received">@item.Receiver : @item.Content</div>
+                            <div class="message received">@item.Sender : @item.Content</div>
 
                         }
                     }
@@ -74,6 +76,7 @@
     .user-item-hover {
         background-color: #cfe4f7; /* set the background color you want to use */
     }
+
 
     .form-control {
         border-radius: 20px;
@@ -126,31 +129,6 @@
 </style>
 
 @section CutomerChatScript{
-
-    <script>var currentSelection = null; // keep track of the currently selected user
-
-        // Add event listener to all user items
-        var userItems = document.querySelectorAll('.user-item');
-        userItems.forEach(function (item) {
-            item.addEventListener('mouseover', function () {
-                if (currentSelection !== item) {
-                    item.classList.add('user-item-hover');
-                }
-            });
-            item.addEventListener('mouseout', function () {
-                if (currentSelection !== item) {
-                    item.classList.remove('user-item-hover');
-                }
-            });
-            item.addEventListener('click', function () {
-                if (currentSelection !== null) {
-                    currentSelection.classList.remove('user-item-hover');
-                }
-                item.classList.add('user-item-hover');
-                currentSelection = item;
-            });
-        });</script>
-
     <script>$(document).ready(function () {
             $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
 
@@ -171,8 +149,9 @@
                 $.each(formData, function (index, field) {
                     jsonData[field.name] = field.value;
                 });
-                var messageInput = $('.message-input input');
-                var message = messageInput.val().trim();
+                var messageInput = $('#Message');
+                var message = messageInput.val();
+                console.log("ttttttttttttttttttt" + message)
                 if (message !== '') {
                     // Add message to message list
                     var messageList = $('.message-list');
@@ -255,4 +234,28 @@
             });
 
         });</script>
+
+    <script>var currentSelection = null; // keep track of the currently selected user
+        // Add event listener to all user items
+        var userItems = document.querySelectorAll('.user-item');
+        userItems.forEach(function (item) {
+            item.addEventListener('mouseover', function () {
+                if (currentSelection !== item) {
+                    item.classList.add('user-item-hover');
+                }
+            });
+            item.addEventListener('mouseout', function () {
+                if (currentSelection !== item) {
+                    item.classList.remove('user-item-hover');
+                }
+            });
+            item.addEventListener('click', function () {
+                if (currentSelection !== null) {
+                    currentSelection.classList.remove('user-item-hover');
+                }
+                item.classList.add('user-item-hover');
+                currentSelection = item;
+            });
+        });</script>
+
 }
