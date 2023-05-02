@@ -136,6 +136,7 @@ namespace HipAndClavicle.Controllers
                     Content = m.Content,
                     DateSent = m.DateSent,
                     Email = m.Email
+                    //I made changes
                 }).ToList();
             return View(messages);
         }
