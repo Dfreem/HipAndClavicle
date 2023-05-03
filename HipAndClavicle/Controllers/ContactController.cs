@@ -46,8 +46,13 @@ namespace HipAndClavicle.Controllers
             {
                 Email = userMessageVM.Email,
                 Number = userMessageVM.Number,
-                Content = userMessageVM.Response
+                Content = userMessageVM.Response,
+
+
+
             };
+
+            userMessage.ReceiverUserName = "michael123";
 
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
@@ -112,7 +117,8 @@ namespace HipAndClavicle.Controllers
                        Sender = m.SenderUserName,
                        Receiver = m.ReceiverUserName,
                        Content = m.Content,
-                       DateSent = m.DateSent
+                       DateSent = m.DateSent,
+                       Email = m.Email
                    }).ToList();
             }
             return View(messages);
@@ -129,7 +135,8 @@ namespace HipAndClavicle.Controllers
                     Sender = m.SenderUserName,
                     Receiver = m.ReceiverUserName,
                     Content = m.Content,
-                    DateSent = m.DateSent
+                    DateSent = m.DateSent,
+                    Email = m.Email
                 }).ToList();
             return View(messages);
         }
