@@ -20,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Product> Products { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+    public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public DbSet<Color> NamedColors { get; set; }
     public DbSet<AdminSettings> Settings { get; set; }
     public DbSet<Listing> Listings { get; set; }

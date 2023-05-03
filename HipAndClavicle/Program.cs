@@ -9,6 +9,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
 builder.Services.AddTransient <IShippingRepo, ShippingRepo>();
+builder.Services.AddTransient<IShoppingCartRepo, ShoppingCartRepo>();
+builder.Services.AddHttpContextAccessor();
 
 #region Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -72,6 +74,7 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedRoles.SeedCustomerRole(services);
     await SeedRoles.SeedAdminRole(services);
     await SeedCustomers.Seed(services, context);
+    await SeedShoppingCart.Seed(context, services);
 }
 
 app.Run();
