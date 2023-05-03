@@ -10,6 +10,7 @@ builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
 builder.Services.AddTransient <IShippingRepo, ShippingRepo>();
 builder.Services.AddTransient<IShoppingCartRepo, ShoppingCartRepo>();
+builder.Services.AddHttpContextAccessor();
 
 #region Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>

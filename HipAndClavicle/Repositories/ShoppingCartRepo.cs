@@ -1,76 +1,104 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HipAndClavicle.Data;
 using HipAndClavicle.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace HipAndClavicle.Repositories
 {
     public class ShoppingCartRepo : IShoppingCartRepo
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public ShoppingCartRepo(ApplicationDbContext context) 
+        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) 
         {
             _context = context;
+            _userManager = userManager;
+            _contextAccessor = httpContextAccessor;
         }
 
-        public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string shoppingCartId)
+        public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
         {
+         
+            // Load the cart from the database
             var shoppingCart = await _context.ShoppingCarts
-                .Include(sc => sc.ShoppingCartItems)
-                .ThenInclude(sci => sci.ListingItem)
-                .FirstOrDefaultAsync(sc => sc.Owner.Id == shoppingCartId);
+                .Include(cart => cart.ShoppingCartItems)
+                .ThenInclude(item => item.ListingItem)
+                .FirstOrDefaultAsync(cart => cart.CartId == cartId);
 
-            // If the cart doesn't exist, create a new one for the user
-            if (shoppingCart == null)
+            if (shoppingCart != null)
             {
-                
-                shoppingCart = new ShoppingCart { Owner = await _context.Users.FindAsync(shoppingCartId) };
-                _context.ShoppingCarts.Add(shoppingCart);
-                await _context.SaveChangesAsync();
+                return shoppingCart;
             }
+            else
+            {
+                if (ownerId != null)
+                {
+                    var owner = await _userManager.FindByIdAsync(ownerId);
+                    shoppingCart = new ShoppingCart { CartId = cartId, Owner = owner };
+                    _context.ShoppingCarts.Add(shoppingCart);
+                    await _context.SaveChangesAsync();
+                    return shoppingCart;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            // If the cart doesn't exist, create a new one with the given cart ID
+            shoppingCart = new ShoppingCart
+            {
+                CartId = cartId
+            };
+            _context.ShoppingCarts.Add(shoppingCart);
+            await _context.SaveChangesAsync();
+
             return shoppingCart;
         }
-
-        /*public async Task<ShoppingCart> GetShoppingCartByUser(string userId)
+       
+        public async Task<List<ShoppingCartItem>> GetShoppingCartItemsAsync(string cartId)
         {
-            return _context.ShoppingCarts
-                .Include(sc => sc.ShoppingCartItems)
-                    .ThenInclude(sci => sci.ListingItem)
-                .FirstOrDefault(sc => sc.Owner.Id == userId);
-        }*/
+            ShoppingCart shoppingCart = await _context.ShoppingCarts.Include(s => s.ShoppingCartItems)
+            .ThenInclude(s => s.ListingItem)
+            .FirstOrDefaultAsync(s => s.CartId == cartId && s.Owner.Id == null);
 
-        /*public async Task<List<ShoppingCartItem>> GetItemsAsync(string userId)
-        {
-            var cart = await GetOrCreateShoppingCartAsync(userId);
-            return cart.ShoppingCartItems;
-        }*/
-
-        /*public async Task<ShoppingCartItem> AddItemAsync(ShoppingCartItem item, string userId)
-        {
-            // Check if the item already exists in the cart
-            var existingItem = await _context.ShoppingCarts.FirstOrDefaultAsync(i => i.ShoppingCartId ==
-                //.FirstOrDefaultAsync(i => i.ShoppingCart.Owner.Id == userId && i.Product.ProductId == item.Product.ProductId);
-
-            if (existingItem != null)
+            if (shoppingCart != null)
             {
-                // If the item exists, update the quantity and save changes
+                return shoppingCart.ShoppingCartItems;
+            }
+            else
+            {
+                return new List<ShoppingCartItem>();
+            }
+        }
+
+        public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
+        {
+            // Check if the listing is already in the cart
+            var existingItem = await _context.ShoppingCartItems
+                .FirstOrDefaultAsync(i => i.ShoppingCartId == item.ShoppingCartId && i.ListingItem.ListingId == item.ListingItem.ListingId);
+
+            if (existingItem == null)
+            {
+                // Add the listing to the cart
+                await _context.ShoppingCartItems.AddAsync(item);
+            }
+            else
+            {
+                // Increment the quantity of the listing in the cart
                 existingItem.Quantity += item.Quantity;
-                _context.Entry(existingItem).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return existingItem;
             }
 
-            // If the item doesn't exist, add it to the cart
-            var cart = await GetOrCreateShoppingCartAsync(userId);
-            item.ShoppingCart = cart;
-            _context.ShoppingCartItems.Add(item);
             await _context.SaveChangesAsync();
-            return item;
-        }*/
+        }
 
-        /*public async Task UpdateQuantityAsync(int itemId, int quantity)
+        public async Task UpdateQuantityAsync(int itemId, int quantity)
         {
             var item = await _context.ShoppingCartItems.FindAsync(itemId);
 
@@ -80,9 +108,9 @@ namespace HipAndClavicle.Repositories
                 _context.Entry(item).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-        }*/
+        }
 
-        /*public async Task RemoveItemAsync(int itemId)
+        public async Task RemoveItemAsync(int itemId)
         {
             var item = await _context.ShoppingCartItems.FindAsync(itemId);
             if (item != null)
@@ -90,6 +118,6 @@ namespace HipAndClavicle.Repositories
                 _context.ShoppingCartItems.Remove(item);
                 await _context.SaveChangesAsync();
             }
-        }*/
+        }
     }
 }

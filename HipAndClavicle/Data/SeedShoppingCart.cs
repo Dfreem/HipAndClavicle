@@ -1,5 +1,9 @@
-﻿
-using HipAndClavicle.Models;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HipAndClavicle.Data
 {
@@ -15,14 +19,14 @@ namespace HipAndClavicle.Data
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
             var devin = await userManager.FindByNameAsync("dfreem987");
             var michael = await userManager.FindByNameAsync("michael123");
-            var steven = await userManager.FindByNameAsync("steven123");
+            //var steven = await userManager.FindByNameAsync("steven123");
             var nehemiah = await userManager.FindByNameAsync("nehemiah123");
 
             ShoppingCart[] carts = {
-            new ShoppingCart { Owner = devin },
-            new ShoppingCart { Owner = michael },
-            new ShoppingCart { Owner = steven },
-            new ShoppingCart { Owner = nehemiah }
+            new ShoppingCart { CartId = devin.Id, Owner = devin },
+            new ShoppingCart { CartId = michael.Id, Owner = michael },
+            //new ShoppingCart { CartId = steven.Id, Owner = steven },
+            new ShoppingCart { CartId = nehemiah.Id, Owner = nehemiah }
             };
 
             var listing1 = await context.Listings.FirstOrDefaultAsync(p => p.ListingId == 1);
@@ -44,8 +48,8 @@ namespace HipAndClavicle.Data
                     Quantity = 1
                 };
 
+                cart.ShoppingCartItems = new List<ShoppingCartItem> { shoppingCartItem1, shoppingCartItem2 };
                 await context.ShoppingCarts.AddAsync(cart);
-                await context.ShoppingCartItems.AddRangeAsync(shoppingCartItem1, shoppingCartItem2);
             }
 
             await context.SaveChangesAsync();
