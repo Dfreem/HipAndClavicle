@@ -1,12 +1,4 @@
-﻿using System.Drawing.Text;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using HipAndClavicle.Repositories;
-using HipAndClavicle.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
 using Newtonsoft.Json;
 
 namespace HipAndClavicle.Controllers
@@ -31,6 +23,7 @@ namespace HipAndClavicle.Controllers
             string cartId = GetCartId();
             ShoppingCart shoppingCart;
 
+            // Determine if the user is logged in and retrieve the shopping cart accordingly
             if (User.Identity.IsAuthenticated)
             {
                 string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -41,34 +34,17 @@ namespace HipAndClavicle.Controllers
                 shoppingCart = GetShoppingCartFromCookie();
             }
 
+            // Map the ShoppingCartItems to ShoppingCartItemViewModels and create the ShoppingCartViewModel
             var viewModel = new ShoppingCartViewModel
             {
                 CartId = shoppingCart.CartId,
-                ShoppingCartItems = shoppingCart.ShoppingCartItems.Select(item => new ShoppingCartItemViewModel(item)).ToList(),
+                ShoppingCartItems = await _shoppingCartRepo.GetShoppingCartItemsAsync(shoppingCart.ShoppingCartItems),
             };
 
             return View(viewModel);
         }
 
-        private async Task<ShoppingCart> GetShoppingCartForNonLoggedInUserAsync()
-        {
-            var httpContext = _contextAccessor.HttpContext;
-            var cartCookie = httpContext.Request.Cookies["CartId"];
-            if (cartCookie != null)
-            {
-                var shoppingCart = new ShoppingCart { CartId = cartCookie };
-                var shoppingCartItems = await _shoppingCartRepo.GetShoppingCartItemsAsync(cartCookie);
-                shoppingCart.ShoppingCartItems = shoppingCartItems;
-                return shoppingCart;
-            }
-            else
-            {
-                var newCartId = Guid.NewGuid().ToString();
-                httpContext.Response.Cookies.Append("CartId", newCartId, new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
-                return new ShoppingCart { CartId = newCartId };
-            }
-        }
-
+        // Helper method to get the cart ID for the current user
         private string GetCartId()
         {
             var httpContext = _contextAccessor.HttpContext;
@@ -82,6 +58,8 @@ namespace HipAndClavicle.Controllers
             }
         }
 
+        // This action method adds a listing to the cart with the specified quantity
+        // TODO: For testing Will be changed later.
         [HttpPost]
         public async Task<IActionResult> AddToCart(int listingId, int quantity = 1)
         {
@@ -106,7 +84,7 @@ namespace HipAndClavicle.Controllers
                     return NotFound();
                 }
 
-                // Create a new ShoppingCartItem with the listing and quantity
+                // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
                 var shoppingCartItem = new ShoppingCartItem
                 {
                     ShoppingCartId = shoppingCart.Id,
@@ -114,7 +92,6 @@ namespace HipAndClavicle.Controllers
                     Quantity = quantity
                 };
 
-                //await _context.ShoppingCartItems.AddAsync(shoppingCartItem);
                 await _shoppingCartRepo.AddShoppingCartItemAsync(shoppingCartItem);
             }
             else
@@ -124,6 +101,7 @@ namespace HipAndClavicle.Controllers
                 var shoppingCart = GetShoppingCartFromCookie();
                 var listing = await _custRepo.GetListingByIdAsync(listingId);
 
+                // Check if the listing already exists in the shopping cart
                 var shoppingCartItem = shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.ListingItem.ListingId == listingId);
                 if (shoppingCartItem != null)
                 {
@@ -138,28 +116,33 @@ namespace HipAndClavicle.Controllers
                     };
                     shoppingCart.ShoppingCartItems.Add(shoppingCartItem);
                 }
-
+                // Save the updated shopping cart in the cookie
                 SetShoppingCartToCookie(shoppingCart);
             }
 
             return RedirectToAction("Index", "ShoppingCart");
         }
 
+        // Helper method to get the shopping cart from the cookie
         private ShoppingCart GetShoppingCartFromCookie()
         {
             var cartCookie = _contextAccessor.HttpContext.Request.Cookies["Cart"];
             if (cartCookie == null)
             {
+                // If the cart cookie doesn't exist, create an empty shopping cart
                 return new ShoppingCart { ShoppingCartItems = new List<ShoppingCartItem>() };
             }
             else
             {
+                // Deserialize the shopping cart from the cart cookie
                 return JsonConvert.DeserializeObject<ShoppingCart>(cartCookie);
             }
         }
 
+        // Helper method to save the shopping cart in the cookie
         private void SetShoppingCartToCookie(ShoppingCart shoppingCart)
         {
+            // Serialize the shopping cart and save it in the cookie
             var cartJson = JsonConvert.SerializeObject(shoppingCart);
             _contextAccessor.HttpContext.Response.Cookies.Append("Cart", cartJson, new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
         }

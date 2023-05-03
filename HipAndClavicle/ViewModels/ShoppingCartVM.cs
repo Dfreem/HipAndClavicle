@@ -23,6 +23,7 @@
             Desc = shoppingCartItem.ListingItem.ListingDescription;
             Qty = shoppingCartItem.Quantity;
             ItemPrice = shoppingCartItem.ListingItem.Price;
+            // TODO: Fix displaying image for cart
             Img = "~/images/butterflys.png";
         }
     }

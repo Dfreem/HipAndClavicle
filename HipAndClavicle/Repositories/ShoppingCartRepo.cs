@@ -1,25 +1,15 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using HipAndClavicle.Data;
-using HipAndClavicle.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-
+﻿
 namespace HipAndClavicle.Repositories
 {
     public class ShoppingCartRepo : IShoppingCartRepo
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IHttpContextAccessor _contextAccessor;
 
-        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor) 
+        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager) 
         {
             _context = context;
             _userManager = userManager;
-            _contextAccessor = httpContextAccessor;
         }
 
         public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
@@ -50,32 +40,19 @@ namespace HipAndClavicle.Repositories
                     return null;
                 }
             }
-
-            // If the cart doesn't exist, create a new one with the given cart ID
-            shoppingCart = new ShoppingCart
-            {
-                CartId = cartId
-            };
-            _context.ShoppingCarts.Add(shoppingCart);
-            await _context.SaveChangesAsync();
-
-            return shoppingCart;
         }
        
-        public async Task<List<ShoppingCartItem>> GetShoppingCartItemsAsync(string cartId)
+        public async Task<List<ShoppingCartItemViewModel>> GetShoppingCartItemsAsync(IEnumerable<ShoppingCartItem> items)
         {
-            ShoppingCart shoppingCart = await _context.ShoppingCarts.Include(s => s.ShoppingCartItems)
-            .ThenInclude(s => s.ListingItem)
-            .FirstOrDefaultAsync(s => s.CartId == cartId && s.Owner.Id == null);
+            var viewModels = new List<ShoppingCartItemViewModel>();
 
-            if (shoppingCart != null)
+            foreach (var item in items)
             {
-                return shoppingCart.ShoppingCartItems;
+                var viewModel = new ShoppingCartItemViewModel(item);
+                viewModels.Add(viewModel);
             }
-            else
-            {
-                return new List<ShoppingCartItem>();
-            }
+
+            return viewModels;
         }
 
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
@@ -96,28 +73,6 @@ namespace HipAndClavicle.Repositories
             }
 
             await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateQuantityAsync(int itemId, int quantity)
-        {
-            var item = await _context.ShoppingCartItems.FindAsync(itemId);
-
-            if (item != null)
-            {
-                item.Quantity = quantity;
-                _context.Entry(item).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task RemoveItemAsync(int itemId)
-        {
-            var item = await _context.ShoppingCartItems.FindAsync(itemId);
-            if (item != null)
-            {
-                _context.ShoppingCartItems.Remove(item);
-                await _context.SaveChangesAsync();
-            }
         }
     }
 }

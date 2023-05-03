@@ -10,6 +10,7 @@
     <p class="text-center">Your shopping cart is empty.</p>
     <br />
     <br />
+    @*TODO: This add button is for testing remove later.*@
     <h2>This is for testing only!</h2>
     <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
         <input type="hidden" name="listingId" value="1" />
@@ -28,16 +29,15 @@ else
                 else if (Model.ShoppingCartItems.Count > 1)
                 {
                     <h1>@Model.ShoppingCartItems.Count items in cart</h1>
-                })
+                }
             </div>
                 <table class="table">
                     <tbody>
                         @foreach (var item in Model.ShoppingCartItems)
                         {
                             <tr class="table-borderless">
-                                @*TODO: use later when images are added*@
-                                <td><img src="@item.Img" alt="missing image" width="100" /></td>
-                                @*<td><img src="~/images/cart.png" alt="placeholder" width="100" /></td>*@
+                                <td><img src="~/images/butterflys.png" alt="missing image" width="100" /></td>
+                                @*<td><img src="@item.Img" alt="missing image" width="100" /></td>*@
                                 <td>
                                     <strong>@item.Name</strong><br />
                                     @item.Desc
