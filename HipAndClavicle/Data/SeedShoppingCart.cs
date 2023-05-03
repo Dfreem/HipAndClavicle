@@ -19,13 +19,13 @@ namespace HipAndClavicle.Data
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
             var devin = await userManager.FindByNameAsync("dfreem987");
             var michael = await userManager.FindByNameAsync("michael123");
-            //var steven = await userManager.FindByNameAsync("steven123");
+            var steven = await userManager.FindByNameAsync("steven123");
             var nehemiah = await userManager.FindByNameAsync("nehemiah123");
 
             ShoppingCart[] carts = {
             new ShoppingCart { CartId = devin.Id, Owner = devin },
             new ShoppingCart { CartId = michael.Id, Owner = michael },
-            //new ShoppingCart { CartId = steven.Id, Owner = steven },
+            new ShoppingCart { CartId = steven.Id, Owner = steven },
             new ShoppingCart { CartId = nehemiah.Id, Owner = nehemiah }
             };
 
