@@ -1,10 +1,14 @@
-﻿namespace HipAndClavicle.ViewModels
+﻿using NUnit.Framework.Interfaces;
+
+namespace HipAndClavicle.ViewModels
 {
     public class ShoppingCartViewModel
     {
         public ShoppingCart ShoppingCart { get; set; }
         public string CartId { get; set; }
         public List<ShoppingCartItemViewModel> ShoppingCartItems { get; set; }
+        public double TotalPrice => ShoppingCartItems.Sum(x => x.TotalPrice);
+
     }
 
     public class ShoppingCartItemViewModel
@@ -15,6 +19,7 @@
         public int Qty { get; set; }
         public double ItemPrice { get; set; }
         public string Img { get; set; }
+        public double TotalPrice { get; set; }
 
         public ShoppingCartItemViewModel(ShoppingCartItem shoppingCartItem)
         {
