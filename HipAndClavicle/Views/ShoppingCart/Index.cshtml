@@ -43,10 +43,12 @@ else
                                     @item.Desc
                                 </td>
                                 <td>
-                                    <label>Quantity:</label>
+                                    <form method="post" action="@Url.Action("UpdateCart", "ShoppingCart")">
+                                        <label>Quantity:</label>
                                         <input type="hidden" name="itemId" value="@item.Id" />
                                         <input type="number" name="quantity" value="@item.Qty" min="1" size="2" />
-                                        <button type="submit" class="btn btn-dark">Update</button>
+                                        <button type="submit" name="submit" class="btn btn-dark">Update</button>
+                                    </form>
                                 </td>
                                 <td>
                                     <strong>Price Total:</strong> $@item.ItemPrice<br />

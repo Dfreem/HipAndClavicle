@@ -55,6 +55,12 @@ namespace HipAndClavicle.Repositories
             return viewModels;
         }
 
+        public async Task<ShoppingCartItem> GetCartItem(int id)
+        {
+            return await _context.ShoppingCartItems
+                .Include(item => item.ListingItem)
+                .FirstOrDefaultAsync(item => item.ShoppingCartItemId == id);
+        }
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
         {
             // Check if the listing is already in the cart

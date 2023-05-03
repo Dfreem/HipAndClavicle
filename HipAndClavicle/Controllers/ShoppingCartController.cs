@@ -123,6 +123,21 @@ namespace HipAndClavicle.Controllers
             return RedirectToAction("Index", "ShoppingCart");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart(int itemId, int quantity)
+        {
+            var item = await _shoppingCartRepo.GetCartItem(itemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.Quantity = quantity;
+            await _shoppingCartRepo.UpdateItemAsync(item);
+
+            return RedirectToAction("Index");
+        }
+
         // Helper method to get the shopping cart from the cookie
         private ShoppingCart GetShoppingCartFromCookie()
         {
