@@ -74,5 +74,11 @@ namespace HipAndClavicle.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateItemAsync(ShoppingCartItem item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }
