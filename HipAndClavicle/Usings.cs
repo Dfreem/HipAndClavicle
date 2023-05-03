@@ -40,3 +40,6 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc.Rendering;
+
+// TODO add messaging from admin orders
+// TODO enable email functionality
