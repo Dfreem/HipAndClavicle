@@ -1,12 +1,11 @@
 ﻿
-namespace HipAndClavicle.Models;
-
-public class ShoppingCart
+namespace HipAndClavicle.Models
 {
-
-    public int ShoppingCartId { get; set; }
-    public List<Product> Products { get; set; } = new();
-    public string OwnerId { get; set; } = default!;
-    public AppUser Owner { get; set; } = default!;
+    public class ShoppingCart
+    {
+        public int Id { get; set; }
+        public string? CartId { get; set; }
+        public List<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
+        public AppUser Owner { get; set; } = default!;
+    }
 }
-
