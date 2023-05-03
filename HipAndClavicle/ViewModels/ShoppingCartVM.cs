@@ -7,7 +7,7 @@ namespace HipAndClavicle.ViewModels
         public ShoppingCart ShoppingCart { get; set; }
         public string CartId { get; set; }
         public List<ShoppingCartItemViewModel> ShoppingCartItems { get; set; }
-        public double TotalPrice => ShoppingCartItems.Sum(x => x.TotalPrice);
+        public double CartTotal => ShoppingCartItems.Sum(x => x.ItemTotal);
 
     }
 
@@ -19,7 +19,7 @@ namespace HipAndClavicle.ViewModels
         public int Qty { get; set; }
         public double ItemPrice { get; set; }
         public string Img { get; set; }
-        public double TotalPrice { get; set; }
+        public double ItemTotal => Qty * ItemPrice;
 
         public ShoppingCartItemViewModel(ShoppingCartItem shoppingCartItem)
         {

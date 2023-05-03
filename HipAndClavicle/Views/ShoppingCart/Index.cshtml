@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="~/css/styles.css" />
 @{
     ViewData["Title"] = "Shopping Cart";
-    double cartTotal = Model.ShoppingCartItems.Sum(item => item.ItemPrice);
+    //double cartTotal = Model.ShoppingCartItems.Sum(item => item.ItemPrice);
 }
 
 @if (Model.ShoppingCartItems == null || !Model.ShoppingCartItems.Any())
@@ -51,7 +51,7 @@ else
                                     </form>
                                 </td>
                                 <td>
-                                    <strong>Price Total:</strong> $@item.ItemPrice<br />
+                                    <strong>Price Total:</strong> $@item.ItemTotal<br />
                                     <em>($@item.ItemPrice each)</em>
                                 </td>
                                 <td>
@@ -64,7 +64,7 @@ else
                 </table>
                     
         </div>
-        <strong class="float-end">Cart Total: @cartTotal</strong><br />
+        <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
         <div class="float-end">
             <button type="submit" class="btn btn-dark">Save for Later</button>
             <a href="/checkout" class="btn btn-dark">Checkout    ></a>
