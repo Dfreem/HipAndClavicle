@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using HipAndClavicle.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace HipAndClavicle.Controllers
@@ -126,15 +128,34 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCart(int itemId, int quantity)
         {
-            var item = await _shoppingCartRepo.GetCartItem(itemId);
-            if (item == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                // Handle logged-in users
+                var item = await _shoppingCartRepo.GetCartItem(itemId);
+                if (item == null)
+                {
+                    return NotFound();
+                }
+
+                item.Quantity = quantity;
+                await _shoppingCartRepo.UpdateItemAsync(item);
             }
-
-            item.Quantity = quantity;
-            await _shoppingCartRepo.UpdateItemAsync(item);
-
+            else
+            {
+                // Handle non-logged-in users
+                var shoppingCart = GetShoppingCartFromCookie();
+                var item = shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.ShoppingCartItemId == itemId);
+                if (item != null)
+                {
+                    item.Quantity = quantity;
+                }
+                else
+                {
+                    return NotFound();
+                }
+                SetShoppingCartToCookie(shoppingCart);
+            }
+            
             return RedirectToAction("Index");
         }
 

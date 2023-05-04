@@ -10,12 +10,7 @@
     <p class="text-center">Your shopping cart is empty.</p>
     <br />
     <br />
-    @*TODO: This add button is for testing remove later.*@
-    <h2>This is for testing only!</h2>
-    <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
-        <input type="hidden" name="listingId" value="1" />
-        <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
-    </form>
+    
 }
 else
 {
@@ -43,7 +38,7 @@ else
                                     @item.Desc
                                 </td>
                                 <td>
-                                    <form method="post" action="@Url.Action("UpdateCart", "ShoppingCart")">
+                                    <form asp-action="UpdateCart" asp-controller="ShoppingCart" method="post">
                                         <label>Quantity:</label>
                                         <input type="hidden" name="itemId" value="@item.Id" />
                                         <input type="number" name="quantity" value="@item.Qty" min="1" size="2" />
@@ -66,7 +61,12 @@ else
         </div>
         <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
         <div class="float-end">
-            <button type="submit" class="btn btn-dark">Save for Later</button>
+            @*TODO: This add button is for testing remove later.*@
+            <h2>This is for testing only!</h2>
+            <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
+                <input type="hidden" name="listingId" value="1" />
+                <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
+            </form>
             <a href="/checkout" class="btn btn-dark">Checkout    ></a>
         </div>
     </div>
