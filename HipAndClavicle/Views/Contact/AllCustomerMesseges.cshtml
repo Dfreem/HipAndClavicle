@@ -1,0 +1,201 @@
+﻿@model List<MessageViewModel>
+<style>
+    /* .container {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 50px;
+    }*/
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="date"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+</style>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <h3>Search Customer Messages</h3>
+        <div class="div">
+            <form class="row" id="search-form">
+
+                <div class="form-group col-md-4">
+                    <label for="customer-name">Customer Name:</label>
+                    <input type="text" class="form-control" id="customer-name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="customer-name">Date Sent: </label>
+                    <input type="date" class="form-control" id="date-sent">
+                </div>
+                @* <div class="form-group col-md-4">
+                        <label for="purchase-date">Purchase Date:</label>
+                        <input type="date" class="form-control" id="purchase-date">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="due-date">Due Date:</label>
+                        <input type="date" class="form-control" id="due-date">
+                    </div>*@
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            <div id="results"></div>
+
+        </div>
+        <table class="table mt-3" id="message-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Messeage</th>
+                    <th>Email</th>
+                    <th>Date Sent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var message in Model)
+                {
+                    <tr>
+                        <td>@message.Id</td>
+                        <td>@message.Sender</td>
+                        <td>@message.Receiver</td>
+                        <td>@message.Content</td>
+                        <td>@message.Email</td>
+                        <td>@message.DateSent</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<style>
+    .form-control {
+        border-radius: 20px;
+    }
+
+    .message {
+        position: relative;
+        padding: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        clear: both;
+    }
+
+        .message.received {
+            background: linear-gradient(to bottom right, #f2f2f2, #c1c1c1);
+            border-radius: 20px 20px 20px 0;
+            margin-left: 10px;
+            float: left;
+        }
+
+        .message.sent {
+            background: linear-gradient(to bottom right, #007bff, #4ac1ff);
+            color: #fff;
+            border-radius: 20px 20px 0 20px;
+            margin-right: 10px;
+            float: right;
+        }
+
+            .message.sent:before {
+                content: '';
+                position: absolute;
+                right: -10px;
+                top: 50%;
+                border-width: 10px 0 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent transparent #007bff;
+                transform: translateY(-50%);
+            }
+
+        .message.received:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent #f2f2f2 transparent transparent;
+            transform: translateY(-50%);
+        }
+</style>
+
+@section CutomerChatScript{
+    <script>$(document).ready(function () {
+            // Search for messages when the search button is clicked
+            $('#search-form').submit(function (event) {
+                event.preventDefault();
+                var customerName = $('#customer-name').val();
+                //var purchaseDate = $('#purchase-date').val();
+                //var dueDate = $('#due-date').val();
+                var dateSent = $('#date-sent').val();
+                var url = '/contact/FilterMesseges';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: {
+                        customerName: customerName,
+                        //purchase_date: purchaseDate,
+                        //due_date: dueDate
+                        dateSent: dateSent
+                    },
+                    success: function (response) {
+                        var results = '';
+                        if (response.length > 0) {
+                            $.each(response, function (index, message) {
+                                results += '<tr>';
+                                results += '<td>' + message.senderUserName + '</td>';
+                                results += '<td>' + message.receiverUserName + '</td>';
+                                results += '<td>' + message.content + '</td>';
+                                //results += '<td>' + message.purchase_date + '</td>';
+                                //results += '<td>' + message.due_date + '</td>';
+                                results += '<td>' + message.dateSent + '</td>';
+                                results += '</tr>';
+                            });
+                        } else {
+                            results += '<tr><td colspan="4">No messages found.</td></tr>';
+                        }
+                        $('#message-table tbody').html(results);
+                    },
+                    error: function () {
+                        alert('An error occurred while searching messages.');
+                    }
+                });
+            });
+        });</script>
+}

@@ -9,7 +9,6 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
-		<Compile Remove="Models\ColorProduct.cs" />
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
@@ -48,22 +47,24 @@
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
-		<PackageReference Include="RestSharp" Version="106.15.0" />
 		<PackageReference Include="Json.Net" Version="1.0.33" />
 		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.15.0" />
 		<PackageReference Include="shippingapiv2" Version="1.6.3" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="110.2.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Views\Admin" />
 		<None Remove="Repositories" />
 		<None Remove="Views\Shared\_Layout.cshtml.css" />
+		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 	</ItemGroup>
 	<ItemGroup>
+
 	  <Folder Include="Migrations\" />
+
 	</ItemGroup>
 </Project>
