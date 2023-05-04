@@ -18,9 +18,11 @@ namespace HipAndClavicle
             _repo = services.GetRequiredService<IAdminRepo>();
             _toast = services.GetRequiredService<INotyfService>();
         }
-        public async Task<IActionResult> EditProduct(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditProduct(int productId)
         {
-            var toEdit = await _repo.GetProductByIdAsync(id);
+            ViewBag.Familes = await _repo.GetAllColorFamiliesAsync();
+            var toEdit = await _repo.GetProductByIdAsync(productId);
             return View(toEdit);
         }
 

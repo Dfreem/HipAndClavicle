@@ -151,5 +151,11 @@ public class AdminRepo : IAdminRepo
         await _context.Images.AddAsync(fromUpload);
         await _context.SaveChangesAsync();
     }
+    public async Task<List<ColorFamily>> GetAllColorFamiliesAsync()
+    {
+        return await _context.ColorFamilies.Include(f => f.Color)
+            .ToListAsync();
+    }
+
     #endregion
 }

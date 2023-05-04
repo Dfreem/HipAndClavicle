@@ -34,6 +34,11 @@ body {
     /*    margin-bottom: 60px;*/
 }
 
+.body {
+    padding-block-end: 5em;
+}
+
+
 .logo-login {
     margin-top: 1em;
     position: relative;

@@ -7,6 +7,7 @@ public class MerchantVM
     public List<Order> ShippedOrders { get; set; } = new();
     public Address FromAddress { get; set; } = default!;
     public List<Product> Products { get; set; } = new();
+    public Product? EditProduct { get; set; }
 
     public MerchantVM()
     {

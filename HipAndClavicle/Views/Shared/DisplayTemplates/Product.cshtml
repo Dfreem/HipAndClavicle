@@ -18,8 +18,9 @@
     <div class="card-body">
         <div class="card-title d-flex flex-row">
         <h5>@Model.Name</h5>
-        
-            <a class="edit-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>
+
+            <a asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId"><i class="bi bi-pencil"></i></a>
+            @*<a class="edit-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
 
         </div>
 

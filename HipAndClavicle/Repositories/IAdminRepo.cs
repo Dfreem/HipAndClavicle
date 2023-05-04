@@ -13,5 +13,6 @@ public interface IAdminRepo
     public Task UpdateOrderAsync(Order order);
     public Task UpdateProductAsync(Product product);
     public Task SaveImageAsync(Image fromUpload);
-    Task<List<OrderItem>> GetOrderItemsAsync();
+    public Task<List<OrderItem>> GetOrderItemsAsync();
+    public Task<List<ColorFamily>> GetAllColorFamiliesAsync();
 }
