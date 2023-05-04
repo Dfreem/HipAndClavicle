@@ -1,4 +1,16 @@
 ﻿
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;
+font-family: 'Alkatra', cursive;
+font-family: 'Amatic SC', cursive;
+font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Macondo', cursive;
+font-family: 'Secular One', sans-serif;
+
+*/
+
 ul.color-viewer {
     background-color: #339a9944;
     list-style-type: none;
@@ -8,9 +20,9 @@ ul.color-viewer {
     padding-inline: 5px;
     margin: .3em;
     margin-inline-start: auto;
-    width:fit-content;
+    width: fit-content;
     border-radius: 50px;
-    padding-block:auto;
+    padding-block: auto;
 }
 
     ul.color-viewer li {
@@ -22,6 +34,23 @@ ul.color-viewer {
         border-radius: 50%;
     }
 
+.category-select {
+    outline: 2px solid #00add4;
+    min-width: fit-content;
+}
+
+.color-select-option {
+    margin-inline-end: 8em;
+    font-family: 'Gloria Hallelujah', cursive;
+    border-radius: 10px;
+    margin-block: 6px;
+    max-width: 15px;
+    min-width: 15px;
+    max-height: 15px;
+    min-height: 15px;
+    padding: 1em;
+    text-indent: 2em;
+}
 
 
 .color-label {
@@ -29,28 +58,6 @@ ul.color-viewer {
     width: fit-content;
     bottom: 1em;
 }
-
-.hide-instructions {
-    visibility: hidden;
-    color: white;
-    font-size: 10pt;
-    /*    transform: translateY(-25px);*/
-    width: 100px;
-    transition: all ease-in-out 0.8s;
-    visibility: hidden;
-    color: white;
-    font-size: 12pt;
-    width: max-content;
-    position: absolute;
-    top: -10em;
-    margin-inline: auto;
-    font-family: 'Nova Oval', cursive;
-}
-
-/*
-font-family: 'Amatic SC', cursive;
-font-family: 'Indie Flower', cursive;
-font-family: 'Nova Oval', cursive;*/
 
 
 h1 {

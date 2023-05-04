@@ -1,6 +1,7 @@
 ﻿@model Product
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/Product.css" />
 
 <div class="card">
     <div class="hide-card">
@@ -17,14 +18,14 @@
     </div>
     <div class="card-body">
         <div class="card-title d-flex flex-row">
-        <h5>@Model.Name</h5>
+            <h5>@Model.Name</h5>
 
-            <a asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId"><i class="bi bi-pencil"></i></a>
-            @*<a class="edit-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
+            <a asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="edit-link"><i class="bi bi-pencil"></i></a>
+            @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
 
         </div>
 
-        
+
         @*TODO set tooltip for color viewer.*@
         <div class="card-text">
             @Model.Description

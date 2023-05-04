@@ -22,6 +22,7 @@ namespace HipAndClavicle
         public async Task<IActionResult> EditProduct(int productId)
         {
             ViewBag.Familes = await _repo.GetAllColorFamiliesAsync();
+            ViewBag.NamedColors = await _repo.GetNamedColorsAsync();
             var toEdit = await _repo.GetProductByIdAsync(productId);
             return View(toEdit);
         }
