@@ -16,7 +16,7 @@ public class Product
     public List<Review> Reviews { get; set; } = new();
     [Display(Name = "Set Sizes")]
     public List<SetSize> SetSizes { get; set; } = new();
-    public Image? ProductImage { get; set; }
+    public Image? ProductImage { get; set; } = new();
     [StringLength(250)]
     public string? Description { get; set; } = default!;
 }
