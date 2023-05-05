@@ -63,7 +63,7 @@
 
 <div class="form-group">
     @Html.LabelFor(model => model.ProductImage, new { @class = "control-label" })
-    @Html.TextBoxFor(model => model.ProductImage, new { @type = "file", @class = "form-control" })
+    <input type="file" asp-for="TempFile" />
     @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
 </div>
 
