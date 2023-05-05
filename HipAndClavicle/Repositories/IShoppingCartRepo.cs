@@ -8,5 +8,6 @@ namespace HipAndClavicle.Repositories
         Task <ShoppingCartItem> GetCartItem(int id);
         Task AddShoppingCartItemAsync(ShoppingCartItem item);
         Task UpdateItemAsync(ShoppingCartItem item);
+        Task RemoveItemAsync(ShoppingCartItem item);
     }
 }
