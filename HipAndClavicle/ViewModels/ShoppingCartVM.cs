@@ -1,7 +1,4 @@
 ﻿
-
-//using static HipAndClavicle.ViewModels.SimpleCartModel;
-
 namespace HipAndClavicle.ViewModels
 {
     public class ShoppingCartViewModel
@@ -41,11 +38,13 @@ namespace HipAndClavicle.ViewModels
             Desc = simpleCartItem.Desc;
             Qty = simpleCartItem.Qty;
             ItemPrice = simpleCartItem.ItemPrice;
+            // TODO: Fix displaying image for cart
             Img = "~/images/hp-logo.png";
         }
 
     }
 
+    // This is a simple version of the ShoppingCartItemViewModel that is used for saving a cart to a cookie
     public class SimpleCartItem
     {
         public int Id { get; set; }
