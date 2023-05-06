@@ -43,3 +43,4 @@ global using Microsoft.AspNetCore.Mvc.Rendering;
 
 // TODO add messaging from admin orders
 // TODO enable email functionality
+// TODO add order history to user profile page
