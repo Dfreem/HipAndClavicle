@@ -13,7 +13,7 @@
     }
     else if (listing.ListingColorJTs.Count() > 0)
     {
-        
+        backgroundColor = listing.ListingColorJTs.First().ListingColor.HexValue.ToString();
     }
     <a asp-action="CustListing" asp-route-listingId="@listing.ListingId" class="card test-center m-3" style="width: 250px; padding:25px;">
 
