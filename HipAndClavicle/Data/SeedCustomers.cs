@@ -135,14 +135,12 @@ namespace HipAndClavicle.Data
                 DateOrdered = DateTime.Now,
                 Purchaser = anne!,
                 Address = anne!.Address!,
-                TotalPrice = 30.00d
             };
             Order order2 = new Order()
             {
                 DateOrdered = DateTime.Now,
                 Purchaser = ane!,
                 Address = ane!.Address!,
-                TotalPrice = 30.00d
             };
 
             OrderItem item1 = new OrderItem()

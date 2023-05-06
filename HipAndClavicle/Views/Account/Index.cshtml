@@ -1,9 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model UserProfileVM
 @{
+    ViewData["Title"] = Model.CurrentUser.FName + "'s Profile";
 }
 
-<div>
-    <h1>Placeholder Page for user page</h1>
-</div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="UpdateUserProfileAsync">
+    <div class="input-group">
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+    <div class=>
+        <span></span>
+        <input type="text">
+        <button></button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

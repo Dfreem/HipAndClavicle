@@ -8,22 +8,24 @@ public class ProductController : Controller
 {
     private readonly IServiceProvider _services;
     private readonly UserManager<AppUser> _userManager;
-    private readonly IAdminRepo _repo;
+    private readonly IAdminRepo _adminRepo;
+    private readonly IProductRepo _productRepo;
     private readonly INotyfService _toast;
 
     public ProductController(IServiceProvider services)
     {
         _services = services;
         _userManager = services.GetRequiredService<UserManager<AppUser>>();
-        _repo = services.GetRequiredService<IAdminRepo>();
+        _adminRepo = services.GetRequiredService<IAdminRepo>();
+        _productRepo = services.GetRequiredService<IProductRepo>();
         _toast = services.GetRequiredService<INotyfService>();
     }
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> EditProduct(int productId)
     {
-        ViewBag.Familes = await _repo.GetAllColorFamiliesAsync();
-        ViewBag.NamedColors = await _repo.GetNamedColorsAsync();
-        var toEdit = await _repo.GetProductByIdAsync(productId);
+        ViewBag.Familes = await _adminRepo.GetAllColorFamiliesAsync();
+        ViewBag.NamedColors = await _adminRepo.GetNamedColorsAsync();
+        var toEdit = await _productRepo.GetProductByIdAsync(productId);
         ProductVM editProduct = new() { Edit = toEdit };
         return View(editProduct);
     }
@@ -42,7 +44,7 @@ public class ProductController : Controller
         {
             product.Edit!.ProductImage = await ExtractImageAsync(product.ImageFile);
 
-            await _repo.UpdateProductAsync(product.Edit);
+            await _adminRepo.UpdateProductAsync(product.Edit);
 
         }
         return RedirectToAction("Products", "Admin");
@@ -51,8 +53,8 @@ public class ProductController : Controller
 
     public async Task<IActionResult> AddProduct()
     {
-        var colorOptions = await _repo.GetNamedColorsAsync();
-        var setSizes = await _repo.GetSetSizesAsync();
+        var colorOptions = await _adminRepo.GetNamedColorsAsync();
+        var setSizes = await _adminRepo.GetSetSizesAsync();
         ProductVM product = new()
         {
             NamedColors = colorOptions,
@@ -70,8 +72,8 @@ public class ProductController : Controller
             return View(product);
         }
         Image fromUpload = await ExtractImageAsync(product.ImageFile);
-        await _repo.SaveImageAsync(fromUpload);
-        await _repo.CreateProductAsync((Product)product);
+        await _adminRepo.SaveImageAsync(fromUpload);
+        await _productRepo.CreateProductAsync((Product)product);
         _toast.Success("Successfully created new product");
         return RedirectToAction("Products");
     }
@@ -91,8 +93,8 @@ public class ProductController : Controller
     }
     public async Task<IActionResult> DeleteProductAsync(int id)
     {
-        Product toDelete = await _repo.GetProductByIdAsync(id);
-        await _repo.DeleteProductAsync(toDelete);
+        Product toDelete = await _productRepo.GetProductByIdAsync(id);
+        await _productRepo.DeleteProductAsync(toDelete);
         return RedirectToAction("Products");
     }
 }

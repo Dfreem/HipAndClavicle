@@ -5,7 +5,11 @@
     // TODO calculate total when order is created
 
 
-
+    double totalPrice = 0;
+    foreach (var item in Model.Items)
+    {
+        totalPrice += (item.PricePerUnit * item.AmountOrdered);
+    }
     string uid = Model.Purchaser.Id;
     string statusColor =
         Model.Status == OrderStatus.PendingPayment ? "text-danger" :
@@ -131,7 +135,10 @@
                                     @item.PricePerUnit.ToString("C") / @item.SetOrEach
 
                                 </td>
-                                <td class="table d-table-cell">@item.AmountOrdered</td>
+                                @{
+                                    double itemTotal = (item.AmountOrdered * item.PricePerUnit);
+                                }
+                                <td class="table d-table-cell">@itemTotal.ToString("C") </td>
                             </tr>
 
                         }
@@ -140,7 +147,7 @@
                         <tr>
                             <th scope="row">Total</th>
                             <td colspan="4" class="text-end">
-                                @Model.TotalPrice
+                                @totalPrice
                             </td>
                         </tr>
                     </tfoot>

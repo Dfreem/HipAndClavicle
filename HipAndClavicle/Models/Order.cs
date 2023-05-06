@@ -11,7 +11,7 @@ public class Order
     public OrderStatus Status { get; set; } = OrderStatus.PendingPayment;
     public DateTime DateOrdered { get; set; } = DateTime.Now;
     public int? ShipmentId { get; set; }
-    public double TotalPrice { get; set; }
+    //public double TotalPrice { get; set; }
     public ShippingAddress Address{ get; set; } = default!;
     [NotMapped]
     public Dictionary<OrderStatus, string> StatusName
