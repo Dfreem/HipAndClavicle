@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using HipAndClavicle.Models;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-//using static HipAndClavicle.ViewModels.SimpleCartModel;
+using STJ = System.Text.Json;
 
 namespace HipAndClavicle.Controllers
 {
@@ -13,6 +11,7 @@ namespace HipAndClavicle.Controllers
         private readonly ICustRepo _custRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly string _shoppingCartCookieName = "Cart";
 
         public ShoppingCartController(IShoppingCartRepo shoppingCartRepository, ICustRepo custRepo, IHttpContextAccessor httpContextAccessor)
         {
@@ -21,6 +20,7 @@ namespace HipAndClavicle.Controllers
             _contextAccessor = httpContextAccessor;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var httpContext = _contextAccessor.HttpContext;
@@ -53,22 +53,8 @@ namespace HipAndClavicle.Controllers
             return View(viewModel);
         }
 
-        // Helper method to get the cart ID for the current user
-        private string GetCartId()
-        {
-            var httpContext = _contextAccessor.HttpContext;
-            if (httpContext.User.Identity.IsAuthenticated)
-            {
-                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         // This action method adds a listing to the cart with the specified quantity
-        // TODO: For testing Will be changed later.
+        // TODO: For testing Will be changed to add items from catalog.
         [HttpPost]
         public async Task<IActionResult> AddToCart(int listingId, int quantity = 1)
         {
@@ -168,32 +154,8 @@ namespace HipAndClavicle.Controllers
             
             return RedirectToAction("Index");
         }
-
-        // Helper method to get the shopping cart from the cookie
-        private SimpleShoppingCart GetShoppingCartFromCookie()
-        {
-            var cartCookie = _contextAccessor.HttpContext.Request.Cookies["Cart"];
-            if (cartCookie == null)
-            {
-                // If the cart cookie doesn't exist, create an empty SimpleShoppingCart
-                return new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
-            }
-            else
-            {
-                // Deserialize the SimpleShoppingCart from the cart cookie
-                return JsonConvert.DeserializeObject<SimpleShoppingCart>(cartCookie);
-            }
-        }
-
-        // Helper method to save the shopping cart in the cookie
-        private void SetShoppingCartToCookie(SimpleShoppingCart shoppingCart)
-        {
-            // Serialize the shopping cart and save it in the cookie
-            var cartJson = JsonConvert.SerializeObject(shoppingCart);
-            _contextAccessor.HttpContext.Response.Cookies.Append("Cart", cartJson, new CookieOptions()); // Cookie will expire once browser is closed
-        }
-
-
+               
+        // Removes single item from cart
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int itemId)
         {
@@ -224,6 +186,70 @@ namespace HipAndClavicle.Controllers
                 SetShoppingCartToCookie(simpleShoppingCart);
             }
             return RedirectToAction("Index");
+        }
+
+        // Removes all items from cart
+        [HttpPost]
+        public async Task<IActionResult> ClearCart(string cartId)
+        {
+            var httpContext = _contextAccessor.HttpContext;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                await _shoppingCartRepo.ClearShoppingCartAsync(cartId, ownerId);
+            }
+            else
+            {
+                ClearShoppingCartCookie();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // Helper method to get the cart ID for the current user
+        private string GetCartId()
+        {
+            var httpContext = _contextAccessor.HttpContext;
+            if (httpContext.User.Identity.IsAuthenticated)
+            {
+                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        // Helper method to get the shopping cart from the cookie
+        private SimpleShoppingCart GetShoppingCartFromCookie()
+        {
+            var cartCookie = _contextAccessor.HttpContext.Request.Cookies[_shoppingCartCookieName];
+            if (cartCookie == null)
+            {
+                // If the cart cookie doesn't exist, create an empty SimpleShoppingCart
+                return new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
+            }
+            else
+            {
+                // Deserialize the SimpleShoppingCart from the cart cookie
+                return JsonConvert.DeserializeObject<SimpleShoppingCart>(cartCookie);
+            }
+        }
+
+        // Helper method to save the shopping cart in the cookie
+        private void SetShoppingCartToCookie(SimpleShoppingCart shoppingCart)
+        {
+            // Serialize the shopping cart and save it in the cookie
+            var cartJson = JsonConvert.SerializeObject(shoppingCart);
+            _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, cartJson, new CookieOptions()); // Cookie will expire once browser is closed
+        }
+
+        // Helper method to empty the cart
+        private void ClearShoppingCartCookie()
+        {
+            var emptyCart = new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
+            var json = STJ.JsonSerializer.Serialize(emptyCart);
+            _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, json, new CookieOptions()); // Cookie will expire once browser is closed
         }
     }
 

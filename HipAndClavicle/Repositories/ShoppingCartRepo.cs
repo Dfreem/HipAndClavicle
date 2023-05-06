@@ -92,5 +92,13 @@ namespace HipAndClavicle.Repositories
             _context.ShoppingCartItems.Remove(item);
             await _context.SaveChangesAsync();            
         }
+
+        public async Task ClearShoppingCartAsync(string cartId, string ownerId)
+        {
+            ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId, ownerId);
+
+            _context.ShoppingCartItems.RemoveRange(shoppingCart.ShoppingCartItems);
+            await _context.SaveChangesAsync();
+        }
     }
 }
