@@ -10,8 +10,9 @@
 }
 
 
-.form-floating label {
-    color: var(--lapis-lazuli);
+.form-floating {
+    color: #1f1565;
+    background-color: #ff6a00;
     padding: 0;
 }
 
