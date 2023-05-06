@@ -16,6 +16,10 @@ html {
     }
 }
 
+.user-class {
+    background-color: lightblue;
+}
+
 .nav-link {
     justify-content: space-around;
 }
@@ -158,8 +162,8 @@ footer ul a {
     footer ul {
         visibility: hidden;
     }
+
     .copyright {
         margin-inline: 5px;
     }
-
 }

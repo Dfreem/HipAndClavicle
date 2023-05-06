@@ -55,6 +55,12 @@ namespace HipAndClavicle.Repositories
             return viewModels;
         }
 
+        public async Task<ShoppingCartItem> GetCartItem(int id)
+        {
+            return await _context.ShoppingCartItems
+                .Include(item => item.ListingItem)
+                .FirstOrDefaultAsync(item => item.ShoppingCartItemId == id);
+        }
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
         {
             // Check if the listing is already in the cart
@@ -73,6 +79,18 @@ namespace HipAndClavicle.Repositories
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateItemAsync(ShoppingCartItem item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveItemAsync(ShoppingCartItem item)
+        {
+            _context.ShoppingCartItems.Remove(item);
+            await _context.SaveChangesAsync();            
         }
     }
 }

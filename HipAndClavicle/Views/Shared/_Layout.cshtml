@@ -38,9 +38,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">About</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Contact</a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Contact" asp-action="AllCustomerMesseges">Customer Messeges</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Contact" asp-action="CustomerChat">CustomerChat</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                        }
 
                         @*Add cart Icon for this link*@
                         <li class="nav-item">
@@ -48,8 +60,8 @@
                         </li>
 
                         @*<li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </li>*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -99,6 +111,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("CutomerChatScript", required: false)
 
 </body>
 </html>

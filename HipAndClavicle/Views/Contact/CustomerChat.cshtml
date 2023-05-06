@@ -1,0 +1,261 @@
+﻿@model List<MessageViewModel>
+@{
+    // Get all non-admin users
+    var customers = ViewBag.customers;
+
+}
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row justify-content-center">
+
+
+        @if (User.IsInRole("Admin"))
+        {
+            <!-- User list -->
+            @* <ul class="list-group">
+                    <li class="list-group-item active">Users</li>
+                    <li class="list-group-item">User 1</li>
+                    <li class="list-group-item">User 2</li>
+                    <li class="list-group-item">User 3</li>
+                </ul>*@
+            <div class="col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item active">Users</li>
+                    @foreach (var user in customers)
+                    {
+                        <li class="list-group-item user-item" data-user="@user.UserName">@user.UserName</li>
+                    }
+                </ul>
+            </div>
+
+        }
+
+
+        <div class="col-md-8">
+            <!-- Bordered message area with a specific height and rounded borders -->
+            <div class="message-area rounded" style="border: 2px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; padding-bottom: 50px;">
+
+                <!-- Message list -->
+                <div class="message-list">
+                    @foreach (var item in Model)
+                    {
+                        @if (item.Sender == User.Identity.Name)
+                        {
+                            <div class="message sent">@item.Sender : @item.Content</div>
+
+                        }
+                        else
+                        {
+                            <div class="message received">@item.Sender : @item.Content</div>
+
+                        }
+                    }
+                </div>
+            </div>
+            <!-- Message input field and send button -->
+            <form class="message-input mt-3">
+                <div class="input-group">
+                    <input type="hidden" id="sendTo" name="SendTo" value="" />
+                    <input type="text" class="form-control" name="Message" id="Message" placeholder="Type your message...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .user-item-hover {
+        background-color: #cfe4f7; /* set the background color you want to use */
+    }
+
+
+    .form-control {
+        border-radius: 20px;
+    }
+
+    .message {
+        position: relative;
+        padding: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        clear: both;
+    }
+
+        .message.received {
+            background: linear-gradient(to bottom right, #f2f2f2, #c1c1c1);
+            border-radius: 20px 20px 20px 0;
+            margin-left: 10px;
+            float: left;
+        }
+
+        .message.sent {
+            background: linear-gradient(to bottom right, #007bff, #4ac1ff);
+            color: #fff;
+            border-radius: 20px 20px 0 20px;
+            margin-right: 10px;
+            float: right;
+        }
+
+            .message.sent:before {
+                content: '';
+                position: absolute;
+                right: -10px;
+                top: 50%;
+                border-width: 10px 0 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent transparent #007bff;
+                transform: translateY(-50%);
+            }
+
+        .message.received:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent #f2f2f2 transparent transparent;
+            transform: translateY(-50%);
+        }
+</style>
+
+@section CutomerChatScript{
+    <script>$(document).ready(function () {
+            $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
+
+            // Get the message input field and send button
+            var messageInput = $('.message-input input');
+            var sendButton = $('.message-input button');
+
+            // Disable send button if input field is empty
+            sendButton.prop('disabled', true);
+            messageInput.keyup(function () {
+                sendButton.prop('disabled', $(this).val().trim() === '');
+            });
+
+            $('form.message-input').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serializeArray();
+                var jsonData = {};
+                $.each(formData, function (index, field) {
+                    jsonData[field.name] = field.value;
+                });
+                var messageInput = $('#Message');
+                var message = messageInput.val();
+                console.log("ttttttttttttttttttt" + message)
+                if (message !== '') {
+                    // Add message to message list
+                    var messageList = $('.message-list');
+                    var newMessage = $('<div class="message sent">You: ' + message + '</div>');
+                    messageList.append(newMessage);
+                    var formData = $(this).serialize();
+                    console.log(formData)
+                    // Clear input field and disable send button
+                    messageInput.val('');
+                    sendButton.prop('disabled', true);
+
+                    // Scroll to bottom of message list
+                    //messageList.scrollTop(messageList[0].scrollHeight);
+                    $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
+
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/Contact/SaveMessage',
+                    data: JSON.stringify(jsonData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        // Code to execute when the request succeeds
+                        console.log(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // Code to execute when the request fails
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            });
+
+            // Handle message input form submit
+            $('.message-input').submit(function (e) {
+                e.preventDefault();
+                sendButton.click();
+            });
+
+            $(function () {
+                // Get the chat UI element
+                var $chat = $('.message-list');
+
+                // Add click event handler to user list items
+                $('.user-item').click(function () {
+                    // Get the selected user's username from the data-user attribute
+                    var username = $(this).data('user');
+                    $("#sendTo").val(username);
+
+                    console.log(username)
+                    // Load the messages for the selected user in the chat UI
+                    $.get('/contact/MesseagesWithCustomer?username=' + username, function (data) {
+                        // Clear the chat UI
+                        $chat.empty();
+                        console.log(data)
+                        // Add the messages for the selected user to the chat UI
+                        $.each(data, function (index, message) {
+                            var $message = $('<div>').addClass('message');
+                            if (message.senderUserName == username) {
+                                $message.addClass('received');
+                                $message.text(username + ': ' + message.content);
+                                //console.log(username + ': ' + message.content)
+                            } else {
+                                $message.addClass('sent');
+                                $message.text('You: ' + message.content);
+                                //console.log('You: ' + message.content)
+
+                            }
+                            $chat.append($message);
+                        });
+
+                        // Scroll to the bottom of the chat UI
+                        //$chat.scrollTop($chat[0].scrollHeight);
+                        $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
+
+                    });
+
+
+
+                });
+            });
+
+        });</script>
+
+    <script>var currentSelection = null; // keep track of the currently selected user
+        // Add event listener to all user items
+        var userItems = document.querySelectorAll('.user-item');
+        userItems.forEach(function (item) {
+            item.addEventListener('mouseover', function () {
+                if (currentSelection !== item) {
+                    item.classList.add('user-item-hover');
+                }
+            });
+            item.addEventListener('mouseout', function () {
+                if (currentSelection !== item) {
+                    item.classList.remove('user-item-hover');
+                }
+            });
+            item.addEventListener('click', function () {
+                if (currentSelection !== null) {
+                    currentSelection.classList.remove('user-item-hover');
+                }
+                item.classList.add('user-item-hover');
+                currentSelection = item;
+            });
+        });</script>
+
+}

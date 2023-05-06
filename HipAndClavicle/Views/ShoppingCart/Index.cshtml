@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="~/css/styles.css" />
 @{
     ViewData["Title"] = "Shopping Cart";
-    double cartTotal = Model.ShoppingCartItems.Sum(item => item.ItemPrice);
 }
 
 @if (Model.ShoppingCartItems == null || !Model.ShoppingCartItems.Any())
@@ -36,25 +35,30 @@ else
                         @foreach (var item in Model.ShoppingCartItems)
                         {
                             <tr class="table-borderless">
-                                <td><img src="~/images/butterflys.png" alt="missing image" width="100" /></td>
+                                <td><img src="~/images/hp-logo.png" alt="missing image" width="100" /></td>
                                 @*<td><img src="@item.Img" alt="missing image" width="100" /></td>*@
                                 <td>
                                     <strong>@item.Name</strong><br />
                                     @item.Desc
                                 </td>
                                 <td>
-                                    <label>Quantity:</label>
+                                    <form asp-action="UpdateCart" asp-controller="ShoppingCart" method="post">
+                                        <label>Quantity:</label>
                                         <input type="hidden" name="itemId" value="@item.Id" />
                                         <input type="number" name="quantity" value="@item.Qty" min="1" size="2" />
-                                        <button type="submit" class="btn btn-dark">Update</button>
+                                        <button type="submit" name="submit" class="btn btn-dark">Update</button>
+                                    </form>
                                 </td>
                                 <td>
-                                    <strong>Price Total:</strong> $@item.ItemPrice<br />
+                                    <strong>Price Total:</strong> $@item.ItemTotal<br />
                                     <em>($@item.ItemPrice each)</em>
                                 </td>
                                 <td>
-                                    <input type="hidden" name="productId" value="0" />
-                                    <button type="submit" class="btn btn-dark" asp-page-handler="RemoveItem">Delete</button>
+                                <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="post">
+                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-dark">Delete</button>
+                                </form>
+
                                 </td>
                             </tr>
                         }
@@ -62,9 +66,14 @@ else
                 </table>
                     
         </div>
-        <strong class="float-end">Cart Total: @cartTotal</strong><br />
+        <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
         <div class="float-end">
-            <button type="submit" class="btn btn-dark">Save for Later</button>
+            @*TODO: This add button is for testing remove later.*@
+            <h2>This is for testing only!</h2>
+            <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
+                <input type="hidden" name="listingId" value="1" />
+                <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
+            </form>
             <a href="/checkout" class="btn btn-dark">Checkout    ></a>
         </div>
     </div>
