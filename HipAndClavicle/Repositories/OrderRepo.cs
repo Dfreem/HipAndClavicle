@@ -7,7 +7,6 @@ public class OrderRepo : IOrderRepo
     public OrderRepo(ApplicationDbContext context)
     {
         _context = context;
-
         //_adminSettings = _context.Settings.FirstAsync(s => s.)
     }
 
