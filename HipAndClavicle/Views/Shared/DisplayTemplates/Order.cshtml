@@ -111,7 +111,8 @@
                             <th scope="col">Item</th>
                             <th scope="col">Set Size</th>
                             <th scope="col">Qty</th>
-                            <th scope="col">Unit Price<br /><small>each/set</small></th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col"># items in set</th>
                             <th scope="col">Price</th>
                         </tr>
                     </thead>
@@ -132,7 +133,11 @@
                                 <td class="table d-table-cell">@item.AmountOrdered</td>
 
                                 <td class="table d-table-cell">
-                                    @item.PricePerUnit.ToString("C") / @item.SetOrEach
+                                    @item.PricePerUnit.ToString("C")
+                                </td>
+                                <td class="table d-table-cell">
+                                    @item.SetSize
+
 
                                 </td>
                                 @{

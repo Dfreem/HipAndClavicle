@@ -34,11 +34,11 @@
         public int AmountOrdered { get; set; } = 1;
         [Display(Name = "Item Price")]
         public double PricePerUnit { get; set; }
-        /// <summary>
-        /// an enum to determine if the price is per unit or per set
-        /// </summary>
-        [Display(Name = "Price Per")]
-        public PriceUnit SetOrEach { get; set; } = PriceUnit.Unit;
+        ///// <summary>
+        ///// an enum to determine if the price is per unit or per set
+        ///// </summary>
+        //[Display(Name = "Price Per")]
+        //public PriceUnit SetOrEach { get; set; } = PriceUnit.Unit;
         /// <summary>
         /// This enum indicates if this item was ordered individually or as a set.
         /// </summary>

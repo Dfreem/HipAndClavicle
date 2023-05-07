@@ -1,27 +1,30 @@
-﻿using NuGet.Packaging.Signing;
-using NuGet.Versioning;
-
-namespace HipAndClavicle.Repositories;
+﻿namespace HipAndClavicle.Repositories;
 
 public class OrderRepo : IOrderRepo
 {
     readonly ApplicationDbContext _context;
+    readonly AdminSettings _adminSettings;
     public OrderRepo(ApplicationDbContext context)
     {
         _context = context;
+        _adminSettings = _context.Settings.FirstAsync(s => s.)
     }
 
-    //public async Task CreateOrder(ShoppingCart cart)
-    //{
-    //    Order order = new Order()
-    //    {
-    //        Purchaser = cart.Owner,
-    //        Address = cart.Owner.Address!,
-    //        DateOrdered = DateTime.Now,
-    //        Items =
-    //    }
-
-    //}
+    public async Task CreateOrder(ShoppingCart cart)
+    {
+        Order order = new()
+        {
+            Purchaser = cart.Owner,
+            Address = cart.Owner.Address!,
+            DateOrdered = DateTime.Now,
+        };
+        foreach (var item in cart.ShoppingCartItems)
+        {
+            order.Items.Add(item.ToOrderItem(order));
+        }
+        await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();
+    }
 
     public async Task<ShoppingCart> GetShoppingCartById(int id)
     {
@@ -37,18 +40,4 @@ public class OrderRepo : IOrderRepo
             .FirstAsync(sc => sc.Id == id);
     }
 
-    //public static OrderItem ToOrderItem(this ShoppingCartItem scItem, Order parentOrder)
-    //{
-    //    return new OrderItem()
-    //    {
-    //        AmountOrdered = scItem.Quantity,
-    //        Item = scItem.ListingItem.ListingProduct,
-    //        ItemColors = scItem.ListingItem.Colors,
-    //        ItemType = scItem.ListingItem.ListingProduct.Category,
-    //        ParentOrder = parentOrder,
-    //        PricePerUnit = scItem.ListingItem.Price,
-    //        SetSize = scItem.ItemSetSize,
-            
-    //    }
-    //}
 }
