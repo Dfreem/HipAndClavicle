@@ -67,22 +67,10 @@ namespace HipAndClavicle.Repositories
                 PhoneNumber = "555-555-5555",
                 Address = fakeSt
             };
-
-            AppUser testAdmin = new()
-            {
-                UserName = "TestAdmin123",
-                Email = "test@my.lanecc.edu",
-                EmailConfirmed = true,
-                FName = "Test",
-                LName = "Admin",
-                PhoneNumber = "555-555-5555",
-                Address = fakeSt
-            };
             _ = await userManager!.CreateAsync(devin, "!BassCase987");
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");
             _ = await userManager!.CreateAsync(steven, "@Password123");
-            _ = await userManager!.CreateAsync(testAdmin, "@Password123");
         }
     }
 }
