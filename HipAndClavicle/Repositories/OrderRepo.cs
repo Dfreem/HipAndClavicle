@@ -18,7 +18,7 @@ public class OrderRepo : IOrderRepo
     //        Purchaser = cart.Owner,
     //        Address = cart.Owner.Address!,
     //        DateOrdered = DateTime.Now,
-    //        Items = 
+    //        Items =
     //    }
 
     //}
@@ -47,7 +47,8 @@ public class OrderRepo : IOrderRepo
     //        ItemType = scItem.ListingItem.ListingProduct.Category,
     //        ParentOrder = parentOrder,
     //        PricePerUnit = scItem.ListingItem.Price,
-    //        SetSize = scItem.
+    //        SetSize = scItem.ItemSetSize,
+            
     //    }
     //}
 }
