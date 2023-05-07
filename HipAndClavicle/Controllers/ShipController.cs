@@ -1,8 +1,4 @@
-﻿
-using Microsoft.CodeAnalysis.Rename;
-using RestSharp.Serializers;
-
-namespace HipAndClavicle.Controllers;
+﻿namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
 public class ShipController : Controller
 {
