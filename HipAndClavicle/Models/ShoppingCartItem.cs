@@ -10,6 +10,5 @@ namespace HipAndClavicle.Models
         public int Quantity { get; set; }
         public SetSize ItemSetSize { get; set; } = default!;
         public Color ItemColor { get; set; } = default!;
-
     }
 }

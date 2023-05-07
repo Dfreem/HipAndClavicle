@@ -9,6 +9,5 @@ public class AdminSettings
     public string? AutoReplyMessage { get; set; } = "";
     public bool ShareContactInfo { get; set; }
     public bool PurchaseRequiredForView { get; set; } = true;
-    public AppUser Admin { get; set; } = default!;
 }
 

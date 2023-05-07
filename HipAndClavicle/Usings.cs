@@ -9,8 +9,6 @@ global using HipAndClavicle.Repositories;
 global using HipAndClavicle.ViewModels;
 global using HipAndClavicle.Controllers;
 global using HipAndClavicle.Models;
-global using HipAndClavicle.Models.JunctionTables;
-global using HipAndClavicle.Models.Extensions;
 global using HipAndClavicle.Models.Enums;
 global using HipAndClavicle.Data;
 
