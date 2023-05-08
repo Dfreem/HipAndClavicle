@@ -1,5 +1,7 @@
 ﻿@model Product
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/Product.css" />
 
 <div class="card">
     <div class="hide-card">
@@ -15,26 +17,30 @@
 
     </div>
     <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
-        <p class="px-auto hide-instructions">
-            @Model.Description
-        </p>
+        <div class="card-title d-flex flex-row">
+            <h5>@Model.Name</h5>
+
+            <a asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="edit-link"><i class="bi bi-pencil"></i></a>
+            @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
+
+        </div>
+
+
         @*TODO set tooltip for color viewer.*@
+        <div class="card-text">
+            @Model.Description
+        </div>
 
-        <a class="color-link" data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product">
-            <div class="color-viewer">
-                @foreach (Color color in Model.AvailableColors)
-                {
-                    <div class="color-splotch" style="background-color:@color.HexValue;">
-                    </div>
-                    // TODO change where this link leads. This should change colors.
-                }
-            </div>
-        </a>
-
-
+        <ul class="color-viewer">
+            @foreach (Color color in Model.AvailableColors)
+            {
+                <li class="color-splotch" style="background-color:@color.HexValue;">
+                </li>
+                // TODO change where this link leads. This should change colors.
+            }
+        </ul>
+        <p class="color-label"><small>available colors</small></p>
     </div>
-
 </div>
 
 

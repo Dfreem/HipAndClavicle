@@ -1,7 +1,7 @@
 ﻿
 namespace HipAndClavicle.ViewModels;
 
-public class AddProductVM
+public class ProductVM
 {
     // UI Properties
     public List<SetSize> SetSizes { get; set; } = new();
@@ -13,11 +13,13 @@ public class AddProductVM
     public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; }
     public List<Color> ProductColors { get; set; } = new();
-    public IFormFile ImageFile { get; set; } = default!;
+    public IFormFile? ImageFile { get; set; } = default!;
     public Image? ProductImage { get; set; } = default!;
     public int QuantityOnHand { get; set; }
 
-    public static explicit operator Product(AddProductVM v)
+    public Product? Edit { get; set; }
+
+    public static explicit operator Product(ProductVM v)
     {
         return new Product()
         {

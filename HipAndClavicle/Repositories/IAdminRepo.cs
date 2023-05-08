@@ -4,7 +4,6 @@ public interface IAdminRepo
 {
     public Task CreateProductAsync(Product product);
     public Task DeleteOrderAsync(Order order);
-    public Task DeleteProductAsync(Product product);
     public Task<List<Order>> GetAdminCurrentOrdersAsync();
     public Task<List<Product>> GetAvailableProductsAsync();
     public Task<Product> GetProductByIdAsync(int id);
@@ -13,5 +12,6 @@ public interface IAdminRepo
     public Task UpdateOrderAsync(Order order);
     public Task UpdateProductAsync(Product product);
     public Task SaveImageAsync(Image fromUpload);
-    Task<List<OrderItem>> GetOrderItemsAsync();
+    public Task<List<OrderItem>> GetOrderItemsAsync();
+    public Task<List<ColorFamily>> GetAllColorFamiliesAsync();
 }

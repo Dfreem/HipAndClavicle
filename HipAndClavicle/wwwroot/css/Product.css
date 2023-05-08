@@ -1,0 +1,96 @@
+﻿
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;
+font-family: 'Alkatra', cursive;
+font-family: 'Amatic SC', cursive;
+font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Macondo', cursive;
+font-family: 'Secular One', sans-serif;
+
+*/
+
+ul.color-viewer {
+    background-color: #339a9944;
+    list-style-type: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-inline: 5px;
+    margin: .3em;
+    margin-inline-start: auto;
+    width: fit-content;
+    border-radius: 50px;
+    padding-block: auto;
+}
+
+    ul.color-viewer li {
+        display: inline-block;
+        max-width: 1em;
+        max-height: 1em;
+        min-width: 1em;
+        min-height: 1em;
+        border-radius: 50%;
+    }
+
+.category-select {
+    outline: 2px solid #00add4;
+    min-width: fit-content;
+}
+
+.color-select-option {
+    margin-inline-end: 8em;
+    font-family: 'Gloria Hallelujah', cursive;
+    border-radius: 10px;
+    margin-block: 6px;
+    max-width: 15px;
+    min-width: 15px;
+    max-height: 15px;
+    min-height: 15px;
+    padding: 1em;
+    text-indent: 2em;
+}
+
+
+.color-label {
+    position: absolute;
+    width: fit-content;
+    bottom: 1em;
+}
+
+
+h1 {
+    color: #fff;
+    padding: 10px 0;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: all ease-in-out 0.8s;
+    border: none;
+    max-width: 200px;
+    min-width: 200px;
+    position: relative;
+    margin-block: 2em;
+}
+
+.card-body {
+    min-height: 10em;
+    max-height: 10em;
+    padding: 5px;
+}
+
+.card:hover {
+    transition: all cubic-bezier(.28,.44,.6,.92) .5s;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+}
+
+.text-muted i {
+    margin: 0 10px;
+}
+
+.edit-link {
+    position: absolute;
+    right: 1em;
+}

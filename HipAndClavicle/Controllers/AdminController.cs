@@ -23,11 +23,6 @@ public class AdminController : Controller
         var admin = await _userManager.FindByNameAsync(User.Identity!.Name!);
         MerchantVM mvm = new(admin!);
         mvm.CurrentOrders = await _repo.GetAdminCurrentOrdersAsync();
-        foreach (var order in mvm.CurrentOrders)
-        {
-            order.Items = await _repo.GetOrderItemsAsync();
-        }
-
         return View(mvm);
     }
 
@@ -42,5 +37,4 @@ public class AdminController : Controller
         };
         return View(mvm);
     }
-
 }

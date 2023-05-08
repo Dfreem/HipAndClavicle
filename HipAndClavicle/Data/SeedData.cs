@@ -97,37 +97,35 @@ public static class SeedData
         {
             DateOrdered = DateTime.Now,
             Purchaser = devin!,
-            Address = devin!.Address!,
-            TotalPrice = 25.00d,
+            Address = devin!.Address!           
 
         };
         Order order2 = new()
         {
             DateOrdered = DateTime.Now,
             Purchaser = michael!,
-            Address = michael!.Address!,
-            TotalPrice = 125.00d,
+            Address = michael!.Address!
         };
         Order order3 = new()
         {
             DateOrdered = DateTime.Now,
             Purchaser = steven!,
-            Address = steven!.Address!,
-            TotalPrice = 25.00d,
+            Address = steven!.Address!
 
         };
         Order order4 = new()
         {
             DateOrdered = DateTime.Now,
             Purchaser = nehemiah!,
-            Address = nehemiah!.Address!,
-            TotalPrice = 125.00d
+            Address = nehemiah!.Address!
         };
         OrderItem item1 = new()
         {
             Item = dragonfly,
             ItemType = ProductCategory.Dragonflys,
             ItemColors = { blue },
+            PricePerUnit = 2.54d,
+            AmountOrdered = 5,
             SetSize = two
         };
         OrderItem item2 = new()
@@ -135,20 +133,25 @@ public static class SeedData
             Item = butterfly,
             ItemColors = { red },
             ItemType = ProductCategory.ButterFlys,
+            PricePerUnit = 10d,
             SetSize = fifteen
         };
         OrderItem item3 = new()
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            SetSize = ten
+            SetSize = ten,
+            ItemColors = { red, blue},
+            PricePerUnit = 12d
         };
-
         OrderItem item4 = new()
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            SetSize = new() { Size = 22 }
+            AmountOrdered = 3,
+            PricePerUnit = 19.99d,
+            SetSize = new() { Size = 22 },
+            ItemColors = { blue },
         };
 
         await context.OrderItems.AddRangeAsync(item1, item2, item3);

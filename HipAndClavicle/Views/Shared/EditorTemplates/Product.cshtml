@@ -1,30 +1,40 @@
 ﻿@model Product
 
+<link rel="stylesheet" href="~/css/Product.css" />
+
+<input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
 <div class="form-group">
-    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+    <label asp-for="Name">Product Name</label>
     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 </div>
 
 <div class="form-group">
     @Html.LabelFor(model => model.Category, new { @class = "control-label" })
-    @Html.DropDownListFor(model => model.Category, new SelectList(Enum.GetValues(typeof(ProductCategory))), "-- Select Category --", new { @class = "form-control" })
+    @Html.DropDownListFor(model => model.Category, new SelectList(Enum.GetValues(typeof(ProductCategory))), "-- Select Category --", new { @class = "form-control category-select" })
     @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
 </div>
 
 <div class="form-group">
     @Html.LabelFor(model => model.AvailableColors, new { @class = "control-label" })
-    @for (int i = 0; i < Model.AvailableColors.Count; i++)
-    {
-        @Html.EditorFor(model => model.AvailableColors[i], new { htmlAttributes = new { @class = "form-control" } })
-    }
-    @Html.ValidationMessageFor(model => model.AvailableColors, "", new { @class = "text-danger" })
-</div>
+    <select multiple asp-for="AvailableColors" class="form-select-sm mx-auto bg-dark color-select">
+        @foreach (Color color in ViewBag.NamedColors)
+        {
+            if (Model.AvailableColors.Contains(color))
+            {
 
-<div class="form-group">
-    @Html.LabelFor(model => model.InStock, new { @class = "control-label" })
-    @Html.CheckBoxFor(model => model.InStock, new { @class = "form-control" })
-    @Html.ValidationMessageFor(model => model.InStock, "", new { @class = "text-danger" })
+                <option selected value="@color" style="background-color:@color.HexValue" class="color-select-option text-light">@color.ColorName</option>
+
+            }
+            else
+            {
+                <option value="@color" style="background-color:@color.HexValue" class="color-select-option text-light">
+                    @color.ColorName
+                </option>
+            }
+        }
+
+    </select>
 </div>
 
 <div class="form-group">
@@ -53,14 +63,12 @@
 
 <div class="form-group">
     @Html.LabelFor(model => model.ProductImage, new { @class = "control-label" })
-    @Html.TextBoxFor(model => model.ProductImage, new { @type = "file", @class = "form-control" })
+    <input type="file" asp-for="TempFile" />
     @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
 </div>
 
 <div class="form-group">
     @Html.LabelFor(model => model.Description, new { @class = "control-label" })
-    @Html.EditorFor(model => model.Description , new { htmlAttributes = new { @class = "form-control" } })
+    <textarea cols="6" rows="2" asp-for="Description"></textarea>
     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 </div>
-
-<input type="hidden" asp-for="ProductId" />

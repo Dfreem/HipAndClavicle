@@ -1,0 +1,22 @@
+﻿.profile-table {
+    outline: 2px solid var(--orange-peel);
+    border-radius: 1em;
+    background-color: var(--mint-green);
+    color: var(--dark-orange-web);
+    font-family: 'Fredoka One', cursive;
+    padding: 1em;
+    margin: 1em;
+    margin-inline: auto;
+}
+
+
+.form-floating {
+    color: #1f1565;
+    background-color: #ff6a00;
+    padding: 0;
+}
+
+
+.profile-table > thead {
+    color: var(--viridian);
+}

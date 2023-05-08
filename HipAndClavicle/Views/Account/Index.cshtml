@@ -1,9 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model UserProfileVM
 @{
+    ViewData["Title"] = Model.CurrentUser.FName + "'s Profile";
 }
 
-<div>
-    <h1>Placeholder Page for user page</h1>
+<div class="my-5 py-5">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="UpdateUserProfileAsync">
+        <div class="row mx-auto px-2">
+            <div class="col-4 mx-auto">
+                <div class="input-group mb-2">
+                    <span class="input-group-text">First Name</span>
+                    <input asp-for="CurrentUser.FName" type="text" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Last Name</span>
+                    <input asp-for="CurrentUser.LName" type="text" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Email</span>
+                    <input asp-for="CurrentUser.Email" type="text" class="form-control text-right">
+                </div>
+                <hr />
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Current Password</span>
+                    <input asp-for="CurrentPassword" type="password" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">New Password</span>
+                    <input asp-for="NewPassword" type="password" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Confirm Password</span>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control text-right">
+                </div>
+            </div>
+            <div class="col-4 my-auto mx-auto">
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Line 1</span>
+                    <input asp-for="CurrentUser.Address!.AddressLine1" type="text" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Line 2</span>
+                    <input asp-for="CurrentUser.Address!.AddressLine2" type="text" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">City</span>
+                    <input asp-for="CurrentUser.Address!.CityTown" type="text" class="form-control text-right">
+                </div>
+                <div class="form-control text-center mb-2">
+                    <select asp-items="@Html.GetEnumSelectList<State>()" asp-for="CurrentUser.Address!.StateAbr">
+                    </select>
+                    <label asp-for="CurrentUser.Address!.StateAbr"></label>
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">ZipCode</span>
+                    <input asp-for="CurrentUser.Address!.PostalCode" type="text" class="form-control text-right">
+                </div>
+            </div>
+
+        </div>
+    </form>
+
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -15,28 +15,6 @@
             <div class="col">
                 @Html.DisplayFor(_ => product)
             </div>
-         
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-edit-product" aria-labelledby="offcanvas-edit-productLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvas-edit-productLabel">Offcanvas</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <form method="post" asp-action="EditProduct" asp-controller="Product">
-                        @Html.EditorFor(_ => product)
-                        
-                        <input type="submit" />
-                    </form>
-                </div>
-            </div>
-
-            <script>
-                var myModal = document.getElementById('offcanvas-edit-product')
-                var myInput = document.getElementById('offcanvas-edit-productLabel')
-                myModal.addEventListener('shown.bs.modal', function () {
-                    myInput.focus()
-                })
-            </script>
 
         }
     </div>

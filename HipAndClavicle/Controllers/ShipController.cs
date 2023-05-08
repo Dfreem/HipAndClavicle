@@ -203,6 +203,12 @@ public class ShipController : Controller
         };
     }
 
+    public async Task<IActionResult> ChangeMerchantAddress(ShippingVM svm)
+    {
+        await _userManager.UpdateAsync(svm.Merchant);
+        return RedirectToAction("Ship");
+    }
+
     #endregion
 
 }

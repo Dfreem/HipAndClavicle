@@ -2,84 +2,99 @@
 using NUnit.Framework;
 using shippingapi.Model;
 
-namespace HipAndClavicle
+namespace HipAndClavicle;
+
+public class ProductController : Controller
 {
-    public class ProductController : Controller
+    private readonly IServiceProvider _services;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly IAdminRepo _adminRepo;
+    private readonly IProductRepo _productRepo;
+    private readonly INotyfService _toast;
+
+    public ProductController(IServiceProvider services)
     {
-        private readonly IServiceProvider _services;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IAdminRepo _repo;
-        private readonly INotyfService _toast;
+        _services = services;
+        _userManager = services.GetRequiredService<UserManager<AppUser>>();
+        _adminRepo = services.GetRequiredService<IAdminRepo>();
+        _productRepo = services.GetRequiredService<IProductRepo>();
+        _toast = services.GetRequiredService<INotyfService>();
+    }
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EditProduct(int productId)
+    {
+        ViewBag.Familes = await _adminRepo.GetAllColorFamiliesAsync();
+        ViewBag.NamedColors = await _adminRepo.GetNamedColorsAsync();
+        var toEdit = await _productRepo.GetProductByIdAsync(productId);
+        ProductVM editProduct = new() { Edit = toEdit };
+        return View(editProduct);
+    }
 
-        public ProductController(IServiceProvider services)
+    [HttpPost]
+    public async Task<IActionResult> EditProduct(ProductVM product)
+    {
+        if (!ModelState.IsValid)
         {
-            _services = services;
-            _userManager = services.GetRequiredService<UserManager<AppUser>>();
-            _repo = services.GetRequiredService<IAdminRepo>();
-            _toast = services.GetRequiredService<INotyfService>();
-        }
-        public async Task<IActionResult> EditProduct(int id)
-        {
-            var toEdit = await _repo.GetProductByIdAsync(id);
-            return View(toEdit);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditProduct(Product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(product);
-            }
-            await _repo.UpdateProductAsync(product);
-            return RedirectToAction("Products", "Admin");
-        }
-
-
-        public async Task<IActionResult> AddProduct()
-        {
-            var colorOptions = await _repo.GetNamedColorsAsync();
-            var setSizes = await _repo.GetSetSizesAsync();
-            AddProductVM product = new()
-            {
-                NamedColors = colorOptions,
-                SetSizes = setSizes
-            };
+            // TODO better error message
+            _toast.Error("Something went wrong");
             return View(product);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(AddProductVM product)
+        
+        if (product.ImageFile is not null)
         {
-            if (!ModelState.IsValid)
-            {
-                _toast.Error("ModelState is not valid");
-                return View(product);
-            }
+            product.Edit!.ProductImage = await ExtractImageAsync(product.ImageFile);
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await product.ImageFile.CopyToAsync(memoryStream);
-                Image fromUpload = new()
-                {
-                    ImageData = memoryStream.ToArray(),
-                    Width = 100
-                };
-                product.ProductImage = fromUpload;
-                await _repo.SaveImageAsync(fromUpload);
-                await _repo.CreateProductAsync((Product)product);
-                _toast.Success("Successfully created new product");
-                return RedirectToAction("Products");
-            }
+            await _adminRepo.UpdateProductAsync(product.Edit);
+
         }
+        return RedirectToAction("Products", "Admin");
+    }
 
-        public async Task<IActionResult> DeleteProductAsync(int id)
+
+    public async Task<IActionResult> AddProduct()
+    {
+        var colorOptions = await _adminRepo.GetNamedColorsAsync();
+        var setSizes = await _adminRepo.GetSetSizesAsync();
+        ProductVM product = new()
         {
-            Product toDelete = await _repo.GetProductByIdAsync(id);
-            await _repo.DeleteProductAsync(toDelete);
-            return RedirectToAction("Products");
+            NamedColors = colorOptions,
+            SetSizes = setSizes
+        };
+        return View(product);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(ProductVM product)
+    {
+        if (!ModelState.IsValid)
+        {
+            _toast.Error("ModelState is not valid");
+            return View(product);
         }
-    
+        Image fromUpload = await ExtractImageAsync(product.ImageFile);
+        await _adminRepo.SaveImageAsync(fromUpload);
+        await _productRepo.CreateProductAsync((Product)product);
+        _toast.Success("Successfully created new product");
+        return RedirectToAction("Products");
+    }
+
+    public async Task<Image> ExtractImageAsync(IFormFile imageFile, int width = 100)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            await imageFile.CopyToAsync(memoryStream);
+            return new Image()
+            {
+                ImageData = memoryStream.ToArray(),
+                Width = width
+            };
+
+        }
+    }
+    public async Task<IActionResult> DeleteProductAsync(int id)
+    {
+        Product toDelete = await _productRepo.GetProductByIdAsync(id);
+        await _productRepo.DeleteProductAsync(toDelete);
+        return RedirectToAction("Products");
     }
 }
-

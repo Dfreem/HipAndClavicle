@@ -31,7 +31,7 @@
         /// <summary>
         /// The number of units ordered of this product. May be number of items or number of sets depending on <see cref="OrderItem.SetOrEach()"></see>/>
         /// </summary>
-        public int AmountOrdered { get; set; }
+        public int AmountOrdered { get; set; } = 1;
         [Display(Name = "Item Price")]
         public double PricePerUnit { get; set; }
         /// <summary>

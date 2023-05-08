@@ -5,7 +5,8 @@ namespace HipAndClavicle.Models;
 public class Color
 {
     public int ColorId { get; set; }
-    public string? ColorName { get; set; }
+    [Required]
+    public string ColorName { get; set; } = default!;
     public string? HexValue { get; set; }
     public int ColorFamilyId { get; set; }
     public List<ColorFamily> ColorFamilies { get; set; } = new List<ColorFamily>();

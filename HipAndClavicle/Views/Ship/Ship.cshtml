@@ -1,6 +1,7 @@
 ﻿@model ShippingVM
 @{
     ViewData["Title"] = "Shipping";
+    double totalPrice = 0;
 }
 <div class="body">
     <h1>Shipping</h1>
@@ -17,22 +18,10 @@
                     <div class="card-body" id="unhide">
                         @Html.DisplayFor(model => model.Merchant.Address)
                     </div>
-                    <div class="visually-hidden card-body" id="hide">
-                        <form method="post" asp-action="SaveMerchantAddress" asp-controller="Admin">
-                            @Html.EditorFor(model => model.Merchant.Address)
-                            <input type="submit" value="save" class="btn btn-block" />
 
-                        </form>
-                    </div>
-                    <button class="btn btn-outline-info mx-auto col-4 mb-3" type="button" onclick="hideAddress()">
+                    <a asp-action="Index" asp-controller="Account" class="btn btn-outline-info mx-auto col-4 mb-3">
                         <i class="bi bi-pencil text-warning"></i>
-                    </button>
-                    <script>
-                        function hideAddress() {
-                            document.getElementById('hide').classList.toggle('visually-hidden');
-                            document.getElementById('unhide').classList.toggle('visually-hidden');
-                        }
-                    </script>
+                    </a>
                 </div>
                 <div class="back-link mt-auto">
                     <a asp-action="CurrentOrders" asp-controller="Admin"><i class="bi bi-chevron-double-left"></i>Back to Orders</a>
@@ -74,7 +63,7 @@
 
                     <hr class="my-4" />
                     <h4>Destination Address</h4>
-                    @Html.EditorFor(model => model.Merchant.Address)
+                    @Html.EditorFor(model => model.Customer.Address)
                     <input type="hidden" value="@Model.OrderToShip.OrderId" asp-for="OrderToShip.OrderId" />
                     <input type="submit" value="Create Label" />
 
@@ -83,25 +72,54 @@
             </div>
 
 
-            <div class="col-md-4">
-                <ul class="list-group list-group-horizontal text-nowrapr">
+            <div class="col-sm-4">
+                <ul class="list-group" style="list-style-type: none;">
+                    <li>
+                        <ul class="list-group list-group-horizontal text-nowrap">
 
-                    <li class="list-group-item">&emsp;&emsp;</li>
-                    <li class="list-group-item"># ordered</li>
-                    <li class="list-group-item mx-auto">price / unit</li>
-                    <li class="list-group-item ms-auto">price</li>
+                            <li class="list-group-item">&emsp;&emsp;</li>
+                            <li class="list-group-item"># ordered</li>
+                            <li class="list-group-item mx-auto">price / unit</li>
+                            <li class="list-group-item ms-auto">price</li>
+                        </ul>
+
+                    </li>
+                    <li>
+                        <hr class="my-0" />
+
+                    </li>
+                    <li>
+                        @foreach (OrderItem item in Model.OrderToShip.Items)
+                        {
+                            double itemTotal = item.AmountOrdered * item.PricePerUnit;
+                            totalPrice += itemTotal;
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item"><b>@item.Item.Name</b></li>
+                                <li class="list-group-item me-auto"> @item.AmountOrdered</li>
+                                <li class="list-group-item me-auto">@item.PricePerUnit.ToString("C")</li>
+                                <li class="list-group-item text-right">@itemTotal.ToString("C")</li>
+
+                            </ul>
+                        }
+
+                    </li>
+                    <li>
+                        <hr />
+                        <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">
+                                <b>Total</b>
+                            </li>
+
+                            <li class="list-group-item ms-auto">
+                                @totalPrice.ToString("C")
+
+                            </li>
+
+
+                        </ul>
+                    </li>
+
                 </ul>
-                <hr class="my-0" />
-                @foreach (OrderItem item in Model.OrderToShip.Items)
-                {
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item"><b>@item.Item.Name</b></li>
-                        <li class="list-group-item me-auto"> @item.AmountOrdered</li>
-                        <li class="list-group-item me-auto">@item.PricePerUnit</li>
-                        <li class="list-group-item text-right">$@(item.PricePerUnit * item.AmountOrdered)</li>
-
-                    </ul>
-                }
             </div>
         </div>
     </div>

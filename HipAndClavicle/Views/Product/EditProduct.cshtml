@@ -1,0 +1,38 @@
+﻿@model ProductVM
+<div class="body">
+    <h4>@Model.Name</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container">
+                <div class="card">
+                    @if (Model.Edit is not null && Model.Edit.ProductImage is not null)
+                    {
+                        <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.Edit.ProductImage.ImageData)" alt="Product Image">
+
+                    }
+                </div>
+                <div class="card-text">
+                    @Model.Edit?.Description
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <form asp-action="EditProduct" method="post">
+                @Html.EditorForModel(Model.Edit)
+                <input type="submit" value="Save" class="btn btn-success" />
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Products" asp-controller="Admin">Back to List</a>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

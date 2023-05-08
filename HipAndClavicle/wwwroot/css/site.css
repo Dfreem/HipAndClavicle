@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Indie+Flower&family=Nova+Oval&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alkatra:wght@500;600;700&family=Amatic+SC:wght@400;700&family=Gloria+Hallelujah&family=Macondo&family=Secular+One&display=swap');
 /*
 font-family: 'Amatic SC', cursive;
 font-family: 'Indie Flower', cursive;
-font-family: 'Nova Oval', cursive;*/
+font-family: 'Nova Oval', cursive;
+font-family: 'Alkatra', cursive;
+font-family: 'Amatic SC', cursive;
+font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Macondo', cursive;
+font-family: 'Secular One', sans-serif;
+
+*/
 
 html {
     font-size: 14px;
@@ -37,6 +45,11 @@ body {
     min-height: 100vh;
     /*    margin-bottom: 60px;*/
 }
+
+.body {
+    padding-block-end: 5em;
+}
+
 
 .logo-login {
     margin-top: 1em;

@@ -10,6 +10,9 @@ builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
 builder.Services.AddTransient <IShippingRepo, ShippingRepo>();
 builder.Services.AddTransient<IShoppingCartRepo, ShoppingCartRepo>();
+builder.Services.AddTransient<IProductRepo, ProductRepo>();
+
+
 builder.Services.AddHttpContextAccessor();
 
 #region Identity
@@ -71,7 +74,6 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedUsers.Seed(services);
     await SeedData.Seed(services, context);
     await SeedListings.Seed(services, context);
-    await SeedRoles.SeedCustomerRole(services);
     await SeedRoles.SeedAdminRole(services);
     await SeedCustomers.Seed(services, context);
     await SeedShoppingCart.Seed(context, services);

@@ -61,6 +61,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
+		<None Include="wwwroot\css\Product.css" />
 	</ItemGroup>
 	<ItemGroup>
 

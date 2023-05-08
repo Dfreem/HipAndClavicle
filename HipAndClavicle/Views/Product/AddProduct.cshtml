@@ -1,4 +1,4 @@
-﻿@model AddProductVM
+﻿@model ProductVM
 @{
     ViewData["Title"] = "Add New Product";
 }
@@ -28,7 +28,7 @@
 
                 </div>
                 <div class="d-flex">
-                    <select asp-for="ProductColors" class="form-select-sm mx-auto">
+                    <select asp-for="ProductColors" multiple class="form-select-sm mx-auto">
                         @foreach (Color color in Model.NamedColors)
                         {
                             <option value="@color" style="background-color:@color.HexValue">@color.ColorName</option>
