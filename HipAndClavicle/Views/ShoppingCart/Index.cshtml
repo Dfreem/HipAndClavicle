@@ -66,22 +66,25 @@ else
                 </table>
                     
         </div>
-        <div class="float-end">
-            <form asp-action="ClearCart" asp-controller="ShoppingCart" method="post">
+        <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
+        <div class="float-start">
+            <form asp-action="ClearCart" asp-controller="ShoppingCart" method="post" class="float-start">
                 <input type="hidden" name="cartId" value="@Model.CartId" />
-                <button type="submit" class="btn btn-dark">Empty Cart</button>
+                <button type="submit" class="float-end btn btn-outline-danger">Empty Cart</button>
             </form>
         </div>
-        <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
-        
         <div class="float-end">
-            @*TODO: This add button is for testing remove later.*@
+            <a href="/checkout" class="btn btn-dark">Checkout    ></a>
+        </div>
+        <br />
+        <br />
+        <div>
+            @*TODO: This add button is for testing, remove later.*@
             <h2>This is for testing only!</h2>
             <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
                 <input type="hidden" name="listingId" value="1" />
                 <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
             </form>
-            <a href="/checkout" class="btn btn-dark">Checkout    ></a>
         </div>
     </div>
 }
