@@ -45,11 +45,11 @@ Test Registration functionality
 1. Check if the a user that is either logged in or not is able to navigate to the listings view to see all the available listings.
 2. Check that a user is able to select a listing from the catalog view and navigate to the Listing details view.
 
-## TODO
+<!-- ## TODO
 
 - [ ] Add tax info to an order.
 - [ ] Add color editor to Product.
 - [ ] fix images on product page.
 - [ ] Add a delete button for a product
 - [ ] Add image upload on product edit page.
-- [ ] Make shopping cart icon only visible to non admins.
+- [ ] Make shopping cart icon only visible to non admins. -->
