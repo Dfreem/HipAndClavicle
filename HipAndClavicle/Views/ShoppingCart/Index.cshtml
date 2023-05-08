@@ -56,7 +56,7 @@ else
                                 <td>
                                 <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="post">
                                     <input type="hidden" name="itemId" value="@item.Id" />
-                                    <button type="submit" class="btn btn-dark">Delete</button>
+                                    <button type="submit" class="btn btn-dark" onclick="return confirm('Are you sure you want to remove this item from the cart?');">Delete</button>
                                 </form>
 
                                 </td>
@@ -70,7 +70,7 @@ else
         <div class="float-start">
             <form asp-action="ClearCart" asp-controller="ShoppingCart" method="post" class="float-start">
                 <input type="hidden" name="cartId" value="@Model.CartId" />
-                <button type="submit" class="float-end btn btn-outline-danger">Empty Cart</button>
+                <button type="submit" class="float-end btn btn-outline-danger" onclick="return confirm('Are you sure you want to clear your entire cart?');">Empty Cart</button>
             </form>
         </div>
         <div class="float-end">
