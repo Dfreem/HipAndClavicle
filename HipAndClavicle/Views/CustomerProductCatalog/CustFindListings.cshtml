@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Products";
 }
 @model List<Listing>
@@ -7,7 +6,11 @@
 @foreach (var listing in Model)
 {
     string backgroundColor = "gray";
-    @if (listing.ListingColorJTs.First().ListingColor != null)
+    @if (listing.Colors.Count > 0)
+    {
+        backgroundColor = listing.Colors.First().HexValue.ToString();
+    }
+    else if (listing.ListingColorJTs.Count() > 0)
     {
         backgroundColor = listing.ListingColorJTs.First().ListingColor.HexValue.ToString();
     }
@@ -17,4 +20,5 @@
         <h3 class="text-center">@listing.ListingTitle</h3>
     </a>
 }
+
 

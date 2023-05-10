@@ -29,9 +29,9 @@
 
     </div>
     <h3>Reviews:</h3>
-    if(Model.Product.Reviews.Count() > 0)
+    if (Model.Product.Reviews.Count() > 0)
     {
-        foreach(var rev in Model.Product.Reviews)
+        foreach (var rev in Model.Product.Reviews)
         {
             <div class="border border-dark rounded col col-6 mb-5">
                 <h4>Revew by: @rev.Reviewer.FName</h4>
