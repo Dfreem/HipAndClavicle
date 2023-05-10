@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
 public class ShipController : Controller
@@ -48,33 +49,25 @@ public class ShipController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Ship(ShippingVM svm)
     {
-        svm.OrderToShip = await _repo.GetOrderByIdAsync(svm.OrderToShip.OrderId);
-        if (svm.OrderToShip is not null)
+        var shipEngine = new ShipEngine("api_key");
+        if (svm.Customer.Address is null || svm.Merchant.Address is null)
         {
-            var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
-
-            if (merchant!.Address is null)
-            {
-                MerchantVM mvm = new()
-                {
-                    Admin = merchant,
-                    FromAddress = new()
-                };
-                return View("NoMerchantAddressError", mvm);
-            }
-
-
-            return RedirectToAction(nameof(ViewLabel));
-
+            _toast.Error("Address cannot be empty. Please check both to and from address'");
+            return View(svm);
         }
-
-        _toast.Error("Could not find order in system");
-        return View(svm);
+        Params @params = await GetShippingParamsAsync(shipEngine, svm);
+        Result result = await GetRatesAsync(shipEngine, @params);
+        if (result.Status == LabelStatus.Error)
+        {
+            _toast.Error("erreor creating label. Please try again later.\n" + result.Status.ToString());
+            return View(svm);
+        }
+        return RedirectToAction("ViewLabel", result);
     }
 
-    private IActionResult ViewLabel()
+    private IActionResult ViewLabel(Result result)
     {
-        return View();
+        return View(result);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -85,9 +78,24 @@ public class ShipController : Controller
 
     #region Shipping API
 
-    public async Task<Result> CreateLabelFromShipmentDetails()
+    public async Task<Result> GetRatesAsync(ShipEngine shipEngine, Params p)
     {
-        var shipEngine = new ShipEngine("api_key");
+        try
+        {
+            Result result = await shipEngine.GetRatesWithShipmentDetails(p);
+            return result;
+        }
+        catch (ShipEngineException e)
+        {
+            Console.WriteLine("Error creating label");
+            throw e;
+        }
+    }
+    public async Task<Params> GetShippingParamsAsync(ShippingVM svm)
+    {
+        ShippingAddress shipTo = svm.Customer.Address!;
+        ShippingAddress shipFrom = svm.Merchant.Address!;
+
 
         var rateParams = new Params()
         {
@@ -96,23 +104,23 @@ public class ShipController : Controller
                 ServiceCode = "usps_priority_mail",
                 ShipFrom = new Address()
                 {
-                    Name = "John Doe",
-                    AddressLine1 = "4009 Marathon Blvd",
-                    CityLocality = "Austin",
-                    StateProvince = "TX",
-                    PostalCode = "78756",
+                    Name = svm.Merchant.FName + " " + svm.Merchant.LName,
+                    AddressLine1 = shipFrom.AddressLine1,
+                    CityLocality = shipFrom.CityTown,
+                    StateProvince = shipFrom.StateAbr.ToString(),
+                    PostalCode = shipFrom.PostalCode,
                     CountryCode = Country.US,
-                    Phone = "512-555-5555"
+                    Phone = svm.Merchant.PhoneNumber
                 },
                 ShipTo = new Address()
                 {
-                    Name = "Amanda Miller",
-                    AddressLine1 = "525 S Winchester Blvd",
-                    CityLocality = "San Jose",
-                    StateProvince = "CA",
-                    PostalCode = "95128",
+                    Name = svm.Customer.FName + " " + svm.Merchant.LName,
+                    AddressLine1 = shipTo.AddressLine1,
+                    CityLocality = shipTo.CityTown,
+                    StateProvince = shipTo.StateAbr.ToString(),
+                    PostalCode = shipTo.PostalCode,
                     CountryCode = Country.US,
-                    Phone = "512-555-5555"
+                    Phone = svm.Merchant.PhoneNumber
                 },
 
                 Packages = new List<Package>()
@@ -121,8 +129,8 @@ public class ShipController : Controller
                     {
                         Weight = new Weight()
                         {
-                            Value = 17,
-                            Unit = WeightUnit.Pound
+                            Value = svm.NewPackage.Weight.Value,
+                            Unit = svm.NewPackage.Weight.Unit
 
                         },
 
@@ -138,16 +146,6 @@ public class ShipController : Controller
             }
         };
 
-        try
-        {
-            var result = await shipEngine.CreateLabelFromShipmentDetails(rateParams);
-            return result;
-        }
-        catch (ShipEngineException e)
-        {
-            Console.WriteLine("Error creating label");
-            throw e;
-        }
     }
 
 

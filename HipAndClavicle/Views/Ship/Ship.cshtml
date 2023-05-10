@@ -33,7 +33,7 @@
                 <form asp-action="Ship" method="post">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Weight</span>
-                        <input asp-for="NewPackage.Weight" class="form-control" />
+                        <input asp-for="NewPackage.Weight.Value" class="form-control" />
                         <span asp-validation-for="NewPackage.Weight.Value" class="text-danger"></span>
 
                     </div>

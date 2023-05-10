@@ -3,40 +3,44 @@
 @{
     ViewData["Title"] = "ShippingAddress";
 }
-<div class="my-auto">
+<div class="my-auto mt-3">
     @if (Model is not null)
     {
         <dl class="list-group">
-            <dt class="card-text list-group-item">
-                @Html.DisplayNameFor(model => model.AddressLine1)
-            </dt>
-            <dd class="card-text list-group-item">
-                @Html.DisplayFor(model => model.AddressLine1)
-            </dd>
-            <dt class="card-text list-group-item">
-                @Html.DisplayNameFor(model => model.AddressLine2)
-            </dt>
-            <dd class="card-text list-group-item">
-                @Html.DisplayFor(model => model.AddressLine2)
-            </dd>
-            <dt class="card-text list-group-item">
-                @Html.DisplayNameFor(model => model.CityTown)
-            </dt>
-            <dd class="card-text list-group-item">
-                @Html.DisplayFor(model => model.CityTown)
-            </dd>
-            <dt class="card-text list-group-item">
-                @Html.DisplayNameFor(model => model.StateAbr)
-            </dt>
-            <dd class="card-text list-group-item">
-                @Html.DisplayFor(model => model.StateAbr)
-            </dd>
-            <dt class="card-text list-group-item">
-                @Html.DisplayNameFor(model => model.PostalCode)
-            </dt>
-            <dd class="card-text list-group-item">
-                @Html.DisplayFor(model => model.PostalCode)
-            </dd>
+            <div class="row">
+                <dt class="list-group-text col">
+                    @Html.DisplayNameFor(model => model.AddressLine1)
+                </dt>
+                <dd class="list-group-text col">
+                    @Html.DisplayFor(model => model.AddressLine1)
+                </dd>
+
+            </div>
+
+            <div class="row">
+                <dt class="list-group-text col">
+                    @Html.DisplayNameFor(model => model.CityTown)
+                </dt>
+                <dd class="list-group-text col">
+                    @Html.DisplayFor(model => model.CityTown)
+                </dd>
+            </div>
+            <div class="row">
+                <dt class="list-group-text col">
+                    @Html.DisplayNameFor(model => model.StateAbr)
+                </dt>
+                <dd class="list-group-text col">
+                    @Html.DisplayFor(model => model.StateAbr)
+                </dd>
+            </div>
+            <div class="row">
+                <dt class="list-group-text col">
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </dt>
+                <dd class="list-group-text col">
+                    @Html.DisplayFor(model => model.PostalCode)
+                </dd>
+            </div>
         </dl>
 
     }
