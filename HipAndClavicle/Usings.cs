@@ -34,10 +34,13 @@ global using Microsoft.Extensions.DependencyInjection;
 
 global using Pomelo.EntityFrameworkCore;
 global using ShipEngineSDK;
+global using ShipEngineSDK.Common;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc.Rendering;
+global using ShipEngineSDK.CreateLabelFromShipmentDetails;
+global using ShipEngineSDK.Common.Enums;
 
 // TODO add messaging from admin orders
 // TODO enable email functionality

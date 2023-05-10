@@ -6,18 +6,21 @@ public class AccountController : Controller
     private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
     private readonly INotyfService _toast;
+    private readonly IShippingRepo _shippingRepo;
 
     public AccountController(IServiceProvider services, ApplicationDbContext context)
     {
         _toast = services.GetRequiredService<INotyfService>();
         _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
         _userManager = _signInManager.UserManager;
+        _shippingRepo = services.GetRequiredService<IShippingRepo>();
     }
 
     public async Task<IActionResult> Index()
     {
         string userName = _signInManager.Context.User.Identity!.Name!;
         var user = await _userManager.FindByNameAsync(userName);
+        user!.Address = await _shippingRepo.FindUserAddress(user);
         UserProfileVM uvm = new()
         {
 
@@ -111,11 +114,30 @@ public class AccountController : Controller
         _toast.Success("You are now signed out, Goodbye!");
         return RedirectToAction("Index", "Home");
     }
-
-    public async Task<IActionResult> UpdateUserProfileAsync(UserProfileVM upvm)
+    [HttpPost]
+    public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
         await _userManager.UpdateAsync(upvm.CurrentUser);
         _toast.Success("Your information was updated");
         return RedirectToAction("Index", upvm);
+    }
+    public async Task<IActionResult> ChangeUserPasswordAsync(UserProfileVM upvm)
+    {
+        if (upvm.NewPassword != upvm.ConfirmPassword)
+        {
+            _toast.Error("Passwords did not match");
+            return RedirectToAction("Index", upvm);
+        }
+        var result = await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
+        if (result.Succeeded)
+        {
+            _toast.Success("Your password was changed");
+            return RedirectToAction("Index", upvm);
+        }
+        else
+        {
+            _toast.Error("There was an error changing your password");
+            return RedirectToAction("Index", upvm);
+        }
     }
 }

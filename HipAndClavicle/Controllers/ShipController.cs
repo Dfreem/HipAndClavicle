@@ -1,4 +1,5 @@
 ﻿
+
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
 public class ShipController : Controller
@@ -21,7 +22,7 @@ public class ShipController : Controller
 
         // Ship Engine Key for Shipments
         _shipEngineKey = config["ShipEngine"]!;
-        
+
     }
 
     public async Task<IActionResult> Ship(int orderId)
@@ -61,7 +62,7 @@ public class ShipController : Controller
                 };
                 return View("NoMerchantAddressError", mvm);
             }
-           
+
 
             return RedirectToAction(nameof(ViewLabel));
 
@@ -84,7 +85,73 @@ public class ShipController : Controller
 
     #region Shipping API
 
-       
+    public async Task<Result> CreateLabelFromShipmentDetails()
+    {
+        var shipEngine = new ShipEngine("api_key");
+
+        var rateParams = new Params()
+        {
+            Shipment = new Shipment()
+            {
+                ServiceCode = "usps_priority_mail",
+                ShipFrom = new Address()
+                {
+                    Name = "John Doe",
+                    AddressLine1 = "4009 Marathon Blvd",
+                    CityLocality = "Austin",
+                    StateProvince = "TX",
+                    PostalCode = "78756",
+                    CountryCode = Country.US,
+                    Phone = "512-555-5555"
+                },
+                ShipTo = new Address()
+                {
+                    Name = "Amanda Miller",
+                    AddressLine1 = "525 S Winchester Blvd",
+                    CityLocality = "San Jose",
+                    StateProvince = "CA",
+                    PostalCode = "95128",
+                    CountryCode = Country.US,
+                    Phone = "512-555-5555"
+                },
+
+                Packages = new List<Package>()
+                {
+                    new Package()
+                    {
+                        Weight = new Weight()
+                        {
+                            Value = 17,
+                            Unit = WeightUnit.Pound
+
+                        },
+
+                        Dimensions = new Dimensions()
+                        {
+                            Length = 36,
+                            Width = 12,
+                            Height = 24,
+                            Unit = DimensionUnit.Inch
+                        }
+                    }
+                }
+            }
+        };
+
+        try
+        {
+            var result = await shipEngine.CreateLabelFromShipmentDetails(rateParams);
+            return result;
+        }
+        catch (ShipEngineException e)
+        {
+            Console.WriteLine("Error creating label");
+            throw e;
+        }
+    }
+
+
+
     #endregion
 
     #region Utility

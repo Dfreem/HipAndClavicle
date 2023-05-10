@@ -40,4 +40,37 @@ public class ProductRepo : IProductRepo
         await _context.SaveChangesAsync();
     }
 
+
+    public async Task<List<Color>> GetNamedColorsAsync()
+    {
+        return await _context.NamedColors.ToListAsync();
+    }
+
+    public async Task<List<SetSize>> GetSetSizesAsync()
+    {
+        return await _context.SetSizes.ToListAsync();
+    }
+
+    public async Task AddNewSizeAsync(int size)
+    {
+        if (!_context.SetSizes.Any(s => s.Size == size))
+        {
+            SetSize newSize = new() { Size = size };
+            _context.SetSizes.Add(newSize);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task SaveImageAsync(Image fromUpload)
+    {
+        await _context.Images.AddAsync(fromUpload);
+        await _context.SaveChangesAsync();
+    }
+    public async Task<List<ColorFamily>> GetAllColorFamiliesAsync()
+    {
+        return await _context.ColorFamilies.Include(f => f.Color)
+            .ToListAsync();
+    }
+
+
 }

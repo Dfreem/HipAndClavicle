@@ -33,31 +33,35 @@
                 <form asp-action="Ship" method="post">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Weight</span>
-                        <input asp-for="ParcelWeight.Weight" class="form-control" />
-                        <span asp-validation-for="ParcelWeight.Weight" class="text-danger"></span>
-                        <span class="input-group-text">unit</span>
-                        <select asp-for="ParcelWeight.UnitOfMeasurement" class="form-control" asp-items="Html.GetEnumSelectList<UnitOfWeight>()"></select>
+                        <input asp-for="NewPackage.Weight" class="form-control" />
+                        <span asp-validation-for="NewPackage.Weight.Value" class="text-danger"></span>
+
+                    </div>
+                    <div class="input-group mb-3">
+
+                        <span class="input-group-text">Unit</span>
+                        <select asp-items="@Html.GetEnumSelectList<WeightUnit>()" class="form-select"></select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Height</span>
-                        <input asp-for="PackageDimension.Height" class="form-control" />
-                        <span asp-validation-for="PackageDimension.Height" class="text-danger"></span>
+                        <input asp-for="NewPackage.Dimensions.Height" class="form-control" />
+                        <span asp-validation-for="NewPackage.Dimensions.Height" class="text-danger"></span>
 
                         <span class="input-group-text">Width</span>
-                        <input asp-for="PackageDimension.Width" class="form-control" />
-                        <span asp-validation-for="PackageDimension.Width" class="text-danger"></span>
+                        <input asp-for="NewPackage.Dimensions.Width" class="form-control" />
+                        <span asp-validation-for="NewPackage.Dimensions.Width" class="text-danger"></span>
 
                     </div>
                     <div class="input-group mb-3">
 
                         <span class="input-group-text">Length</span>
-                        <input asp-for="PackageDimension.Length" class="form-control input-group-item" />
+                        <input asp-for="NewPackage.Dimensions.Length" class="form-control input-group-item" />
 
-                        <span asp-validation-for="PackageDimension.Length" class="text-danger"></span>
+                        <span asp-validation-for="NewPackage.Dimensions.Length" class="text-danger"></span>
                         <span class="input-group-text">unit</span>
-                        <select asp-for="UnitOfMeasure"
+                        <select asp-for="NewPackage.Dimensions.Unit"
                                 class="form-control bg-warning-subtle"
-                                asp-items="Html.GetEnumSelectList<UnitOfDimension>()">
+                                asp-items="Html.GetEnumSelectList<DimensionUnit>()">
                         </select>
                     </div>
 

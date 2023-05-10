@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace HipAndClavicle;
+﻿namespace HipAndClavicle;
 
 public class ShippingVM
 {
@@ -8,19 +6,12 @@ public class ShippingVM
     public Order OrderToShip { get; set; } = default!;
     public AppUser Customer { get; set; } = default!;
     public AppUser Merchant { get; set; } = default!;
+    public Address ShipFrom { get; set; } = new();
+    public Address ShipTo { get; set; } = new();
+    public Package NewPackage { get; set; } = new();
     public AdminSettings Settings { get; set; } = new();
     [Display(Name = "Value of Goods")]
     public decimal ValueOfGoods { get; set; }
-    [Display(Name = "Shipping Rates")]
-    public List<Rate> ShippingRates { get; set; } = new();
-    public Rate? SelectedRate { get; set; }
-    [Display(Name = "Package Weight")]
-    public ParcelWeight ParcelWeight { get; set; } = new();
-    [Display(Name = "Unit")]
-    public UnitOfDimension? UnitOfMeasure { get; set; }
-    [Display(Name = "Package Size")]
-    public ParcelDimension PackageDimension { get; set; } = new();
-    public List<Document> Documents { get; set; } = new();
-
+  
 }
 
