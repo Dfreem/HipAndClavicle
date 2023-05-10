@@ -1,6 +1,12 @@
 ﻿
 
 
+using ShipEngineSDK;
+using ShipEngineSDK.GetRatesWithShipmentDetails;
+using Params = ShipEngineSDK.GetRatesWithShipmentDetails.Params;
+using Result = ShipEngineSDK.GetRatesWithShipmentDetails.Result;
+using Shipment = ShipEngineSDK.GetRatesWithShipmentDetails.Shipment;
+
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
 public class ShipController : Controller
@@ -55,17 +61,17 @@ public class ShipController : Controller
             _toast.Error("Address cannot be empty. Please check both to and from address'");
             return View(svm);
         }
-        Params @params = await GetShippingParamsAsync(shipEngine, svm);
-        Result result = await GetRatesAsync(shipEngine, @params);
-        if (result.Status == LabelStatus.Error)
+        Params @params = GetShippingParams(svm);
+        Result rates = await GetRatesAsync(shipEngine, @params);
+        if (rates.RateResponse.Status == RateStatus.Error)
         {
-            _toast.Error("erreor creating label. Please try again later.\n" + result.Status.ToString());
+            _toast.Error("error creating label. Please try again later.\n" + rates.RateResponse.ToString());
             return View(svm);
         }
-        return RedirectToAction("ViewLabel", result);
+        return View(svm);
     }
 
-    private IActionResult ViewLabel(Result result)
+    private IActionResult ViewLabel(ShipEngineSDK.GetRatesWithShipmentDetails.Result result)
     {
         return View(result);
     }
@@ -91,7 +97,7 @@ public class ShipController : Controller
             throw e;
         }
     }
-    public async Task<Params> GetShippingParamsAsync(ShippingVM svm)
+    public Params GetShippingParams(ShippingVM svm)
     {
         ShippingAddress shipTo = svm.Customer.Address!;
         ShippingAddress shipFrom = svm.Merchant.Address!;
@@ -123,9 +129,9 @@ public class ShipController : Controller
                     Phone = svm.Merchant.PhoneNumber
                 },
 
-                Packages = new List<Package>()
+                Packages = new()
                 {
-                    new Package()
+                    new ShipEngineSDK.Common.ShipmentPackage()
                     {
                         Weight = new Weight()
                         {
@@ -145,6 +151,7 @@ public class ShipController : Controller
                 }
             }
         };
+        return rateParams;
 
     }
 

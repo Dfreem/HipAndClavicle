@@ -5,11 +5,11 @@ namespace HipAndClavicle.ViewModels
     {
         public AppUser CurrentUser { get; set; } = default!;
         [PasswordPropertyText]
-        public string NewPassword { get; set; } = default!;
+        public string? NewPassword { get; set; }
         [PasswordPropertyText]
-        public string ConfirmPassword { get; set; } = default!;
+        public string? ConfirmPassword { get; set; }
         [PasswordPropertyText]
-        public string CurrentPassword { get; set; } = default!;
+        public string? CurrentPassword { get; set; }
     }
 }
 

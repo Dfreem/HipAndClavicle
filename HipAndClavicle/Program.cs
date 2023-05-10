@@ -13,6 +13,7 @@ builder.Services.AddTransient<IShippingRepo, ShippingRepo>();
 builder.Services.AddTransient<IShoppingCartRepo, ShoppingCartRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
+builder.Services.AddTransient<IAccountRepo, AccountRepo>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();

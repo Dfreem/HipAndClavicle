@@ -1,4 +1,6 @@
-﻿namespace HipAndClavicle;
+﻿using ShipEngineSDK.GetRatesWithShipmentDetails;
+
+namespace HipAndClavicle;
 
 public class ShippingVM
 {
@@ -7,6 +9,7 @@ public class ShippingVM
     public AppUser Customer { get; set; } = default!;
     public AppUser Merchant { get; set; } = default!;
     public Package NewPackage { get; set; } = new();
+    public ShipEngineSDK.GetRatesWithShipmentDetails.Result? ShippingRates { get; set; }
     public AdminSettings Settings { get; set; } = new();
     [Display(Name = "Value of Goods")]
     public decimal ValueOfGoods { get; set; }

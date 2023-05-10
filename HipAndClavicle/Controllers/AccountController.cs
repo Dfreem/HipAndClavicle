@@ -7,6 +7,7 @@ public class AccountController : Controller
     private readonly UserManager<AppUser> _userManager;
     private readonly INotyfService _toast;
     private readonly IShippingRepo _shippingRepo;
+    private readonly IAccountRepo _accountRepo;
 
     public AccountController(IServiceProvider services, ApplicationDbContext context)
     {
@@ -14,18 +15,18 @@ public class AccountController : Controller
         _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
         _userManager = _signInManager.UserManager;
         _shippingRepo = services.GetRequiredService<IShippingRepo>();
+        _accountRepo = services.GetRequiredService<IAccountRepo>();
     }
 
     public async Task<IActionResult> Index()
     {
         string userName = _signInManager.Context.User.Identity!.Name!;
         var user = await _userManager.FindByNameAsync(userName);
-        user!.Address = await _shippingRepo.FindUserAddress(user);
+        user!.Address = await _accountRepo.FindUserAddress(user);
         UserProfileVM uvm = new()
         {
-
             CurrentUser = user!,
-
+            
         };
         return View(uvm);
     }
@@ -117,27 +118,20 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
-        await _userManager.UpdateAsync(upvm.CurrentUser);
-        _toast.Success("Your information was updated");
-        return RedirectToAction("Index", upvm);
-    }
-    public async Task<IActionResult> ChangeUserPasswordAsync(UserProfileVM upvm)
-    {
+        if (upvm.NewPassword != null && 
+            upvm.NewPassword == upvm.ConfirmPassword &&
+            upvm.CurrentPassword is not null)
+        {
+           await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
+        }
         if (upvm.NewPassword != upvm.ConfirmPassword)
         {
-            _toast.Error("Passwords did not match");
+            _toast.Error("Passwords do not match, pleas re-enter new password");
             return RedirectToAction("Index", upvm);
         }
-        var result = await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
-        if (result.Succeeded)
-        {
-            _toast.Success("Your password was changed");
-            return RedirectToAction("Index", upvm);
-        }
-        else
-        {
-            _toast.Error("There was an error changing your password");
-            return RedirectToAction("Index", upvm);
-        }
+        await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser, upvm.CurrentUser.Address);
+        
+        _toast.Success("Your information was updated");
+        return RedirectToAction("Index", upvm);
     }
 }

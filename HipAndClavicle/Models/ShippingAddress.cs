@@ -18,6 +18,9 @@ public class ShippingAddress
     [DataType(DataType.PostalCode)]
     [Display(Name = "Zip-code")]
     public string PostalCode { get; set; } = default!;
-    public bool Residential { get; set; }
+    public bool Residential { get; set; } = true;
+    public string Name { get; set; } = "Not Set";
+    public List<AppUser> Residents { get; set; } = new()!;
+    public int AppUserId { get; set; }
 
 }
