@@ -18,6 +18,7 @@
         if (User.IsInRole("Admin"))
         {
             <div class="admin-controls">
+                <a class="btn btn-outline-info rounded-1" asp-action="CustFindListings" asp-controller="CustomerProductCatalog"> Listings</a>
                 <a class="btn btn-outline-info rounded-1" asp-action="Products" asp-controller="Admin"> Products</a>
                 <a class="btn btn-outline-info ion-bag my-n4" asp-action="CurrentOrders" asp-controller="Admin"></a>
             </div>
