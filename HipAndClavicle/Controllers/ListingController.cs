@@ -61,7 +61,7 @@ namespace HipAndClavicle.Controllers
                 await _context.ListingColorsJT.AddAsync(newListingColorAssoc);
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction("CustFindListings", "CustomerProductCatalog");
+            return RedirectToAction("CustFindListings", "Customer");
 
             //using (var memoryStream = new MemoryStream())
             //{
