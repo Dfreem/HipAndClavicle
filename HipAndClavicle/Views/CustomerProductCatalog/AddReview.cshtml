@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Add Review";
+}
+@model CustReviewVM
+
+<form method="post" asp-action="AddReview">
+    <div>
+        <label asp-for="@Model.Review.Message">Review:</label>
+        <textarea asp-for="@Model.Review.Message"></textarea>
+    </div>
+    <input type="submit" value="Add Review" class="btn btn-primary" asp-route-productId="@Model.Product.ProductId" />
+</form> 
