@@ -68,7 +68,7 @@ public class ShipController : Controller
             _toast.Error("error creating label. Please try again later.\n" + rates.RateResponse.ToString());
             return View(svm);
         }
-        return View(svm);
+        return RedirectToAction("ViewLabel", rates);
     }
 
     private IActionResult ViewLabel(ShipEngineSDK.GetRatesWithShipmentDetails.Result result)
