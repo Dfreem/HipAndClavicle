@@ -103,6 +103,9 @@ namespace HipAndClavicle.Repositories
                 .ThenInclude(i => i.Item)
                 .Include(o => o.Items)
                 .ThenInclude(c => c.ItemColors)
+                //.Include(o => o.Items)
+                //.ThenInclude(i => i.TheListing)
+                //.ThenInclude(tl => tl.Colors)
                 .Where(o => o.PurchaserId == customerId).ToListAsync();
             return orders;
         }

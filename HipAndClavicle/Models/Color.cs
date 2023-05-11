@@ -28,5 +28,8 @@ public class Color
     public int Green { get; set; } = 0;
     public int ProductId { get; set; }
     public List<Product> ApplicableProducts { get; set; } = new();
+    public int OrderItemId { get; set; }
+    public List<OrderItem> OrderItems { get; set; }
+
 }
 
