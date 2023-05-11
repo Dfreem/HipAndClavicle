@@ -128,7 +128,12 @@ namespace HipAndClavicle.Data
                 ColorName = "newYellow",
                 HexValue = "#edcd2b"
             };
-            await context.NamedColors.AddAsync(newColor);
+            var newColor2 = new Color()
+            {
+                ColorName = "newRed",
+                HexValue = "#ef3939"
+            };
+            await context.NamedColors.AddRangeAsync(newColor, newColor2);
 
             Order order1 = new Order()
             {
@@ -147,10 +152,18 @@ namespace HipAndClavicle.Data
             {
                 Item = butterfly,
                 ItemType = ProductCategory.ButterFlys,
+                ItemColors = { newColor, newColor2 }
 
+            };
+            OrderItem item2 = new OrderItem()
+            {
+                Item = dragon,
+                ItemType = ProductCategory.Dragons,
+                ItemColors = { newColor}
             };
             await context.OrderItems.AddAsync(item1);
             order1.Items.Add(item1);
+            order1.Items.Add(item2);
 
             await context.Orders.AddRangeAsync(order1, order2);
             #endregion AddOrders

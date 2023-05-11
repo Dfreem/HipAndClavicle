@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Your Orders";
+}
+@model List<Order>
+
+<h1>Your Orders</h1>
+
+@if(Model.Count() > 0)
+{
+    @foreach(var order in Model){
+        <div class="order-div row border ">
+            <div class="order-number-div border">Order number: @order.OrderId</div>
+            <div>
+                Order Items:
+            </div>
+            <div class="col">
+                @foreach (var item in order.Items)
+                {
+                    
+                    string colorsString = "";
+                    colorsString += item.ItemColors.First().ColorName;
+                    if(item.ItemColors.Count() > 1)
+                    {
+                        foreach (var color in item.ItemColors.Skip(1))
+                        {
+                            colorsString += ", " + color.ColorName;
+                        }
+                    }
+                    <div>Item: @item.Item.Name in @colorsString </div>
+                }
+            </div>
+            <div class="col">Order Status: @order.Status</div>
+        </div>
+
+    }
+}

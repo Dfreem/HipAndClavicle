@@ -14,6 +14,8 @@
         public Task<List<Listing>> GetListingsByColorFamilyAsync(string colorFamilyName);
         public Task<Color> GetColorByIdAsync(int colorId);
         public Task<Product> GetProductByIdAsync(int productId);
+        public Task<List<Order>> GetOrdersByCustomerId(string customerId);
+
 
 
 

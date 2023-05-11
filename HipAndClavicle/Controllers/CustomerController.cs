@@ -97,5 +97,29 @@ namespace HipAndClavicle.Controllers
             await _repo.AddReviewAsync(crVM);
             return RedirectToAction("CustFindListings", "CustomerProductCatalog");
         }
+
+        public async Task<IActionResult> Orders()
+        {
+            AppUser currentUser = null;
+            string currentUserId = null;
+            List<Order> orders = null;
+            if (User.Identity.IsAuthenticated)
+            {
+                currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                currentUserId = currentUser.Id;
+            }
+            
+            if (currentUser != null)
+            {
+                orders = await _repo.GetOrdersByCustomerId(currentUserId);
+            }
+            
+            CustOrdersVM ordersVM = new CustOrdersVM()
+            {
+
+            };
+
+            return View(orders);
+        }
     }
 }
