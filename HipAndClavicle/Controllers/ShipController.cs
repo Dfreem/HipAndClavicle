@@ -2,6 +2,7 @@
 
 
 using ShipEngineSDK;
+using ShipEngineSDK.CreateLabelFromRate;
 using ShipEngineSDK.GetRatesWithShipmentDetails;
 using Params = ShipEngineSDK.GetRatesWithShipmentDetails.Params;
 using Result = ShipEngineSDK.GetRatesWithShipmentDetails.Result;
@@ -17,7 +18,7 @@ public class ShipController : Controller
     private readonly IShippingRepo _repo;
     private readonly INotyfService _toast;
     private readonly string _shipEngineKey;
-
+    private readonly ShipEngine _shipEngine;
 
     public ShipController(IServiceProvider services, IConfiguration config)
     {
@@ -29,7 +30,7 @@ public class ShipController : Controller
 
         // Ship Engine Key for Shipments
         _shipEngineKey = config["ShipEngine"]!;
-
+        _shipEngine = new ShipEngine(_shipEngineKey);
     }
 
     public async Task<IActionResult> Ship(int orderId)
@@ -38,42 +39,75 @@ public class ShipController : Controller
         merchant!.Address = await _repo.FindUserAddress(merchant);
         var order = await _repo.GetOrderByIdAsync(orderId);
 
-
         ShippingVM shippingVM = new()
         {
             OrderToShip = order,
             Customer = order.Purchaser,
             Merchant = merchant!,
+            Carriers = await _shipEngine.ListCarriers(),
         };
+        shippingVM.ShippingRates = await _shipEngine.GetRatesWithShipmentDetails(GetRateParams(shippingVM.Merchant, shippingVM.Customer, shippingVM.NewPackage));
         return View(shippingVM);
     }
-
-    // POST: Ship/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    /// <summary>
+    /// The http-post verison of Ship takes everything entered on the ship screen and creates a shipping label that can be printed or downloaded.
+    /// </summary>
+    /// <param name="svm">The <see cref="ShippingVM"/> View Model containing form data</param>
+    /// <returns>Navigate to Label view / Print</returns>
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Ship(ShippingVM svm)
+    public async Task<IActionResult> Ship([Bind("Merchant, Customer, OrderToShip, NewPackage, Carrier")] ShippingVM svm)
     {
-        var shipEngine = new ShipEngine("api_key");
-        if (svm.Customer.Address is null || svm.Merchant.Address is null)
+        // retrieve merchant entity from Identity stores
+        var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+
+        // retrieve merchants's address from DB
+        merchant!.Address = await _repo.FindUserAddress(merchant);
+
+        // retrieve order being shipped from DB
+        var order = await _repo.GetOrderByIdAsync(svm.OrderToShip.OrderId);
+
+        if (svm.Customer.Address is null)
         {
             _toast.Error("Address cannot be empty. Please check both to and from address'");
             return View(svm);
         }
-        Params @params = GetShippingParams(svm);
-        Result rates = await GetRatesAsync(shipEngine, @params);
-        if (rates.RateResponse.Status == RateStatus.Error)
-        {
-            _toast.Error("error creating label. Please try again later.\n" + rates.RateResponse.ToString());
-            return View(svm);
-        }
-        return RedirectToAction("ViewLabel", rates);
+        // ViewModels Prep 
+        svm.Merchant = merchant;
+        svm.OrderToShip = order;
+
+        // setup shipping rates parameters
+        Params p = GetRateParams(merchant, svm.Customer, svm.NewPackage);
+
+        // Get Shipping Rates
+        svm.ShippingRates = await _shipEngine.GetRatesWithShipmentDetails(p);
+        return View(svm);
+
     }
 
-    private IActionResult ViewLabel(ShipEngineSDK.GetRatesWithShipmentDetails.Result result)
+    public async Task<IActionResult> ViewLabel(ShippingVM svm)
     {
-        return View(result);
+        // setup shipping label parameters.
+        // If needed, label format and size can be changed here,
+        // as well as the download options for the label
+        var @params = new ShipEngineSDK.CreateLabelFromRate.Params()
+        {
+            RateId = svm.ShippingRates!.RateResponse.Rates[svm.SelectedCarrier].RateId,
+            ValidateAddress = ValidateAddress.ValidateAndClean,
+            LabelFormat = LabelFormat.PDF,
+            LabelLayout = LabelLayout.FourBySix,
+            LabelDownloadType = ShipEngineSDK.CreateLabelFromRate.LabelDownloadType.Url,
+        };
+        try
+        {
+            // create a label and navigates to the print label screen
+            ShipEngineSDK.CreateLabelFromRate.Result result = await _shipEngine.CreateLabelFromRate(@params);
+            return View(result);
+        }
+        catch (ShipEngineException e)
+        {
+            Console.WriteLine("Error creating label");
+            throw e;
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -84,12 +118,11 @@ public class ShipController : Controller
 
     #region Shipping API
 
-    public async Task<Result> GetRatesAsync(ShipEngine shipEngine, Params p)
+    public async Task<Result> GetRatesAsync(Params p)
     {
         try
         {
-            Result result = await shipEngine.GetRatesWithShipmentDetails(p);
-            return result;
+            return await _shipEngine.GetRatesWithShipmentDetails(p);
         }
         catch (ShipEngineException e)
         {
@@ -97,11 +130,10 @@ public class ShipController : Controller
             throw e;
         }
     }
-    public Params GetShippingParams(ShippingVM svm)
+    public Params GetRateParams(AppUser merchant, AppUser customer, ShipEngineSDK.CreateLabelFromRate.Package newPackage)
     {
-        ShippingAddress shipTo = svm.Customer.Address!;
-        ShippingAddress shipFrom = svm.Merchant.Address!;
-
+        ShippingAddress shipTo = customer.Address!;
+        ShippingAddress shipFrom = merchant.Address!;
 
         var rateParams = new Params()
         {
@@ -110,23 +142,23 @@ public class ShipController : Controller
                 ServiceCode = "usps_priority_mail",
                 ShipFrom = new Address()
                 {
-                    Name = svm.Merchant.FName + " " + svm.Merchant.LName,
+                    Name = merchant.FName + " " + merchant.LName,
                     AddressLine1 = shipFrom.AddressLine1,
                     CityLocality = shipFrom.CityTown,
                     StateProvince = shipFrom.StateAbr.ToString(),
                     PostalCode = shipFrom.PostalCode,
                     CountryCode = Country.US,
-                    Phone = svm.Merchant.PhoneNumber
+                    Phone = merchant.PhoneNumber
                 },
                 ShipTo = new Address()
                 {
-                    Name = svm.Customer.FName + " " + svm.Merchant.LName,
+                    Name = customer.FName + " " + merchant.LName,
                     AddressLine1 = shipTo.AddressLine1,
                     CityLocality = shipTo.CityTown,
                     StateProvince = shipTo.StateAbr.ToString(),
                     PostalCode = shipTo.PostalCode,
                     CountryCode = Country.US,
-                    Phone = svm.Merchant.PhoneNumber
+                    Phone = merchant.PhoneNumber
                 },
 
                 Packages = new()
@@ -135,20 +167,25 @@ public class ShipController : Controller
                     {
                         Weight = new Weight()
                         {
-                            Value = svm.NewPackage.Weight.Value,
-                            Unit = svm.NewPackage.Weight.Unit
+                            Value = newPackage.Weight!.Value,
+                            Unit = newPackage.Weight.Unit ?? WeightUnit.Ounce
 
                         },
 
                         Dimensions = new Dimensions()
                         {
-                            Length = 36,
-                            Width = 12,
-                            Height = 24,
-                            Unit = DimensionUnit.Inch
+                            Length = newPackage.Dimensions!.Length,
+                            Width = newPackage.Dimensions.Width,
+                            Height = newPackage.Dimensions.Height,
+                            Unit = newPackage.Dimensions.Unit
                         }
                     }
                 }
+            },
+            RateOptions = new RateOptions()
+            {
+                CarrierIds = new List<string>() { "se-4697495" },
+                ServiceCodes = new List<string>() { "usps_priority_mail" }
             }
         };
         return rateParams;

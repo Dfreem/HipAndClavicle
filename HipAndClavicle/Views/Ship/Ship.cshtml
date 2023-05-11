@@ -27,40 +27,92 @@
                         <i class="bi bi-pencil text-warning"></i>
                     </a>
                 </div>
+                <div class="w-75 mx-auto">
 
+                    @if (Model.ShippingRates?.RateResponse.Rates is not null)
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="h5 text-center">Rates</span>"
+                            </div>
+                            <ul class="list-group">
+                                @foreach (var rate in Model.ShippingRates!.RateResponse.Rates)
+                                {
+                                    <li class="list-group-item">
+                                        @rate.CarrierFriendlyName
+
+                                        @rate.ShippingAmount + Tax. @rate.TaxAmount
+                                        @*@rate.ToString()*@
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    }
+                    else if (Model.Carriers is not null)
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="h5 text-center">Carriers</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-floating">
+                                    <select asp-for="SelectedCarrier" class="form-select">
+                                        @foreach (var item in Model.Carriers.Carriers)
+                                        {
+                                            if (item.FriendlyName.Contains("Stamps.com"))
+                                            {
+                                                <option value="@item">@item.FriendlyName - <small>(usps)</small></option>
+
+                                            }
+                                            else
+                                            {
+                                                <option value="@item">@item.FriendlyName</option>
+
+                                            }
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
+
             <div class="col-md-4 border border-dark">
                 <h4>Package Details</h4>
                 <form asp-action="Ship" method="post">
+                    <input type="hidden" value="@Model.SelectedCarrier" asp-for="SelectedCarrier" />
                     <div class="input-group mb-3">
                         <span class="input-group-text">Weight</span>
-                        <input asp-for="NewPackage.Weight.Value" class="form-control" />
-                        <span asp-validation-for="NewPackage.Weight.Value" class="text-danger"></span>
+                        <input asp-for="NewPackage.Weight!.Value" class="form-control" />
+                        <span asp-validation-for="NewPackage.Weight" class="text-danger"></span>
 
                     </div>
                     <div class="input-group mb-3">
 
                         <span class="input-group-text">Unit</span>
-                        <select asp-items="@Html.GetEnumSelectList<WeightUnit>()" class="form-select"></select>
+                        <select asp-for="NewPackage.Weight!.Unit" asp-items="@Html.GetEnumSelectList<WeightUnit>()" class="form-select"></select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Height</span>
-                        <input asp-for="NewPackage.Dimensions.Height" class="form-control" />
-                        <span asp-validation-for="NewPackage.Dimensions.Height" class="text-danger"></span>
+                        <input asp-for="NewPackage.Dimensions!.Height" class="form-control" />
+                        <span asp-validation-for="NewPackage.Dimensions!.Height" class="text-danger"></span>
 
                         <span class="input-group-text">Width</span>
-                        <input asp-for="NewPackage.Dimensions.Width" class="form-control" />
-                        <span asp-validation-for="NewPackage.Dimensions.Width" class="text-danger"></span>
+                        <input asp-for="NewPackage.Dimensions!.Width" class="form-control" />
+                        <span asp-validation-for="NewPackage.Dimensions!.Width" class="text-danger"></span>
 
                     </div>
                     <div class="input-group mb-3">
 
                         <span class="input-group-text">Length</span>
-                        <input asp-for="NewPackage.Dimensions.Length" class="form-control input-group-item" />
+                        <input asp-for="NewPackage.Dimensions!.Length" class="form-control input-group-item" />
 
-                        <span asp-validation-for="NewPackage.Dimensions.Length" class="text-danger"></span>
+                        <span asp-validation-for="NewPackage.Dimensions!.Length" class="text-danger"></span>
                         <span class="input-group-text">unit</span>
-                        <select asp-for="NewPackage.Dimensions.Unit"
+                        <select asp-for="NewPackage.Dimensions!.Unit"
                                 class="form-control bg-warning-subtle"
                                 asp-items="Html.GetEnumSelectList<DimensionUnit>()">
                         </select>
@@ -69,15 +121,14 @@
                     <hr class="my-4" />
                     <h4>Destination Address</h4>
                     @Html.EditorFor(model => model.Customer.Address)
-                    <input type="hidden" asp-for="Merchant" value="@Model.Merchant" />
-                    <input type="hidden" value="@Model.OrderToShip.OrderId" asp-for="OrderToShip.OrderId" />
+                    <input type="hidden" asp-for="Merchant.Id" />
+                    <input type="hidden" asp-for="OrderToShip.OrderId" />
+
                     <input type="submit" value="Create Label" />
 
                 </form>
 
             </div>
-
-
             <div class="col-sm-4">
                 <ul class="list-group" style="list-style-type: none;">
                     <li>
@@ -133,9 +184,9 @@
         <a asp-action="CurrentOrders" asp-controller="Admin" class="mt-auto mb-4 btn btn-outline-info"><i class="bi bi-chevron-double-left"></i>Back to Orders</a>
     </div>
 </div>
-@section Scripts 
-{
+@section Scripts
+    {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+        }
