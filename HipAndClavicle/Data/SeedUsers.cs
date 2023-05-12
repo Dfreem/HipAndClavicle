@@ -22,7 +22,7 @@ namespace HipAndClavicle.Repositories
                 CityTown = "Eugene",
                 StateAbr = State.OR,
                 PostalCode = "97448",
-                Country = "USA"
+                Country = "US"
             };
             AppUser michael = new()
             {
@@ -49,7 +49,7 @@ namespace HipAndClavicle.Repositories
                     CityTown = "Junction City",
                     StateAbr = State.OR,
                     PostalCode = "97448",
-                    Country = "us",
+                    Country = "US",
                     Residential = true,
                     Name = "Devin Freeman"
                 },

@@ -3,10 +3,8 @@
 
 using ShipEngineSDK;
 using ShipEngineSDK.CreateLabelFromRate;
+using ShipEngineSDK.CreateLabelFromShipmentDetails;
 using ShipEngineSDK.GetRatesWithShipmentDetails;
-using Params = ShipEngineSDK.GetRatesWithShipmentDetails.Params;
-using Result = ShipEngineSDK.GetRatesWithShipmentDetails.Result;
-using Shipment = ShipEngineSDK.GetRatesWithShipmentDetails.Shipment;
 
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
@@ -46,7 +44,6 @@ public class ShipController : Controller
             Merchant = merchant!,
             Carriers = await _shipEngine.ListCarriers(),
         };
-        shippingVM.ShippingRates = await _shipEngine.GetRatesWithShipmentDetails(GetRateParams(shippingVM.Merchant, shippingVM.Customer, shippingVM.NewPackage));
         return View(shippingVM);
     }
     /// <summary>
@@ -55,7 +52,7 @@ public class ShipController : Controller
     /// <param name="svm">The <see cref="ShippingVM"/> View Model containing form data</param>
     /// <returns>Navigate to Label view / Print</returns>
     [HttpPost]
-    public async Task<IActionResult> Ship([Bind("Merchant, Customer, OrderToShip, NewPackage, Carrier")] ShippingVM svm)
+    public async Task<IActionResult> Ship([Bind("Merchant, Customer, OrderToShip, NewPackage, SelectedService, ShipDate")] ShippingVM svm)
     {
         // retrieve merchant entity from Identity stores
         var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
@@ -74,39 +71,59 @@ public class ShipController : Controller
         // ViewModels Prep 
         svm.Merchant = merchant;
         svm.OrderToShip = order;
+        ShipEngineSDK.CreateLabelFromShipmentDetails.Result result = await CreatLabelAsync(svm);
 
-        // setup shipping rates parameters
-        Params p = GetRateParams(merchant, svm.Customer, svm.NewPackage);
-
-        // Get Shipping Rates
-        svm.ShippingRates = await _shipEngine.GetRatesWithShipmentDetails(p);
-        return View(svm);
+        return View("ViewLabel", result);
 
     }
 
-    public async Task<IActionResult> ViewLabel(ShippingVM svm)
+    public async Task<ShipEngineSDK.CreateLabelFromShipmentDetails.Result> CreatLabelAsync(ShippingVM svm)
     {
-        // setup shipping label parameters.
-        // If needed, label format and size can be changed here,
-        // as well as the download options for the label
-        var @params = new ShipEngineSDK.CreateLabelFromRate.Params()
+        ShipEngineSDK.CreateLabelFromShipmentDetails.Params rateParams = new()
         {
-            RateId = svm.ShippingRates!.RateResponse.Rates[svm.SelectedCarrier].RateId,
-            ValidateAddress = ValidateAddress.ValidateAndClean,
-            LabelFormat = LabelFormat.PDF,
-            LabelLayout = LabelLayout.FourBySix,
-            LabelDownloadType = ShipEngineSDK.CreateLabelFromRate.LabelDownloadType.Url,
+            Shipment = new()
+            {
+                CarrierId = svm.SelectedService!.CarrierId,
+                Packages = new()
+                {
+                    svm.NewPackage
+                },
+                ShipFrom = new()
+                {
+                    AddressLine1 = svm.Merchant.Address.AddressLine1,
+                    AddressLine2 = svm.Merchant.Address.AddressLine2,
+                    CityLocality = svm.Merchant.Address.CityTown,
+                    Name = svm.Merchant.FName + " " + svm.Merchant.LName,
+                    PostalCode = svm.Merchant.Address.PostalCode,
+                    CountryCode = Country.US,
+                    StateProvince = svm.Merchant.Address.StateAbr.ToString(),
+                    Phone = svm.Merchant.PhoneNumber,
+                },
+                ShipTo = new()
+                {
+                    AddressLine1 = svm.Customer.Address.AddressLine1,
+                    AddressLine2 = svm.Customer.Address.AddressLine2,
+                    CityLocality = svm.Customer.Address.CityTown,
+                    Name = svm.Customer.FName + " " + svm.Customer.LName,
+                    PostalCode = svm.Customer.Address.PostalCode,
+                    CountryCode = Country.US,
+                    StateProvince = svm.Customer.Address.StateAbr.ToString(),
+                    Phone = svm.Customer.PhoneNumber,
+                },
+                ServiceCode = svm.SelectedService.ServiceCode,
+            },
+            LabelFormat = svm.LabelFormat,
+            LabelLayout = svm.LabelLayout
         };
+
         try
         {
-            // create a label and navigates to the print label screen
-            ShipEngineSDK.CreateLabelFromRate.Result result = await _shipEngine.CreateLabelFromRate(@params);
-            return View(result);
+            return await _shipEngine.CreateLabelFromShipmentDetails(rateParams);
         }
-        catch (ShipEngineException e)
+        catch (ShipEngineException ex)
         {
-            Console.WriteLine("Error creating label");
-            throw e;
+            Console.WriteLine(ex.Message);
+            throw ex;
         }
     }
 
@@ -115,95 +132,5 @@ public class ShipController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
-    #region Shipping API
-
-    public async Task<Result> GetRatesAsync(Params p)
-    {
-        try
-        {
-            return await _shipEngine.GetRatesWithShipmentDetails(p);
-        }
-        catch (ShipEngineException e)
-        {
-            Console.WriteLine("Error creating label");
-            throw e;
-        }
-    }
-    public Params GetRateParams(AppUser merchant, AppUser customer, ShipEngineSDK.CreateLabelFromRate.Package newPackage)
-    {
-        ShippingAddress shipTo = customer.Address!;
-        ShippingAddress shipFrom = merchant.Address!;
-
-        var rateParams = new Params()
-        {
-            Shipment = new Shipment()
-            {
-                ServiceCode = "usps_priority_mail",
-                ShipFrom = new Address()
-                {
-                    Name = merchant.FName + " " + merchant.LName,
-                    AddressLine1 = shipFrom.AddressLine1,
-                    CityLocality = shipFrom.CityTown,
-                    StateProvince = shipFrom.StateAbr.ToString(),
-                    PostalCode = shipFrom.PostalCode,
-                    CountryCode = Country.US,
-                    Phone = merchant.PhoneNumber
-                },
-                ShipTo = new Address()
-                {
-                    Name = customer.FName + " " + merchant.LName,
-                    AddressLine1 = shipTo.AddressLine1,
-                    CityLocality = shipTo.CityTown,
-                    StateProvince = shipTo.StateAbr.ToString(),
-                    PostalCode = shipTo.PostalCode,
-                    CountryCode = Country.US,
-                    Phone = merchant.PhoneNumber
-                },
-
-                Packages = new()
-                {
-                    new ShipEngineSDK.Common.ShipmentPackage()
-                    {
-                        Weight = new Weight()
-                        {
-                            Value = newPackage.Weight!.Value,
-                            Unit = newPackage.Weight.Unit ?? WeightUnit.Ounce
-
-                        },
-
-                        Dimensions = new Dimensions()
-                        {
-                            Length = newPackage.Dimensions!.Length,
-                            Width = newPackage.Dimensions.Width,
-                            Height = newPackage.Dimensions.Height,
-                            Unit = newPackage.Dimensions.Unit
-                        }
-                    }
-                }
-            },
-            RateOptions = new RateOptions()
-            {
-                CarrierIds = new List<string>() { "se-4697495" },
-                ServiceCodes = new List<string>() { "usps_priority_mail" }
-            }
-        };
-        return rateParams;
-
-    }
-
-
-
-    #endregion
-
-    #region Utility
-
-    public async Task<IActionResult> ChangeMerchantAddress(ShippingVM svm)
-    {
-        await _userManager.UpdateAsync(svm.Merchant);
-        return RedirectToAction("Ship");
-    }
-
-    #endregion
 
 }
