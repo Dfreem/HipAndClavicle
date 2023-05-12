@@ -9,6 +9,7 @@ namespace HipAndClavicle.Repositories
         public static async Task Seed(IServiceProvider services)
         {
             UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
+            ApplicationDbContext context = services.GetRequiredService<ApplicationDbContext>();
             if (userManager!.Users.Any())
             {
                 return;
@@ -16,12 +17,12 @@ namespace HipAndClavicle.Repositories
             }
             ShippingAddress fakeSt = new()
             {
-                AddressLine1 = "123 fake st." ,
-
+                AddressLine1 = "123 fake st.",
+                Name = "Michael Paulson",
                 CityTown = "Eugene",
                 StateAbr = State.OR,
                 PostalCode = "97448",
-                Country = "USA"
+                Country = "US"
             };
             AppUser michael = new()
             {
@@ -30,8 +31,8 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Michael",
                 LName = "Pauslon",
-                Address = fakeSt,
-                PhoneNumber = "555-555-5555"
+                PhoneNumber = "555-555-5555",
+                Address = fakeSt
 
             };
 
@@ -42,7 +43,16 @@ namespace HipAndClavicle.Repositories
                 EmailConfirmed = true,
                 FName = "Devin",
                 LName = "Freeman",
-                Address = fakeSt,
+                Address = new()
+                {
+                    AddressLine1 = "321 Cedar st.",
+                    CityTown = "Junction City",
+                    StateAbr = State.OR,
+                    PostalCode = "97448",
+                    Country = "US",
+                    Residential = true,
+                    Name = "Devin Freeman"
+                },
                 PhoneNumber = "555-555-5555"
             };
 
@@ -71,6 +81,7 @@ namespace HipAndClavicle.Repositories
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");
             _ = await userManager!.CreateAsync(steven, "@Password123");
+            await context.SaveChangesAsync();
         }
     }
 }

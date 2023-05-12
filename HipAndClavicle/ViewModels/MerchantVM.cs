@@ -1,4 +1,5 @@
-﻿namespace HipAndClavicle.ViewModels;
+﻿
+namespace HipAndClavicle.ViewModels;
 
 public class MerchantVM
 {

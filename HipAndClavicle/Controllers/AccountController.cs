@@ -6,23 +6,27 @@ public class AccountController : Controller
     private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
     private readonly INotyfService _toast;
+    private readonly IShippingRepo _shippingRepo;
+    private readonly IAccountRepo _accountRepo;
 
     public AccountController(IServiceProvider services, ApplicationDbContext context)
     {
         _toast = services.GetRequiredService<INotyfService>();
         _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
         _userManager = _signInManager.UserManager;
+        _shippingRepo = services.GetRequiredService<IShippingRepo>();
+        _accountRepo = services.GetRequiredService<IAccountRepo>();
     }
 
     public async Task<IActionResult> Index()
     {
         string userName = _signInManager.Context.User.Identity!.Name!;
         var user = await _userManager.FindByNameAsync(userName);
+        user!.Address = await _accountRepo.FindUserAddress(user);
         UserProfileVM uvm = new()
         {
-
             CurrentUser = user!,
-
+            
         };
         return View(uvm);
     }
@@ -111,10 +115,22 @@ public class AccountController : Controller
         _toast.Success("You are now signed out, Goodbye!");
         return RedirectToAction("Index", "Home");
     }
-
-    public async Task<IActionResult> UpdateUserProfileAsync(UserProfileVM upvm)
+    [HttpPost]
+    public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
-        await _userManager.UpdateAsync(upvm.CurrentUser);
+        if (upvm.NewPassword != null && 
+            upvm.NewPassword == upvm.ConfirmPassword &&
+            upvm.CurrentPassword is not null)
+        {
+           await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
+        }
+        if (upvm.NewPassword != upvm.ConfirmPassword)
+        {
+            _toast.Error("Passwords do not match, pleas re-enter new password");
+            return RedirectToAction("Index", upvm);
+        }
+        await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser, upvm.CurrentUser.Address);
+        
         _toast.Success("Your information was updated");
         return RedirectToAction("Index", upvm);
     }

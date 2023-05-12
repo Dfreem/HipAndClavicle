@@ -3,7 +3,6 @@
 public class Ship
 {
     public int ShipId { get; set; }
-    public string APIShippingId { get; set; } = default!;
     public string? TrackingNumber { get; set; } = default!;
     public string Carrier { get; set; } = default!;
     public OrderStatus Status { get; set; } = default!;
