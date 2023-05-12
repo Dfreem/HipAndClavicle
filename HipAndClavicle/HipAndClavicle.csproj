@@ -63,9 +63,4 @@
 		<None Include="wwwroot\css\Product.css" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
-	<ItemGroup>
-
-	  <Folder Include="Migrations\" />
-
-	</ItemGroup>
 </Project>

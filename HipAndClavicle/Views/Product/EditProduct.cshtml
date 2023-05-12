@@ -1,4 +1,6 @@
 ﻿@model ProductVM
+
+<link rel="stylesheet" href="./css/Product.css" />
 <div class="body">
     <h4>@Model.Name</h4>
     <hr />
@@ -19,8 +21,22 @@
         </div>
         <div class="col-md-4">
             <form asp-action="EditProduct" method="post">
-                @Html.EditorForModel(Model.Edit)
+                @Html.EditorFor(model => model.Edit)
+
                 <input type="submit" value="Save" class="btn btn-success" />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductColors, new { @class = "control-label" })
+                    <select class="form-select color-viewer" asp-for="ProductColors">
+                        @foreach (Color color in Model.NamedColors)
+                        {
+                            <option value="@color.ColorId" class="color-select-item" >
+                                @color.ColorName
+                            </option>
+                        }
+                    </select>
+
+                </div>
             </form>
         </div>
     </div>

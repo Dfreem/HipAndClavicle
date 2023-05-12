@@ -29,6 +29,7 @@ global using Microsoft.AspNetCore.Mvc.RazorPages;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Identity.UI;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Mvc.ModelBinding;
 global using System.Runtime.InteropServices;
 global using Microsoft.Extensions.DependencyInjection;
 

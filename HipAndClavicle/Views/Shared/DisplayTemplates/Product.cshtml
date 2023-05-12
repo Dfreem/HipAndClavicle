@@ -4,18 +4,7 @@
 <link rel="stylesheet" href="~/css/Product.css" />
 
 <div class="card">
-    <div class="hide-card">
-        @if (Model.ProductImage is not null)
-        {
-            <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
-        }
-        else
-        {
 
-            <img src="~/images/butterflys.png" class="card-img-top" />
-        }
-
-    </div>
     <div class="card-body">
         <div class="card-title d-flex flex-row">
             <h5>@Model.Name</h5>

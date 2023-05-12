@@ -1,4 +1,5 @@
 ﻿
+
 namespace HipAndClavicle;
 
 public class ProductController : Controller
@@ -21,16 +22,16 @@ public class ProductController : Controller
     public async Task<IActionResult> EditProduct(int productId)
     {
         ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
-        ViewBag.NamedColors = await _productRepo.GetNamedColorsAsync();
+        var colors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit };
+        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors};
         return View(editProduct);
     }
 
     [HttpPost]
     public async Task<IActionResult> EditProduct(ProductVM product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.GetValidationState("Edit.ProductId") == ModelValidationState.Invalid)
         {
             // TODO better error message
             _toast.Error("Something went wrong");
@@ -44,6 +45,7 @@ public class ProductController : Controller
             await _productRepo.UpdateProductAsync(product.Edit);
 
         }
+        
         return RedirectToAction("Products", "Admin");
     }
 
