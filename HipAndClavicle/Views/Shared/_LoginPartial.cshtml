@@ -14,6 +14,14 @@
                     <button type="submit" class="btn logout">Logout</button>
                 </form>
             </li>
+            <br />
+            <li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-outline-info" asp-action="Profile" asp-controller="Account">Edit Profile</a>
+
+                }
+            </li>
         </ul>
         if (User.IsInRole("Admin"))
         {

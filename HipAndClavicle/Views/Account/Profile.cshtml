@@ -1,0 +1,68 @@
+﻿@model AppUserVm
+
+<div class="row justify-content-center m-3">
+    <div class="col-12">
+        <div class="row justify-content-center mt-3">
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <div class="card shadow-lg">
+                    <h3 class="card-title m-4 m">Profile</h3>
+                    <p class=" ms-4 alert-light">
+                        <a class="text-info alert-link " asp-controller="ShippingAddresses" asp-action="Edit">
+                            Change Shipping address?
+                        </a>
+                    </p>
+                    <div class="card-body">
+                        <form method="post" asp-action="EditUserProfile">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-floating ">
+                                <input asp-for="FName" class="form-control" aria-required="true" />
+                                <label asp-for="FName"></label>
+                                <span asp-validation-for="FName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-2">
+                                <input asp-for="LName" class="form-control" aria-required="true" />
+                                <label asp-for="LName"></label>
+                                <span asp-validation-for="LName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-2">
+                                <input asp-for="PhoneNumber" class="form-control" aria-required="true" />
+                                <label asp-for="PhoneNumber"></label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-2">
+                                <input asp-for="Email" class="form-control" aria-required="true" />
+                                <label asp-for="Email"></label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group float-end mt-3">
+                                <input type="submit" value="Update" class="btn btn-primary " />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row m-4 justify-content-center">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="alert alert-danger" role="alert">
+            <span class="h4">
+                Delete Account? :(
+            </span>
+            <span class="float-end h4">
+                <a asp-action="DeleteAccount" asp-controller="Account"
+                   class="btn btn-danger text-light alert-link">
+                    Delete
+                </a>
+            </span>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row m-5"></div>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<UserMessageVM>
+<h2>THIS IS A TEST TO SEE IF THE CODE IS EVEN REACHING THIS FILE!</h2>
+<h1>Old Messages</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Number</th>
+            <th>Response</th>
+            <th>Date Sent</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model)
+        {
+            <tr>
+                <td>@message.Email</td>
+                <td>@message.Number</td>
+                <td>@message.Response</td>
+                <td>@message.DateSent</td>
+                <td>
+                    <form method="post" asp-action="Delete" asp-route-userMessageId="@message.UserMessageId">
+                        <a type="submit">Delete</a>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<p>No messages found.</p>*@
+
+
+

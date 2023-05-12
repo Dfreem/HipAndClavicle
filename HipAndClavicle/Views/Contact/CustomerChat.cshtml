@@ -5,25 +5,19 @@
 
 }
 
-<br />
-<br />
-<br />
-<br />
+<div class="container mt-4">
+    <div class="row">
 
-<div class="container">
-    <div class="row justify-content-center">
-
-
-        @if (User.IsInRole("Admin"))
-        {
-            <!-- User list -->
-            @* <ul class="list-group">
+        <div class="col-md-4">
+            @if (User.IsInRole("Admin"))
+            {
+                <!-- User list -->
+                @* <ul class="list-group">
                     <li class="list-group-item active">Users</li>
                     <li class="list-group-item">User 1</li>
                     <li class="list-group-item">User 2</li>
                     <li class="list-group-item">User 3</li>
                 </ul>*@
-            <div class="col-md-4">
                 <ul class="list-group">
                     <li class="list-group-item active">Users</li>
                     @foreach (var user in customers)
@@ -31,11 +25,10 @@
                         <li class="list-group-item user-item" data-user="@user.UserName">@user.UserName</li>
                     }
                 </ul>
-            </div>
 
-        }
-
-
+            }
+         
+        </div>
         <div class="col-md-8">
             <!-- Bordered message area with a specific height and rounded borders -->
             <div class="message-area rounded" style="border: 2px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; padding-bottom: 50px;">
@@ -73,11 +66,6 @@
 </div>
 
 <style>
-    .user-item-hover {
-        background-color: #cfe4f7; /* set the background color you want to use */
-    }
-
-
     .form-control {
         border-radius: 20px;
     }
@@ -126,10 +114,12 @@
             border-color: transparent #f2f2f2 transparent transparent;
             transform: translateY(-50%);
         }
+
 </style>
 
 @section CutomerChatScript{
-    <script>$(document).ready(function () {
+    <script>
+        $(document).ready(function () {
             $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
 
             // Get the message input field and send button
@@ -150,21 +140,21 @@
                     jsonData[field.name] = field.value;
                 });
                 var messageInput = $('#Message');
-                var message = messageInput.val();
-                console.log("ttttttttttttttttttt" + message)
-                if (message !== '') {
-                    // Add message to message list
-                    var messageList = $('.message-list');
-                    var newMessage = $('<div class="message sent">You: ' + message + '</div>');
-                    messageList.append(newMessage);
-                    var formData = $(this).serialize();
-                    console.log(formData)
-                    // Clear input field and disable send button
-                    messageInput.val('');
-                    sendButton.prop('disabled', true);
+                    var message = messageInput.val();
+                    console.log("ttttttttttttttttttt"+message)
+                    if (message !== '') {
+                        // Add message to message list
+                        var messageList = $('.message-list');
+                        var newMessage = $('<div class="message sent">You: ' + message + '</div>');
+                        messageList.append(newMessage);
+                        var formData = $(this).serialize();
+                        console.log(formData)
+                        // Clear input field and disable send button
+                        messageInput.val('');
+                        sendButton.prop('disabled', true);
 
-                    // Scroll to bottom of message list
-                    //messageList.scrollTop(messageList[0].scrollHeight);
+                        // Scroll to bottom of message list
+                        //messageList.scrollTop(messageList[0].scrollHeight);
                     $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
 
                 }
@@ -233,29 +223,8 @@
                 });
             });
 
-        });</script>
+        });
 
-    <script>var currentSelection = null; // keep track of the currently selected user
-        // Add event listener to all user items
-        var userItems = document.querySelectorAll('.user-item');
-        userItems.forEach(function (item) {
-            item.addEventListener('mouseover', function () {
-                if (currentSelection !== item) {
-                    item.classList.add('user-item-hover');
-                }
-            });
-            item.addEventListener('mouseout', function () {
-                if (currentSelection !== item) {
-                    item.classList.remove('user-item-hover');
-                }
-            });
-            item.addEventListener('click', function () {
-                if (currentSelection !== null) {
-                    currentSelection.classList.remove('user-item-hover');
-                }
-                item.classList.add('user-item-hover');
-                currentSelection = item;
-            });
-        });</script>
 
+    </script>
 }

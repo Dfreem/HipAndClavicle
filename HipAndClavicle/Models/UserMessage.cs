@@ -12,13 +12,13 @@ public class UserMessage
     public string? ReceiverUserName { get; set; }
     public AppUser? Receiver { get; set; } = default!;
 
-    public DateTime DateSent { get; } = DateTime.Now;
+    public DateTime DateSent { get; set; }
     public bool Read { get; set; }
     public string? Content { get; set; }
     public int? OrderId { get; set; }
 
     //Added new columns 'Email & Contact' 4-18-23
-    public string Email { get; set; }
+    public string? Email { get; set; }
     public string? Number { get; set; }
 
 

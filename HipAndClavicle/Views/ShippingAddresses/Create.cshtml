@@ -1,0 +1,36 @@
+﻿@model ShippingAddressVM
+
+@{
+    ViewData["Title"] = "ShippingAddress";
+}
+
+
+
+<div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-7 col-lg-8">
+
+        <h4>Shipping Address</h4>
+        <hr class="bg-info"/>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="alert alert-info h6" role="alert">
+                    You can fill out your shipping address later.
+                    <a asp-action="Index" asp-controller="Home" class="alert-link">Skip</a>
+                </div>
+                <form asp-action="Create">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <partial name="_shipingAddressForm.cshtml" />
+               
+                    <div class="form-group float-end">
+                        <input type="submit" value="Save" class="btn btn-primary " />
+                    </div>
+                </form>
+
+            </div>
+            </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

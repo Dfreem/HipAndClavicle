@@ -1,0 +1,51 @@
+﻿@model ShippingAddressVM
+
+@{
+    ViewData["Title"] = "ShippingAddress";
+}
+
+
+                    <div class="form-group">
+                        <label asp-for="AddressLine1" class="control-label"></label>
+                        <input asp-for="AddressLine1" class="form-control" />
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AddressLine2" class="control-label"></label>
+                        <input asp-for="AddressLine2" class="form-control" />
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Country" class="control-label"></label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CityTown" class="control-label"></label>
+                        <input asp-for="CityTown" class="form-control" />
+                        <span asp-validation-for="CityTown" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateAbr" class="control-label"></label>
+                        <select asp-for="StateAbr" asp-items="Html.GetEnumSelectList<State>()" class="form-select">
+                            <option value="">-- select state --</option>
+                        </select>
+                        <span asp-validation-for="StateAbr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostalCode" class="control-label"></label>
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Residential" /> @Html.DisplayNameFor(model => model.Residential)
+                        </label>
+                    </div>
+       

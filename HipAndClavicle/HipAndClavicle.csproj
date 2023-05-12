@@ -63,9 +63,4 @@
 		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 		<None Include="wwwroot\css\Product.css" />
 	</ItemGroup>
-	<ItemGroup>
-
-	  <Folder Include="Migrations\" />
-
-	</ItemGroup>
 </Project>

@@ -47,12 +47,8 @@ namespace HipAndClavicle.Controllers
                 Email = userMessageVM.Email,
                 Number = userMessageVM.Number,
                 Content = userMessageVM.Response,
-
-
-
+                DateSent = DateTime.Now
             };
-
-            userMessage.ReceiverUserName = "michael123";
 
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
@@ -117,8 +113,7 @@ namespace HipAndClavicle.Controllers
                        Sender = m.SenderUserName,
                        Receiver = m.ReceiverUserName,
                        Content = m.Content,
-                       DateSent = m.DateSent,
-                       Email = m.Email
+                       DateSent = m.DateSent
                    }).ToList();
             }
             return View(messages);
@@ -137,6 +132,7 @@ namespace HipAndClavicle.Controllers
                     Content = m.Content,
                     DateSent = m.DateSent,
                     Email = m.Email
+
                 }).ToList();
             return View(messages);
         }
@@ -154,11 +150,11 @@ namespace HipAndClavicle.Controllers
                 Number = currentUser.PhoneNumber,
                 Content = customerMessage.Message,
                 SenderUserName = currentUser.UserName,
+                DateSent = DateTime.Now
             };
             if (customerMessage.SendTo.IsNullOrEmpty())
             {
                 var admin = adminUsers.Count > 0 ? adminUsers[0] : null;
-                //userMessage.ReceiverUserName = admin?.UserName;
                 userMessage.ReceiverUserName = "michael123";
             }
             else
@@ -167,6 +163,8 @@ namespace HipAndClavicle.Controllers
             }
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
+
+
 
 
             return Json(new { success = true });

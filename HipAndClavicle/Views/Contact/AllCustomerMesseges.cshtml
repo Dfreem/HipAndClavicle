@@ -40,10 +40,8 @@
         }
 </style>
 
-<br />
-<br />
-<br />
-<br />
+
+
 
 <div class="container">
     <div class="row">
@@ -77,11 +75,10 @@
         <table class="table mt-3" id="message-table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Sender</th>
                     <th>Receiver</th>
-                    <th>Messeage</th>
                     <th>Email</th>
+                    <th>Messeage</th>
                     <th>Date Sent</th>
                 </tr>
             </thead>
@@ -89,11 +86,10 @@
                 @foreach (var message in Model)
                 {
                     <tr>
-                        <td>@message.Id</td>
                         <td>@message.Sender</td>
                         <td>@message.Receiver</td>
-                        <td>@message.Content</td>
                         <td>@message.Email</td>
+                        <td>@message.Content</td>
                         <td>@message.DateSent</td>
                     </tr>
                 }
@@ -181,6 +177,7 @@
                                 results += '<tr>';
                                 results += '<td>' + message.senderUserName + '</td>';
                                 results += '<td>' + message.receiverUserName + '</td>';
+                                results += '<td>' + message.email + '</td>';
                                 results += '<td>' + message.content + '</td>';
                                 //results += '<td>' + message.purchase_date + '</td>';
                                 //results += '<td>' + message.due_date + '</td>';

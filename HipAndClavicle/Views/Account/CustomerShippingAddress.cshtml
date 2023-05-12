@@ -1,0 +1,67 @@
+﻿@model ShippingAddress
+
+
+<div class="row justify-content-center mb-5">
+    <div class="col-sm-12 col-md-6">
+        <h2>Shipping Address</h2>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <form asp-controller="ShippingAddress" asp-action="Create" method="post">
+                    <div class="form-group">
+                        <label asp-for="AddressLine1" class="form-label"></label>
+                        <input asp-for="AddressLine1" class="form-control" />
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AddressLine2" class="form-label"></label>
+                        <input asp-for="AddressLine2" class="form-control" />
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Country" class="form-label"></label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CityTown" class="form-label"></label>
+                        <input asp-for="CityTown" class="form-control" />
+                        <span asp-validation-for="CityTown" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StateAbr" class="form-label"></label>
+                        <input asp-for="StateAbr" class="form-control" />
+                        <span asp-validation-for="StateAbr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostalCode" class="form-label"></label>
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Residential" class="form-check-label">
+                            <input asp-for="Residential" class="form-check-input" />
+                            <span>Residential Address</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <div class="mt-3">
+                    <p>You can fill out your shipping address later.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "Home")'">Continue Shopping</button>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>
+@if (ViewBag.ShowForm ?? true)
+{
+}
+else
+{
+   }

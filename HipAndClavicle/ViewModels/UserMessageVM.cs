@@ -9,7 +9,7 @@ public class UserMessageVM
     public string? Response { get; set; }
 
     //Added new columns 'Email & Contact' 4-18-23
-    public string Email { get; set; }
+    public string? Email { get; set; }
     public string? Number { get; set; }
 
 
