@@ -6,12 +6,15 @@ connectionString = builder.Configuration.GetConnectionString("MYSQL_CONNECTION")
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, MySqlServerVersion.Parse("mysql-8.0")));
 
+#region Repositories
 builder.Services.AddTransient<IAdminRepo, AdminRepo>();
 builder.Services.AddTransient<ICustRepo, CustRepo>();
-builder.Services.AddTransient <IShippingRepo, ShippingRepo>();
+builder.Services.AddTransient<IShippingRepo, ShippingRepo>();
 builder.Services.AddTransient<IShoppingCartRepo, ShoppingCartRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
-
+builder.Services.AddTransient<IOrderRepo, OrderRepo>();
+builder.Services.AddTransient<IAccountRepo, AccountRepo>();
+#endregion
 
 builder.Services.AddHttpContextAccessor();
 
@@ -67,6 +70,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+#region Seed Data
 using (var scope = app.Services.CreateAsyncScope())
 {
     var services = scope.ServiceProvider;
@@ -78,6 +82,6 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedCustomers.Seed(services, context);
     await SeedShoppingCart.Seed(context, services);
 }
-
+#endregion
 app.Run();
 

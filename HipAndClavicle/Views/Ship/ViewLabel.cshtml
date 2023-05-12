@@ -1,11 +1,3 @@
-﻿@model List<Document>
-@{
-    ViewData["Title"] = "ViewLabel";
-}
+﻿@model Result
 
-<h1>Shipping Labels</h1>
-
-@foreach (Document item in Model)
-{
-    Html.DisplayFor(model => item);
-}
+@Html.DisplayForModel()

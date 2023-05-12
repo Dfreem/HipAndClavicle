@@ -1,7 +1,4 @@
 ﻿
-using NUnit.Framework;
-using shippingapi.Model;
-
 namespace HipAndClavicle;
 
 public class ProductController : Controller
@@ -23,8 +20,8 @@ public class ProductController : Controller
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> EditProduct(int productId)
     {
-        ViewBag.Familes = await _adminRepo.GetAllColorFamiliesAsync();
-        ViewBag.NamedColors = await _adminRepo.GetNamedColorsAsync();
+        ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
+        ViewBag.NamedColors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
         ProductVM editProduct = new() { Edit = toEdit };
         return View(editProduct);
@@ -39,12 +36,12 @@ public class ProductController : Controller
             _toast.Error("Something went wrong");
             return View(product);
         }
-        
+
         if (product.ImageFile is not null)
         {
             product.Edit!.ProductImage = await ExtractImageAsync(product.ImageFile);
 
-            await _adminRepo.UpdateProductAsync(product.Edit);
+            await _productRepo.UpdateProductAsync(product.Edit);
 
         }
         return RedirectToAction("Products", "Admin");
@@ -53,8 +50,8 @@ public class ProductController : Controller
 
     public async Task<IActionResult> AddProduct()
     {
-        var colorOptions = await _adminRepo.GetNamedColorsAsync();
-        var setSizes = await _adminRepo.GetSetSizesAsync();
+        var colorOptions = await _productRepo.GetNamedColorsAsync();
+        var setSizes = await _productRepo.GetSetSizesAsync();
         ProductVM product = new()
         {
             NamedColors = colorOptions,
@@ -71,9 +68,16 @@ public class ProductController : Controller
             _toast.Error("ModelState is not valid");
             return View(product);
         }
-        Image fromUpload = await ExtractImageAsync(product.ImageFile);
-        await _adminRepo.SaveImageAsync(fromUpload);
-        await _productRepo.CreateProductAsync((Product)product);
+        Product newProduct = (Product)product;
+        if (product.ImageFile is not null)
+        {
+            
+            newProduct.ProductImage = await ExtractImageAsync(product.ImageFile);
+            await _productRepo.SaveImageAsync(newProduct.ProductImage);
+
+        }
+
+        await _productRepo.CreateProductAsync(newProduct);
         _toast.Success("Successfully created new product");
         return RedirectToAction("Products");
     }

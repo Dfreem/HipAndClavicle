@@ -7,4 +7,9 @@ public interface IProductRepo
     public Task<List<Product>> GetAvailableProductsAsync();
     public Task<Product> GetProductByIdAsync(int id);
     public Task UpdateProductAsync(Product product);
+    public Task SaveImageAsync(Image fromUpload);
+    public Task<List<ColorFamily>> GetAllColorFamiliesAsync();
+    public Task<List<Color>> GetNamedColorsAsync();
+    public Task<List<SetSize>> GetSetSizesAsync();
+
 }

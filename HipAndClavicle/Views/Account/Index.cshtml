@@ -3,12 +3,29 @@
     ViewData["Title"] = Model.CurrentUser.FName + "'s Profile";
 }
 
-<div class="my-5 py-5">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <form asp-action="UpdateUserProfileAsync">
-        <div class="row mx-auto px-2">
-            <div class="col-4 mx-auto">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+<div class="my-auto pb-5 ">
+    <form asp-action="UpdateUser" method="post" class="p-1">
+        <div class="hstack p-3 w-75">
+            <div class="vstack p-2 m-3 border border-1 bg-secondary-subtle border-dark rounded-3">
+                <span class="form-label h4">Change Your Password</span>
+                <div class="input-group my-2">
+                    <span class="input-group-text">Current Password</span>
+                    <input asp-for="CurrentPassword" type="password" class="form-control text-right">
+                </div>
                 <div class="input-group mb-2">
+                    <span class="input-group-text">New Password</span>
+                    <input asp-for="NewPassword" type="password" class="form-control text-right">
+                </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Confirm New Password</span>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control text-right">
+                </div>
+                <hr />
+                <span class="form-label h4">Person Information</span>
+                <div class="input-group my-2">
                     <span class="input-group-text">First Name</span>
                     <input asp-for="CurrentUser.FName" type="text" class="form-control text-right">
                 </div>
@@ -20,50 +37,48 @@
                     <span class="input-group-text">Email</span>
                     <input asp-for="CurrentUser.Email" type="text" class="form-control text-right">
                 </div>
-                <hr />
                 <div class="input-group mb-2">
-                    <span class="input-group-text">Current Password</span>
-                    <input asp-for="CurrentPassword" type="password" class="form-control text-right">
-                </div>
-                <div class="input-group mb-2">
-                    <span class="input-group-text">New Password</span>
-                    <input asp-for="NewPassword" type="password" class="form-control text-right">
-                </div>
-                <div class="input-group mb-2">
-                    <span class="input-group-text">Confirm Password</span>
-                    <input asp-for="ConfirmPassword" type="password" class="form-control text-right">
+                    <span class="input-group-text">Phone #</span>
+                    <input asp-for="CurrentUser.PhoneNumber" type="text" class="form-control text-right">
                 </div>
             </div>
-            <div class="col-4 my-auto mx-auto">
-                <div class="input-group mb-2">
-                    <span class="input-group-text">Line 1</span>
-                    <input asp-for="CurrentUser.Address!.AddressLine1" type="text" class="form-control text-right">
+            <div class="vstack p-2 m-3 border border-1 bg-secondary-subtle border-dark rounded-3">
+                <span class="form-label h4">Shipping Address</span>
+                <div class="card my-2 w-75 mx-auto bg-info">
+
+                    <div class="card-body bg-info-subtle bg-gradient rounded-4">
+                        @Html.DisplayFor(model => model.CurrentUser.Address)
+                    </div>
+
                 </div>
-                <div class="input-group mb-2">
-                    <span class="input-group-text">Line 2</span>
-                    <input asp-for="CurrentUser.Address!.AddressLine2" type="text" class="form-control text-right">
+                <div class="input-group my-2">
+                    <span class="input-group-text">Street</span>
+                    <input asp-for="CurrentUser.Address!.AddressLine1" type="text" class="form-control text-right">
                 </div>
                 <div class="input-group mb-2">
                     <span class="input-group-text">City</span>
                     <input asp-for="CurrentUser.Address!.CityTown" type="text" class="form-control text-right">
                 </div>
-                <div class="form-control text-center mb-2">
-                    <select asp-items="@Html.GetEnumSelectList<State>()" asp-for="CurrentUser.Address!.StateAbr">
-                    </select>
-                    <label asp-for="CurrentUser.Address!.StateAbr"></label>
-                </div>
                 <div class="input-group mb-2">
                     <span class="input-group-text">ZipCode</span>
                     <input asp-for="CurrentUser.Address!.PostalCode" type="text" class="form-control text-right">
                 </div>
-            </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">State</span>
+                    <select class="form-select" asp-items="@Html.GetEnumSelectList<State>()" asp-for="CurrentUser.Address!.StateAbr">
+                    </select>
 
+                </div>
+                <div class="input-group px-2">
+                    <input type="submit" class="btn btn-info form-control" value="Save Changes" />
+                </div>
+            </div>
         </div>
     </form>
-
 </div>
 
-@section Scripts {
+@section Scripts
+    {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

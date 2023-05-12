@@ -13,11 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ShipId" />
-            <div class="form-group">
-                <label asp-for="APIShippingId" class="control-label"></label>
-                <input asp-for="APIShippingId" class="form-control" />
-                <span asp-validation-for="APIShippingId" class="text-danger"></span>
-            </div>
+            >
             <div class="form-group">
                 <label asp-for="TrackingNumber" class="control-label"></label>
                 <input asp-for="TrackingNumber" class="form-control" />

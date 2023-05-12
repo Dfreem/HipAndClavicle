@@ -8,7 +8,7 @@
     padding-block-end: 5em;
 }
 
-.back-link > a:any-link {
+.back-link {
     text-decoration: none;
     color: #00ff90;
     font-family: 'Nova Oval', cursive;

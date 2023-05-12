@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-
+﻿
 namespace HipAndClavicle;
 
 public class ShippingVM
@@ -8,19 +7,13 @@ public class ShippingVM
     public Order OrderToShip { get; set; } = default!;
     public AppUser Customer { get; set; } = default!;
     public AppUser Merchant { get; set; } = default!;
+    public ShipEngineSDK.CreateLabelFromShipmentDetails.Package NewPackage { get; set; } = new();
+    public ShipEngineSDK.GetRatesWithShipmentDetails.Result? ShippingRates { get; set; }
+    public ShipEngineSDK.ListCarriers.Service? SelectedService { get; set; } = new();
+    public ShipEngineSDK.ListCarriers.Result? Carriers { get; set; }
+    public ShipEngineSDK.Common.Enums.LabelFormat LabelFormat { get; set; } = LabelFormat.PDF;
+    public ShipEngineSDK.Common.Enums.LabelLayout LabelLayout { get; set; } = LabelLayout.FourBySix;
     public AdminSettings Settings { get; set; } = new();
-    [Display(Name = "Value of Goods")]
-    public decimal ValueOfGoods { get; set; }
-    [Display(Name = "Shipping Rates")]
-    public List<Rate> ShippingRates { get; set; } = new();
-    public Rate? SelectedRate { get; set; }
-    [Display(Name = "Package Weight")]
-    public ParcelWeight ParcelWeight { get; set; } = new();
-    [Display(Name = "Unit")]
-    public UnitOfDimension? UnitOfMeasure { get; set; }
-    [Display(Name = "Package Size")]
-    public ParcelDimension PackageDimension { get; set; } = new();
-    public List<Document> Documents { get; set; } = new();
-
+    public DateTime ShipDate { get; set; }
 }
 

@@ -1,6 +1,10 @@
 ﻿
-using Microsoft.CodeAnalysis.Rename;
-using RestSharp.Serializers;
+
+
+using ShipEngineSDK;
+using ShipEngineSDK.CreateLabelFromRate;
+using ShipEngineSDK.CreateLabelFromShipmentDetails;
+using ShipEngineSDK.GetRatesWithShipmentDetails;
 
 namespace HipAndClavicle.Controllers;
 [Authorize(Roles = "Admin")]
@@ -11,11 +15,8 @@ public class ShipController : Controller
     private readonly SignInManager<AppUser> _signInManager;
     private readonly IShippingRepo _repo;
     private readonly INotyfService _toast;
-    private readonly string _pbBasePath;
-    private readonly string _pbApiKey;
-    private readonly string _pbSecret;
-    private readonly string _pbMerchantId;
-
+    private readonly string _shipEngineKey;
+    private readonly ShipEngine _shipEngine;
 
     public ShipController(IServiceProvider services, IConfiguration config)
     {
@@ -25,10 +26,9 @@ public class ShipController : Controller
         _repo = services.GetRequiredService<IShippingRepo>();
         _toast = services.GetRequiredService<INotyfService>();
 
-        _pbBasePath = config["PitneyBowes:BasePath"]!;
-        _pbApiKey = config["PitneyBowes:Key"]!;
-        _pbSecret = config["PitneyBowes:Secret"]!;
-        _pbMerchantId = config["PitneyBowes:DefaultMerchentId"]!;
+        // Ship Engine Key for Shipments
+        _shipEngineKey = config["ShipEngine"]!;
+        _shipEngine = new ShipEngine(_shipEngineKey);
     }
 
     public async Task<IActionResult> Ship(int orderId)
@@ -37,82 +37,94 @@ public class ShipController : Controller
         merchant!.Address = await _repo.FindUserAddress(merchant);
         var order = await _repo.GetOrderByIdAsync(orderId);
 
-
         ShippingVM shippingVM = new()
         {
             OrderToShip = order,
             Customer = order.Purchaser,
             Merchant = merchant!,
+            Carriers = await _shipEngine.ListCarriers(),
         };
         return View(shippingVM);
     }
-
-    // POST: Ship/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    /// <summary>
+    /// The http-post verison of Ship takes everything entered on the ship screen and creates a shipping label that can be printed or downloaded.
+    /// </summary>
+    /// <param name="svm">The <see cref="ShippingVM"/> View Model containing form data</param>
+    /// <returns>Navigate to Label view / Print</returns>
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Ship(ShippingVM svm)
+    public async Task<IActionResult> Ship([Bind("Merchant, Customer, OrderToShip, NewPackage, SelectedService, ShipDate")] ShippingVM svm)
     {
-        svm.OrderToShip = await _repo.GetOrderByIdAsync(svm.OrderToShip.OrderId);
-        if (svm.OrderToShip is not null)
+        // retrieve merchant entity from Identity stores
+        var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+
+        // retrieve merchants's address from DB
+        merchant!.Address = await _repo.FindUserAddress(merchant);
+
+        // retrieve order being shipped from DB
+        var order = await _repo.GetOrderByIdAsync(svm.OrderToShip.OrderId);
+
+        if (svm.Customer.Address is null)
         {
-            var merchant = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
-
-            if (merchant!.Address is null)
-            {
-                MerchantVM mvm = new()
-                {
-                    Admin = merchant,
-                    FromAddress = new()
-                };
-                return View("NoMerchantAddressError", mvm);
-            }
-            Address shipFrom = ConvertAddress(merchant.Address);
-            // TODO when an order is made, there must be a check for Oroder.Purchaser.Address
-            Address toAddress = ConvertAddress(svm.OrderToShip.Purchaser.Address!);
-            //TODO make modal for selecting shipping rates
-            Rate rate = new(carrier: Carrier.USPS, serviceId: Services.PM, parcelType: ParcelType.PKG, inductionPostalCode: toAddress.PostalCode);
-            Document label = new(type: "SHIPPING_LABEL", contentType: Document.ContentTypeEnum.URL, size: Document.SizeEnum._4X6, fileFormat: Document.FileFormatEnum.PDF, printDialogOption: Document.PrintDialogOptionEnum.EMBEDPRINTDIALOG);
-
-            List<Parameter> shippingOptions = new List<Parameter>()
-            {
-                new Parameter("SHIPPING_ID", _pbMerchantId),
-                new Parameter("ADD_TO_MANIFEST", "false"),
-                new Parameter("HIDE_TOTAL_CARRIER_CHARGE", "false"),
-                new Parameter("PRINT_CUSTOM_MESSAGE_1", "Print this label"),
-                new Parameter("SHIPPING_LABEL_RECEIPT", "NO_OPTIONS")
-            };
-
-            Parcel package = new(
-                dimension: svm.PackageDimension,
-                weight: svm.ParcelWeight,
-                valueOfGoods: svm.ValueOfGoods,
-                currencyCode: "USD");
-
-            Shipment newShipment = new(
-
-                fromAddress: shipFrom,
-                toAddress: toAddress,
-                parcel: package,
-                rates: new() { rate },
-                documents: new() { label },
-                shipmentOptions: shippingOptions
-            );
-
-            Shipment? toShip = CreateLabel(newShipment);
-
-            return RedirectToAction(nameof(ViewLabel));
-
+            _toast.Error("Address cannot be empty. Please check both to and from address'");
+            return View(svm);
         }
+        // ViewModels Prep 
+        svm.Merchant = merchant;
+        svm.OrderToShip = order;
+        ShipEngineSDK.CreateLabelFromShipmentDetails.Result result = await CreatLabelAsync(svm);
 
-        _toast.Error("Could not find order in system");
-        return View(svm);
+        return View("ViewLabel", result);
+
     }
 
-    private IActionResult ViewLabel(Shipment shipment)
+    public async Task<ShipEngineSDK.CreateLabelFromShipmentDetails.Result> CreatLabelAsync(ShippingVM svm)
     {
-        return View(shipment.Documents);
+        ShipEngineSDK.CreateLabelFromShipmentDetails.Params rateParams = new()
+        {
+            Shipment = new()
+            {
+                CarrierId = svm.SelectedService!.CarrierId,
+                Packages = new()
+                {
+                    svm.NewPackage
+                },
+                ShipFrom = new()
+                {
+                    AddressLine1 = svm.Merchant.Address.AddressLine1,
+                    AddressLine2 = svm.Merchant.Address.AddressLine2,
+                    CityLocality = svm.Merchant.Address.CityTown,
+                    Name = svm.Merchant.FName + " " + svm.Merchant.LName,
+                    PostalCode = svm.Merchant.Address.PostalCode,
+                    CountryCode = Country.US,
+                    StateProvince = svm.Merchant.Address.StateAbr.ToString(),
+                    Phone = svm.Merchant.PhoneNumber,
+                },
+                ShipTo = new()
+                {
+                    AddressLine1 = svm.Customer.Address.AddressLine1,
+                    AddressLine2 = svm.Customer.Address.AddressLine2,
+                    CityLocality = svm.Customer.Address.CityTown,
+                    Name = svm.Customer.FName + " " + svm.Customer.LName,
+                    PostalCode = svm.Customer.Address.PostalCode,
+                    CountryCode = Country.US,
+                    StateProvince = svm.Customer.Address.StateAbr.ToString(),
+                    Phone = svm.Customer.PhoneNumber,
+                },
+                ServiceCode = svm.SelectedService.ServiceCode,
+            },
+            LabelFormat = svm.LabelFormat,
+            LabelLayout = svm.LabelLayout
+        };
+
+        try
+        {
+            return await _shipEngine.CreateLabelFromShipmentDetails(rateParams);
+        }
+        catch (ShipEngineException ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw ex;
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -120,95 +132,5 @@ public class ShipController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
-    #region Shipping API
-
-    /// <summary>
-    /// Use to verify an address before creating a label
-    /// </summary>
-    /// <param name="shippingAddress">The <see cref="ShippingAddress"/> representation of the address to ship to</param>
-    public void VerifyAddress(ShippingAddress shippingAddress)
-    {
-        var api = new AddressValidationApi();
-        var xPBUnifiedErrorStructure = true;
-        var minimalAddressValidation = true;
-
-        Address toVerify = new()
-        {
-            AddressLines =
-            {
-                shippingAddress.AddressLine1,
-                shippingAddress.AddressLine2
-            },
-            CityTown = shippingAddress.CityTown,
-            CountryCode = shippingAddress.Country,
-            PostalCode = $"{shippingAddress.PostalCode}",
-            StateProvince = shippingAddress.StateAbr.ToString(),
-        };
-
-        try
-        {
-            // Address Verification
-            Address result = api.VerifyAddress(toVerify, xPBUnifiedErrorStructure, minimalAddressValidation);
-            Debug.WriteLine(result);
-        }
-        catch (ApiException e)
-        {
-            Debug.Print("Exception when calling AddressValidationApi.VerifyAddress: " + e.Message);
-            Debug.Print("Status Code: " + e.ErrorCode);
-            Debug.Print(e.StackTrace);
-        }
-
-    }
-    public Shipment CreateLabel(Shipment shipment)
-    {
-        Configuration.Default.BasePath = _pbBasePath;
-        Configuration.Default.OAuthApiKey = _pbApiKey;
-        Configuration.Default.OAuthSecret = _pbSecret;
-
-        var apiClient = new ShipmentApi(Configuration.Default);
-
-        return apiClient.CreateShipmentLabel($"{DateTime.Now.Millisecond}", shipment, xPBUnifiedErrorStructure: true, xPBIntegratorCarrierId: "898644");
-
-    }
-
-    #endregion
-
-    #region Utility
-
-    public Address ConvertAddress(ShippingAddress shippingAddress)
-    {
-        return new Address()
-        {
-            AddressLines = new() { shippingAddress!.AddressLine1 },
-            CityTown = shippingAddress!.CityTown,
-            CountryCode = shippingAddress.Country,
-            PostalCode = $"{shippingAddress.PostalCode}",
-            StateProvince = shippingAddress.StateAbr.ToString(),
-            Residential = shippingAddress.Residential
-
-        };
-
-    }
-
-    public ShippingAddress ConvertAddress(Address address)
-    {
-        return new ShippingAddress()
-        {
-            AddressLine1 = address.AddressLines[0],
-            AddressLine2 = address.AddressLines[1],
-            CityTown = address.CityTown,
-            Country = address.CountryCode,
-            PostalCode = address.PostalCode
-        };
-    }
-
-    public async Task<IActionResult> ChangeMerchantAddress(ShippingVM svm)
-    {
-        await _userManager.UpdateAsync(svm.Merchant);
-        return RedirectToAction("Ship");
-    }
-
-    #endregion
 
 }

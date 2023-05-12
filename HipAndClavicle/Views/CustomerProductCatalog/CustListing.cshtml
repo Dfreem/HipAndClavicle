@@ -25,13 +25,17 @@
         <div class="col col-7">
             <h1> @Model.Listing.ListingTitle </h1>
             <h4>@Model.Listing.ListingDescription </h4>
+            <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
+                <input type="hidden" name="listingId" value="@Model.Listing.ListingId" />
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
         </div>
 
     </div>
     <h3>Reviews:</h3>
-    if(Model.Product.Reviews.Count() > 0)
+    if (Model.Product.Reviews.Count() > 0)
     {
-        foreach(var rev in Model.Product.Reviews)
+        foreach (var rev in Model.Product.Reviews)
         {
             <div class="border border-dark rounded col col-6 mb-5">
                 <h4>Revew by: @rev.Reviewer.FName</h4>
