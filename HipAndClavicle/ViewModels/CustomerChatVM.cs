@@ -1,5 +1,5 @@
 ﻿using System;
-namespace HipAndClavicle.ViewModels
+namespace HipAndClavicle
 {
 
     public class ChatVM

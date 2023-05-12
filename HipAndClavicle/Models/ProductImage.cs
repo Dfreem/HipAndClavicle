@@ -1,4 +1,4 @@
-﻿namespace HipAndClavicle.Models;
+﻿namespace HipAndClavicle;
 
 public class ProductImage
 {
