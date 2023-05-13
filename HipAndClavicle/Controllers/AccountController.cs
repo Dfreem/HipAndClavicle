@@ -1,4 +1,6 @@
-﻿namespace HipAndClavicle.Controllers;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace HipAndClavicle.Controllers;
 
 [Authorize]
 public class AccountController : Controller
@@ -8,6 +10,9 @@ public class AccountController : Controller
     private readonly INotyfService _toast;
     private readonly IShippingRepo _shippingRepo;
     private readonly IAccountRepo _accountRepo;
+    private readonly ApplicationDbContext _context;
+
+
 
     public AccountController(IServiceProvider services, ApplicationDbContext context)
     {
@@ -16,6 +21,7 @@ public class AccountController : Controller
         _userManager = _signInManager.UserManager;
         _shippingRepo = services.GetRequiredService<IShippingRepo>();
         _accountRepo = services.GetRequiredService<IAccountRepo>();
+        _context = context;
     }
 
     public async Task<IActionResult> Index()
@@ -23,10 +29,14 @@ public class AccountController : Controller
         string userName = _signInManager.Context.User.Identity!.Name!;
         var user = await _userManager.FindByNameAsync(userName);
         user!.Address = await _accountRepo.FindUserAddress(user);
+
+        _toast.Success("Please make sure we have your up to date information on this page.");
+
+
         UserProfileVM uvm = new()
         {
             CurrentUser = user!,
-            
+
         };
         return View(uvm);
     }
@@ -47,6 +57,16 @@ public class AccountController : Controller
         var result = await _signInManager.PasswordSignInAsync(lvm.UserName, lvm.Password, isPersistent: lvm.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == lvm.UserName);
+
+            if (user.IsDeleted)
+            {
+                _toast.Error("The user doesn't exist.\n");
+
+                ModelState.AddModelError("", "The user doesn't exist.");
+                return View(lvm);
+            }
+
             _toast.Success("Successfully Logged in as " + lvm.UserName);
             if (!string.IsNullOrEmpty(lvm.ReturnUrl) && Url.IsLocalUrl(lvm.ReturnUrl))
             { return Redirect(lvm.ReturnUrl); }
@@ -72,6 +92,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM model)
     {
+
         if (!ModelState.IsValid)
         {
             _toast.Error(ModelState.ValidationState.ToDescriptionString());
@@ -95,7 +116,25 @@ public class AccountController : Controller
         {
             await _signInManager.SignInAsync(newUser, isPersistent: newUser.IsPersistent);
             _toast.Success("Successfully Registered new user " + newUser.UserName);
-            return RedirectToAction("Index", "Home");
+
+
+            AppUser currentUser = await _context.Users
+                     .Include(x => x.Address)
+                     .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            //ViewBag.hasAddress = currentUser?.Address != null ? true : false;
+
+
+
+            if (currentUser?.Address != null)
+            {
+                ViewBag.hasAddress = true;
+            }
+
+            ViewBag.hasAddress = false;
+
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Account");
         }
         else
         {
@@ -115,14 +154,15 @@ public class AccountController : Controller
         _toast.Success("You are now signed out, Goodbye!");
         return RedirectToAction("Index", "Home");
     }
+
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
-        if (upvm.NewPassword != null && 
+        if (upvm.NewPassword != null &&
             upvm.NewPassword == upvm.ConfirmPassword &&
             upvm.CurrentPassword is not null)
         {
-           await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
+            await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
         }
         if (upvm.NewPassword != upvm.ConfirmPassword)
         {
@@ -130,8 +170,26 @@ public class AccountController : Controller
             return RedirectToAction("Index", upvm);
         }
         await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser, upvm.CurrentUser.Address);
-        
+
         _toast.Success("Your information was updated");
         return RedirectToAction("Index", upvm);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> DeleteAccount()
+    {
+        AppUser? currentUser = _userManager.Users.Include(x => x.Address)
+           .FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+        if (currentUser != null)
+        {
+            currentUser.IsDeleted = true;
+            await _userManager.UpdateAsync(currentUser);
+        }
+        await _signInManager.SignOutAsync();
+        _toast.Success("You are now signed out, Goodbye!");
+        return RedirectToAction("Index", "Home");
+
+    }
+
 }
