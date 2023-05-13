@@ -12,7 +12,7 @@ public class AppUser : IdentityUser
     public string LName { get; set; } = default!;
     public bool IsPersistent { get; set; } = true;
     public int ShippingAddressId { get; set; }
-    public ShippingAddress Address { get; set; } = new() { AddressLine1 = "Not Set", Name = "Not Set" };
+    public ShippingAddress? Address { get; set; } = new() { AddressLine1 = "Not Set", Name = "Not Set" };
 
     //This is just a text I am adding
     //because I need to push to this repo-NJ (5-3-23)
