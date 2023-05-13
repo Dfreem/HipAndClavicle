@@ -5,30 +5,23 @@
 
 
 
-<div class="d-flex justify-content-center">
+<div class="d-flex my-5 justify-content-center">
     <div class="row">
-        <div class="mx-auto">
+        <div class="m-">
             <form method="post" asp-action="AddProduct" enctype="multipart/form-data">
                 <h2>Add a Product to the lineup</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-floating">
-                    <input asp-for="Name" class="form-control" aria-required="true" />
-                    <label asp-for="Name"></label>
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control input-group-item" aria-required="true" />
                     <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                
-                <div class="m-3">
-                    <select asp-for="Category" asp-items="@Html.GetEnumSelectList<ProductCategory>()">
-                    </select>
-                </div>
+                <label class="form-label">Product Category</label>
+                <select class="form-select mb-2" asp-for="Category" asp-items="@Html.GetEnumSelectList<ProductCategory>()">
+                </select>
+                <input class="form-control form-file" type="file" asp-for="ImageFile" />
 
-                <div class="m-3">
-                    <input class="form-control form-file" type="file" asp-for="ImageFile" />
-
-                </div>
                 <div class="d-flex">
-                    <select asp-for="ProductColors" multiple class="form-select-sm mx-auto">
+                    <select asp-for="ProductColors" multiple class="form-select mx-auto">
                         @foreach (Color color in Model.NamedColors)
                         {
                             <option value="@color" style="background-color:@color.HexValue">@color.ColorName</option>
@@ -43,7 +36,7 @@
 
                     </select>
                 </div>
-                <input type="submit" value="Save"/>
+                <input type="submit" value="Save" />
             </form>
         </div>
     </div>
