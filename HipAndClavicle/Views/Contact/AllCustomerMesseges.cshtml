@@ -80,7 +80,7 @@
                     <th>Id</th>
                     <th>Sender</th>
                     <th>Receiver</th>
-                    <th>Messeage</th>
+                    <th>Message</th>
                     <th>Email</th>
                     <th>Date Sent</th>
                 </tr>
@@ -179,9 +179,14 @@
                         if (response.length > 0) {
                             $.each(response, function (index, message) {
                                 results += '<tr>';
+                                results += '<td>' + message.id + '</td>';
+
                                 results += '<td>' + message.senderUserName + '</td>';
                                 results += '<td>' + message.receiverUserName + '</td>';
+
                                 results += '<td>' + message.content + '</td>';
+                                results += '<td>' + message.email + '</td>';
+
                                 //results += '<td>' + message.purchase_date + '</td>';
                                 //results += '<td>' + message.due_date + '</td>';
                                 results += '<td>' + message.dateSent + '</td>';
