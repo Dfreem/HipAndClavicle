@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+@model List<OrderItem>
+
+<h1>Checkout</h1>
+
+@foreach(var item in Model){
+    <p>@item.</p>
+}
