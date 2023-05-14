@@ -118,21 +118,35 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
-        if (ModelState.GetFieldValidationState("CurrentUser.Address") == ModelValidationState.Valid)
-        {
-            await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser);
-        }
-            
+                    
         if (upvm.NewPassword != null && upvm.NewPassword == upvm.ConfirmPassword && upvm.CurrentPassword is not null)
         {
-            await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
             if (upvm.NewPassword != upvm.ConfirmPassword)
             {
                 _toast.Error("Passwords do not match, pleas re-enter new password");
                 return RedirectToAction("Index", upvm);
             }
+            await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
         }
-
+        var user = await _userManager.FindByNameAsync(User.Identity!.Name!);
+        
+        if (upvm.CurrentUser.FName != user!.FName)
+        {
+            user.FName = upvm.CurrentUser.FName;
+        }
+        if (upvm.CurrentUser.LName != user!.LName)
+        {
+            user.LName = upvm.CurrentUser.LName;
+        }
+        if (upvm.CurrentUser.Email != user!.Email)
+        {
+            user.Email = upvm.CurrentUser.Email;
+        }
+        if (upvm.CurrentUser.Address!.AddressLine1 is not null)
+        {
+            user.Address = upvm.CurrentUser.Address;
+        }
+        await _accountRepo.UpdateUserAddressAsync(user);
         _toast.Success("Your information was updated");
         return RedirectToAction("Index");
     }

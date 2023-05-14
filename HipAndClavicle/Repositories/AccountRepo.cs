@@ -20,9 +20,6 @@ public class AccountRepo : IAccountRepo
 
     public async Task UpdateUserAddressAsync(AppUser user)
     {
-        _context.Addresses.Update(user.Address);
-        await _context.SaveChangesAsync();
-
         await _userManager.UpdateAsync(user);
     }
 }
