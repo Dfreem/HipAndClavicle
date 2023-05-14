@@ -24,7 +24,8 @@ public class ProductController : Controller
         ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
         var colors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
+        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors};
+
         return View(editProduct);
     }
 
@@ -45,7 +46,6 @@ public class ProductController : Controller
             await _productRepo.UpdateProductAsync(product.Edit);
 
         }
-
         return RedirectToAction("Products", "Admin");
     }
 

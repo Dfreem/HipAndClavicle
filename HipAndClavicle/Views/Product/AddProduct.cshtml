@@ -21,13 +21,7 @@
                 <select class="form-control" asp-for="Category" asp-items="@Html.GetEnumSelectList<ProductCategory>()"></select>
 
             </div>
-            @*
-
-            <div class="input-group">
-            @Html.LabelFor(model => model.QuantityOnHand, new { @class = "control-label" })
-            @Html.EditorFor(model => model.QuantityOnHand, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.QuantityOnHand, "", new { @class = "text-danger" })
-            </div>*@
+       
             <div class="row">
                 <div class="input-group mb-3 col">
                     <span class="input-group-text">SetSize</span>
