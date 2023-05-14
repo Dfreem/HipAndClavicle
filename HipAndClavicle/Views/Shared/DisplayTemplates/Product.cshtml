@@ -1,13 +1,14 @@
 ﻿@model Product
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link rel="stylesheet" href="~/css/Product.css" />
 
 <div class="card">
+
+    @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
     <div class="hide-card">
         @if (Model.ProductImage is not null)
         {
-            <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
+            <img class="card-img-top" width="@Model.ProductImage.Width" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image">
         }
         else
         {
@@ -21,25 +22,22 @@
             <h5>@Model.Name</h5>
 
             <a asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="edit-link"><i class="bi bi-pencil"></i></a>
-            @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
 
+
+            @*TODO set tooltip for color viewer.*@
+            <div class="card-text">
+                @Model.Description
+            </div>
+
+            <ul class="color-viewer">
+                @foreach (Color color in Model.AvailableColors)
+                {
+                    <li class="color-splotch" style="background-color:@color.HexValue;">
+                    </li>
+                }
+            </ul>
+            <p class="color-label"><small>available colors</small></p>
         </div>
-
-
-        @*TODO set tooltip for color viewer.*@
-        <div class="card-text">
-            @Model.Description
-        </div>
-
-        <ul class="color-viewer">
-            @foreach (Color color in Model.AvailableColors)
-            {
-                <li class="color-splotch" style="background-color:@color.HexValue;">
-                </li>
-                // TODO change where this link leads. This should change colors.
-            }
-        </ul>
-        <p class="color-label"><small>available colors</small></p>
     </div>
 </div>
 

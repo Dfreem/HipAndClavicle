@@ -1,4 +1,5 @@
 ﻿
+
 namespace HipAndClavicle;
 
 public class ProductController : Controller
@@ -21,16 +22,17 @@ public class ProductController : Controller
     public async Task<IActionResult> EditProduct(int productId)
     {
         ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
-        ViewBag.NamedColors = await _productRepo.GetNamedColorsAsync();
+        var colors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit };
+        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors};
+
         return View(editProduct);
     }
 
     [HttpPost]
     public async Task<IActionResult> EditProduct(ProductVM product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.GetValidationState("Edit.ProductId") == ModelValidationState.Invalid)
         {
             // TODO better error message
             _toast.Error("Something went wrong");
@@ -55,23 +57,25 @@ public class ProductController : Controller
         ProductVM product = new()
         {
             NamedColors = colorOptions,
-            SetSizes = setSizes
+            SetSizes = setSizes,
+            Edit = new()
         };
         return View(product);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct(ProductVM product)
+    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, ProductColors, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.GetValidationState("NewColor") == ModelValidationState.Valid &&
+            ModelState.GetValidationState("NewProduct.Name") == ModelValidationState.Invalid)
         {
-            _toast.Error("ModelState is not valid");
-            return View(product);
-        }
+            await _productRepo.AddNewColorAsync(product.NewColor);
+            return RedirectToAction("AddProduct");
+        };
         Product newProduct = (Product)product;
         if (product.ImageFile is not null)
         {
-            
+
             newProduct.ProductImage = await ExtractImageAsync(product.ImageFile);
             await _productRepo.SaveImageAsync(newProduct.ProductImage);
 
@@ -79,7 +83,7 @@ public class ProductController : Controller
 
         await _productRepo.CreateProductAsync(newProduct);
         _toast.Success("Successfully created new product");
-        return RedirectToAction("Products");
+        return RedirectToAction("AddProduct");
     }
 
     public async Task<Image> ExtractImageAsync(IFormFile imageFile, int width = 100)

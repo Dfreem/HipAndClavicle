@@ -30,6 +30,7 @@ public class ProductRepo : IProductRepo
 
     public async Task UpdateProductAsync(Product product)
     {
+
         _context.Products.Update(product);
         await _context.SaveChangesAsync();
     }
@@ -50,7 +51,6 @@ public class ProductRepo : IProductRepo
     {
         return await _context.SetSizes.ToListAsync();
     }
-
     public async Task AddNewSizeAsync(int size)
     {
         if (!_context.SetSizes.Any(s => s.Size == size))
@@ -72,5 +72,9 @@ public class ProductRepo : IProductRepo
             .ToListAsync();
     }
 
-
+    public async Task AddNewColorAsync(Color newColor)
+    {
+        await _context.NamedColors.AddAsync(newColor);
+        await _context.SaveChangesAsync();
+    }
 }
