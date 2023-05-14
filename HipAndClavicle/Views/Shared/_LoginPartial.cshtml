@@ -24,12 +24,9 @@
             </div>
 
         }
-        if (User.IsInRole("Customer"))
-        {
-            <div class="customer-controls">
-                <a class="btn btn-outline-info rounded-1" asp-action="Orders" asp-controller="Customer"> Your Orders</a>
-            </div>
-        }
+        <div class="customer-controls mt-2">
+            <a class="btn btn-outline-info rounded-1" asp-action="Orders" asp-controller="Customer"> Your Orders</a>
+        </div>
     }
     else
     {
