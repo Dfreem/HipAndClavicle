@@ -59,8 +59,7 @@
 		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="Views\Customer\SearchByColor.cshtml" />
-		<None Include="wwwroot\css\Product.css" />
+		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
 </Project>

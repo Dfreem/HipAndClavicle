@@ -1,0 +1,9 @@
+﻿.add-product-container {
+    max-width: 20em;
+    background-color:#ff4e0033;
+    position: relative;
+    top: 2em;
+}
+.add-product {
+    max-width:20em;
+}

@@ -20,7 +20,8 @@ public class ShippingAddress
     public string PostalCode { get; set; } = default!;
     public bool Residential { get; set; } = true;
     public string Name { get; set; } = "Not Set";
+    
+    public string? AppUserId { get; set; }
     public List<AppUser> Residents { get; set; } = new()!;
-    public int AppUserId { get; set; }
 
 }

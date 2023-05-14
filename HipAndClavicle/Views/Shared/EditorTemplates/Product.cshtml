@@ -15,27 +15,6 @@
     @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
 </div>
 
-<div class="form-group">
-    @Html.LabelFor(model => model.AvailableColors, new { @class = "control-label" })
-    <select multiple asp-for="AvailableColors" class="form-select-sm mx-auto bg-dark color-select">
-        @foreach (Color color in ViewBag.NamedColors)
-        {
-            if (Model.AvailableColors.Contains(color))
-            {
-
-                <option selected value="@color" style="background-color:@color.HexValue" class="color-select-option text-light">@color.ColorName</option>
-
-            }
-            else
-            {
-                <option value="@color" style="background-color:@color.HexValue" class="color-select-option text-light">
-                    @color.ColorName
-                </option>
-            }
-        }
-
-    </select>
-</div>
 
 <div class="form-group">
     @Html.LabelFor(model => model.QuantityOnHand, new { @class = "control-label" })
@@ -62,9 +41,7 @@
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.ProductImage, new { @class = "control-label" })
     <input type="file" asp-for="TempFile" />
-    @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
 </div>
 
 <div class="form-group">
