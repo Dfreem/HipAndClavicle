@@ -8,12 +8,16 @@
 @if(Model.Count() > 0)
 {
     @foreach(var order in Model){
-        <div class="order-div row border m-3 ">
-            <div class="order-number-div border">Order number: @order.OrderId</div>
-            <div>
-                Order Items:
+        <div class="row order-row border m-3 ">
+            <div class="col order-number-and-date border">
+                <div class="row order-number-row">Order number: <br /> @order.OrderId</div>
+                <div class="row order-date-row">Order Date: <br /> @order.DateOrdered </div>
+                <div class="row order-status-row">Status: @order.Status</div>
             </div>
-            <div class="col">
+            <div class="col items-column">
+                <div>
+                    Order Items:
+                </div>
                 @foreach (var item in order.Items)
                 {
                     
@@ -26,11 +30,58 @@
                             colorsString += ", " + color.ColorName;
                         }
                     }
-                    <div>Item: @item.Item.Name in @colorsString </div>
+                    <div class="col items-column">
+                        <div class="row item-image-and-text-row">
+                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@item.ItemColors.First().HexValue.ToString();"></div>
+
+                            <div class="col item-title-and-desc">
+                                <div class="row item-name-row">@item.Item.Name in @colorsString </div>
+                                <div class="row item-desc-row">@item.Item.Description</div>
+                            </div>
+                        </div>
+                    </div>
+@*                    <div class="row">
+                        <div class="col first-image-of-item-row" style="width:5vw; height:5vw; background:@item.ItemColors.First().HexValue.ToString();"></div>
+                        <div class="col">Item: @item.Item.Name in @colorsString </div>
+                    </div>*@
                 }
             </div>
-            <div class="col">Order Status: @order.Status</div>
+            <div class="col buttons-column"></div>
         </div>
 
     }
 }
+<div class="row order-row">
+
+    <div class="col order-number-and-date">
+        <div class="row order-num">
+            12345
+        </div>
+        <div class="row order-date">
+            12/12/1212
+        </div>
+    </div>
+
+    <div class="col items-column">
+        <div class="row item-image-and-text-row">
+            <div class="col first-image-of-item">
+                Image
+            </div>
+
+            <div class="col item-title-and-desc">
+                <div class="row item-title">Title</div>
+                <div class="row item-desc">Description bla bla</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col buttons-column">
+        <div class="row track-button">Track</div>
+        <div class="row order-again-button">OrderAgain</div>
+        <div class="row contact-about-order-button">Message seller</div>
+    </div>
+
+    <div class="col total-paid-column">
+        $40.00
+    </div>
+</div>
