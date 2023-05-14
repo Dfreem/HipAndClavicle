@@ -9,6 +9,12 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Views\CustomerProductCatalog\**" />
+	  <Content Remove="Views\CustomerProductCatalog\**" />
+	  <EmbeddedResource Remove="Views\CustomerProductCatalog\**" />
+	  <None Remove="Views\CustomerProductCatalog\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
@@ -59,7 +65,6 @@
 		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
 </Project>
