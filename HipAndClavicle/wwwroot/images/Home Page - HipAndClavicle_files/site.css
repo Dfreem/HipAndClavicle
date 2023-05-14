@@ -44,7 +44,7 @@ html {
 body {
     min-height: 100vh;
     margin-bottom: 60px;
-    padding-block: 10px;
+    padding-block:10px;
 }
 
 .body {
@@ -54,7 +54,8 @@ body {
 
 .logo-login {
     position: absolute;
-
+    margin-block: 2em;
+    margin-inline: 5em;
     max-width: fit-content;
 }
 

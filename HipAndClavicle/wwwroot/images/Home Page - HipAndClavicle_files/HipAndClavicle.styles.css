@@ -1,0 +1,346 @@
+/* _content/HipAndClavicle/Views/Account/Index.cshtml.rz.scp.css */
+.profile-table[b-k862py0xed] {
+    outline: 2px solid var(--orange-peel);
+    border-radius: 1em;
+    background-color: var(--mint-green);
+    color: var(--dark-orange-web);
+    font-family: 'Fredoka One', cursive;
+    padding: 1em;
+    margin: 1em;
+    margin-inline: auto;
+}
+
+
+.form-floating[b-k862py0xed] {
+    color: #1f1565;
+    background-color: #ff6a00;
+    padding: 0;
+}
+
+
+.profile-table > thead[b-k862py0xed] {
+    color: var(--viridian);
+}
+/* _content/HipAndClavicle/Views/Admin/Products.cshtml.rz.scp.css */
+.product-list-view[b-bfar3fttgi] {
+    padding-block:3em;
+}
+/* _content/HipAndClavicle/Views/Product/AddProduct.cshtml.rz.scp.css */
+.add-product-container[b-os61bz8tel] {
+    max-width: 20em;
+    background-color:#ff4e0033;
+    position: relative;
+    top: 2em;
+}
+.add-product[b-os61bz8tel] {
+    max-width:20em;
+}
+/* _content/HipAndClavicle/Views/Shared/DisplayTemplates/Order.cshtml.rz.scp.css */
+
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;
+font-family: 'Manrope', sans-serif;
+*/
+
+.text-secondary-d1[b-ufzhaxxpd6] {
+    color: #4f2c02 !important;
+}
+
+.page-content[b-ufzhaxxpd6] {
+    padding: 1.25rem;
+    margin: 0 auto;
+    max-width: 95vw;
+}
+
+.page-header[b-ufzhaxxpd6] {
+    margin: 0 0 1rem;
+    padding-bottom: 1rem;
+    padding-top: .5rem;
+    border-bottom: 1px dotted #e2e2e2;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.page-title[b-ufzhaxxpd6] {
+    padding: 0;
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 300;
+}
+
+.btn-order[b-ufzhaxxpd6] {
+    background-color: #c7fee3;
+    outline: 1px solid #874a00;
+    max-width: 250px;
+    min-width: 250px;
+    min-height: fit-content;
+    max-height: fit-content;
+    /*    padding-inline-end: 3em;*/
+}
+
+.btn-text[b-ufzhaxxpd6] {
+    margin-inline-end: 1em;
+    font-weight: 700;
+    color: #874a00;
+}
+
+
+.brc-default-l1[b-ufzhaxxpd6] {
+    border-color: #dce9f0 !important;
+}
+
+.ml-n1[b-ufzhaxxpd6], .mx-n1[b-ufzhaxxpd6] {
+    margin-left: -.25rem !important;
+}
+
+.mr-n1[b-ufzhaxxpd6], .mx-n1[b-ufzhaxxpd6] {
+    margin-right: -.25rem !important;
+}
+
+.mb-4[b-ufzhaxxpd6], .my-4[b-ufzhaxxpd6] {
+    margin-bottom: 1.5rem !important;
+}
+
+.address-info[b-ufzhaxxpd6] {
+    max-width: 13em;
+    min-width: 13em;
+    font-family: 'Nova Oval', cursive;
+    margin: auto;
+    margin-inline: 4em;
+    max-height: fit-content;
+    min-height: fit-content;
+    padding: 1em;
+    outline: 2px solid #9b44b4;
+    border-radius: 1em;
+    box-sizing: border-box;
+}
+
+hr[b-ufzhaxxpd6] {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+.text-grey-m2[b-ufzhaxxpd6] {
+    color: #888a8d !important;
+}
+
+.font-bolder[b-ufzhaxxpd6], .text-600[b-ufzhaxxpd6] {
+    font-weight: 600 !important;
+}
+
+.text-110[b-ufzhaxxpd6] {
+    font-size: 110% !important;
+}
+
+.pb-25[b-ufzhaxxpd6], .py-25[b-ufzhaxxpd6] {
+    padding-bottom: .75rem !important;
+}
+
+.pt-25[b-ufzhaxxpd6], .py-25[b-ufzhaxxpd6] {
+    padding-top: .75rem !important;
+}
+
+.bgc-default-tp1[b-ufzhaxxpd6] {
+    background-color: rgba(121,169,197,.92) !important;
+}
+
+.bgc-default-l4[b-ufzhaxxpd6], .bgc-h-default-l4:hover[b-ufzhaxxpd6] {
+    background-color: #f3f8fa !important;
+}
+
+.page-header .page-tools[b-ufzhaxxpd6] {
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+}
+
+.btn-light[b-ufzhaxxpd6] {
+    color: #757984;
+    background-color: #f5f6f9;
+    border-color: #dddfe4;
+}
+
+.w-2[b-ufzhaxxpd6] {
+    width: 1rem;
+}
+
+.text-120[b-ufzhaxxpd6] {
+    font-size: 120% !important;
+}
+
+.text-primary-m1[b-ufzhaxxpd6] {
+    color: #4087d4 !important;
+}
+
+.text-danger-m1[b-ufzhaxxpd6] {
+    color: #dd4949 !important;
+}
+
+.text-blue-m2[b-ufzhaxxpd6] {
+    color: #68a3d5 !important;
+}
+
+.text-150[b-ufzhaxxpd6] {
+    font-size: 150% !important;
+}
+
+.text-60[b-ufzhaxxpd6] {
+    font-size: 60% !important;
+}
+
+.text-grey-m1[b-ufzhaxxpd6] {
+    color: #7b7d81 !important;
+}
+
+.align-bottom[b-ufzhaxxpd6] {
+    vertical-align: bottom !important;
+}
+
+.align-top[b-ufzhaxxpd6] {
+    vertical-align: top !important;
+}
+/* _content/HipAndClavicle/Views/Shared/DisplayTemplates/Product.cshtml.rz.scp.css */
+
+/*
+font-family: 'Amatic SC', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Nova Oval', cursive;
+font-family: 'Alkatra', cursive;
+font-family: 'Amatic SC', cursive;
+font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Macondo', cursive;
+font-family: 'Secular One', sans-serif;
+
+*/
+
+ul.color-viewer[b-l6ioc0faxi] {
+    background-color: #339a9944;
+    list-style-type: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-inline: 5px;
+    margin: .3em;
+    margin-inline-start: auto;
+    width: fit-content;
+    border-radius: 50px;
+    padding-block: auto;
+}
+
+    ul.color-viewer li[b-l6ioc0faxi] {
+        display: inline-block;
+        max-width: 1em;
+        max-height: 1em;
+        min-width: 1em;
+        min-height: 1em;
+        border-radius: 50%;
+    }
+
+.category-select[b-l6ioc0faxi] {
+    outline: 2px solid #00add4;
+    min-width: fit-content;
+}
+
+.color-select-option[b-l6ioc0faxi] {
+    margin-inline-end: 8em;
+    font-family: 'Gloria Hallelujah', cursive;
+    border-radius: 10px;
+    margin-block: 6px;
+    max-width: 15px;
+    min-width: 15px;
+    max-height: 15px;
+    min-height: 15px;
+    padding: 1em;
+    text-indent: 2em;
+}
+
+
+.color-label[b-l6ioc0faxi] {
+    position: absolute;
+    width: fit-content;
+    bottom: 1em;
+}
+
+
+h1[b-l6ioc0faxi] {
+    color: #fff;
+    padding: 10px 0;
+}
+
+.card[b-l6ioc0faxi] {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: all ease-in-out 0.8s;
+    border: none;
+    max-width: 200px;
+    min-width: 200px;
+    max-height:360px;
+    min-height:360px;
+    position: relative;
+    margin-block: 2em;
+}
+
+.card-body[b-l6ioc0faxi] {
+    min-height: 10em;
+    max-height: 10em;
+    padding: 5px;
+}
+
+.card:hover[b-l6ioc0faxi] {
+    transition: all cubic-bezier(.28,.44,.6,.92) .5s;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+}
+
+.text-muted i[b-l6ioc0faxi] {
+    margin: 0 10px;
+}
+
+.edit-link[b-l6ioc0faxi] {
+    position: absolute;
+    right: 1em;
+}
+
+.hide-card[b-l6ioc0faxi] {
+
+    position:relative;
+    margin-block:auto;
+}
+/* _content/HipAndClavicle/Views/Shared/EditorTemplates/ShippingAddress.cshtml.rz.scp.css */
+
+.list-group-item[b-0pti05yqcp] {
+    outline: none;
+    border: none;
+}
+
+.body[b-0pti05yqcp] {
+    padding-block-end: 5em;
+}
+
+.back-link > a:any-link[b-0pti05yqcp] {
+    text-decoration: none;
+    color: #00ff90;
+    font-family: 'Nova Oval', cursive;
+}
+
+.label-btn[b-0pti05yqcp] {
+    position: relative;
+}
+
+.input-group[b-0pti05yqcp] {
+    outline: 1px solid #00968d;
+    border-radius:5px;
+}
+
+@media only screen and (max-width: 740px) {
+    .label-btn[b-0pti05yqcp] {
+        position:absolute;
+        bottom: 5em;
+    }
+
+}

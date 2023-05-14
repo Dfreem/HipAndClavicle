@@ -38,13 +38,12 @@ html {
     }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem silver, 0 0 0 0.25rem lightseagreen;
+    box-shadow: 0 0 0 0.1rem silver, 0 0 0 0.25rem #258cfb;
 }
 
 body {
     min-height: 100vh;
     margin-bottom: 60px;
-    padding-block: 10px;
 }
 
 .body {
@@ -53,8 +52,9 @@ body {
 
 
 .logo-login {
-    position: absolute;
-
+    margin-top: 1em;
+    position: relative;
+    margin-inline: auto;
     max-width: fit-content;
 }
 
