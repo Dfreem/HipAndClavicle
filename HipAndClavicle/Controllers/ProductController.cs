@@ -24,7 +24,7 @@ public class ProductController : Controller
         ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
         var colors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors};
+        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
         return View(editProduct);
     }
 
@@ -45,7 +45,7 @@ public class ProductController : Controller
             await _productRepo.UpdateProductAsync(product.Edit);
 
         }
-        
+
         return RedirectToAction("Products", "Admin");
     }
 
@@ -57,23 +57,25 @@ public class ProductController : Controller
         ProductVM product = new()
         {
             NamedColors = colorOptions,
-            SetSizes = setSizes
+            SetSizes = setSizes,
+            Edit = new()
         };
         return View(product);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct(ProductVM product)
+    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, ProductColors, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.GetValidationState("NewColor") == ModelValidationState.Valid &&
+            ModelState.GetValidationState("NewProduct.Name") == ModelValidationState.Invalid)
         {
-            _toast.Error("ModelState is not valid");
-            return View(product);
-        }
+            await _productRepo.AddNewColorAsync(product.NewColor);
+            return RedirectToAction("AddProduct");
+        };
         Product newProduct = (Product)product;
         if (product.ImageFile is not null)
         {
-            
+
             newProduct.ProductImage = await ExtractImageAsync(product.ImageFile);
             await _productRepo.SaveImageAsync(newProduct.ProductImage);
 
@@ -81,7 +83,7 @@ public class ProductController : Controller
 
         await _productRepo.CreateProductAsync(newProduct);
         _toast.Success("Successfully created new product");
-        return RedirectToAction("Products");
+        return RedirectToAction("AddProduct");
     }
 
     public async Task<Image> ExtractImageAsync(IFormFile imageFile, int width = 100)

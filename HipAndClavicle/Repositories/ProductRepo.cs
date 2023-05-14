@@ -72,5 +72,9 @@ public class ProductRepo : IProductRepo
             .ToListAsync();
     }
 
-
+    public async Task AddNewColorAsync(Color newColor)
+    {
+        await _context.NamedColors.AddAsync(newColor);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -11,5 +11,5 @@ public interface IProductRepo
     public Task<List<ColorFamily>> GetAllColorFamiliesAsync();
     public Task<List<Color>> GetNamedColorsAsync();
     public Task<List<SetSize>> GetSetSizesAsync();
-
+    Task AddNewColorAsync(Color newColor);
 }
