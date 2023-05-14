@@ -8,19 +8,21 @@
 @if(Model.Count() > 0)
 {
     @foreach(var order in Model){
-        <div class="row order-row border m-3 ">
-            <div class="col order-number-and-date border">
+        double orderTotal = 0.00;
+        <div class="row order-row border m-3 col-12">
+            <div class="col col-2 order-number-and-date border-right">
                 <div class="row order-number-row">Order number: <br /> @order.OrderId</div>
                 <div class="row order-date-row">Order Date: <br /> @order.DateOrdered </div>
                 <div class="row order-status-row">Status: @order.Status</div>
             </div>
-            <div class="col items-column">
+            <div class="col col-6 items-column">
                 <div>
                     Order Items:
                 </div>
                 @foreach (var item in order.Items)
                 {
-                    
+                    double itemTotalPrice = item.AmountOrdered * item.PricePerUnit;
+                    orderTotal += itemTotalPrice;
                     string colorsString = "";
                     colorsString += item.ItemColors.First().ColorName;
                     if(item.ItemColors.Count() > 1)
@@ -46,12 +48,19 @@
                     </div>*@
                 }
             </div>
-            <div class="col buttons-column"></div>
+            <div class="col buttons-column">
+                <div class="row track-button btn btn-dark m-2">Track</div>
+                <div class="row order-again-button btn btn-dark m-2">OrderAgain</div>
+                <div class="row contact-about-order-button btn btn-dark m-2">Message seller</div>
+            </div>
+            <div class="col total-paid-column">
+               @orderTotal.ToString("C")
+            </div>
         </div>
 
     }
 }
-<div class="row order-row">
+@*<div class="row order-row">
 
     <div class="col order-number-and-date">
         <div class="row order-num">
@@ -84,4 +93,4 @@
     <div class="col total-paid-column">
         $40.00
     </div>
-</div>
+</div>*@
