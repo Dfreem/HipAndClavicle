@@ -10,7 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
 
-<br />
 
 @*@ViewBag.hasAddress.ToString();*@
 
@@ -97,28 +96,31 @@
             </div>
         </div>
     </form>
-</div>
 
-@*New code added below by NJ on 5/13/23.
-    Adding the delete account button.*@
+    @*New code added below by NJ on 5/13/23.
+        Adding the delete account button.*@
 
-<div class="row m-3 justify-content-center">
-    <div class="col-sm-3 col-md-3 col-lg-3">
-        <div class="alert alert-danger" role="alert">
-            <span class="h8">
-                Delete Account? :(
-            </span>
-            <span class="float-end h4">
-                <a asp-action="DeleteAccount" asp-controller="Account"
-                   class="btn btn-danger text-light alert-link">
-                    Delete
-                </a>
-            </span>
+    <div class="row m-5 justify-content-center">
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <div class="alert alert-danger" role="alert">
+                <span class="h9">
+                    Delete Account? :(
+                </span>
+                <span class="float-end h4">
+                    <a asp-action="DeleteAccount" asp-controller="Account"
+                       class="btn btn-danger text-light alert-link">
+                        Delete
+                    </a>
+                </span>
 
+            </div>
         </div>
+
     </div>
 
 </div>
+
+
 
 
 @section Scripts
