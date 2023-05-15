@@ -30,20 +30,22 @@ html {
 
 .nav-link {
     justify-content: space-around;
+    transition: all .2s linear;
 }
 
-    .nav-link:hover {
-        background-color: #acc16f;
-        color: white;
-    }
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem silver, 0 0 0 0.25rem #258cfb;
+a:any-link.nav-link:hover {
+    border-radius: 5px;
+    background-color: #acc16f;
+    outline: 2px solid #55681c;
+    text-shadow: 2px 2px 3px #d0ede8;
+    color: white;
+    transition: all .2s linear;
 }
 
 body {
     min-height: 100vh;
     margin-bottom: 60px;
+    padding-block: 10px;
 }
 
 .body {
@@ -52,16 +54,15 @@ body {
 
 
 .logo-login {
-    margin-top: 1em;
-    position: relative;
-    margin-inline: auto;
+    position: absolute;
+    top: 5em;
+    left: 3em;
     max-width: fit-content;
 }
 
 .login-partial {
-    right: 2em;
-    margin-inline: 3em;
-    position: absolute;
+    margin-block: .5em;
+    max-width: fit-content;
     font-family: 'Indie Flower', cursive;
     font-size: 1.5em;
 }
@@ -69,21 +70,25 @@ body {
     .login-partial a:any-link {
         font-weight: 600;
         text-decoration: none;
+        padding: .3em;
+        border-radius: 5px;
         color: lightseagreen;
     }
 
-    .login-partial:hover a:any-link {
-        filter: saturate(200%);
-        color: lightseagreen;
-    }
+        .login-partial a:any-link:hover {
+            border-radius: 5px;
+            background-color: #acc16f;
+            outline: 2px solid #55681c;
+            text-shadow: 2px 2px 3px #d0ede8;
+            color: white;
+            transition: all .2s linear;
+        }
 
     .login-partial button {
         color: mediumturquoise;
     }
 
-        .login-partial button:hover {
-            filter: saturate(200%)
-        }
+
 
 footer ul a {
     color: #dab8e8;
@@ -171,7 +176,7 @@ footer ul a {
     overflow-y: scroll;
 }
 
-@media only screen and (max-width: 840px) {
+@media only screen and (max-width: 740px) {
     footer ul {
         visibility: hidden;
     }

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Client;
 
 namespace HipAndClavicle.Repositories
 {
@@ -110,6 +111,39 @@ namespace HipAndClavicle.Repositories
             return orders;
         }
 
+        public async Task<Order> GetOrderById( int orderId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .Where(o => o.OrderId == orderId).FirstOrDefaultAsync();
+            return order;
+        }
+
+        public async Task<ShoppingCart> GetCartById(int cartId)
+        {
+            var cart = await _context.ShoppingCarts
+                .Where(c => c.Id == cartId).FirstOrDefaultAsync();
+
+            return cart;
+        }
+
+        public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId)
+        {
+
+            // Load the cart from the database
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(cart => cart.ShoppingCartItems)
+                .ThenInclude(item => item.ListingItem)
+                .ThenInclude(li => li.ListingProduct)
+                .Include(cart => cart.ShoppingCartItems)
+                .ThenInclude(item => item.ListingItem)
+                .ThenInclude(li => li.Colors)
+                .FirstOrDefaultAsync(cart => cart.CartId == cartId);
+
+            return shoppingCart;
+        }
+
         #endregion
 
         #region MakeUpdates
@@ -154,6 +188,31 @@ namespace HipAndClavicle.Repositories
             await _context.Reviews.AddAsync(crVM.Review);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddOrderByCheckoutVmAsync(CheckoutVM checkoutVm)
+        {
+            var order = checkoutVm.Order;
+            //order.Status = OrderStatus.Paid;
+            //order.DateOrdered = DateTime.Now;
+
+            //order.Address.AddressLine1 = checkoutVm.Street;
+            //order.Address.CityTown = checkoutVm.City;
+            //order.Address.StateAbr = checkoutVm.State;
+            //order.Address.PostalCode = checkoutVm.Zip;
+            //order.Address.Name = checkoutVm.Name;
+
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ClearShoppingCartAsync(string cartId)
+        {
+            ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId);
+
+            _context.ShoppingCartItems.RemoveRange(shoppingCart.ShoppingCartItems);
+            await _context.SaveChangesAsync();
+        }
+
         #endregion
 
         #region Checks
