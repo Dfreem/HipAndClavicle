@@ -18,16 +18,8 @@ public class AccountRepo : IAccountRepo
         return await _context.Addresses.FindAsync(user.ShippingAddressId);
     }
 
-    public async Task UpdateUserAddressAsync(AppUser user, ShippingAddress newAddress)
+    public async Task UpdateUserAddressAsync(AppUser user)
     {
-        if (user.Address != null && _context.Addresses.Contains(user.Address))
-        {
-            _context.Addresses.Remove(user.Address);
-        }
-        newAddress.Residents.Add(user);
-        user.Address = newAddress;
         await _userManager.UpdateAsync(user);
-        await _context.Addresses.AddAsync(newAddress);
-        await _context.SaveChangesAsync();
     }
 }

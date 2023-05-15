@@ -64,10 +64,9 @@ public class ProductController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, ProductColors, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
+    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, NewColor, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
     {
-        if (ModelState.GetValidationState("NewColor") == ModelValidationState.Valid &&
-            ModelState.GetValidationState("NewProduct.Name") == ModelValidationState.Invalid)
+        if (product.NewColor.HexValue != "#00000000")
         {
             await _productRepo.AddNewColorAsync(product.NewColor);
             return RedirectToAction("AddProduct");
