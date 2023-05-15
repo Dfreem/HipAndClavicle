@@ -121,5 +121,71 @@ namespace HipAndClavicle.Controllers
 
             return View(orders);
         }
+
+       //[HttpPost]
+        public async Task<IActionResult> Checkout(string cartId)
+        {
+            var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
+            CheckoutVM checkout = new CheckoutVM()
+            {
+                Cart = cart,
+            };
+            return View(checkout);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutVM checkoutVm)
+        {
+            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cartId = currentUser.Id;
+            var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
+
+            
+
+            var items = new List<OrderItem>() { };
+            foreach(var item in cart.ShoppingCartItems)
+            {
+                OrderItem itemToAdd= new OrderItem()
+                {
+                    ItemColors = item.ListingItem.Colors,
+                    Item = item.ListingItem.ListingProduct,
+                    ProductId = item.ListingItem.ListingProduct.ProductId,
+                    ItemType = item.ListingItem.ListingProduct.Category,
+                    AmountOrdered = item.Quantity,
+                    PricePerUnit = item.ListingItem.Price,
+
+                };
+                items.Add(itemToAdd);
+            }
+
+            ShippingAddress address = new ShippingAddress()
+            {
+                AddressLine1 = checkoutVm.Street,
+                CityTown = checkoutVm.City,
+                StateAbr = checkoutVm.State,
+                PostalCode = checkoutVm.Zip,
+                Name = checkoutVm.Name
+            };
+            
+
+            checkoutVm.Cart = cart;
+            checkoutVm.Order = new Order() 
+            {
+                Status = OrderStatus.Paid,
+                DateOrdered = DateTime.Now,
+                Address = address,
+                Purchaser = currentUser,
+                PurchaserId = cartId,
+                Items = items
+                
+            };
+
+
+            await _repo.AddOrderByCheckoutVmAsync(checkoutVm);
+            await _repo.ClearShoppingCartAsync(cartId);
+
+
+            return RedirectToAction("Orders");
+        }
     }
 }
