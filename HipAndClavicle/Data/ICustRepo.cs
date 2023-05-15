@@ -15,6 +15,9 @@
         public Task<Color> GetColorByIdAsync(int colorId);
         public Task<Product> GetProductByIdAsync(int productId);
         public Task<List<Order>> GetOrdersByCustomerId(string customerId);
+        public Task<Order> GetOrderById(int orderId);
+        public Task<ShoppingCart> GetCartById(int cartId);
+        public Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId);
 
 
 
@@ -25,6 +28,10 @@
         public Task AddListingImageAsync(Image image);
         public Task AddColorToListing(Listing listing, Color color);
         public Task AddReviewAsync(CustReviewVM crVM);
+        public Task AddOrderByCheckoutVmAsync(CheckoutVM checkoutVm);
+        public Task ClearShoppingCartAsync(string cartId);
+
+
 
 
         //Checks
