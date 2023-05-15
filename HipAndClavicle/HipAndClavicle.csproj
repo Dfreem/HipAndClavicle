@@ -13,6 +13,7 @@
 	  <Content Remove="Views\CustomerProductCatalog\**" />
 	  <EmbeddedResource Remove="Views\CustomerProductCatalog\**" />
 	  <None Remove="Views\CustomerProductCatalog\**" />
+	  <Content Remove="wwwroot\css\Order.cshtml.css" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Models\Customer.cs" />
@@ -73,5 +74,6 @@
 		<None Include="wwwroot\css\site.css">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
+		<None Include="wwwroot\css\Order.css" />
 	</ItemGroup>
 </Project>
