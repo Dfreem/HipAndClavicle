@@ -14,6 +14,7 @@
 	  <EmbeddedResource Remove="Views\CustomerProductCatalog\**" />
 	  <None Remove="Views\CustomerProductCatalog\**" />
 	  <Content Remove="wwwroot\css\Order.cshtml.css" />
+	  <Content Remove="wwwroot\css\Product.css" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Models\Customer.cs" />
@@ -75,5 +76,9 @@
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Include="wwwroot\css\Order.css" />
+		<None Include="wwwroot\css\Product.css">
+		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
 	</ItemGroup>
 </Project>
