@@ -182,6 +182,7 @@ namespace HipAndClavicle.Controllers
 
 
             await _repo.AddOrderByCheckoutVmAsync(checkoutVm);
+            await _repo.ClearShoppingCartAsync(cartId);
 
 
             return RedirectToAction("Orders");

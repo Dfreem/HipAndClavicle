@@ -5,9 +5,7 @@
 
 <h1>Checkout</h1>
 
-@foreach(var item in Model.Cart.ShoppingCartItems){
-    <p>@item.ListingItem.ListingProduct.Name </p>
-}
+
 
 <form asp-action="Checkout" method="post">
     <div class="mb-3">

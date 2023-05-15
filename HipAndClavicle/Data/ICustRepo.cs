@@ -29,6 +29,8 @@
         public Task AddColorToListing(Listing listing, Color color);
         public Task AddReviewAsync(CustReviewVM crVM);
         public Task AddOrderByCheckoutVmAsync(CheckoutVM checkoutVm);
+        public Task ClearShoppingCartAsync(string cartId);
+
 
 
 
