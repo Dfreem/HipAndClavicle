@@ -74,7 +74,13 @@ else
             </form>
         </div>
         <div class="float-end">
-            <a href="/checkout" class="btn btn-dark">Checkout    ></a>
+            <a asp-controller="Customer" asp-action="Checkout" asp-route-cartId="@Model.CartId" class="btn btn-dark">Checkout Link ></a>
+
+            <form asp-controller="Customer" asp-action="Checkout" method="post">
+@*            <a asp-controller="Customer" asp-action="Checkout" asp-route-cartItems="@Model.ShoppingCartItems" class="btn btn-dark">Checkout    ></a>*@
+
+                <button type="submit" class="btn btn-dark">Checkout ></button>
+            </form>
         </div>
         <br />
         <br />
