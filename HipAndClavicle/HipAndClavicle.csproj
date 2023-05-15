@@ -22,13 +22,13 @@
 		<Compile Remove="Repositories\ShippmentRepo.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Remove="wwwroot\css\site.css" />
+	</ItemGroup>
+	<ItemGroup>
 		<Content Update="Properties\launchSettings.json">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
-		</Content>
-		<Content Update="wwwroot\css\site.css">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 		<Content Update="wwwroot\images\Logo.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -68,6 +68,10 @@
 		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Include="wwwroot\css\Product.css" />
 		<None Include="wwwroot\css\Ship.css" />
+		<None Include="wwwroot\css\site.css">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>
