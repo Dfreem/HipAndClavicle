@@ -9,6 +9,12 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Views\CustomerProductCatalog\**" />
+	  <Content Remove="Views\CustomerProductCatalog\**" />
+	  <EmbeddedResource Remove="Views\CustomerProductCatalog\**" />
+	  <None Remove="Views\CustomerProductCatalog\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />
@@ -20,6 +26,9 @@
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\css\site.css">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Content>
 		<Content Update="wwwroot\images\Logo.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -59,7 +68,7 @@
 		<None Remove="Views\Contact\" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="Views\CustomerProductCatalog\SearchByColor.cshtml" />
+		<None Include="wwwroot\css\Order.css" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
 </Project>

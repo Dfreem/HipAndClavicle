@@ -355,3 +355,5 @@ Migrations/
 app.db*
 Hours-tracking*
 *log
+.config
+ServiceDependencies/

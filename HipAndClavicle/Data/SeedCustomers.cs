@@ -128,7 +128,12 @@ namespace HipAndClavicle.Data
                 ColorName = "newYellow",
                 HexValue = "#edcd2b"
             };
-            await context.NamedColors.AddAsync(newColor);
+            var newColor2 = new Color()
+            {
+                ColorName = "newRed",
+                HexValue = "#ef3939"
+            };
+            await context.NamedColors.AddRangeAsync(newColor, newColor2);
 
             Order order1 = new Order()
             {
@@ -139,7 +144,7 @@ namespace HipAndClavicle.Data
             Order order2 = new Order()
             {
                 DateOrdered = DateTime.Now,
-                Purchaser = ane!,
+                Purchaser = anne!,
                 Address = ane!.Address!,
             };
 
@@ -147,10 +152,36 @@ namespace HipAndClavicle.Data
             {
                 Item = butterfly,
                 ItemType = ProductCategory.ButterFlys,
+                //ItemColors = { newColor, newColor2 },
+                AmountOrdered = 3,
+                PricePerUnit = 23.00d,
 
             };
-            await context.OrderItems.AddAsync(item1);
+            OrderItem item2 = new OrderItem()
+            {
+                Item = dragon,
+                ItemType = ProductCategory.Dragons,
+                //ItemColors = { newColor},
+                AmountOrdered = 2,
+                PricePerUnit = 22.00d
+            };
+            OrderItem item3 = new OrderItem()
+            {
+                Item = dragon,
+                ItemType = ProductCategory.Dragons,
+                //ItemColors = { newColor },
+                AmountOrdered = 5,
+                PricePerUnit = 22.00d
+            };
+            await context.OrderItems.AddRangeAsync(item1, item2, item3);
+            item1.ItemColors.Add(newColor);
+            item1.ItemColors.Add(newColor2);
+            item2.ItemColors.Add(newColor);
+            item3.ItemColors.Add(newColor);
+
             order1.Items.Add(item1);
+            order1.Items.Add(item2);
+            order2.Items.Add(item3);
 
             await context.Orders.AddRangeAsync(order1, order2);
             #endregion AddOrders

@@ -147,7 +147,6 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [HttpPost]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
@@ -157,6 +156,7 @@ public class AccountController : Controller
 
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
+<<<<<<< HEAD
     {
         if (upvm.NewPassword != null &&
             upvm.NewPassword == upvm.ConfirmPassword &&
@@ -171,8 +171,40 @@ public class AccountController : Controller
         }
         await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser, upvm.CurrentUser.Address);
 
+=======
+    {
+                    
+        if (upvm.NewPassword != null && upvm.NewPassword == upvm.ConfirmPassword && upvm.CurrentPassword is not null)
+        {
+            if (upvm.NewPassword != upvm.ConfirmPassword)
+            {
+                _toast.Error("Passwords do not match, pleas re-enter new password");
+                return RedirectToAction("Index", upvm);
+            }
+            await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
+        }
+        var user = await _userManager.FindByNameAsync(User.Identity!.Name!);
+        
+        if (upvm.CurrentUser.FName != user!.FName)
+        {
+            user.FName = upvm.CurrentUser.FName;
+        }
+        if (upvm.CurrentUser.LName != user!.LName)
+        {
+            user.LName = upvm.CurrentUser.LName;
+        }
+        if (upvm.CurrentUser.Email != user!.Email)
+        {
+            user.Email = upvm.CurrentUser.Email;
+        }
+        if (upvm.CurrentUser.Address!.AddressLine1 is not null)
+        {
+            user.Address = upvm.CurrentUser.Address;
+        }
+        await _accountRepo.UpdateUserAddressAsync(user);
+>>>>>>> 974e10eb178b80098165beb749bf9b9b2ef157eb
         _toast.Success("Your information was updated");
-        return RedirectToAction("Index", upvm);
+        return RedirectToAction("Index");
     }
 
     [HttpGet]

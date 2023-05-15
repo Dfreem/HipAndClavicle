@@ -20,5 +20,7 @@ namespace HipAndClavicle.Models
         public string? shape { get; set; }
 
         public List<ListingColorJT> ListingColorJTs { get; set; } = new List<ListingColorJT>();
+        public int OrderItemId { get; set; }
+        public List<OrderItem> OrderItems { get; set; } = new();
     }
 }
