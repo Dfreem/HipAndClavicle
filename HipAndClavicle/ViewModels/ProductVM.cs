@@ -10,7 +10,6 @@ public class ProductVM
     public List<Color> NamedColors { get; set; } = new();
 
     // Product Properties
-    public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; }
     public List<Color> ProductColors { get; set; } = new();
     public IFormFile? ImageFile { get; set; } = default!;
@@ -23,8 +22,7 @@ public class ProductVM
     {
         return new Product()
         {
-            Name = v.Name,
-            SetSizes = v.SetSizes,
+            SetSizes = v.Edit!.SetSizes,
             Category = v.Category,
             AvailableColors = v.ProductColors,
             ProductImage = v.ProductImage,

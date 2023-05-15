@@ -63,26 +63,15 @@ public class ProductController : Controller
         return View(product);
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, NewColor, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
+    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, NewColor, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM pvm)
     {
-        if (product.NewColor.HexValue != "#00000000")
-        {
-            await _productRepo.AddNewColorAsync(product.NewColor);
-            return RedirectToAction("AddProduct");
-        };
-        Product newProduct = (Product)product;
-        if (product.ImageFile is not null)
-        {
 
-            newProduct.ProductImage = await ExtractImageAsync(product.ImageFile);
-            await _productRepo.SaveImageAsync(newProduct.ProductImage);
-
-        }
-
-        await _productRepo.CreateProductAsync(newProduct);
-        _toast.Success("Successfully created new product");
-        return RedirectToAction("AddProduct");
+        Product toAdd = new() { Name = pvm.Edit!.Name, AvailableColors = pvm.ProductColors };
+        await _productRepo.CreateProductAsync(toAdd);
+        pvm.Edit = toAdd;
+        return View(pvm);
     }
 
     public async Task<Image> ExtractImageAsync(IFormFile imageFile, int width = 100)
@@ -103,5 +92,12 @@ public class ProductController : Controller
         Product toDelete = await _productRepo.GetProductByIdAsync(id);
         await _productRepo.DeleteProductAsync(toDelete);
         return RedirectToAction("Products");
+    }
+    [HttpPost]
+    public IActionResult AddColorProduct(ProductVM pvm)
+    {
+        Color color = new() { HexValue = pvm.NewColor.HexValue, ColorName = pvm.NewColor.ColorName };
+        pvm.Edit!.AvailableColors.Add(color);
+        return View("AddProduct", pvm);
     }
 }

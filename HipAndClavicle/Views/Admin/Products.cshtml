@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Product management";
 }
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <div class="product-list-view">
 
 
@@ -14,7 +14,7 @@
         {
             <div class="col">
                 @Html.DisplayFor(_ => product)
-                <a asp-action="DeletexProductAsync"></a>
+                <a asp-action="DeleteProductAsync"><i class="bi bi-x-square text-danger"></i></a>
             </div>
 
         }
