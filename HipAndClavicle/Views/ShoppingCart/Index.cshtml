@@ -9,12 +9,7 @@
     <p class="text-center">Your shopping cart is empty.</p>
     <br />
     <br />
-    @*TODO: This add button is for testing remove later.*@
-    <h2>This is for testing only!</h2>
-    <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
-        <input type="hidden" name="listingId" value="1" />
-        <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
-    </form>
+
 }
 else
 {
@@ -74,17 +69,9 @@ else
             </form>
         </div>
         <div class="float-end">
-            <a href="/checkout" class="btn btn-dark">Checkout    ></a>
-        </div>
-        <br />
-        <br />
-        <div>
-            @*TODO: This add button is for testing, remove later.*@
-            <h2>This is for testing only!</h2>
-            <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
-                <input type="hidden" name="listingId" value="1" />
-                <button type="submit" class="btn btn-primary">Add Sample Listing to Cart</button>
-            </form>
+            <a asp-controller="Customer" asp-action="Checkout" asp-route-cartId="@Model.CartId" class="btn btn-dark">Checkout ></a>
+
+
         </div>
     </div>
 }
