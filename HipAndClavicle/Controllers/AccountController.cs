@@ -53,19 +53,18 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginVM lvm)
     {
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == lvm.UserName);
 
+        if (user.IsDeleted)
+        {
+            _toast.Error("Invalid username/password.\n");
+
+            ModelState.AddModelError("", "Invalid username/password.");
+            return View(lvm);
+        }
         var result = await _signInManager.PasswordSignInAsync(lvm.UserName, lvm.Password, isPersistent: lvm.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == lvm.UserName);
-
-            if (user.IsDeleted)
-            {
-                _toast.Error("The user doesn't exist.\n");
-
-                ModelState.AddModelError("", "The user doesn't exist.");
-                return View(lvm);
-            }
 
             _toast.Success("Successfully Logged in as " + lvm.UserName);
             if (!string.IsNullOrEmpty(lvm.ReturnUrl) && Url.IsLocalUrl(lvm.ReturnUrl))
@@ -80,6 +79,7 @@ public class AccountController : Controller
         ModelState.AddModelError("", "Invalid username/password.");
         return View(lvm);
     }
+
 
     [AllowAnonymous]
     [HttpGet]
@@ -156,24 +156,8 @@ public class AccountController : Controller
 
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
-<<<<<<< HEAD
     {
-        if (upvm.NewPassword != null &&
-            upvm.NewPassword == upvm.ConfirmPassword &&
-            upvm.CurrentPassword is not null)
-        {
-            await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
-        }
-        if (upvm.NewPassword != upvm.ConfirmPassword)
-        {
-            _toast.Error("Passwords do not match, pleas re-enter new password");
-            return RedirectToAction("Index", upvm);
-        }
-        await _accountRepo.UpdateUserAddressAsync(upvm.CurrentUser, upvm.CurrentUser.Address);
 
-=======
-    {
-                    
         if (upvm.NewPassword != null && upvm.NewPassword == upvm.ConfirmPassword && upvm.CurrentPassword is not null)
         {
             if (upvm.NewPassword != upvm.ConfirmPassword)
@@ -184,7 +168,7 @@ public class AccountController : Controller
             await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
         }
         var user = await _userManager.FindByNameAsync(User.Identity!.Name!);
-        
+
         if (upvm.CurrentUser.FName != user!.FName)
         {
             user.FName = upvm.CurrentUser.FName;
@@ -202,7 +186,7 @@ public class AccountController : Controller
             user.Address = upvm.CurrentUser.Address;
         }
         await _accountRepo.UpdateUserAddressAsync(user);
->>>>>>> 974e10eb178b80098165beb749bf9b9b2ef157eb
+
         _toast.Success("Your information was updated");
         return RedirectToAction("Index");
     }
@@ -223,5 +207,6 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
 
     }
+
 
 }
