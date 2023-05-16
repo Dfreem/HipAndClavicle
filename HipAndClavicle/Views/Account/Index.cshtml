@@ -44,6 +44,16 @@
                     <input asp-for="CurrentUser.PhoneNumber" type="text" class="form-control text-right">
                 </div>
 
+                <div class="card">
+                    <div class="card-body" style="background-color: rgb(251, 251, 251); ">
+                        <h5 class="card-title">Delete Account</h5>
+                        <p class="card-text">Are you sure you want to delete your account?</p>
+                        <a asp-action="DeleteAccount" asp-controller="Account" class="btn btn-danger text-light">
+                            Delete Account
+                        </a>
+                    </div>
+                </div>
+
 
             </div>
 
@@ -87,19 +97,19 @@
     @*New code added below by NJ on 5/13/23.
         Adding the delete account button.*@
 
-    <div class="row m-4 justify-content-center">
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Delete Account</h5>
-                    <p class="card-text">Are you sure you want to delete your account?</p>
-                    <a asp-action="DeleteAccount" asp-controller="Account" class="btn btn-danger text-light">
-                        Delete Account
-                    </a>
+    @*<div class="row m-4 justify-content-center">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="card">
+                    <div class="card-body" style="background-color: rgb(226, 227, 229);">
+                        <h5 class="card-title">Delete Account</h5>
+                        <p class="card-text">Are you sure you want to delete your account?</p>
+                        <a asp-action="DeleteAccount" asp-controller="Account" class="btn btn-danger text-light">
+                            Delete Account
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
 
 </div>
 
