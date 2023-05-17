@@ -77,6 +77,16 @@ namespace HipAndClavicle.Repositories
                 PhoneNumber = "555-555-5555",
                 Address = fakeSt
             };
+            AppUser testAdmin123 = new()
+            {
+                UserName = "TestAdmin123",
+                FName = "First",
+                LName = "Last",
+                Email = "fake@fake.com",
+                Address = fakeSt
+            };
+
+            _ = await userManager!.CreateAsync(testAdmin123, "@Password123");
             _ = await userManager!.CreateAsync(devin, "!BassCase987");
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");

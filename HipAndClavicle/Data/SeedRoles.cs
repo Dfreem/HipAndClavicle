@@ -9,6 +9,7 @@ public static class SeedRoles
         var devin = await userManager.FindByNameAsync("dfreem987");
         var steven = await userManager.FindByNameAsync("steven123");
         var michael = await userManager.FindByNameAsync("michael123");
+        var testAdmin = await userManager.FindByNameAsync("TestAdmin123");
         string rolename = "Admin";
 
         if (await roleManager.FindByNameAsync(rolename) is null)
@@ -19,6 +20,7 @@ public static class SeedRoles
         await userManager.AddToRoleAsync(devin, rolename);
         await userManager.AddToRoleAsync(steven, rolename);
         await userManager.AddToRoleAsync(michael, rolename);
+        await userManager.AddToRoleAsync(testAdmin, rolename);
     }
 
 }
