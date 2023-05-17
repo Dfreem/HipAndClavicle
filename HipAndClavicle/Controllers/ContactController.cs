@@ -47,7 +47,7 @@ namespace HipAndClavicle.Controllers
                 Email = userMessageVM.Email,
                 Number = userMessageVM.Number,
                 Content = userMessageVM.Response,
-
+                DateSent = DateTime.Now
 
 
             };
@@ -148,12 +148,15 @@ namespace HipAndClavicle.Controllers
 
             // Get the other user
             var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
+
+
             UserMessage userMessage = new UserMessage
             {
                 Email = currentUser.Email,
                 Number = currentUser.PhoneNumber,
                 Content = customerMessage.Message,
                 SenderUserName = currentUser.UserName,
+                DateSent = DateTime.Now
             };
             if (customerMessage.SendTo.IsNullOrEmpty())
             {
