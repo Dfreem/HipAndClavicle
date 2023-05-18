@@ -42,6 +42,7 @@ global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using ShipEngineSDK.CreateLabelFromShipmentDetails;
 global using ShipEngineSDK.Common.Enums;
+global using Stripe;
 
 // TODO add messaging from admin orders
 // TODO enable email functionality

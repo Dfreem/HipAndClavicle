@@ -91,7 +91,6 @@ namespace HipAndClavicle.Repositories
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");
             _ = await userManager!.CreateAsync(steven, "@Password123");
-            await context.SaveChangesAsync();
         }
     }
 }
