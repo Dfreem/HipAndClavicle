@@ -14,7 +14,9 @@ public class AppUser : IdentityUser
     public int? ShippingAddressId { get; set; }
     public ShippingAddress? Address { get; set; }
 
-    //This is just a text I am adding
-    //because I need to push to this repo-NJ (5-3-23)
+
+
+    public bool IsDeleted { get; set; }
+
 }
 
