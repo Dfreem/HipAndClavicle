@@ -13,9 +13,6 @@ public class AppUser : IdentityUser
     public bool IsPersistent { get; set; } = true;
     public int? ShippingAddressId { get; set; }
     public ShippingAddress? Address { get; set; }
-
-
-
     public bool IsDeleted { get; set; }
 
 }

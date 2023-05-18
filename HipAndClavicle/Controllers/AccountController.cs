@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace HipAndClavicle.Controllers;
+﻿namespace HipAndClavicle.Controllers;
 
 [Authorize]
 public class AccountController : Controller
@@ -10,9 +8,6 @@ public class AccountController : Controller
     private readonly INotyfService _toast;
     private readonly IShippingRepo _shippingRepo;
     private readonly IAccountRepo _accountRepo;
-    private readonly ApplicationDbContext _context;
-
-
 
     public AccountController(IServiceProvider services, ApplicationDbContext context)
     {
@@ -21,7 +16,6 @@ public class AccountController : Controller
         _userManager = _signInManager.UserManager;
         _shippingRepo = services.GetRequiredService<IShippingRepo>();
         _accountRepo = services.GetRequiredService<IAccountRepo>();
-        _context = context;
     }
 
     public async Task<IActionResult> Index()
@@ -29,10 +23,6 @@ public class AccountController : Controller
         string userName = _signInManager.Context.User.Identity!.Name!;
         var user = await _userManager.FindByNameAsync(userName);
         user!.Address = await _accountRepo.FindUserAddress(user);
-
-        _toast.Success("Please make sure we have your up to date information on this page.");
-
-
         UserProfileVM uvm = new()
         {
             CurrentUser = user!,
@@ -53,19 +43,10 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginVM lvm)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == lvm.UserName);
 
-        if (user.IsDeleted)
-        {
-            _toast.Error("Invalid username/password.\n");
-
-            ModelState.AddModelError("", "Invalid username/password.");
-            return View(lvm);
-        }
         var result = await _signInManager.PasswordSignInAsync(lvm.UserName, lvm.Password, isPersistent: lvm.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
-
             _toast.Success("Successfully Logged in as " + lvm.UserName);
             if (!string.IsNullOrEmpty(lvm.ReturnUrl) && Url.IsLocalUrl(lvm.ReturnUrl))
             { return Redirect(lvm.ReturnUrl); }
@@ -80,7 +61,6 @@ public class AccountController : Controller
         return View(lvm);
     }
 
-
     [AllowAnonymous]
     [HttpGet]
     public IActionResult Register()
@@ -92,7 +72,6 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM model)
     {
-
         if (!ModelState.IsValid)
         {
             _toast.Error(ModelState.ValidationState.ToDescriptionString());
@@ -116,25 +95,7 @@ public class AccountController : Controller
         {
             await _signInManager.SignInAsync(newUser, isPersistent: newUser.IsPersistent);
             _toast.Success("Successfully Registered new user " + newUser.UserName);
-
-
-            AppUser currentUser = await _context.Users
-                     .Include(x => x.Address)
-                     .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-
-            //ViewBag.hasAddress = currentUser?.Address != null ? true : false;
-
-
-
-            if (currentUser?.Address != null)
-            {
-                ViewBag.hasAddress = true;
-            }
-
-            ViewBag.hasAddress = false;
-
-            //return RedirectToAction("Index", "Home");
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Index", "Home");
         }
         else
         {
@@ -153,7 +114,6 @@ public class AccountController : Controller
         _toast.Success("You are now signed out, Goodbye!");
         return RedirectToAction("Index", "Home");
     }
-
     [HttpPost]
     public async Task<IActionResult> UpdateUser(UserProfileVM upvm)
     {
@@ -186,27 +146,7 @@ public class AccountController : Controller
             user.Address = upvm.CurrentUser.Address;
         }
         await _accountRepo.UpdateUserAddressAsync(user);
-
         _toast.Success("Your information was updated");
         return RedirectToAction("Index");
     }
-
-    [HttpGet]
-    public async Task<IActionResult> DeleteAccount()
-    {
-        AppUser? currentUser = _userManager.Users.Include(x => x.Address)
-           .FirstOrDefault(x => x.UserName == User.Identity.Name);
-
-        if (currentUser != null)
-        {
-            currentUser.IsDeleted = true;
-            await _userManager.UpdateAsync(currentUser);
-        }
-        await _signInManager.SignOutAsync();
-        _toast.Success("You are now signed out, Goodbye!");
-        return RedirectToAction("Index", "Home");
-
-    }
-
-
 }
