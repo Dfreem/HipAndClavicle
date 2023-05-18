@@ -9,6 +9,7 @@ public static class SeedRoles
         var devin = await userManager.FindByNameAsync("dfreem987");
         var steven = await userManager.FindByNameAsync("steven123");
         var michael = await userManager.FindByNameAsync("michael123");
+        var nehemiah = await userManager.FindByNameAsync("nehemiah123");
         var testAdmin = await userManager.FindByNameAsync("TestAdmin123");
         string rolename = "Admin";
 
@@ -17,10 +18,11 @@ public static class SeedRoles
             await roleManager.CreateAsync(new IdentityRole(rolename));
         }
 
-        await userManager.AddToRoleAsync(devin, rolename);
-        await userManager.AddToRoleAsync(steven, rolename);
-        await userManager.AddToRoleAsync(michael, rolename);
-        await userManager.AddToRoleAsync(testAdmin, rolename);
+        await userManager.AddToRoleAsync(devin!, rolename);
+        await userManager.AddToRoleAsync(steven!, rolename);
+        await userManager.AddToRoleAsync(michael!, rolename);
+        await userManager.AddToRoleAsync(nehemiah!, rolename);
+        await userManager.AddToRoleAsync(testAdmin!, rolename);
     }
 
 }
