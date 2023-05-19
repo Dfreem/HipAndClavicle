@@ -19,6 +19,8 @@ public class ProductRepo : IProductRepo
             .Include(p => p.AvailableColors)
             .Include(p => p.Reviews)
             .Include(p => p.ProductImage)
+            .Include(p => p.ColorFamilies)
+            .Include(p => p.SetSizes)
             .FirstAsync(p => p.ProductId.Equals(id));
 
     public async Task<List<Product>> GetAvailableProductsAsync() =>
@@ -26,6 +28,8 @@ public class ProductRepo : IProductRepo
             .Include(p => p.AvailableColors)
             .Include(p => p.Reviews)
             .Include(p => p.ProductImage)
+            .Include(p => p.ColorFamilies)
+            .Include(p => p.SetSizes)
             .ToListAsync();
 
     public async Task UpdateProductAsync(Product product)
@@ -68,7 +72,10 @@ public class ProductRepo : IProductRepo
     }
     public async Task<List<ColorFamily>> GetAllColorFamiliesAsync()
     {
-        return await _context.ColorFamilies.Include(f => f.Color)
+        return await _context.ColorFamilies
+            .Include(f => f.Color)
+            .ThenInclude(c => c.ApplicableProducts)
+            .ThenInclude(p => p.AvailableColors)
             .ToListAsync();
     }
 

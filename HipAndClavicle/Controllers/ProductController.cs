@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace HipAndClavicle;
 
 public class ProductController : Controller
@@ -24,7 +26,7 @@ public class ProductController : Controller
         ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
         var colors = await _productRepo.GetNamedColorsAsync();
         var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors};
+        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
 
         return View(editProduct);
     }
@@ -54,35 +56,42 @@ public class ProductController : Controller
     {
         var colorOptions = await _productRepo.GetNamedColorsAsync();
         var setSizes = await _productRepo.GetSetSizesAsync();
+        setSizes = setSizes.Distinct().ToList();
+        var colorFams = await _productRepo.GetAllColorFamiliesAsync();
         ProductVM product = new()
         {
             NamedColors = colorOptions,
             SetSizes = setSizes,
+            Families = colorFams,
             Edit = new()
         };
         return View(product);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct([Bind("NewSize, Category, NewColor, ImageFile, QuantityOnHand, Edit, Name ")] ProductVM product)
+    public async Task<IActionResult> AddProduct([Bind("NewSize, SetSizes, Category, NewColor, ImageFile, QuantityOnHand, Edit, Name, NewProduct ")] ProductVM pvm)
     {
-        if (product.NewColor.HexValue != "#00000000")
+        if (ModelState.GetFieldValidationState("Edit") == ModelValidationState.Invalid)
         {
-            await _productRepo.AddNewColorAsync(product.NewColor);
-            return RedirectToAction("AddProduct");
-        };
-        Product newProduct = (Product)product;
-        if (product.ImageFile is not null)
-        {
-
-            newProduct.ProductImage = await ExtractImageAsync(product.ImageFile);
-            await _productRepo.SaveImageAsync(newProduct.ProductImage);
-
+            ModelState.AddModelError("Edit", ModelState.ValidationState.ToDescriptionString());
+            _toast.Error("somethihg went wrong while trying to save" + "\n" + ModelState.GetFieldValidationState("Edit").ToDescriptionString());
+            return View(pvm);
         }
-
-        await _productRepo.CreateProductAsync(newProduct);
+        if (pvm.ImageFile is not null)
+        {
+            pvm.Edit!.ProductImage = await ExtractImageAsync(pvm.ImageFile);
+        }
+        if (pvm.NewColor.HexValue is not null)
+        {
+            pvm.Edit!.AvailableColors.Add(pvm.NewColor);
+        }
+        if (pvm.NewSize.Size > 0)
+        {
+            pvm.Edit!.SetSizes.Add(pvm.NewSize);
+        }
+        await _productRepo.CreateProductAsync(pvm.Edit!);
         _toast.Success("Successfully created new product");
-        return RedirectToAction("AddProduct");
+        return View(pvm);
     }
 
     public async Task<Image> ExtractImageAsync(IFormFile imageFile, int width = 100)
@@ -98,10 +107,10 @@ public class ProductController : Controller
 
         }
     }
-    public async Task<IActionResult> DeleteProductAsync(int id)
+    public async Task<IActionResult> DeleteProduct(int productId)
     {
-        Product toDelete = await _productRepo.GetProductByIdAsync(id);
+        var toDelete = await _productRepo.GetProductByIdAsync(productId);
         await _productRepo.DeleteProductAsync(toDelete);
-        return RedirectToAction("Products");
+        return RedirectToAction("Products", "Admin");
     }
 }

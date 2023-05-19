@@ -12,6 +12,7 @@ public class ProductVM
     // Product Properties
     public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; }
+    public List<ColorFamily> Families { get; set; } = new();
     public List<Color> ProductColors { get; set; } = new();
     public IFormFile? ImageFile { get; set; } = default!;
     public Image? ProductImage { get; set; } = default!;

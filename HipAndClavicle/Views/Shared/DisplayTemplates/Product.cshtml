@@ -29,10 +29,9 @@
         </div>
 
         <div class="btn-group-vertical product-options">
-            <button class="btn btn-outline-primary btn-group-item" asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId">
-                <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-outline-danger btn-group-item mt-1 bi bi-x" asp-action="DeleteProductAsync" data-bs-toggle="toolltip" data-bs-title="delete product"></button>
+            <a class="btn btn-outline-primary btn-group-item bi bi-pencil" asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId">
+            </a>
+            <a class="btn btn-outline-danger btn-group-item mt-1 bi bi-x" asp-action="DeleteProduct"asp-controller="Product" asp-route-productId="@Model.ProductId"></a>
 
         </div>
 
