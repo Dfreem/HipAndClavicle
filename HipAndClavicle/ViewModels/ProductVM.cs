@@ -16,8 +16,6 @@ public class ProductVM
     public List<Color> ProductColors { get; set; } = new();
     public IFormFile? ImageFile { get; set; } = default!;
     public Image? ProductImage { get; set; } = default!;
-    public int QuantityOnHand { get; set; }
-
     public Product? Edit { get; set; }
 
     public static explicit operator Product(ProductVM v)
@@ -29,7 +27,6 @@ public class ProductVM
             Category = v.Category,
             AvailableColors = v.ProductColors,
             ProductImage = v.ProductImage,
-            QuantityOnHand = v.QuantityOnHand
         };
     }
 
