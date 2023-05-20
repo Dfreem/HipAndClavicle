@@ -29,9 +29,8 @@
         </div>
 
         <div class="btn-group-vertical product-options">
-            <a class="btn btn-outline-primary btn-group-item bi bi-pencil" asp-action="EditProduct" asp-controller="Product" asp-route-productId="@Model.ProductId">
-            </a>
-            <a class="btn btn-outline-danger btn-group-item mt-1 bi bi-x" asp-action="DeleteProduct"asp-controller="Product" asp-route-productId="@Model.ProductId"></a>
+            <button class="btn btn-outline-primary btn-group-item bi bi-pencil" data-bs-toggle="offcanvas" data-bs-target="#edit-modal">
+            </button>
 
         </div>
 

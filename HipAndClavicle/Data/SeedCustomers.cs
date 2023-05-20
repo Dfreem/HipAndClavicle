@@ -194,20 +194,17 @@ namespace HipAndClavicle.Data
             {
                 Reviewer = anne,
                 Message = "These were great butterflys.",
-                VerifiedOrderId = order1.OrderId,
-                ReviewedProductId = butterfly!.ProductId
+                VerifiedOrder = order1,
+                ReviewedProduct = butterfly!
             };
             Review rev2 = new Review()
             {
                 Reviewer = ane,
                 Message = "These were super great butterflys.",
-                VerifiedOrderId = order1.OrderId,
-                ReviewedProductId = butterfly!.ProductId
+                VerifiedOrder = order1,
+                ReviewedProduct = butterfly!
             };
             await context.Reviews.AddRangeAsync(rev1, rev2);
-            butterfly.Reviews.Add(rev1);
-            butterfly.Reviews.Add(rev2);
-
             await context.SaveChangesAsync();
         }
     }

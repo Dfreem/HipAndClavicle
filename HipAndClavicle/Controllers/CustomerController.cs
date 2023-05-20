@@ -90,10 +90,8 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> AddReview(CustReviewVM crVM, int productId)
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            var product = await _repo.GetProductByIdAsync(productId);
             crVM.Review.Reviewer =  currentUser;
-            crVM.Review.ReviewedProductId = productId;
-            crVM.Product = product;
+            crVM.Review.ReviewedProduct = await _repo.GetProductByIdAsync(productId);
             await _repo.AddReviewAsync(crVM);
             return RedirectToAction("CustFindListings", "CustomerProductCatalog");
         }

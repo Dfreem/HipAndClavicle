@@ -78,8 +78,6 @@ h1 {
 }
 
 .card-body {
-    min-height: 10em;
-    max-height: 10em;
     padding: 5px;
 }
 
