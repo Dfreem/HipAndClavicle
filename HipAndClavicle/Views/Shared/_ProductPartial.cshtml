@@ -2,34 +2,30 @@
 @{
     IFormFile imageFile = Model.TempFile!;
 }
-
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/Product.css" />
 @*Modal product edit window*@
 <form method="post" asp-action="EditProduct" asp-controller="Product" enctype="multipart/form-data">
     <div>
         <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
-        <div class="card mx-auto card-top">
-            <div class="my-auto">
-                @if (Model.ProductImage is not null)
-                {
-                    <img class="card-img-top img-fluid" width="@Model.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image" id="img-edit">
-                }
-                else
-                {
-                    <img src="https://placeholder.com/100" class="card-img-top" id="img-edit" />
-                }
+        <div class="card mx-auto">
 
-            </div>
+            @if (Model.ProductImage is not null)
+            {
+                <img class="card-img-top my-auto" width="@Model.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image" id="img-edit">
+            }
+            else
+            {
+                <img src="https://placeholder.com/100" class="card-img-top" id="img-edit" />
+            }
 
-            <div class="card-body">
-                <div class="card-header">
-                    <div class="input-group-sm">
-                        <input asp-for="Name" class="form-control" type="text" />
-                    </div>
+            <div class="card-body overflow-y-hidden">
+                <div class="input-group">
+                    <input asp-for="Name" class="form-control" type="text" />
                 </div>
-                <textarea asp-for="Description" ></textarea>
             </div>
+            <a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="bi bi-trash3 text-danger"></a>
         </div>
-        <br />
         <div class="input-group-sm">
             <span class="form-text">Edit Image</span>
             <input asp-for="TempFile" type="file" id="file-edit" />
@@ -37,6 +33,7 @@
         </div>
         <div class="input-group">
             <span class="input-group-text"></span>
+            <textarea asp-for="Description" class="mx-auto" rows="3" style="resize:none;"></textarea>
         </div>
         <input type="submit" class="btn btn-outline-success rounded-4 m-3" value="save" />
     </div>
@@ -48,3 +45,4 @@
         cardImage.src = URL.createObjectURL(cardInput.files[0]);
     }
 </script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

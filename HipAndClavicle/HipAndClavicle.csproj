@@ -70,7 +70,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="wwwroot\css\Order.css" />
-		<None Include="wwwroot\css\Products.css" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
 </Project>
