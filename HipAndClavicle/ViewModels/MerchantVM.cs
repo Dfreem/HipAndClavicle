@@ -9,16 +9,10 @@ public class MerchantVM
     public Address FromAddress { get; set; } = default!;
     public List<Product> Products { get; set; } = new();
     public Product? Edit { get; set; }
-    public IFormFile ImageFile { get; set; }
-
-    public MerchantVM()
-    {
-
-    }
-
-    public MerchantVM(AppUser merchant)
-    {
-        Admin = merchant;
-
-    }
+    public IFormFile? ImageFile { get; set; }
+    public ProductCategory Category { get; set; }
+    public List<ColorFamily> Families { get; set; } = new();
+    public List<Color> ProductColors { get; set; } = new();
+    public Image? ProductImage { get; set; } = default!;
+ 
 }

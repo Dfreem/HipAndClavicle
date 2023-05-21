@@ -20,34 +20,38 @@ public class ProductController : Controller
         _productRepo = services.GetRequiredService<IProductRepo>();
         _toast = services.GetRequiredService<INotyfService>();
     }
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> EditProduct(int productId)
-    {
-        ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
-        var colors = await _productRepo.GetNamedColorsAsync();
-        var toEdit = await _productRepo.GetProductByIdAsync(productId);
-        ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
+    //[Authorize(Roles = "Admin")]
+    //public async Task<IActionResult> EditProduct(int productId)
+    //{
+    //    ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
+    //    var colors = await _productRepo.GetNamedColorsAsync();
+    //    var toEdit = await _productRepo.GetProductByIdAsync(productId);
+    //    ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
 
-        return View(editProduct);
-    }
+    //    return View("Admin/Products", editProduct);
+    //}
 
     [HttpPost]
-    public async Task<IActionResult> EditProduct(MerchantVM mvm)
+    public async Task<IActionResult> EditProduct(Product product)
     {
-        if (ModelState.GetValidationState("Edit.ProductId") == ModelValidationState.Invalid)
-        {
-            // TODO better error message
-            _toast.Error("Something went wrong");
-            return RedirectToAction("Products", "Admin");
-        }
 
-        if (mvm.Edit!.TempFile is not null)
-        {
-            mvm.Edit!.ProductImage = await ExtractImageAsync(mvm.ImageFile);
+        Product edit = await _productRepo.GetProductByIdAsync(product.ProductId);
 
-            await _productRepo.UpdateProductAsync(mvm.Edit);
+        if (product.TempFile is not null)
+        {
+            edit.ProductImage = await ExtractImageAsync(product.TempFile);
 
         }
+        if (product.Name is not null)
+        {
+            edit.Name = product.Name;
+        }
+        if(product.ColorFamilies is not null)
+        {
+            // TODO changed this to either add or remove
+            edit.ColorFamilies = product.ColorFamilies;
+        }
+        await _productRepo.UpdateProductAsync(edit);
         return RedirectToAction("Products", "Admin");
     }
 

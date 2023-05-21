@@ -1,9 +1,11 @@
 ﻿@model MerchantVM
 @{
     ViewData["Title"] = "Product management";
+    Model.Edit ??= new();
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet" href="~/css/Products.css" />
+<link rel="stylesheet" href="~/css/Product.css" />
 <div class="product-list-view">
 
 
@@ -16,29 +18,82 @@
 
     <div class="container d-flex flex-row flex-wrap m-lg-5">
         @foreach (var product in Model.Products)
-        {
+            {
             <div class="col">
-                @Html.DisplayFor(_ => product)
+                <div class="card">
+
+                    @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
+                    <div class="hide-card">
+                        @if (product.ProductImage is not null)
+                            {
+                            <img class="card-img-top" width="@product.ProductImage.Width" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image">
+                            }
+                            else
+                            {
+
+                            <img src="~/images/butterflys.png" class="card-img-top" />
+                            }
+
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title d-flex flex-row">
+                            <h5>@product.Name</h5>
+                        </div>
+
+                        @*TODO set tooltip for color viewer.*@
+
+                        <div class="card-text">
+                            @product.Description
+                        </div>
+
+                        <div class="btn-group-vertical product-options">
+
+                            <button class="btn btn-outline-primary btn-group-item bi bi-pencil" data-bs-toggle="offcanvas" data-bs-target="#edit-modal-@product.ProductId">
+                            </button>
+
+                        </div>
+                        <ul class="color-viewer">
+                            @foreach (Color color in product.AvailableColors)
+                                {
+                                <li class="color-splotch" style="background-color:@color.HexValue;">
+                                </li>
+                                }
+                        </ul>
+                        <p class="color-label"><small>available colors</small></p>
+                    </div>
+
+                </div>
             </div>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="edit-modal" aria-labelledby="offcanvasExampleLabel">
+            <div class="btn-group-vertical product-options">
+
+                <button class="btn btn-outline-primary btn-group-item bi bi-pencil" data-bs-toggle="offcanvas" data-bs-target="#edit-modal-@product.ProductId">
+                </button>
+
+            </div>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="edit-modal-@product.ProductId" aria-labelledby="offcanvas-@product.ProductId">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">@product.Name</h5>
+                    <h5 class="offcanvas-title" id="offcanvas-@product.ProductId">@product.Name</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
-                <!--Modal product edit window-->
                 <div class="offcanvas-body">
                     <div>
-                        <form method="post" asp-action="EditProduct" asp-controller="Product">
+                        @await Html.PartialAsync("_ProductPartial", product)
+
+                    </div>
+                    @*<form method="post" asp-action="EditProduct" asp-controller="Product">
+                        <div>
+                            <input type="hidden" asp-for="Edit!.ProductId" value="@product.ProductId" />
                             <div class="card mx-auto card-top">
                                 <div class="my-auto">
                                     @if (product.ProductImage is not null)
                                     {
-                                        <img class="card-img-top img-fluid" width="@product.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image" id="img-@product.ProductId">
+                                        <img class="card-img-top img-fluid" width="@product.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image" id="img-edit-@product.ProductId">
                                     }
                                     else
                                     {
-                                        <img src="https://placeholder.com/100" class="card-img-top" id="img-@product.ProductId" />
+                                        <img src="https://placeholder.com/100" class="card-img-top" id="img-edit-@product.ProductId" />
                                     }
 
                                 </div>
@@ -46,10 +101,10 @@
                                 <div class="card-body">
                                     <div class="card-header">
                                         <div class="input-group-sm">
-                                            <input asp-for="@product.Name" class="form-control" type="text" id="name-@product.ProductId" />
+                                            <input asp-for="Edit!.Name" value="@product.Name" class="form-control" type="text" id="name-edit" />
                                         </div>
                                     </div>
-                                    @if (product.Description != "")
+                                    @if (product.Description != "" && product.Description is not null)
                                     {
                                         <span class="card-text">@product.Description</span>
                                     }
@@ -62,24 +117,18 @@
                             <br />
                             <div class="input-group-sm">
                                 <span class="form-text">Edit Image</span>
-                                <input asp-for="@product.TempFile" type="file" id="@product.ProductId" />
+                                <input asp-for="ImageFile" type="file" id="file-edit-@product.ProductId" />
 
                             </div>
                             <input type="submit" class="btn btn-outline-success rounded-4 m-3" value="save" />
-
-                        </form>
-                    </div>
-
+                        </div>
+                    </form>*@
                 </div>
-                <script>
-                    const cardImage = document.getElementById('img-@product.ProductId')
-                    const cardInput = document.getElementById('@product.ProductId')
-                    cardInput.onchange = () => {
-                        cardImage.src = URL.createObjectURL(cardInput.files[0]);
-                    };
-                </script>
+             
             </div>
         }
+
+
     </div>
 
 

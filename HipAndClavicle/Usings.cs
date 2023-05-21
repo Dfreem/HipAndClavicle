@@ -54,3 +54,5 @@ global using StripeAddress = Stripe.Address;
 // TODO add messaging from admin orders
 // TODO enable email functionality
 // TODO add order history to user profile page
+// TODO Fix image preview on edit order
+// TODO Product creation needs to create a Stripe Product.

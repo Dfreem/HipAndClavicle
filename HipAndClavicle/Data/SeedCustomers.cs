@@ -13,7 +13,7 @@ namespace HipAndClavicle.Data
             const string ANNE_PASS = "@Password123";
             UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            if (userManager.Users.Where(u => u.UserName == "Anne123") == null)
+            if (context.Reviews.Any())
             {
                 return;
             }
@@ -121,8 +121,8 @@ namespace HipAndClavicle.Data
 
             #region AddOrders
             SetSize eleven = new SetSize() { Size = 10 };
-            var butterfly = await context.Products.Where(p => p.Name == "ListingButterfly").FirstOrDefaultAsync();
-            var dragon = await context.Products.Where(p => p.Name == "ListingDragon").FirstOrDefaultAsync();
+            var butterfly = await context.Products.FirstAsync(p => p.Name == "Butterfly Test");
+            var dragon = await context.Products.FirstAsync(p => p.Name == "ListingDragon");
             var newColor = new Color()
             {
                 ColorName = "newYellow",

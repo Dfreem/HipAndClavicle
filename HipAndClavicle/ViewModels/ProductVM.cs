@@ -14,6 +14,7 @@ public class ProductVM
     public List<ColorFamily> Families { get; set; } = new();
     public List<Color> ProductColors { get; set; } = new();
     public Image? ProductImage { get; set; } = default!;
+    public IFormFile? ImageFile { get; set; }
     public Product? Edit { get; set; }
 
     public static explicit operator Product(ProductVM v)

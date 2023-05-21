@@ -8,7 +8,7 @@ public class Product
     public int ProductId { get; set; }
     public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; } = default!;
-    public int ColorId { get; set; }
+    public int? ColorId { get; set; }
     public List<Color> AvailableColors { get; set; } = new();
     public int? ColorFamilyId { get; set; }
     public List<ColorFamily> ColorFamilies { get; set; } = new();
