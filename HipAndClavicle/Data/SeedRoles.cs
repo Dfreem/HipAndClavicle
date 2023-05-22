@@ -33,11 +33,12 @@ public static class SeedRoles
     {
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
-        var anne = await userManager.FindByNameAsync("anne");
-        var anneMarie = await userManager.FindByNameAsync("anneMarie");
-        var annie = await userManager.FindByNameAsync("annie");
-        var ane = await userManager.FindByNameAsync("ane");
-        var an = await userManager.FindByNameAsync("an");
+        var anne = await userManager.FindByNameAsync("Anne123");
+        var anneMarie = await userManager.FindByNameAsync("AnneMarie77");
+        var annie = await userManager.FindByNameAsync("AnnieSmith");
+        var ane = await userManager.FindByNameAsync("AneDoe");
+        var an = await userManager.FindByNameAsync("An21");
+        var ann = await userManager.FindByNameAsync("Ann89");
         string rolename = "Customer";
         if (await roleManager.FindByNameAsync(rolename) is null)
         {
@@ -48,6 +49,7 @@ public static class SeedRoles
         await userManager.AddToRoleAsync(annie!, rolename);
         await userManager.AddToRoleAsync(ane!, rolename);
         await userManager.AddToRoleAsync(an!, rolename);
+        await userManager.AddToRoleAsync(ann!, rolename);
     }
 
 }

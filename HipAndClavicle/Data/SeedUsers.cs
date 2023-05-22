@@ -17,6 +17,7 @@ namespace HipAndClavicle.Repositories
             }
             ShippingAddress addy1 = new()
             {
+                Name = "Anne Smith",
                 AddressLine1 = "321 New St",
                 CityTown = "Anytown",
                 StateAbr = State.OK,
@@ -43,6 +44,7 @@ namespace HipAndClavicle.Repositories
                 Address = addy1,
                 PhoneNumber = "1234567890",
             };
+
 
             AppUser ann = new()
             {
@@ -76,7 +78,6 @@ namespace HipAndClavicle.Repositories
                 Address = addy1,
                 PhoneNumber = "1111111111",
             };
-
             AppUser annie = new()
             {
                 UserName = "AnnieSmith",
@@ -170,6 +171,7 @@ namespace HipAndClavicle.Repositories
             _ = await userManager!.CreateAsync(anneMarie, ANNE_PASS);
             _ = await userManager!.CreateAsync(annie, ANNE_PASS);
             _ = await userManager!.CreateAsync(ane, ANNE_PASS);
+            _ = await userManager!.CreateAsync(ann, ANNE_PASS);
             _ = await userManager!.CreateAsync(an, ANNE_PASS);
         }
     }

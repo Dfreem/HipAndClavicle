@@ -99,8 +99,8 @@ public static class SeedData
         var michael = await userManager.FindByNameAsync("michael123");
         var steven = await userManager.FindByNameAsync("steven123");
         var nehemiah = await userManager.FindByNameAsync("nehemiah123");
-        var anne = await userManager.FindByNameAsync("anne123");
-        var ane = await userManager.FindByNameAsync("ane123");
+        var anne = await userManager.FindByNameAsync("Anne123");
+        var ane = await userManager.FindByNameAsync("AneDoe");
 
         Order order1 = new()
         {
@@ -137,7 +137,7 @@ public static class SeedData
         Order order6 = new()
         {
             DateOrdered = DateTime.Now,
-            Purchaser = anne!,
+            Purchaser = ane!,
             Address = ane!.Address!,
         };
 
@@ -208,6 +208,8 @@ public static class SeedData
             VerifiedOrder = order1,
             ReviewedProduct = butterfly!
         };
+        butterfly.Reviews.Add(rev1);
+
         Review rev2 = new Review()
         {
             Reviewer = ane,
@@ -215,7 +217,7 @@ public static class SeedData
             VerifiedOrder = order1,
             ReviewedProduct = butterfly!
         };
-
+        butterfly.Reviews.Add(rev2);
         // I don't think i need this one
 
         //await context.OrderItems.AddRangeAsync(item1, item2, item3);
@@ -225,13 +227,13 @@ public static class SeedData
         order3.Items.Add(item3);
         order3.Items.Add(item4);
         order4.Items.Add(item5);
-        order4.Items.Add(item6);
-        order4.Items.Add(item7);
+        order5.Items.Add(item6);
+        order6.Items.Add(item7);
 
         await context.NamedColors.AddRangeAsync(blue, green, red, newYellow, newRed);
         await context.SetSizes.AddRangeAsync(two, seven, ten, twelve, fifteen, twenty);
         await context.Orders.AddRangeAsync(order1, order2, order3, order4);
-
+        await context.Reviews.AddRangeAsync(rev1, rev2);
         await context.SaveChangesAsync();
     }
 }
