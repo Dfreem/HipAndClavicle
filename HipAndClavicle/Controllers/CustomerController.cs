@@ -9,11 +9,13 @@ namespace HipAndClavicle.Controllers
         private readonly ICustRepo _repo;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
-        public CustomerController(ICustRepo repo, ApplicationDbContext context, UserManager<AppUser> userManager)
+        SignInManager<AppUser> _signInManager;
+        public CustomerController(ICustRepo repo, ApplicationDbContext context, IServiceProvider services)
         {
             _repo = repo;
             _context = context;
-            _userManager = userManager;
+            _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
+            _userManager = _signInManager.UserManager;
         }
         public IActionResult Index()
         {
@@ -90,37 +92,51 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> AddReview(CustReviewVM crVM, int productId)
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            crVM.Review.Reviewer =  currentUser;
+            crVM.Review.Reviewer = currentUser;
             crVM.Review.ReviewedProduct = await _repo.GetProductByIdAsync(productId);
             await _repo.AddReviewAsync(crVM);
             return RedirectToAction("CustFindListings", "CustomerProductCatalog");
         }
-
+        // TODO send non-registered users an email invoice in lue of being able to review their current orders.
+        [Authorize]
         public async Task<IActionResult> Orders()
         {
-            AppUser currentUser = null;
-            string currentUserId = null;
-            List<Order> orders = null;
-            if (User.Identity.IsAuthenticated)
-            {
-                currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-                currentUserId = currentUser.Id;
-            }
-            
-            if (currentUser != null)
-            {
-                orders = await _repo.GetOrdersByCustomerId(currentUserId);
-            }
-            
-            CustOrdersVM ordersVM = new CustOrdersVM()
-            {
+            var currentUser = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+            List<Order> orders = await _context.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .ThenInclude(m => m.AvailableColors)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .ThenInclude(m => m.ProductImage)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Item)
+                .ThenInclude(m => m.ColorFamilies)
+                .Where(o => o.PurchaserId == currentUser!.Id).ToListAsync();
 
-            };
+            //AppUser currentUser = null;
+            //string currentUserId = null;
+            //List<Order> orders = null;
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            //    currentUserId = currentUser.Id;
+            //}
+
+            //if (currentUser != null)
+            //{
+            //    orders = await _repo.GetOrdersByCustomerId(currentUserId);
+            //}
+
+            //CustOrdersVM ordersVM = new CustOrdersVM()
+            //{
+
+            //};
 
             return View(orders);
         }
 
-       //[HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> Checkout(string cartId)
         {
             var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
@@ -134,20 +150,30 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutVM checkoutVm)
         {
-            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            var cartId = currentUser.Id;
-            var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
+            var userName = _signInManager.Context.User.Identity!.Name!;
+            var currentUser = await _userManager.FindByNameAsync(userName);
 
-            
+            ShoppingCart cart = await _context.ShoppingCarts
+                .Include(c => c.ShoppingCartItems)
+                .ThenInclude(i => i.ListingItem)
+                .ThenInclude(l => l.Colors)
+                .Include(c => c.ShoppingCartItems)
+                .ThenInclude(i => i.ListingItem)
+                .ThenInclude(l => l.ListingProduct)
+                .ThenInclude(p => p.AvailableColors)
+                .Include(c => c.ShoppingCartItems)
+                .ThenInclude(i => i.ListingItem)
+                .ThenInclude(l => l.Images).FirstAsync(c => c.CartId == currentUser!.Id);
+
+
 
             var items = new List<OrderItem>() { };
-            foreach(var item in cart.ShoppingCartItems)
+            foreach (var item in cart.ShoppingCartItems)
             {
-                OrderItem itemToAdd= new OrderItem()
+                OrderItem itemToAdd = new OrderItem()
                 {
                     ItemColors = item.ListingItem.Colors,
                     Item = item.ListingItem.ListingProduct,
-                    ProductId = item.ListingItem.ListingProduct.ProductId,
                     ItemType = item.ListingItem.ListingProduct.Category,
                     AmountOrdered = item.Quantity,
                     PricePerUnit = item.ListingItem.Price,
@@ -164,23 +190,22 @@ namespace HipAndClavicle.Controllers
                 PostalCode = checkoutVm.Zip,
                 Name = checkoutVm.Name
             };
-            
+
 
             checkoutVm.Cart = cart;
-            checkoutVm.Order = new Order() 
+            checkoutVm.Order = new Order()
             {
                 Status = OrderStatus.Paid,
                 DateOrdered = DateTime.Now,
                 Address = address,
-                Purchaser = currentUser,
-                PurchaserId = cartId,
+                Purchaser = currentUser!,
                 Items = items
-                
+
             };
 
 
             await _repo.AddOrderByCheckoutVmAsync(checkoutVm);
-            await _repo.ClearShoppingCartAsync(cartId);
+            await _repo.ClearShoppingCartAsync(currentUser!.Id);
 
 
             return RedirectToAction("Orders");
