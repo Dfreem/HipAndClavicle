@@ -17,7 +17,7 @@ public class AdminRepo : IAdminRepo
     {
         var orders = await _context.Orders
             .Include(o => o.Purchaser)
-            .ThenInclude(p => p.Address)
+            .Include(o => o.Address)
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
             .ThenInclude(i => i.SetSizes)
