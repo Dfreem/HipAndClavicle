@@ -26,9 +26,9 @@ public class Color
     public int Blue { get; set; } = 0;
     [Range(0, 255)]
     public int Green { get; set; } = 0;
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
     public List<Product> ApplicableProducts { get; set; } = new();
-    public int OrderItemId { get; set; }
+    public int? OrderItemId { get; set; }
     public List<OrderItem> OrderItems { get; set; } = new();
 
 }

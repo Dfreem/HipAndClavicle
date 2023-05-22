@@ -79,7 +79,6 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedData.Seed(services, context);
     await SeedListings.Seed(services, context);
     await SeedRoles.SeedAdminRole(services);
-    await SeedCustomers.Seed(services, context);
     await SeedShoppingCart.Seed(context, services);
 }
 #endregion
