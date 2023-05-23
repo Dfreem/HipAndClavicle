@@ -1,10 +1,11 @@
 namespace HIPNunitTests
 {
-    public class Tests
+    public class ProductTests
     {
         [SetUp]
         public void Setup()
         {
+
         }
 
         [Test]
