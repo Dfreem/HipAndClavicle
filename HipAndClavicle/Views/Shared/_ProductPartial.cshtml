@@ -2,7 +2,6 @@
 @{
     IFormFile imageFile = Model.TempFile!;
 }
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/Product.css" />
 @*Modal product edit window*@
 <form method="post" asp-action="EditProduct" asp-controller="Product" enctype="multipart/form-data">
@@ -18,7 +17,6 @@
             {
                 <img src="https://placeholder.com/100" class="card-img-top" id="img-edit-@Model.ProductId" />
             }
-
             <div class="card-body overflow-y-hidden">
                 <div class="input-group">
                     <input asp-for="Name" class="form-control" type="text" />
@@ -26,9 +24,9 @@
             </div>
             <a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="bi bi-trash3 text-danger"></a>
         </div>
-        <div class="input-group-sm">
-            <span class="form-text">Edit Image</span>
-            <input asp-for="TempFile" type="file" id="file-edit-@Model.ProductId" />
+        <div class="input-group">
+            <label class="form-text">Edit Image</label>
+            <input class="form-control" asp-for="TempFile" type="file" id="file-edit-@Model.ProductId" />
 
         </div>
         <div class="input-group">
