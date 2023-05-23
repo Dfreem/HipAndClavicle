@@ -10,26 +10,20 @@ public class ProductVM
     public List<Color> NamedColors { get; set; } = new();
 
     // Product Properties
-    public string Name { get; set; } = default!;
     public ProductCategory Category { get; set; }
+    public List<ColorFamily> Families { get; set; } = new();
     public List<Color> ProductColors { get; set; } = new();
-    public IFormFile? ImageFile { get; set; } = default!;
     public Image? ProductImage { get; set; } = default!;
-    public int QuantityOnHand { get; set; }
-
+    public IFormFile? ImageFile { get; set; }
     public Product? Edit { get; set; }
 
     public static explicit operator Product(ProductVM v)
     {
-        return new Product()
+        if (v.Edit is null)
         {
-            Name = v.Name,
-            SetSizes = v.SetSizes,
-            Category = v.Category,
-            AvailableColors = v.ProductColors,
-            ProductImage = v.ProductImage,
-            QuantityOnHand = v.QuantityOnHand
-        };
+            throw new ArgumentException("Cannot convert null to Product: ProductVM.Edit is null");
+        }
+        return v.Edit;
     }
 
 }

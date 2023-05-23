@@ -24,7 +24,7 @@
                     double itemTotalPrice = item.AmountOrdered * item.PricePerUnit;
                     orderTotal += itemTotalPrice;
                     string colorsString = "";
-                    colorsString += item.ItemColors.First().ColorName;
+                    colorsString += item.Item.AvailableColors[0].ColorName;
                     if(item.ItemColors.Count() > 1)
                     {
                         foreach (var color in item.ItemColors.Skip(1))
@@ -34,7 +34,7 @@
                     }
                     <div class="col items-column">
                         <div class="row item-image-and-text-row">
-                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@item.ItemColors.First().HexValue.ToString();"></div>
+                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@item.Item.AvailableColors[0].HexValue"></div>
 
                             <div class="col item-title-and-desc">
                                 <div class="row item-name-row">@item.Item.Name in @colorsString </div>

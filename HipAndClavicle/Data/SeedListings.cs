@@ -45,8 +45,6 @@ namespace HipAndClavicle.Repositories
             {
                 Category = ProductCategory.ButterFlys,
                 Name = "ListingButterfly",
-                InStock = true,
-                QuantityOnHand = 100,
                 AvailableColors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {
@@ -57,8 +55,6 @@ namespace HipAndClavicle.Repositories
             {
                 Category = ProductCategory.Dragons,
                 Name = "ListingDragon",
-                InStock = true,
-                QuantityOnHand = 100,
                 AvailableColors = { victLace, carOrg, canYl },
                 SetSizes = new()
                 {

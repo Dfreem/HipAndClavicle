@@ -8,13 +8,22 @@ namespace HipAndClavicle.Repositories
     {
         public static async Task Seed(IServiceProvider services)
         {
+            const string ANNE_PASS = "@Password123";
             UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
-            ApplicationDbContext context = services.GetRequiredService<ApplicationDbContext>();
             if (userManager!.Users.Any())
             {
                 return;
 
             }
+            ShippingAddress addy1 = new()
+            {
+                Name = "Anne Smith",
+                AddressLine1 = "321 New St",
+                CityTown = "Anytown",
+                StateAbr = State.OK,
+                PostalCode = "12345",
+                Country = "USA"
+            };
             ShippingAddress fakeSt = new()
             {
                 AddressLine1 = "123 fake st.",
@@ -23,6 +32,72 @@ namespace HipAndClavicle.Repositories
                 StateAbr = State.OR,
                 PostalCode = "97448",
                 Country = "US"
+            };
+
+            AppUser anne = new()
+            {
+                UserName = "Anne123",
+                Email = "anne123@IHopeThisIsntARealEmailDomain.nope",
+                EmailConfirmed = true,
+                FName = "Anne",
+                LName = "Smith",
+                Address = addy1,
+                PhoneNumber = "1234567890",
+            };
+
+
+            AppUser ann = new()
+            {
+                UserName = "Ann89",
+                Email = "ann89@notarealemail.com",
+                EmailConfirmed = true,
+                FName = "Ann",
+                LName = "Brown",
+                Address = addy1,
+                PhoneNumber = "9876543210",
+            };
+
+            AppUser anneMarie = new()
+            {
+                UserName = "AnneMarie77",
+                Email = "annemarie77@fakemail.net",
+                EmailConfirmed = true,
+                FName = "Anne-Marie",
+                LName = "Jones",
+                Address = addy1,
+                PhoneNumber = "5555555555",
+            };
+
+            AppUser ane = new()
+            {
+                UserName = "AneDoe",
+                Email = "anedoe@somemail.com",
+                EmailConfirmed = true,
+                FName = "Ane",
+                LName = "Doe",
+                Address = addy1,
+                PhoneNumber = "1111111111",
+            };
+            AppUser annie = new()
+            {
+                UserName = "AnnieSmith",
+                Email = "anniesmith@anothermail.net",
+                EmailConfirmed = true,
+                FName = "Annie",
+                LName = "Smith",
+                Address = addy1,
+                PhoneNumber = "2222222222",
+            };
+
+            AppUser an = new()
+            {
+                UserName = "An21",
+                Email = "an21@madeupmail.com",
+                EmailConfirmed = true,
+                FName = "An",
+                LName = "Lee",
+                Address = addy1,
+                PhoneNumber = "3333333333",
             };
             AppUser michael = new()
             {
@@ -77,11 +152,27 @@ namespace HipAndClavicle.Repositories
                 PhoneNumber = "555-555-5555",
                 Address = fakeSt
             };
+            AppUser testAdmin123 = new()
+            {
+                UserName = "TestAdmin123",
+                FName = "First",
+                LName = "Last",
+                Email = "fake@fake.com",
+                Address = fakeSt
+            };
+
+            _ = await userManager!.CreateAsync(testAdmin123, "@Password123");
             _ = await userManager!.CreateAsync(devin, "!BassCase987");
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");
             _ = await userManager!.CreateAsync(steven, "@Password123");
-            await context.SaveChangesAsync();
+
+            _ = await userManager!.CreateAsync(anne, ANNE_PASS);
+            _ = await userManager!.CreateAsync(anneMarie, ANNE_PASS);
+            _ = await userManager!.CreateAsync(annie, ANNE_PASS);
+            _ = await userManager!.CreateAsync(ane, ANNE_PASS);
+            _ = await userManager!.CreateAsync(ann, ANNE_PASS);
+            _ = await userManager!.CreateAsync(an, ANNE_PASS);
         }
     }
 }

@@ -24,7 +24,7 @@ public class AdminController : Controller
         // since the entire class is restricted to Admin Only,
         // no need to check for admin role in the controller methods.
         var admin = await _userManager.FindByNameAsync(User.Identity!.Name!);
-        MerchantVM mvm = new(admin!);
+        MerchantVM mvm = new() { Admin = admin!};
         mvm.CurrentOrders = await _adminRepo.GetAdminCurrentOrdersAsync();
         return View(mvm);
     }
@@ -33,10 +33,15 @@ public class AdminController : Controller
     {
         var admin = await _userManager.FindByNameAsync(User!.Identity!.Name!);
         var products = await _productRepo.GetAvailableProductsAsync();
+
+        ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
+        var colors = await _productRepo.GetNamedColorsAsync();
+      
         MerchantVM mvm = new()
         {
             Admin = admin!,
-            Products = products
+            Products = products,
+            
         };
         return View(mvm);
     }

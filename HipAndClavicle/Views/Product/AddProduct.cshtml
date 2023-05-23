@@ -1,5 +1,6 @@
 ﻿@model ProductVM
 @{
+    Model.Edit = new();
     ViewData["Title"] = "Add New Product";
     // TODO add validation to AddProduct
 }
@@ -13,37 +14,27 @@
         <form asp-action="AddProduct" enctype="multipart/form-data">
             <div class="input-group mb-3">
                 <span class="input-group-text" asp-for="Name">Product Name</span>
-                <input id="prod-name" asp-for="Name" class="form-control" />
+                <input asp-for="Edit!.Name" class="form-control" />
             </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text">Product Category</span>
-                <select class="form-control" asp-for="Category" asp-items="@Html.GetEnumSelectList<ProductCategory>()"></select>
+                <select class="form-control" asp-for="Edit!.Category" asp-items="@Html.GetEnumSelectList<ProductCategory>()"></select>
 
             </div>
 
             <div class="row">
                 <div class="input-group mb-3 col">
                     <span class="input-group-text">SetSize</span>
-                    <input type="number" asp-for="NewSize.Size" class="form-control" />
+                    <input asp-for="NewSize.Size" class="form-control" />
 
                 </div>
 
                 <div class="input-group mb-3 col">
                     <span class="input-group-text">Colors</span>
-                    <input asp-for="NewColor.ColorName" class="form-control" />
-                    <input type="color" asp-for="NewColor.HexValue" class="form-control-color" />
-                    <input type="button" onclick="@AddToColor()" value="add to product"/>
+                    <input asp-for="NewColor.ColorName" class="form-control" placeholder="Color Name (optional)"/>
+                    <input type="color" asp-for="NewColor.HexValue" class="form-control-color"/>
                 </div>
-
-                @{
-                    async Task AddToColor()
-                    {
-                        Model.ProductColors.Add(Model.NewColor);
-                        await Task.CompletedTask;
-                    }
-                }
-
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Images</span>
@@ -58,20 +49,13 @@
             <input type="submit" value="Save Product" />
         </form>
     </div>
-    @*<div class="col-5 me-auto ms-4 my-5 border border-3 border-info p-3 rounded-4 bg-info-subtle d-flex flex-row">
-            @if (Model.ProductImage is not null)
-            {
-                <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(Model.Edit!.ProductImage!.ImageData)" alt="Product Image">
+    <div class="col-5 me-auto ms-4 my-5 border border-3 border-info p-3 rounded-4 bg-info-subtle d-flex flex-row">
+         @if (Model.Edit.ProductImage is not null)
+        {
+            <img class="card-img-top" width="@Model.Edit.ProductImage.Width" src="data:image;base64,@Convert.ToBase64String(Model.Edit.ProductImage.ImageData)" alt="Product Image">
 
-            }
-            else
-            {
-                foreach (Color color in Model.NamedColors)
-                {
-                    <div class="color-label" style="background-color:@color.HexValue;"></div>
-                }
-            }
-        </div>*@
+        }
+    </div>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

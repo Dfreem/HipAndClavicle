@@ -6,7 +6,7 @@ public class Color
 {
     public int ColorId { get; set; }
     [Required]
-    public string? ColorName { get; set; } = default!;
+    public string? ColorName { get; set; }
     public string HexValue { get; set; } = "#00000000";
     public int ColorFamilyId { get; set; }
     public List<ColorFamily> ColorFamilies { get; set; } = new List<ColorFamily>();
@@ -26,9 +26,9 @@ public class Color
     public int Blue { get; set; } = 0;
     [Range(0, 255)]
     public int Green { get; set; } = 0;
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
     public List<Product> ApplicableProducts { get; set; } = new();
-    public int OrderItemId { get; set; }
+    public int? OrderItemId { get; set; }
     public List<OrderItem> OrderItems { get; set; } = new();
 
 }

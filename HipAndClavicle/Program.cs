@@ -76,10 +76,10 @@ using (var scope = app.Services.CreateAsyncScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
     await SeedUsers.Seed(services);
+    await SeedRoles.SeedAdminRole(services);
+    await SeedRoles.KeepMessagesWorking(services);
     await SeedData.Seed(services, context);
     await SeedListings.Seed(services, context);
-    await SeedRoles.SeedAdminRole(services);
-    await SeedCustomers.Seed(services, context);
     await SeedShoppingCart.Seed(context, services);
 }
 #endregion
