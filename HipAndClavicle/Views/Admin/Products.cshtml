@@ -47,7 +47,7 @@
 
                         <div class="btn-group-vertical product-options">
 
-                            <button class="btn btn-outline-primary btn-group-item bi bi-pencil form-control" data-bs-toggle="offcanvas" data-bs-target="#edit-modal">
+                            <button class="btn btn-outline-primary btn-group-item bi bi-pencil form-control" data-bs-toggle="modal" data-bs-target="#edit-modal">
                             </button>
 
                         </div>
@@ -64,65 +64,6 @@
                 </div>
             </div>
         }
-
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="edit-modal" aria-labelledby="offcanvas-label">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvas-label">@Model.Edit.Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-
-            <div class="offcanvas-body">
-                <div>
-                    @await Html.PartialAsync("_ProductPartial", Model.Edit)
-
-                </div>
-                @*<form method="post" asp-action="EditProduct" asp-controller="Product">
-                <div>
-                <input type="hidden" asp-for="Edit!.ProductId" value="@product.ProductId" />
-                <div class="card mx-auto card-top">
-                <div class="my-auto">
-                @if (product.ProductImage is not null)
-                {
-                <img class="card-img-top img-fluid" width="@product.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image" id="img-edit-@product.ProductId">
-                }
-                else
-                {
-                <img src="https://placeholder.com/100" class="card-img-top" id="img-edit-@product.ProductId" />
-                }
-
-                </div>
-
-                <div class="card-body">
-                <div class="card-header">
-                <div class="input-group-sm">
-                <input asp-for="Edit!.Name" value="@product.Name" class="form-control" type="text" id="name-edit" />
-                </div>
-                </div>
-                @if (product.Description != "" && product.Description is not null)
-                {
-                <span class="card-text">@product.Description</span>
-                }
-                else
-                {
-                <span class="card-text text-alert-warning text-bg-dark">No description</span>
-                }
-                </div>
-                </div>
-                <br />
-                <div class="input-group-sm">
-                <span class="form-text">Edit Image</span>
-                <input asp-for="ImageFile" type="file" id="file-edit-@product.ProductId" />
-
-                </div>
-                <input type="submit" class="btn btn-outline-success rounded-4 m-3" value="save" />
-                </div>
-                </form>*@
-            </div>
-
-        </div>
-
-
     </div>
-
-
 </div>
+@await Html.PartialAsync("_ProductPartial", Model.Edit)

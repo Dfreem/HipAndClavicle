@@ -32,6 +32,14 @@ public class ProductController : Controller
     //    return View("Admin/Products", editProduct);
     //}
 
+    public delegate Task<IActionResult> ProductEdit(int productId);
+
+    public async Task<ActionResult> GetProductPartialAsync(int productId)
+    {
+        var product = await _productRepo.GetProductByIdAsync(productId);
+        return PartialView("_ProductPartial", product);
+    }
+
     [HttpPost]
     public async Task<IActionResult> EditProduct([Bind("TempFile, NewColor, Name, ColorFamilies, AvailableColors, Description, ProductId")]Product product)
     {

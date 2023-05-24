@@ -8,54 +8,69 @@
             };
 }
 <link rel="stylesheet" href="~/css/Product.css" />
-@*Modal product edit window*@
-<form method="post" asp-action="EditProduct" asp-controller="Product" enctype="multipart/form-data">
-    <div>
-        <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
-        <div class="card mx-auto">
 
-            @if (Model.ProductImage is not null)
-            {
-                <img class="card-img" width="@Model.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image" id="img-edit-@Model.ProductId">
-            }
-            else
-            {
-                <img class="card-img" width="100" src="@defaultImgSrc" alt="Product Image" id="img-edit-@Model.ProductId">
-
-            }
-            <div class="card-body overflow-y-hidden">
-                <div class="input-group">
-                    <input asp-for="Name" class="form-control" type="text" />
-                </div>
-                <div class="form-floating">
-                    <textarea asp-for="Description" class="mx-auto form-control" placeholder="Product Description" rows="3" style="resize:none;">
-            </textarea>
-                    @*            <label asp-for="Description">@(Model.Description ?? "Product Description")</label>
-                    *@
-                </div>
+@* ============== Modal product edit window ==============*@
+<div class="modal" tabindex="-1" id="edit-modal" aria-labelledby="modal-label">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-label">@Model.Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-footer">
-                <a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="bi bi-trash3 text-danger"></a>
-                <ul class="color-viewer" id="color-list-@Model.ProductId">
-                    @foreach (Color color in Model.AvailableColors)
-                    {
-                        <li class="color-splotch" style="background-color:@color.HexValue;">
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="form-floating-sm col-8 mx-auto">
-            <label class="h5">Product Image</label>
-            <input class="form-control" asp-for="TempFile" type="file" id="file-edit-@Model.ProductId" />
 
-        </div>
-        <div class="col-8 mx-auto input-group">
-            <input type="submit" class="btn btn-outline-success rounded-2 m-3 mx-auto" value="save" />
-            <input type="color" asp-for="@Model.NewColor.HexValue" class="form-control-color" />
+            <div class="modal-body">
+                <form method="post" asp-action="EditProduct" asp-controller="Product" enctype="multipart/form-data">
+                    <div>
+                        <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
+                        <div class="card mx-auto">
+
+                            @if (Model.ProductImage is not null)
+                            {
+                                <img class="card-img-top py-auto" width="@Model.ProductImage!.Width" src="data:image;base64,@Convert.ToBase64String(Model.ProductImage.ImageData)" alt="Product Image" id="img-edit-@Model.ProductId">
+                            }
+                            else
+                            {
+                                <img class="card-img-top py-auto" width="100" src="@defaultImgSrc" alt="Product Image" id="img-edit-@Model.ProductId">
+
+                            }
+                            <div class="card-body">
+                                
+                                <div class="input-group">
+                                    <input asp-for="Name" class="form-control" type="text" />
+                                </div>
+                                <div class="form-floating">
+                                    <textarea asp-for="Description" class="mx-auto form-control" placeholder="Product Description" rows="3" style="resize:none;"></textarea>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@Model.ProductId" class="bi bi-trash3 text-danger"></a>
+                                <ul class="color-viewer" id="color-list-@Model.ProductId">
+                                    @foreach (Color color in Model.AvailableColors)
+                                    {
+                                        <li class="color-splotch" style="background-color:@color.HexValue;">
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating-sm col-8 mx-auto">
+                            <label class="h5">Product Image</label>
+                            <input class="form-control" asp-for="TempFile" type="file" id="file-edit-@Model.ProductId" />
+
+                        </div>
+                        <div class="col-8 mx-auto input-group">
+                            <input type="submit" class="btn btn-outline-success rounded-2 m-3 mx-auto" value="save" />
+                            <input type="color" asp-for="@Model.NewColor.HexValue" class="form-control-color" />
+                        </div>
+                    </div>
+                </form>
+
+            </div>
         </div>
     </div>
-</form>
+</div>
+<!-- End of Modal product edit window -->
 <script>
     document.getElementById('file-edit-@Model.ProductId').addEventListener('change', () => {
         console.log(this.value);
