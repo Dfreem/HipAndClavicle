@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HipAndClavicle;
 
@@ -32,7 +33,7 @@ public class ProductController : Controller
     //}
 
     [HttpPost]
-    public async Task<IActionResult> EditProduct(Product product)
+    public async Task<IActionResult> EditProduct([Bind("TempFile, NewColor, Name, ColorFamilies, AvailableColors, Description, ProductId")]Product product)
     {
 
         Product edit = await _productRepo.GetProductByIdAsync(product.ProductId);
@@ -46,10 +47,18 @@ public class ProductController : Controller
         {
             edit.Name = product.Name;
         }
-        if(product.ColorFamilies is not null)
+        if (product.ColorFamilies is not null)
         {
             // TODO changed this to either add or remove
             edit.ColorFamilies = product.ColorFamilies;
+        }
+        if (!product.AvailableColors.IsNullOrEmpty())
+        {
+            edit.AvailableColors = product.AvailableColors;
+        }
+        if (product.Description != edit.Description)
+        {
+            edit.Description = product.Description;
         }
         await _productRepo.UpdateProductAsync(edit);
         return RedirectToAction("Products", "Admin");
