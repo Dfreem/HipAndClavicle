@@ -21,16 +21,6 @@ public class ProductController : Controller
         _productRepo = services.GetRequiredService<IProductRepo>();
         _toast = services.GetRequiredService<INotyfService>();
     }
-    //[Authorize(Roles = "Admin")]
-    //public async Task<IActionResult> EditProduct(int productId)
-    //{
-    //    ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
-    //    var colors = await _productRepo.GetNamedColorsAsync();
-    //    var toEdit = await _productRepo.GetProductByIdAsync(productId);
-    //    ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
-
-    //    return View("Admin/Products", editProduct);
-    //}
 
     public delegate Task<IActionResult> ProductEdit(int productId);
 
@@ -41,6 +31,7 @@ public class ProductController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> EditProduct([Bind("TempFile, NewColor, Name, ColorFamilies, AvailableColors, Description, ProductId")]Product product)
     {
 
@@ -88,7 +79,7 @@ public class ProductController : Controller
         };
         return View(product);
     }
-
+    // =============== Use as example for saving images. also see ExtractImage() ===============
     [HttpPost]
     public async Task<IActionResult> AddProduct([Bind("NewSize, SetSizes, Category, NewColor, ImageFile, QuantityOnHand, Edit, NewProduct ")] ProductVM pvm)
     {
