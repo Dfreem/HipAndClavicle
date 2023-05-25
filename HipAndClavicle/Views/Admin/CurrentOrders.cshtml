@@ -2,9 +2,29 @@
 @{
 }
 
-@foreach (Order order in Model.CurrentOrders)
-{
-    <div>
-        @Html.DisplayFor(_ => order)
+<ul class="list-group">
+</ul>
+
+<li class="list-group-item">
+    <div class="container-md d-flex">
+        <table class="mx-auto">
+@*            <thead>
+                <tr>
+                    <th>Date Ordered</th>
+                    <th>Order Items</th>
+                    <th>Price/Set</th>
+                    <th># of Sets</th>
+                    <th>Set Size</th>
+                </tr>
+            </thead>
+*@            <tbody>
+                @foreach (Order order in Model.CurrentOrders)
+                {
+                    @Html.DisplayFor(_ => order)
+                }
+            </tbody>
+        </table>
+
     </div>
-}
+</li>
+

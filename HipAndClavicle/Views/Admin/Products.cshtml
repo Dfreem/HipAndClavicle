@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Product management";
     Model.Edit ??= new();
+    int index = 0;
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet" href="~/css/Product.css" />
@@ -18,6 +19,7 @@
     <div class="container d-flex flex-row flex-wrap m-lg-5">
         @foreach (var product in Model.Products)
         {
+
             <div class="col">
                 <div class="card">
 
@@ -25,7 +27,7 @@
                     <div class="hide-card">
                         @if (product.ProductImage is not null)
                         {
-                            <img class="card-img-top" width="@product.ProductImage.Width" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image">
+                            <img class="card-img-top" width="200" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image">
                         }
                         else
                         {
@@ -47,7 +49,7 @@
 
                         <div class="btn-group-vertical product-options">
 
-                            <button class="btn btn-outline-primary btn-group-item bi bi-pencil form-control" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                            <button class="btn btn-outline-primary btn-group-item bi bi-pencil form-control" data-bs-toggle="modal" data-bs-target="#edit-modal-@product.ProductId">
                             </button>
 
                         </div>
@@ -63,7 +65,23 @@
 
                 </div>
             </div>
+            <div class="modal" tabindex="-1" id="edit-modal-@product.ProductId" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-label-@product.ProductId">@product.Name</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="post" asp-route-index="@index" asp-action="EditProduct" asp-controller="Product" enctype="multipart/form-data">
+                                @await Html.PartialAsync("_ProductPartial", product, new ViewDataDictionary(ViewData))
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            index++;
         }
     </div>
 </div>
-@await Html.PartialAsync("_ProductPartial", Model.Edit)

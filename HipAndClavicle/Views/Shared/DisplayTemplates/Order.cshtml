@@ -18,9 +18,59 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
-<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet" href="~/css/Order.css" />
-<div class="d-grid page-content">
+
+
+@foreach (OrderItem item in Model.Items)
+{
+    <tr>
+        <th>
+            <i class="bi bi-person"></i>
+            &nbsp;<i class="bi bi-chevron-double-right"></i>
+            &emsp; @Model.Purchaser.FName[0]. @Model.Purchaser.LName
+        </th>
+        <td>
+            &emsp;<div class="vr"></div>
+            &emsp;
+            <i class="bi bi-calendar-day"></i>
+            &nbsp; <i class="bi bi-chevron-double-right"></i>
+            &nbsp; @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
+        </td>
+        <td>
+            <table class="table table-responsive-sm table-striped-columns gap-4">
+                <tbody>
+                    @foreach (OrderItem orderItem in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                @orderItem.Item.Name
+                            </td>
+                            <td>
+                                @if (orderItem.Item.ProductImage is not null)
+                                {
+                                    <img class="img-thumbnail" width="60" src="data:image;base64,@Convert.ToBase64String(orderItem.Item.ProductImage.ImageData)" alt="Product Image">
+
+                                }
+
+
+                            </td>
+                            <td>
+                                @orderItem.SetSize?.Size
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+
+}
+
+
+@*<div class="d-grid page-content">
     <div class="row">
         <div class="table d-table-cell col-sm-3">
             <a data-bs-toggle="collapse" href="#@Model.Purchaser.FName" class="btn btn-order">
@@ -159,3 +209,4 @@
         </div>
     </div>
 </div>
+*@

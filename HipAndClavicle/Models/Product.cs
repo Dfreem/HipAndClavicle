@@ -19,8 +19,10 @@ public class Product
     public Image? ProductImage { get; set; }
     [StringLength(250)]
     public string? Description { get; set; } = default!;
+
+    // Not stored in the database
     [NotMapped]
     public IFormFile? TempFile { get; set; }
     [NotMapped]
-    public Color? NewColor { get; set; }
+    public Color? NewColor { get; set; } = new() { HexValue = "#00000000" };
 }

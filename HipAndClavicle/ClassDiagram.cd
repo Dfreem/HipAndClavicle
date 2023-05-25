@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="HipAndClavicle.Models.AppUser">
+    <Position X="2.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAABAAAAAAAAQEAAAAAAACAAAAAQAAAAA=</HashCode>
+      <FileName>Models\AppUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Color">
+    <Position X="5.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>FAACKAIAAAEABgAAAAAAEAAAAAQAAAAAAAACABAAAAA=</HashCode>
+      <FileName>Models\Color.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ColorFamily">
+    <Position X="8.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\ColorFamily.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ErrorViewModel">
+    <Position X="10.5" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Image">
+    <Position X="3.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAMAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Image.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Listing">
+    <Position X="15.75" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AoAAAAAAAQEAJAAAAAAAABAAAAQAABAAAAAEgEAABAA=</HashCode>
+      <FileName>Models\Listing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Order">
+    <Position X="15.5" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAEAAAACAAAAAAAAAQAAAAAAAECAAAAAAAAgAA=</HashCode>
+      <FileName>Models\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.OrderItem">
+    <Position X="7.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAAACAAEAAAAAAAAAQAKAAAEACQAAAAAABAAAAAEAgA=</HashCode>
+      <FileName>Models\OrderItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Product">
+    <Position X="12.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAKEEAAAEkAAAAAAAAEAQAAAAAAAAQAACAAAAACAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ProductImage">
+    <Position X="3.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAYAAAAAAEAAAAACAAAAAA=</HashCode>
+      <FileName>Models\ProductImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Review">
+    <Position X="19" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAABAAAAAAAAAAAAAAAAAAIAAAAEACAIAAAAAA=</HashCode>
+      <FileName>Models\Review.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.Ship">
+    <Position X="16.75" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>UAEgAgAEAAAAAAAAAACAAAEAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\Ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ShippingAddress">
+    <Position X="10" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAEAAJQAEQAQAAAIAAAAAAAAAAAgQAAA=</HashCode>
+      <FileName>Models\ShippingAddress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ShoppingCart">
+    <Position X="9" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Models\ShoppingCart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.ShoppingCartItem">
+    <Position X="19.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAEAAAAAAAQAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\ShoppingCartItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.UserMessage">
+    <Position X="12.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EABCAAAAgiIAAAAAAEAAAAAgAAAEAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Models\UserMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.ViewModels.ChatUser">
+    <Position X="19.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\CustomerChatVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.ViewModels.SimpleCartItem">
+    <Position X="19.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAABAAAAAAAAAQAgAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>ViewModels\ShoppingCartVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.ViewModels.SimpleShoppingCart">
+    <Position X="13.75" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ShoppingCartVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HipAndClavicle.Models.AdminSettings">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAggAAAAAAAAkAAAAQAAAA=</HashCode>
+      <FileName>Models\AdminSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

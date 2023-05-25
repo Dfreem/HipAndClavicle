@@ -32,18 +32,9 @@ public class ProductController : Controller
     //    return View("Admin/Products", editProduct);
     //}
 
-    public delegate Task<IActionResult> ProductEdit(int productId);
-
-    public async Task<ActionResult> GetProductPartialAsync(int productId)
-    {
-        var product = await _productRepo.GetProductByIdAsync(productId);
-        return PartialView("_ProductPartial", product);
-    }
-
     [HttpPost]
-    public async Task<IActionResult> EditProduct([Bind("TempFile, NewColor, Name, ColorFamilies, AvailableColors, Description, ProductId")]Product product)
+    public async Task<IActionResult> EditProduct(Product product)
     {
-
         Product edit = await _productRepo.GetProductByIdAsync(product.ProductId);
 
         if (product.TempFile is not null)
@@ -67,6 +58,13 @@ public class ProductController : Controller
         if (product.Description != edit.Description)
         {
             edit.Description = product.Description;
+        }
+        if (product.NewColor is not null && product.NewColor.HexValue != "#00000000")
+        {
+            if (!product.AvailableColors.Any(c => c.HexValue == product.NewColor.HexValue))
+            {
+                edit.AvailableColors.Add(product.NewColor);
+            }
         }
         await _productRepo.UpdateProductAsync(edit);
         return RedirectToAction("Products", "Admin");
