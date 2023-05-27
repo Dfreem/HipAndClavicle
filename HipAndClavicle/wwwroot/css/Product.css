@@ -86,7 +86,7 @@ h1 {
 .card:hover {
     transition: all cubic-bezier(.28,.44,.6,.92) .4s;
     box-shadow: black 0 8px 20px 6px;
-    transform:scale(120%);
+    transform:scale(104%);
 }
 
 .card-img-top {
