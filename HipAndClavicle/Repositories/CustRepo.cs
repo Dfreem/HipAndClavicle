@@ -113,7 +113,8 @@ public class CustRepo : ICustRepo
             .ThenInclude(m => m.ProductImage)
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
-            .ThenInclude(m => m.ColorFamilies)
+            .Include(o => o.Items)
+            .ThenInclude(oi => oi.ItemColors)
             .Where(o => o.PurchaserId == customerId).ToListAsync();
         return orders;
     }
