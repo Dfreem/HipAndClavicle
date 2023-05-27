@@ -94,14 +94,26 @@ public class CustRepo : ICustRepo
 
     public async Task<List<Order>> GetOrdersByCustomerId(string customerId)
     {
+        //var orders = await _context.Orders
+        //    .Include(o => o.Items)
+        //    .ThenInclude(i => i.Item)
+        //    .Include(o => o.Items)
+        //    .ThenInclude(c => c.ItemColors)
+        //    //.Include(o => o.Items)
+        //    //.ThenInclude(i => i.TheListing)
+        //    //.ThenInclude(tl => tl.Colors)
+        //    .Where(o => o.PurchaserId == customerId).ToListAsync();
+
         var orders = await _context.Orders
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
+            .ThenInclude(m => m.AvailableColors)
             .Include(o => o.Items)
-            .ThenInclude(c => c.ItemColors)
-            //.Include(o => o.Items)
-            //.ThenInclude(i => i.TheListing)
-            //.ThenInclude(tl => tl.Colors)
+            .ThenInclude(i => i.Item)
+            .ThenInclude(m => m.ProductImage)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Item)
+            .ThenInclude(m => m.ColorFamilies)
             .Where(o => o.PurchaserId == customerId).ToListAsync();
         return orders;
     }
@@ -115,10 +127,19 @@ public class CustRepo : ICustRepo
         return order;
     }
 
-    public async Task<ShoppingCart> GetCartById(int cartId)
+    public async Task<ShoppingCart> GetCartByCustId(string custId)
     {
         var cart = await _context.ShoppingCarts
-            .Where(c => c.Id == cartId).FirstOrDefaultAsync();
+            .Include(c => c.ShoppingCartItems)
+            .ThenInclude(i => i.ListingItem)
+            .ThenInclude(l => l.Colors)
+            .Include(c => c.ShoppingCartItems)
+            .ThenInclude(i => i.ListingItem)
+            .ThenInclude(l => l.ListingProduct)
+            .ThenInclude(p => p.AvailableColors)
+            .Include(c => c.ShoppingCartItems)
+            .ThenInclude(i => i.ListingItem)
+            .ThenInclude(l => l.SingleImage).FirstAsync(c => c.CartId == custId);
 
         return cart;
     }
