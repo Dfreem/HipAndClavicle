@@ -6,7 +6,9 @@ namespace HipAndClavicle.Models
     public class Listing
     {
         public int ListingId { get; set; }
-        public List<Image> Images { get; set; } = new();
+        public Image? SingleImage { get; set; }
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
         public double Price { get; set; } = default!;
         public List<Color> Colors { get; set; } = new();
         public Product ListingProduct { get; set; } = default!;

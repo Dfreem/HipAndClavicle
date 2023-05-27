@@ -33,6 +33,10 @@ namespace HipAndClavicle.Controllers
         [HttpPost]
         public async Task<IActionResult> AddListing(AddListingVM addListingVM)
         {
+            if(addListingVM.ImageFile != null)
+            {
+                addListingVM.SingleImage = await ExtractImageAsync(addListingVM.ImageFile);
+            }
             var colorsToAdd = new List<Color>();
             foreach (var colorId in addListingVM.SelectedColors)
             {
@@ -47,10 +51,12 @@ namespace HipAndClavicle.Controllers
                 ListingTitle = addListingVM.Title,
                 ListingDescription = addListingVM.Description,
                 Colors = colorsToAdd,
-                ListingProduct = productToAssoc
+                ListingProduct = productToAssoc,
+                SingleImage = addListingVM.SingleImage
 
             };
             await _context.Listings.AddAsync(addListingVM.NewListing);
+
             foreach (var col in colorsToAdd)
             {
                 var newListingColorAssoc = new ListingColorJT()
@@ -60,6 +66,7 @@ namespace HipAndClavicle.Controllers
                 };
                 await _context.ListingColorsJT.AddAsync(newListingColorAssoc);
             }
+
             await _context.SaveChangesAsync();
             return RedirectToAction("CustFindListings", "Customer");
 
@@ -103,6 +110,19 @@ namespace HipAndClavicle.Controllers
 
             //    }
             //}
+        }
+
+        public async Task<Image> ExtractImageAsync(IFormFile imageFile)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await imageFile.CopyToAsync(memoryStream);
+                return new Image()
+                {
+                    ImageData = memoryStream.ToArray(),
+                    Width = 200
+                };
+            }
         }
 
 

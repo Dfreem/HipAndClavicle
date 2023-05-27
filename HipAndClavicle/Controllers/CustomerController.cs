@@ -163,7 +163,7 @@ namespace HipAndClavicle.Controllers
                 .ThenInclude(p => p.AvailableColors)
                 .Include(c => c.ShoppingCartItems)
                 .ThenInclude(i => i.ListingItem)
-                .ThenInclude(l => l.Images).FirstAsync(c => c.CartId == currentUser!.Id);
+                .ThenInclude(l => l.SingleImage).FirstAsync(c => c.CartId == currentUser!.Id);
 
 
 

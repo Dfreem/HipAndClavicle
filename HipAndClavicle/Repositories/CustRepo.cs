@@ -48,6 +48,7 @@ public class CustRepo : ICustRepo
     {
         var listing = await _context.Listings
             .Include(l => l.Colors)
+            .Include(l => l.SingleImage)
             .Include(l => l.ListingProduct)
             .ThenInclude(p => p.AvailableColors)
             .Include(l => l.ListingProduct)
