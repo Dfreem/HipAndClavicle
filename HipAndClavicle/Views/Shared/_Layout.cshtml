@@ -41,10 +41,10 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Contact" asp-action="AllCustomerMesseges">Customer Messeges</a>
+                                <a class="nav-link" asp-controller="Contact" asp-action="AllCustomerMesseges">Customer Messages</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Contact" asp-action="CustomerChat">CustomerChat</a>
+                                <a class="nav-link" asp-controller="Contact" asp-action="CustomerChat">Customer Chat</a>
                             </li>
                         }
                         else
@@ -60,8 +60,8 @@
                         </li>
 
                         @*<li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
                     </ul>
                     <div class="logo-login">
                         <a asp-controller="Home" asp-action="Index">

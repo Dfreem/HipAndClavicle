@@ -42,22 +42,25 @@ namespace HipAndClavicle.Controllers
         // Create a new UserMessage object
         public async Task<IActionResult> Create(UserMessageVM userMessageVM)
         {
+            await CreateGuestUserMessage(userMessageVM);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<UserMessage> CreateGuestUserMessage(UserMessageVM userMessageVM)
+        {
             UserMessage userMessage = new UserMessage
             {
                 Email = userMessageVM.Email,
                 Number = userMessageVM.Number,
                 Content = userMessageVM.Response,
                 DateSent = DateTime.Now
-
-
             };
-
-            userMessage.ReceiverUserName = "michael123";
 
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return userMessage;
         }
 
         [HttpPost("GetUserMessage")]
@@ -117,8 +120,7 @@ namespace HipAndClavicle.Controllers
                        Sender = m.SenderUserName,
                        Receiver = m.ReceiverUserName,
                        Content = m.Content,
-                       DateSent = m.DateSent,
-                       Email = m.Email
+                       DateSent = m.DateSent
                    }).ToList();
             }
             return View(messages);
@@ -134,22 +136,20 @@ namespace HipAndClavicle.Controllers
                     Id = m.Id,
                     Sender = m.SenderUserName,
                     Receiver = m.ReceiverUserName,
+                    Email = m.Email,
                     Content = m.Content,
-                    DateSent = m.DateSent,
-                    Email = m.Email
+                    DateSent = m.DateSent
                 }).ToList();
             return View(messages);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveMessage([FromBody] CustomerMessage customerMessage)
+        public async Task<UserMessage> SaveMessage([FromBody] CustomerMessage customerMessage)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
             // Get the other user
             var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
-
-
             UserMessage userMessage = new UserMessage
             {
                 Email = currentUser.Email,
@@ -161,7 +161,6 @@ namespace HipAndClavicle.Controllers
             if (customerMessage.SendTo.IsNullOrEmpty())
             {
                 var admin = adminUsers.Count > 0 ? adminUsers[0] : null;
-                //userMessage.ReceiverUserName = admin?.UserName;
                 userMessage.ReceiverUserName = "michael123";
             }
             else
@@ -170,9 +169,8 @@ namespace HipAndClavicle.Controllers
             }
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
-
-
-            return Json(new { success = true });
+            return userMessage;
+            //return Json(new { success = true });
         }
 
         [HttpGet]
