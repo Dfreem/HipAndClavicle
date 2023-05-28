@@ -5,7 +5,7 @@
 
 <h1>Your Orders</h1>
 
-@if(Model.Count() > 0)
+@if(Model.Count > 0)
 {
     @foreach(var order in Model){
         double orderTotal = 0.00;
@@ -29,7 +29,7 @@
                     {
                         colorsString += item.ItemColors[0].ColorName;
                         colorHexValue = item.ItemColors[0].HexValue;
-                        if (item.ItemColors.Count() > 1)
+                        if (item.ItemColors.Count > 1)
                         {
                             foreach (var color in item.ItemColors.Skip(1))
                             {
@@ -69,6 +69,12 @@
         </div>
 
     }
+}
+else
+{
+    <div class="text-center">
+        <h3>You don't have any orders yet.</h3>
+    </div>
 }
 @*<div class="row order-row">
 
