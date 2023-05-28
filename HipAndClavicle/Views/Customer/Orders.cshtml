@@ -1,14 +1,13 @@
-@{
+﻿@{
     ViewData["Title"] = "Your Orders";
 }
 @model List<Order>
 
 <h1>Your Orders</h1>
 
-@if(Model.Count > 0)
+@if(Model.Count() > 0)
 {
-    @foreach (var order in Model)
-    {
+    @foreach(var order in Model){
         double orderTotal = 0.00;
         <div class="row order-row border m-3 col-12">
             <div class="col col-2 order-number-and-date border-right">
@@ -25,6 +24,27 @@
                     double itemTotalPrice = item.AmountOrdered * item.PricePerUnit;
                     orderTotal += itemTotalPrice;
                     string colorsString = "";
+                    string colorHexValue = "#808080";
+                    if (item.ItemColors.Count() > 0)
+                    {
+                        colorsString += item.ItemColors.FirstOrDefault().ColorName;
+                        colorHexValue = item.ItemColors.FirstOrDefault().HexValue;
+                        if (item.ItemColors.Count() > 1)
+                        {
+                            foreach (var color in item.ItemColors.Skip(1))
+                            {
+                                colorsString += ", " + color.ColorName;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        colorsString = "No Color";
+                    }
+                    <div class="col items-column">
+                        <div class="row item-image-and-text-row">
+                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@colorHexValue"></div>
 
                             <div class="col item-title-and-desc">
                                 <div class="row item-name-row">@item.Item.Name in @colorsString </div>
@@ -32,13 +52,11 @@
                             </div>
                         </div>
                     </div>
-                }
-                
-                @*                    <div class="row">
+@*                    <div class="row">
                         <div class="col first-image-of-item-row" style="width:5vw; height:5vw; background:@item.ItemColors.First().HexValue.ToString();"></div>
                         <div class="col">Item: @item.Item.Name in @colorsString </div>
                     </div>*@
-                
+                }
             </div>
             <div class="col buttons-column">
                 <div class="row track-button btn btn-dark m-2">Track</div>
@@ -46,49 +64,43 @@
                 <div class="row contact-about-order-button btn btn-dark m-2">Message seller</div>
             </div>
             <div class="col total-paid-column">
-                @orderTotal.ToString("C")
+               @orderTotal.ToString("C")
             </div>
         </div>
 
     }
 }
-else
-{
-    <div class="text-center">
-        <h3>You don't have any orders yet.</h3>
-    </div>
-}
 @*<div class="row order-row">
 
-        <div class="col order-number-and-date">
-            <div class="row order-num">
-                12345
+    <div class="col order-number-and-date">
+        <div class="row order-num">
+            12345
+        </div>
+        <div class="row order-date">
+            12/12/1212
+        </div>
+    </div>
+
+    <div class="col items-column">
+        <div class="row item-image-and-text-row">
+            <div class="col first-image-of-item">
+                Image
             </div>
-            <div class="row order-date">
-                12/12/1212
+
+            <div class="col item-title-and-desc">
+                <div class="row item-title">Title</div>
+                <div class="row item-desc">Description bla bla</div>
             </div>
         </div>
+    </div>
 
-        <div class="col items-column">
-            <div class="row item-image-and-text-row">
-                <div class="col first-image-of-item">
-                    Image
-                </div>
+    <div class="col buttons-column">
+        <div class="row track-button">Track</div>
+        <div class="row order-again-button">OrderAgain</div>
+        <div class="row contact-about-order-button">Message seller</div>
+    </div>
 
-                <div class="col item-title-and-desc">
-                    <div class="row item-title">Title</div>
-                    <div class="row item-desc">Description bla bla</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col buttons-column">
-            <div class="row track-button">Track</div>
-            <div class="row order-again-button">OrderAgain</div>
-            <div class="row contact-about-order-button">Message seller</div>
-        </div>
-
-        <div class="col total-paid-column">
-            $40.00
-        </div>
-    </div>*@
+    <div class="col total-paid-column">
+        $40.00
+    </div>
+</div>*@
