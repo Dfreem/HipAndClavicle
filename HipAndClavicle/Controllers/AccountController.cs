@@ -128,6 +128,7 @@ public class AccountController : Controller
             await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
         }
         var user = await _userManager.FindByNameAsync(User.Identity!.Name!);
+       
 
         if (upvm.CurrentUser.FName != user!.FName)
         {
@@ -136,6 +137,7 @@ public class AccountController : Controller
         if (upvm.CurrentUser.LName != user!.LName)
         {
             user.LName = upvm.CurrentUser.LName;
+
         }
         if (upvm.CurrentUser.Email != user!.Email)
         {
@@ -145,6 +147,11 @@ public class AccountController : Controller
         {
             user.Address = upvm.CurrentUser.Address;
         }
+        if (upvm.CurrentUser.PhoneNumber is not null)
+        {
+            user.PhoneNumber = upvm.CurrentUser.PhoneNumber;
+        }
+
         await _accountRepo.UpdateUserAddressAsync(user);
         _toast.Success("Your information was updated");
         return RedirectToAction("Index");
