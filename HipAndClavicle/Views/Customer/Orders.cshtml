@@ -25,10 +25,10 @@
                     orderTotal += itemTotalPrice;
                     string colorsString = "";
                     string colorHexValue = "#808080";
-                    if (item.ItemColors.Count() > 0)
+                    if (item.ItemColors.Count > 0)
                     {
-                        colorsString += item.ItemColors.FirstOrDefault().ColorName;
-                        colorHexValue = item.ItemColors.FirstOrDefault().HexValue;
+                        colorsString += item.ItemColors[0].ColorName;
+                        colorHexValue = item.ItemColors[0].HexValue;
                         if (item.ItemColors.Count() > 1)
                         {
                             foreach (var color in item.ItemColors.Skip(1))
