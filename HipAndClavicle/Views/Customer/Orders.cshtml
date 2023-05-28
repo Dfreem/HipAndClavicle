@@ -24,17 +24,27 @@
                     double itemTotalPrice = item.AmountOrdered * item.PricePerUnit;
                     orderTotal += itemTotalPrice;
                     string colorsString = "";
-                    colorsString += item.ItemColors.FirstOrDefault().ColorName;
-                    if(item.ItemColors.Count() > 1)
+                    string colorHexValue = "#808080";
+                    if (item.ItemColors.Count() > 0)
                     {
-                        foreach (var color in item.ItemColors.Skip(1))
+                        colorsString += item.ItemColors.FirstOrDefault().ColorName;
+                        colorHexValue = item.ItemColors.FirstOrDefault().HexValue;
+                        if (item.ItemColors.Count() > 1)
                         {
-                            colorsString += ", " + color.ColorName;
+                            foreach (var color in item.ItemColors.Skip(1))
+                            {
+                                colorsString += ", " + color.ColorName;
+                            }
                         }
+
+                    }
+                    else
+                    {
+                        colorsString = "No Color";
                     }
                     <div class="col items-column">
                         <div class="row item-image-and-text-row">
-                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@item.ItemColors.First().HexValue"></div>
+                            <div class=" first-image-of-item-row m-3" style="width:5vw; height:5vw; background:@colorHexValue"></div>
 
                             <div class="col item-title-and-desc">
                                 <div class="row item-name-row">@item.Item.Name in @colorsString </div>
