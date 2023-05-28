@@ -72,7 +72,4 @@
 		<None Include="wwwroot\css\Order.css" />
 		<None Include="wwwroot\css\Ship.css" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
 </Project>
