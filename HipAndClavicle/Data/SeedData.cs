@@ -145,7 +145,7 @@ public static class SeedData
         {
             Item = butterfly,
             ItemType = ProductCategory.ButterFlys,
-            //ItemColors = { newColor, newColor2 },
+            ItemColors = { red },
             AmountOrdered = 3,
             PricePerUnit = 23.00d,
 
@@ -154,7 +154,7 @@ public static class SeedData
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            //ItemColors = { newColor},
+            ItemColors = { red , blue},
             AmountOrdered = 2,
             PricePerUnit = 22.00d
         };
@@ -162,7 +162,7 @@ public static class SeedData
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            //ItemColors = { newColor },
+            ItemColors = { newYellow },
             AmountOrdered = 5,
             PricePerUnit = 22.00d
         };

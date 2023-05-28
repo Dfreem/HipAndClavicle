@@ -102,36 +102,8 @@ namespace HipAndClavicle.Controllers
         public async Task<IActionResult> Orders()
         {
             var currentUser = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
-            List<Order> orders = await _context.Orders
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Item)
-                .ThenInclude(m => m.AvailableColors)
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Item)
-                .ThenInclude(m => m.ProductImage)
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Item)
-                .ThenInclude(m => m.ColorFamilies)
-                .Where(o => o.PurchaserId == currentUser!.Id).ToListAsync();
 
-            //AppUser currentUser = null;
-            //string currentUserId = null;
-            //List<Order> orders = null;
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            //    currentUserId = currentUser.Id;
-            //}
-
-            //if (currentUser != null)
-            //{
-            //    orders = await _repo.GetOrdersByCustomerId(currentUserId);
-            //}
-
-            //CustOrdersVM ordersVM = new CustOrdersVM()
-            //{
-
-            //};
+            var orders = await _repo.GetOrdersByCustomerId(currentUser.Id);
 
             return View(orders);
         }
@@ -153,19 +125,7 @@ namespace HipAndClavicle.Controllers
             var userName = _signInManager.Context.User.Identity!.Name!;
             var currentUser = await _userManager.FindByNameAsync(userName);
 
-            ShoppingCart cart = await _context.ShoppingCarts
-                .Include(c => c.ShoppingCartItems)
-                .ThenInclude(i => i.ListingItem)
-                .ThenInclude(l => l.Colors)
-                .Include(c => c.ShoppingCartItems)
-                .ThenInclude(i => i.ListingItem)
-                .ThenInclude(l => l.ListingProduct)
-                .ThenInclude(p => p.AvailableColors)
-                .Include(c => c.ShoppingCartItems)
-                .ThenInclude(i => i.ListingItem)
-                .ThenInclude(l => l.Images).FirstAsync(c => c.CartId == currentUser!.Id);
-
-
+            var cart = await _repo.GetCartByCustId(currentUser.Id);
 
             var items = new List<OrderItem>() { };
             foreach (var item in cart.ShoppingCartItems)

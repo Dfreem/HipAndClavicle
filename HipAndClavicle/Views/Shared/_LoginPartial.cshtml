@@ -26,7 +26,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li class="list-inline-item mx-3">
-                    <a asp-action="CustFindListings" asp-controller="Customer"> Listings</a>
+                    <a asp-action="AddListing" asp-controller="Listing">Add Listing</a>
                 </li>
                 <li class="list-inline-item mx-3">
                     <a asp-action="Products" asp-controller="Admin"> Products</a>
@@ -36,9 +36,12 @@
                 </li>
 
             }
+            else
+            {
             <li class="list-inline-item mx-3">
                 <a asp-action="Orders" asp-controller="Customer"> Your Orders</a>
             </li>
+            }
 
         }
         else
