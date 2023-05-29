@@ -21,5 +21,9 @@ public class UserMessage
     public string? Email { get; set; }
     public string? Number { get; set; }
 
+    // Archive user message
+    public bool IsArchived { get; set; }
 
+    public string? Product { get; set; }
+    public string? City { get; set; }
 }
