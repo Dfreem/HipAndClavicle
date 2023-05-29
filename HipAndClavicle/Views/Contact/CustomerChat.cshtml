@@ -45,7 +45,9 @@
                         }
 
                         <li class="list-group-item user-item @activeClass">
-                            <span class="username-item" data-user="@user.UserName">@user.UserName</span>
+                            @*<span class="username-item" data-user="@user.UserName">@user.UserName</span>*@
+                            <span class="username-item" data-user="@user.UserName" data-userid="@user.Id">@user.UserName</span>
+
                             @if (isAchivedView)
                             {
                                 <span class="float-end text-warning">
@@ -233,6 +235,7 @@
 
                     // Get the selected user's username from the data-user attribute
                     var username = $(this).data('user');
+                    var userId = $(this).data('userid');
                     $("#sendTo").val(username);
 
                     // Store the selected user in ViewBag.SelectedUser

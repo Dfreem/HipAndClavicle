@@ -11,6 +11,7 @@ public static class SeedRoles
         var michael = await userManager.FindByNameAsync("michael123");
         var nehemiah = await userManager.FindByNameAsync("nehemiah123");
         var testAdmin = await userManager.FindByNameAsync("TestAdmin123");
+        var hcadmin = await userManager.FindByNameAsync("hcsadmin");
         string rolename = "Admin";
 
         if (await roleManager.FindByNameAsync(rolename) is null)
@@ -23,6 +24,7 @@ public static class SeedRoles
         await userManager.AddToRoleAsync(michael!, rolename);
         await userManager.AddToRoleAsync(nehemiah!, rolename);
         await userManager.AddToRoleAsync(testAdmin!, rolename);
+        await userManager.AddToRoleAsync(hcadmin, rolename);
     }
     /// <summary>
     /// This will be removed once messages can functon without it.

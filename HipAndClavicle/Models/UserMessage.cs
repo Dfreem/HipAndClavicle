@@ -12,6 +12,8 @@ public class UserMessage
     public string? ReceiverUserName { get; set; }
     public AppUser? Receiver { get; set; } = default!;
 
+    public string? ReceiverId { get; set; }
+
     public DateTime DateSent { get; set; }
     public bool Read { get; set; }
     public string? Content { get; set; }

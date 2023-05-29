@@ -9,7 +9,6 @@ using System.Data;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace HipAndClavicle.Controllers
 {
@@ -240,7 +239,11 @@ namespace HipAndClavicle.Controllers
             if (customerMessage.SendTo.IsNullOrEmpty())
             {
                 var admin = adminUsers.Count > 0 ? adminUsers[0] : null;
-                userMessage.ReceiverUserName = admin?.UserName;
+                var hcadmin = await _userManager.FindByNameAsync("hcsadmin");
+
+                userMessage.ReceiverUserName = hcadmin != null ? hcadmin.UserName : admin?.UserName;
+                //userMessage.ReceiverId = admin?.Id;
+
                 var ordersByCustomer = _context.Orders.Where(o => o.PurchaserId == currentUser.Id)
                     .OrderByDescending(o => o.DateOrdered).ToList();
                 Order recentOrder = new Order();
@@ -258,6 +261,7 @@ namespace HipAndClavicle.Controllers
             else
             {
                 userMessage.ReceiverUserName = customerMessage.SendTo;
+                //userMessage.ReceiverId = customerMessage.SendTo;
             }
             _context.UserMessages.Add(userMessage);
             await _context.SaveChangesAsync();
