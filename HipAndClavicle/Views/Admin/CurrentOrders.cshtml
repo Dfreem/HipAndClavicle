@@ -7,7 +7,10 @@
 <link rel="stylesheet" href="/css/Order.css" />
 
 <label class="h4 mx-5 text-secondary font-weight-bold ">Current Orders</label>
-<table class="table border border-2 border-success-subtle table-sm col-6 mx-4 me-auto mt-4 order-table">
+
+@* -- Current Orders -- *@
+
+<table class="table border border-2 border-success-subtle table-sm col-5 mx-4 me-auto mt-4 order-table">
     @foreach (Order order in Model.CurrentOrders)
     {
         @Html.DisplayFor(_ => order)
@@ -15,6 +18,26 @@
 
 </table>
 
-<table class="table border border-2 border-success-subtle table-sm col-6 mx-4 me-auto mt-4 order-table">
+@*end current orders*@
 
+
+@* -- shipped orders --*@
+
+<table class="table border border-2 border-success-subtle table-sm col-5 mx-4 me-auto mt-4 order-table">
+    @if (Model.ShippedOrders.Count > 0)
+    {
+
+        @foreach (var order in Model.ShippedOrders)
+        {
+            @Html.DisplayFor(_ => order)
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4" class="h4">Nothing has been shipped.</td>
+        </tr>
+    }
 </table>
+
+@* end shipped orders*@

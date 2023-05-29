@@ -32,7 +32,8 @@
                     &nbsp;<i class="bi bi-calendar-day"></i>
                     &nbsp;<i class="bi bi-chevron-double-right"></i>
                     &nbsp; @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
-
+                    <br />
+                    @Html.DisplayFor(_ => item.Item)
                 </div>
             </th>
 
