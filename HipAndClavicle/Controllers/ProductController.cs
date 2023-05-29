@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HipAndClavicle;
 
@@ -20,21 +21,11 @@ public class ProductController : Controller
         _productRepo = services.GetRequiredService<IProductRepo>();
         _toast = services.GetRequiredService<INotyfService>();
     }
-    //[Authorize(Roles = "Admin")]
-    //public async Task<IActionResult> EditProduct(int productId)
-    //{
-    //    ViewBag.Familes = await _productRepo.GetAllColorFamiliesAsync();
-    //    var colors = await _productRepo.GetNamedColorsAsync();
-    //    var toEdit = await _productRepo.GetProductByIdAsync(productId);
-    //    ProductVM editProduct = new() { Edit = toEdit, NamedColors = colors };
-
-    //    return View("Admin/Products", editProduct);
-    //}
 
     [HttpPost]
-    public async Task<IActionResult> EditProduct(Product product)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EditProduct([Bind("TempFile, NewColor, Name, ColorFamilies, AvailableColors, Description, ProductId")]Product product)
     {
-
         Product edit = await _productRepo.GetProductByIdAsync(product.ProductId);
 
         if (product.TempFile is not null)
@@ -46,10 +37,25 @@ public class ProductController : Controller
         {
             edit.Name = product.Name;
         }
-        if(product.ColorFamilies is not null)
+        if (product.ColorFamilies is not null)
         {
             // TODO changed this to either add or remove
             edit.ColorFamilies = product.ColorFamilies;
+        }
+        if (!product.AvailableColors.IsNullOrEmpty())
+        {
+            edit.AvailableColors = product.AvailableColors;
+        }
+        if (product.Description != edit.Description)
+        {
+            edit.Description = product.Description;
+        }
+        if (product.NewColor is not null && product.NewColor.HexValue != "#00000000")
+        {
+            if (!product.AvailableColors.Any(c => c.HexValue == product.NewColor.HexValue))
+            {
+                edit.AvailableColors.Add(product.NewColor);
+            }
         }
         await _productRepo.UpdateProductAsync(edit);
         return RedirectToAction("Products", "Admin");
@@ -71,7 +77,7 @@ public class ProductController : Controller
         };
         return View(product);
     }
-
+    // =============== Use as example for saving images. also see ExtractImage() ===============
     [HttpPost]
     public async Task<IActionResult> AddProduct([Bind("NewSize, SetSizes, Category, NewColor, ImageFile, QuantityOnHand, Edit, NewProduct ")] ProductVM pvm)
     {

@@ -9,8 +9,7 @@ public class ShippingAddress
     public string? AddressLine2 { get; set; } = default!;
     public string Country { get; set; } = "us";
     [DataType(DataType.PhoneNumber)]
-    [Display(Name = "Phone Number")]
-    public string? PhoneNumber { get; set; } = default!;
+
     [Display(Name = "City")]
     public string CityTown { get; set; } = default!;
     [Display(Name = "State")]
