@@ -83,7 +83,7 @@
             <thead>
                 <tr>
                     <th>Sender</th>
-                    @*<th>Receiver</th>*@
+                    <th>Receiver</th>
                     <th>Email</th>
                     <th>Messeage</th>
                     <th>Date Sent</th>
@@ -96,7 +96,7 @@
                 {
                     <tr>
                         <td>@message.Sender</td>
-                        @*<td>@message.Receiver</td>*@
+                        <td>@message.Receiver</td>
                         <td>
                             <a class="email-link" data-bs-toggle="modal"
                                data-bs-target="#emailModal"
@@ -335,7 +335,7 @@
                             $.each(response, function (index, message) {
                                 results += '<tr>';
                                 results += '<td>' + message.senderUserName + '</td>';
-                                //results += '<td>' + message.receiverUserName + '</td>';
+                                results += '<td>' + message.receiverUserName + '</td>';
                                 results += '<td>' + message.email + '</td>';
                                 results += '<td>' + message.content + '</td>';
                                 //results += '<td>' + message.purchase_date + '</td>';
