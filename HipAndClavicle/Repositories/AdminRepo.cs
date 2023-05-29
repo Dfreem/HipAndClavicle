@@ -13,7 +13,13 @@ public class AdminRepo : IAdminRepo
         _context = context;
         _userManager = services.GetRequiredService<UserManager<AppUser>>();
     }
-    public async Task<List<Order>> GetAdminCurrentOrdersAsync()
+
+    /// <summary>
+    /// Get all the orders stored in the database with the same <see cref="OrderStatus"/>
+    /// </summary>
+    /// <param name="status">the <see cref="OrderStatus"/> of the orders to retrieve</param>
+    /// <returns>a <see cref="List\<Order>"/></returns>
+    public async Task<List<Order>> GetAdminOrdersAsync(OrderStatus status=OrderStatus.Paid)
     {
         var orders = await _context.Orders
             .Include(o => o.Purchaser)
@@ -25,7 +31,7 @@ public class AdminRepo : IAdminRepo
             .ThenInclude(i => i.ItemColors)
             .Include(o => o.Items)
             .ThenInclude(i => i.Item.ProductImage)
-            .Where(o => !o.Status.Equals(OrderStatus.Shipped))
+            .Where(o => o.Status.Equals(status))
             .ToListAsync();
         return orders;
     }

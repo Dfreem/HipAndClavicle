@@ -11,7 +11,7 @@ namespace HIPNunitTests.Fakes
 {
     public class FakeAdminRepo : IAdminRepo
     {
-        public async Task<List<Order>> GetAdminCurrentOrdersAsync()
+        public async Task<List<Order>> GetAdminOrdersAsync()
         {
             // I'm creating fake users here to match your seed data, but you might want to
             // move this to a separate method if you need the same users in multiple places.
