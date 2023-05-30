@@ -12,16 +12,33 @@ namespace HIPNunitTests.Fakes
     public class FakeShoppingCartRepo : IShoppingCartRepo
     {
         private List<ShoppingCartItem> _shoppingCartItems;
+        private List<ShoppingCart> _shoppingCarts;
 
         public FakeShoppingCartRepo()
         {
             _shoppingCartItems = new List<ShoppingCartItem>();
+            _shoppingCarts = new List<ShoppingCart>();
         }
 
-        public Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
+        public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
         {
-            // Implement the fake logic for GetOrCreateShoppingCartAsync if needed
-            throw new NotImplementedException();
+            var shoppingCart = _shoppingCarts.FirstOrDefault(sc => sc.CartId == cartId);
+
+            if (shoppingCart == null)
+            {
+                // If no such shopping cart exists, create a new one
+                shoppingCart = new ShoppingCart
+                {
+                    CartId = cartId,
+                    Owner = new AppUser { Id = ownerId},
+                    ShoppingCartItems = new List<ShoppingCartItem>()
+                };
+
+                // And add it to the list of shopping carts
+                _shoppingCarts.Add(shoppingCart);
+            }
+
+            return await Task.FromResult(shoppingCart);
         }
 
         public Task<List<ShoppingCartItemViewModel>> GetShoppingCartItemsAsync(IEnumerable<ShoppingCartItem> items)
@@ -41,7 +58,8 @@ namespace HIPNunitTests.Fakes
 
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
         {
-            _shoppingCartItems.Add(item);
+            _shoppingCarts.FirstOrDefault(sc => sc.Id == item.ShoppingCartId)
+                .ShoppingCartItems.Add(item);
             await Task.CompletedTask;
         }
 
@@ -61,6 +79,11 @@ namespace HIPNunitTests.Fakes
         {
             _shoppingCartItems.Clear();
             await Task.CompletedTask;
+        }
+
+        public ShoppingCart GetCartByUser(string ownerId)
+        {
+            return _shoppingCarts.FirstOrDefault(sc => sc.Owner.Id == ownerId);
         }
     }
 }

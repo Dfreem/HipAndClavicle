@@ -46,7 +46,7 @@ namespace HIPNunitTests.Fakes
             // Create a fake listing object with the necessary properties
             var listing = new Listing
             {
-                ListingId = listingId,
+                ListingId = 1,
                 ListingTitle = "Sample Listing",
                 ListingDescription = "Sample Description",
                 Price = 10.0
@@ -116,9 +116,10 @@ namespace HIPNunitTests.Fakes
             throw new NotImplementedException();
         }
 
-        Task ICustRepo.AddListingAsync(Listing listing)
+        public async Task AddListingAsync(Listing listing)
         {
-            throw new NotImplementedException();
+            _listings.Add(listing);
+            await Task.CompletedTask;
         }
 
         Task ICustRepo.AddListingImageAsync(Image image)

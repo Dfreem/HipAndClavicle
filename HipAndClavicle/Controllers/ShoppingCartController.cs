@@ -210,8 +210,17 @@ namespace HipAndClavicle.Controllers
         // Helper method to get the cart ID for the current user
         private string GetCartId()
         {
-            var httpContext = _contextAccessor.HttpContext;
+            /*var httpContext = _contextAccessor.HttpContext;
             if (httpContext.User.Identity.IsAuthenticated)
+            {
+                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            else
+            {
+                return null;
+            }*/
+            var httpContext = _contextAccessor.HttpContext;
+            if (httpContext?.User?.Identity?.IsAuthenticated ?? false)
             {
                 return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
