@@ -19,6 +19,28 @@ font-family: 'Manrope', sans-serif;
     vertical-align: top !important;
 }
 
-.order-table {
-    box-shadow: #0f1d14cf 0 0 6px 3px;
+
+.contact-link {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    font-size:14pt;
+}
+
+.order-wrapper {
+    padding: .2em;
+    margin-block: 1em;
+    margin-inline: auto;
+    transform: translateX(-10em);
+    max-width: 25em;
+    min-width: 25em;
+    max-height: 8em;
+    background-color: darkred;
+}
+
+.order-wrapper:nth-child(n) {
+    backdrop-filter: opacity(20%);
+    border-radius:10px;
+/*    background-color: #4e803d;*/
+    background-color: #ddffb2;
 }
