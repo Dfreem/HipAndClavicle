@@ -1,10 +1,5 @@
 ﻿@model Order
 @{
-    // TODO add shipping time to settings.
-    // TODO come back and look at printing invoices
-    // TODO calculate total when order is created
-
-
     double totalPrice = 0;
     foreach (var item in Model.Items)
     {
@@ -37,6 +32,9 @@
             </div>
 
         }
+        <div class="@statusColor">
+            @Model.Status
+        </div>
     </div>
 
 </div>

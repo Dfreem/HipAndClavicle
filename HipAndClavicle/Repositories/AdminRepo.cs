@@ -19,7 +19,7 @@ public class AdminRepo : IAdminRepo
     /// </summary>
     /// <param name="status">the <see cref="OrderStatus"/> of the orders to retrieve</param>
     /// <returns>a <see cref="List\<Order>"/></returns>
-    public async Task<List<Order>> GetAdminOrdersAsync(OrderStatus status=OrderStatus.Paid)
+    public async Task<List<Order>> GetAdminOrdersAsync(OrderStatus status)
     {
         var orders = await _context.Orders
             .Include(o => o.Purchaser)

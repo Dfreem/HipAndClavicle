@@ -2,11 +2,11 @@
 {
     public enum OrderStatus
     {
-        Received,
-        Paid,
-        ReadyToShip,
-        Shipped,
-        Late,
+        Received = 1,
+        Paid = 2,
+        ReadyToShip = 4,
+        Shipped = 8,
+        Late = 16,
     }
 }
 
