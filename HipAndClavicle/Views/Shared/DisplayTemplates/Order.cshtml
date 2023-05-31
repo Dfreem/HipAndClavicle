@@ -14,27 +14,34 @@
         Model.Status == OrderStatus.Shipped ? "text-success" : "";
 }
 <div class="order-wrapper">
-    <div class="list-group">
-        @foreach (OrderItem item in Model.Items)
-        {
-            <div class="list-group-heading p-1 mx-2">
+    <div class="order-header">
+
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                &nbsp;<i class="bi bi-person mx-1"></i>
                 &nbsp;<i class="bi bi-chevron-double-right"></i>
-                &nbsp;<i class="bi bi-person"></i>
                 &nbsp;@Model.Purchaser.FName[0]. @Model.Purchaser.LName
-                <br />
+                &nbsp;<i class="bi bi-calendar-day mx-1 ml-4"></i>
                 &nbsp;<i class="bi bi-chevron-double-right"></i>
-                &nbsp;<i class="bi bi-calendar-day"></i>
                 &nbsp; @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
 
                 <a href="" class="contact-link bi bi-chat-heart-fill" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
 
                 </a>
-            </div>
-
-        }
-        <div class="@statusColor">
-            @Model.Status
-        </div>
+            </li>
+        </ul>
     </div>
+    @foreach (OrderItem item in Model.Items)
+    {
+        <ul class="list-group list-group-horizontal d-block-flex">
+            <li class="list-inline-item">@item.Item.Name</li>
+
+            <li class="list-inline-item"> x @item.AmountOrdered</li>
+            @if (item.Item.ProductImage is not null)
+            {
+                <li class="list-inline-item ms-auto mx-2 p-1"><img class="img-thumbnail" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image"></li>
+            }
+        </ul>
+    }
 
 </div>
