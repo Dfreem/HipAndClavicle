@@ -34,8 +34,8 @@ font-family: 'Manrope', sans-serif;
     transform: translateX(-10em);
     max-width: 25em;
     min-width: 25em;
-    outline: 1px solid #5effd8;
-    box-shadow: -2px -2px 16px 2px #dad7cd inset, -4px -4px 6px 5px #344e41;
+    outline: 2px solid teal;
+    box-shadow: -2px -2px 16px 2px #dad7cd inset, -4px -4px 6px 5px #344e41aa;
 }
 
     .order-wrapper:nth-child(n) {
@@ -50,7 +50,7 @@ font-family: 'Manrope', sans-serif;
     margin-block: 0;
     position: relative;
     font-family: 'Manrope', sans-serif;
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: 600;
     color: #4f772d;
     border-bottom:1px solid silver;
