@@ -6,7 +6,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>368</x>
-      <y>288</y>
+      <y>248</y>
       <w>168</w>
       <h>232</h>
     </coordinates>
@@ -34,7 +34,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>312</x>
-      <y>576</y>
+      <y>536</y>
       <w>168</w>
       <h>88</h>
     </coordinates>
@@ -51,7 +51,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>888</x>
-      <y>552</y>
+      <y>512</y>
       <w>248</w>
       <h>160</h>
     </coordinates>
@@ -73,7 +73,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>608</x>
-      <y>368</y>
+      <y>328</y>
       <w>248</w>
       <h>88</h>
     </coordinates>
@@ -90,7 +90,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>368</x>
-      <y>712</y>
+      <y>672</y>
       <w>168</w>
       <h>192</h>
     </coordinates>
@@ -115,7 +115,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1216</x>
-      <y>96</y>
+      <y>56</y>
       <w>208</w>
       <h>112</h>
     </coordinates>
@@ -133,12 +133,11 @@
     <id>UMLClass</id>
     <coordinates>
       <x>928</x>
-      <y>328</y>
+      <y>288</y>
       <w>168</w>
-      <h>144</h>
+      <h>176</h>
     </coordinates>
     <panel_attributes>AppUser : IdentityUser
-(Customer)
 --
 
 + Id : string
@@ -148,6 +147,7 @@
 + ShippingAddressId : int
 + Address : ShippingAddress
 + UserName : string
++ IsDeleted : bool
 
 </panel_attributes>
     <additional_attributes/>
@@ -156,7 +156,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>632</x>
-      <y>520</y>
+      <y>480</y>
       <w>168</w>
       <h>200</h>
     </coordinates>
@@ -181,7 +181,7 @@
     <id>Relation</id>
     <coordinates>
       <x>792</x>
-      <y>616</y>
+      <y>576</y>
       <w>112</w>
       <h>24</h>
     </coordinates>
@@ -192,7 +192,7 @@
     <id>Relation</id>
     <coordinates>
       <x>1088</x>
-      <y>376</y>
+      <y>336</y>
       <w>256</w>
       <h>184</h>
     </coordinates>
@@ -207,49 +207,18 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>1032</x>
-      <y>464</y>
+      <y>456</y>
       <w>24</w>
-      <h>104</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1096</x>
-      <y>816</y>
-      <w>168</w>
-      <h>136</h>
-    </coordinates>
-    <panel_attributes>AppUser : IdentityUser
-(Admin/Merchant)
---
-
-+ Id : string
-+ FName : string
-+ LName : string
-+ Address : string
-+ UserName : string
-+ Email : string</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1216</x>
-      <y>696</y>
-      <w>24</w>
-      <h>136</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>1128</x>
-      <y>592</y>
+      <y>552</y>
       <w>80</w>
       <h>24</h>
     </coordinates>
@@ -260,7 +229,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
-      <y>336</y>
+      <y>296</y>
       <w>184</w>
       <h>208</h>
     </coordinates>
@@ -287,7 +256,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>56</x>
-      <y>192</y>
+      <y>152</y>
       <w>160</w>
       <h>88</h>
     </coordinates>
@@ -303,7 +272,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>136</x>
-      <y>656</y>
+      <y>616</y>
       <w>160</w>
       <h>88</h>
     </coordinates>
@@ -321,7 +290,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>896</x>
-      <y>824</y>
+      <y>784</y>
       <w>160</w>
       <h>120</h>
     </coordinates>
@@ -340,7 +309,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>648</x>
-      <y>784</y>
+      <y>744</y>
       <w>160</w>
       <h>88</h>
     </coordinates>
@@ -355,7 +324,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>1192</x>
-      <y>544</y>
+      <y>504</y>
       <w>160</w>
       <h>160</h>
     </coordinates>
@@ -377,7 +346,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>1272</x>
-      <y>816</y>
+      <y>776</y>
       <w>160</w>
       <h>88</h>
     </coordinates>
@@ -405,7 +374,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>656</x>
-      <y>200</y>
+      <y>160</y>
       <w>152</w>
       <h>88</h>
     </coordinates>
@@ -422,7 +391,7 @@ m2=0..n
     <id>UMLClass</id>
     <coordinates>
       <x>928</x>
-      <y>40</y>
+      <y>0</y>
       <w>168</w>
       <h>184</h>
     </coordinates>
@@ -446,7 +415,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>1312</x>
-      <y>696</y>
+      <y>656</y>
       <w>24</w>
       <h>136</h>
     </coordinates>
@@ -457,7 +426,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>712</x>
-      <y>280</y>
+      <y>240</y>
       <w>24</w>
       <h>104</h>
     </coordinates>
@@ -468,7 +437,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>376</x>
-      <y>512</y>
+      <y>472</y>
       <w>24</w>
       <h>80</h>
     </coordinates>
@@ -479,7 +448,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>208</x>
-      <y>736</y>
+      <y>696</y>
       <w>176</w>
       <h>64</h>
     </coordinates>
@@ -490,7 +459,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>256</x>
-      <y>592</y>
+      <y>552</y>
       <w>72</w>
       <h>80</h>
     </coordinates>
@@ -501,7 +470,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>64</x>
-      <y>272</y>
+      <y>232</y>
       <w>24</w>
       <h>80</h>
     </coordinates>
@@ -512,7 +481,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>168</x>
-      <y>272</y>
+      <y>232</y>
       <w>24</w>
       <h>80</h>
     </coordinates>
@@ -523,7 +492,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>112</x>
-      <y>536</y>
+      <y>496</y>
       <w>272</w>
       <h>312</h>
     </coordinates>
@@ -534,7 +503,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>48</x>
-      <y>536</y>
+      <y>496</y>
       <w>336</w>
       <h>360</h>
     </coordinates>
@@ -545,7 +514,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>712</x>
-      <y>712</y>
+      <y>672</y>
       <w>24</w>
       <h>88</h>
     </coordinates>
@@ -556,7 +525,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>528</x>
-      <y>824</y>
+      <y>784</y>
       <w>136</w>
       <h>24</h>
     </coordinates>
@@ -567,7 +536,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>848</x>
-      <y>400</y>
+      <y>360</y>
       <w>96</w>
       <h>24</h>
     </coordinates>
@@ -578,7 +547,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>488</x>
-      <y>232</y>
+      <y>192</y>
       <w>184</w>
       <h>72</h>
     </coordinates>
@@ -589,7 +558,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>496</x>
-      <y>512</y>
+      <y>472</y>
       <w>24</w>
       <h>216</h>
     </coordinates>
@@ -600,7 +569,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>528</x>
-      <y>664</y>
+      <y>624</y>
       <w>120</w>
       <h>104</h>
     </coordinates>
@@ -611,7 +580,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>992</x>
-      <y>216</y>
+      <y>176</y>
       <w>24</w>
       <h>128</h>
     </coordinates>
@@ -622,7 +591,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>960</x>
-      <y>704</y>
+      <y>664</y>
       <w>24</w>
       <h>136</h>
     </coordinates>
@@ -633,7 +602,7 @@ m2=0..n
     <id>Relation</id>
     <coordinates>
       <x>528</x>
-      <y>880</y>
+      <y>840</y>
       <w>384</w>
       <h>24</h>
     </coordinates>
