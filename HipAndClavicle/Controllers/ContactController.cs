@@ -250,7 +250,9 @@ namespace HipAndClavicle.Controllers
                 if (ordersByCustomer.Count > 0)
                 {
                     recentOrder = ordersByCustomer[0];
-                    OrderItem? recentProduct = _context.OrderItems.FirstOrDefault(x => recentOrder.OrderId == recentOrder.OrderId);
+                    //OrderItem? recentProduct = _context.OrderItems.FirstOrDefault(x => recentOrder.OrderId == recentOrder.OrderId);
+                    OrderItem? recentProduct = _context.OrderItems.ToList().LastOrDefault(x => recentOrder.OrderId == recentOrder.OrderId);
+
                     Product? product = _context.Products.FirstOrDefault(x => x.ProductId == recentProduct.ProductId);
                     userMessage.Product = product?.Name;
 
