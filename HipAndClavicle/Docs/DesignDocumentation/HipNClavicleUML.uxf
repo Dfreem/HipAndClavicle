@@ -1,177 +1,612 @@
-<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes©</help_text><element><id>UMLClass</id><coordinates><x>224</x><y>778</y><w>168</w><h>144</h></coordinates><panel_attributes>Listing
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <help_text>Space for diagram notes©</help_text>
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>248</y>
+      <w>168</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>Listing
 --
 
 + ListingId : int
 + Images : List&lt;Image&gt;
 + Price : double
-+ AvailableColors : List&lt;int&gt;
++ Colors : List&lt;Color&gt;
 + ListingProduct : Product
++ ListingTitle : string
++ ListingDescription : string
 + QuantitySold : int
 + DateCreated : DateTime
 + OnHand : int
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>562</y><w>168</w><h>88</h></coordinates><panel_attributes>Image
++ Shape : string
++ ListingCOlorJTs : List&lt;ListingColorJT&gt;
++ OrderItemId : int
++ OrderItems : List&lt;OrderItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>312</x>
+      <y>536</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Image
 --
 
 + ImageId: int
-+ Data : byte[]
++ ImageData : byte[]
 + Width : int
-+ Height? : int (not sure yet)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1064</x><y>402</y><w>208</w><h>192</h></coordinates><panel_attributes>Shipment
---
-
-+ ShipmentId : string
-+ OrderID : int?
-+ ShippedOn : DateTime
-+ FromAddress : Address
-+ Parcel : Parcel
-+ Rates : List&lt;Rate&gt;
-+ ToAddress : Address
-+ CarrierPayments : List&lt;CarrierPayment&gt;?
-+ ParcelTrackingNumber : string?
-+ ShipmentOptions : List&lt;Parameter&gt;?
-+ ShipmentType : string?
-+ SoldToAddress : Address?
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>744</x><y>458</y><w>168</w><h>160</h></coordinates><panel_attributes>Order
++ Height? : int (not sure yet)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>888</x>
+      <y>512</y>
+      <w>248</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Order
 --
 
 + Orderld : int
++ Items : List&lt;OrderItem&gt;
 + Purchaserld : string
-+ IsPaid : int
-+ IsShipped : int
-+ DateOrdered DateTime
++ Purchaser : AppUser
++ Status : OrderStatus
++ DateOrdered : DateTime
 + Shipmentld : int
-+ TotalPrice : double
-+ ShippingAddress : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>464</x><y>266</y><w>160</w><h>88</h></coordinates><panel_attributes>ShoppingCart
++ ShippingAddress : string
++ StatusName : Dictionary&lt;OrderStatus, string&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>608</x>
+      <y>328</y>
+      <w>248</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>ShoppingCart
 --
 
-+ ShoppingCartId : int
-+ Products : List&lt;Product&gt;
-+ Customer : AppUser
-+ DateCreated : DateTime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>56</x><y>354</y><w>168</w><h>104</h></coordinates><panel_attributes>Review
---
-
-+ ReviewId : int
-+ ReviewerId? : int
-+ Message : string
-+ VerifiedOrderID : int
-+ ReviewedProduct : ProductId?</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>288</x><y>474</y><w>168</w><h>128</h></coordinates><panel_attributes>Product
++ Id : int
++ CartId : string
++ ShoppingCartItems : List&lt;ShoppingCartItem&gt;
++ Owner : AppUser</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>672</y>
+      <w>168</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Product
 --
 
 + ProductId : int
 + Name : string
-+ Category : Enum
-+ Colors : List&lt;int(hex)&gt;
-+ InStock : bool
-+ Quantity : int
-+ Reviews : List&lt;Review&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>784</x><y>34</y><w>208</w><h>112</h></coordinates><panel_attributes>AdminSettings
++ Category : ProductCategory
++ ColorId : int
++ AvailableColors : List&lt;Color&gt;
++ ColorFamilyId : int
++ ColorFamilies : List&lt;ColorFamily&gt;
++ Reviews : List&lt;Review&gt;
++ SetSizes : List&lt;SetSize&gt;
++ ProductImage : Image
++ TempFile : IFormFile
++ Description : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1216</x>
+      <y>56</y>
+      <w>208</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>AdminSettings
 --
     
 + PreferredContactType : enum
 + AutoReply : bool
 + AutoReplyMessage? : string
 + ShowContactInfo : bool
-+ VerifiedPurchaseForReview : bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>712</x><y>258</y><w>168</w><h>120</h></coordinates><panel_attributes>AppUser : IdentityUser
-(Customer)
++ PurchaseRequiredForView : bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>928</x>
+      <y>288</y>
+      <w>168</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>AppUser : IdentityUser
 --
 
 + Id : string
 + FName : string
 + LName : string
-+ Address : string
++ IsPersistent : bool
++ ShippingAddressId : int
++ Address : ShippingAddress
 + UserName : string
-+ Email : string
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>304</x><y>594</y><w>32</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1= 1</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>168</x><y>450</y><w>136</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=0..n
-m2=1</panel_attributes><additional_attributes>10;10;10;110;150;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>682</y><w>168</w><h>136</h></coordinates><panel_attributes>NamedColor
++ IsDeleted : bool
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>480</y>
+      <w>168</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>OrderItem
 --
 
-ColorId: int
-ColorName : string
-HexValue : string
-Red : int
-Blue : int
-Green : int
-Listingld : int
-Productld : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>458</y><w>168</w><h>152</h></coordinates><panel_attributes>OrderItem
---
-
-+ Orderltemld : int
-+ Orderld : int
-+ ItemColor : int
-+ IsPulled : bool
-+ IsCut : bool
-+ IsFolded : bool
-+ IsStickered : bool
-+ ItemProductld : int
-+ Item : Product</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>298</y><w>152</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;220;10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>824</x><y>138</y><w>40</w><h>136</h></coordinates><panel_attributes>lt=-
-m1=0..n
-m2=0..1
-</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>688</x><y>538</y><w>72</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>448</x><y>538</y><w>96</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>306</y><w>304</w><h>112</h></coordinates><panel_attributes>lt=-
++ OrderId : int
++ OrderItemId : int
++ AmountOrdered : int
++ ColorId : int
++ Item : Product
++ ItemColors : List&lt;Color&gt;
++ ItemType : ProductCategory
++ ParentOrder : Order
++ PricePerUnit : double
++ SetSize : SetSize
++ SetSizeId : int
++ Status : OrderStatus</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>576</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1088</x>
+      <y>336</y>
+      <w>256</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>lt=-
 &lt; recieves a
 m1=1
 m2=0..n
-</panel_attributes><additional_attributes>10;20;340;20;340;120</additional_attributes></element><element><id>Relation</id><coordinates><x>816</x><y>370</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>760</x><y>674</y><w>168</w><h>136</h></coordinates><panel_attributes>AppUser : IdentityUser
-(Admin/Merchant)
+</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0;280.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1032</x>
+      <y>456</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1128</x>
+      <y>552</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>296</y>
+      <w>184</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>NamedColor
 --
 
-+ Id : string
-+ FName : string
-+ LName : string
-+ Address : string
-+ UserName : string
-+ Email : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>864</x><y>586</y><w>248</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>290;10;290;70;10;70;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>616</x><y>306</y><w>112</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>602</y><w>24</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>368</x><y>594</y><w>176</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;160;10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>578</y><w>144</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element><element><id>Relation</id><coordinates><x>904</x><y>482</y><w>176</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>200;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>984</x><y>234</y><w>744</w><h>752</h></coordinates><panel_attributes>lt=.
-Pitney-Bowes Shipping Api</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1016</x><y>714</y><w>144</w><h>224</h></coordinates><panel_attributes>Address
++ ColorId : int
++ ColorName : string
++ HexValue : string
++ ColorFamilyId : int
++ ColorFamilies : List&lt;ColorFamily&gt;
++ RGB : (int, int, int)
++ Red : int
++ Blue : int
++ Green : int
++ ProductId : int
++ ApplicableProducts : List&lt;Product&gt;
++ OrderItemId : int
++ OrderItems : List&lt;OrderItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>56</x>
+      <y>152</y>
+      <w>160</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>ColorFamily
 --
 
-+ AddressLines : List\&lt;string&gt;
-+ CarrierRoute : string
++ ColorFamilyId : int
++ ColorFamilyName : string
++ Color : Color</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>136</x>
+      <y>616</y>
+      <w>160</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>ProductImage
+--
+
++ ProductImageId : int
++ ProductId : int
++ GetProduct : Product
++ ImageId : int
++ GetImage : Image</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>896</x>
+      <y>784</y>
+      <w>160</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Review
+--
+
++ ReviewId : int
++ Reviewer : AppUser
++ Message : string
++ VerifiedOrder : Order
++ ReviewedProduct : Product
++ StarRating : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>648</x>
+      <y>744</y>
+      <w>160</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>SetSize
+--
+
++ SetSizeId : int
++ SetSize : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1192</x>
+      <y>504</y>
+      <w>160</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Ship
+--
+
++ ShipId : int
++ TrackingNumber : string
++ Carrier : string
++ Status : OrderStatus
++ Notes : string
++ DateShipped : DateTime
++ DateDelivered : DateTime
++ OrderId : int
++ Order : Order</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1272</x>
+      <y>776</y>
+      <w>160</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>ShippingAddress
+--
+
++ ShippingAddressId : int
++ AddressLine1 : string
++ AddressLine2 : string
++ Country : string
++ PhoneNumber : string
 + CityTown : string
-+ Company : string
-+ CountryCode : string
-+ DeliveryPoint : string
-+ Email : string
-+ Name : string string
-+ Phone : string
++ StateAbr : State
 + PostalCode : string
 + Residential : bool
-+ StateProvince : string
-+ Status : string
-+ Taxld : string
-+ TaxIdType : string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1352</x><y>386</y><w>152</w><h>96</h></coordinates><panel_attributes>Parcel
++ Name : string
++ AppUserId : string
++ Residents : List&lt;AppUser&gt;
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>656</x>
+      <y>160</y>
+      <w>152</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>ShoppingCartItem
 --
 
-+ Dimension : ParcelDimension
-+ Weight : ParcelWeight
-+ ValueOfGoods : decimal
-+ CurrencyCode : string
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1152</x><y>586</y><w>56</w><h>176</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>50;10;50;200;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>1264</x><y>442</y><w>104</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1296</x><y>666</y><w>240</w><h>216</h></coordinates><panel_attributes>Rate
++ ShoppingCartItemId : int
++ ShoppingCartId : int
++ ListingItem : Listing
++ Quantity : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>928</x>
+      <y>0</y>
+      <w>168</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>UserMessage
 --
 
-+ Carrier : Carrier
-+ Currency Code : string?
-+ DeliveryCommitment : DeliveryCommitment?
-+ DestinationZone :decimal?
-+ DimensionalWeight : ParcelWeight?
-+ Discounts : List\&lt;Discount&gt;?
-+ InductionPostalCode : string?
-+ ParcelType : ParcelType
-+ RateTypeld : string?
-+ Surcharges :  List\&lt;Surcharge&gt;?
-+ TotalCarrierCharge : decimal?
-+ TotalTaxAmount : decimal?</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1232</x><y>586</y><w>80</w><h>136</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;150;80;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1344</x><y>530</y><w>136</w><h>104</h></coordinates><panel_attributes>CarrierPayment
---
-
-+ AccountNumber : string
-+ CountryCode : string
-+ Party : string
-+ PostalCode : string
-+ TypeOfCharge : string
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1256</x><y>562</y><w>96</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1560</x><y>386</y><w>152</w><h>104</h></coordinates><panel_attributes>ParcelDimensions
---
-
-+ Length : decimal
-+ Height : decimal
-+ Width : decimal
-+ UnitOfMeasurement : UnitOfDimension
-+ IrregularParcelGirth : decimal
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1494</x><y>434</y><w>80</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element></diagram>
++ Id : int
++ SenderUserName : string
++ Sender : AppUser
++ ReceiverUserName : string
++ Receiver : AppUser
++ DateSent : DateTime
++ Read : bool
++ Content : string
++ OrderId : int
++ Email : string
++ Number : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1312</x>
+      <y>656</y>
+      <w>24</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>240</y>
+      <w>24</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>376</x>
+      <y>472</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>696</y>
+      <w>176</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;60.0;10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>256</x>
+      <y>552</y>
+      <w>72</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>64</x>
+      <y>232</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>168</x>
+      <y>232</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>496</y>
+      <w>272</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;370.0;10.0;370.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>48</x>
+      <y>496</y>
+      <w>336</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;430.0;400.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>672</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>784</y>
+      <w>136</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>848</x>
+      <y>360</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>488</x>
+      <y>192</y>
+      <w>184</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>472</y>
+      <w>24</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>624</y>
+      <w>120</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;70.0;10.0;70.0;110.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>992</x>
+      <y>176</y>
+      <w>24</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>960</x>
+      <y>664</y>
+      <w>24</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>840</y>
+      <w>384</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;460.0;10.0</additional_attributes>
+  </element>
+</diagram>
