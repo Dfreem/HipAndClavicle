@@ -16,7 +16,7 @@
         public Task<Product> GetProductByIdAsync(int productId);
         public Task<List<Order>> GetOrdersByCustomerId(string customerId);
         public Task<Order> GetOrderById(int orderId);
-        public Task<ShoppingCart> GetCartById(int cartId);
+        public Task<ShoppingCart> GetCartByCustId(string custId);
         public Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId);
 
 

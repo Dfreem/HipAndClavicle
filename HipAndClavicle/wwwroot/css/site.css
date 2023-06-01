@@ -171,11 +171,6 @@ footer ul a {
     margin-bottom: 3em;
 }
 
-.table-responsive {
-    max-height: 60vh;
-    overflow-y: scroll;
-}
-
 @media only screen and (max-width: 740px) {
     footer ul {
         visibility: hidden;

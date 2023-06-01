@@ -23,6 +23,8 @@ public class AdminRepo : IAdminRepo
             .ThenInclude(i => i.SetSizes)
             .Include(o => o.Items)
             .ThenInclude(i => i.ItemColors)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Item.ProductImage)
             .Where(o => !o.Status.Equals(OrderStatus.Shipped))
             .ToListAsync();
         return orders;

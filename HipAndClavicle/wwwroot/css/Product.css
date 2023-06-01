@@ -66,9 +66,9 @@ h1 {
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 8px 0;
     transition: all ease-in-out 0.8s;
-    border: none;
+    outline: 2px solid #000000;
     max-width: 200px;
     min-width: 200px;
     max-height: 360px;
@@ -84,8 +84,14 @@ h1 {
 }
 
 .card:hover {
-    transition: all cubic-bezier(.28,.44,.6,.92) .5s;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+    transition: all cubic-bezier(.28,.44,.6,.92) .4s;
+    box-shadow: black 0 8px 20px 6px;
+    transform:scale(104%);
+}
+
+.card-img-top {
+    border-bottom: 1px solid black;
+    height: 200px;
 }
 
 .text-muted i {

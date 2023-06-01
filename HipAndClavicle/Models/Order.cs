@@ -8,7 +8,7 @@ public class Order
     [Required]
     public string PurchaserId { get; set; } = default!;
     public AppUser Purchaser { get; set; } = default!;
-    public OrderStatus Status { get; set; } = OrderStatus.PendingPayment;
+    public OrderStatus Status { get; set; } = OrderStatus.Paid;
     public DateTime DateOrdered { get; set; } = DateTime.Now;
     public int? ShipmentId { get; set; }
     //public double TotalPrice { get; set; }
@@ -20,7 +20,7 @@ public class Order
         {
             return new()
             {
-                { OrderStatus.PendingPayment, "Pending Payment"
+                { OrderStatus.Received, "Order Received"
                 },
                 { OrderStatus.Paid, "Paid"
                 },

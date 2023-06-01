@@ -14,8 +14,9 @@
         public double Price { get; set; } = default!;
         public int OnHand { get; set; } = default!;
 
-        public IFormFile ListingImageFile { get; set; } = default!;
+        
         public Image SingleImage { get; set; }
+        public IFormFile? ImageFile { get; set; }
         public int ListingProductId { get; set; } = default!;
         //public List<Listing> Listings { get; set; } = new();
         //public List<Image> ListingImages { get; set; } = default!;

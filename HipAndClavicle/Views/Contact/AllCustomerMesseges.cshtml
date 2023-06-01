@@ -1,11 +1,11 @@
 ﻿@model List<MessageViewModel>
 <style>
     /* .container {
-        max-width: 500px;
-        margin: 0 auto;
-        text-align: center;
-        padding-top: 50px;
-    }*/
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 50px;
+        }*/
 
     .form-group {
         margin-bottom: 20px;
@@ -38,12 +38,19 @@
         button[type="submit"]:hover {
             background-color: #0069d9;
         }
+
+    .envelope-icon {
+        color: black; /* Set the default color of the envelope icon */
+        transition: color 0.3s ease; /* Add a smooth transition effect */
+    }
+
+        .envelope-icon:hover {
+            color: lightgray; /* Set the color of the envelope icon on hover */
+        }
 </style>
 
-<br />
-<br />
-<br />
-<br />
+
+
 
 <div class="container">
     <div class="row">
@@ -60,12 +67,12 @@
                     <input type="date" class="form-control" id="date-sent">
                 </div>
                 @* <div class="form-group col-md-4">
-                        <label for="purchase-date">Purchase Date:</label>
-                        <input type="date" class="form-control" id="purchase-date">
+                    <label for="purchase-date">Purchase Date:</label>
+                    <input type="date" class="form-control" id="purchase-date">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="due-date">Due Date:</label>
-                        <input type="date" class="form-control" id="due-date">
+                    <label for="due-date">Due Date:</label>
+                    <input type="date" class="form-control" id="due-date">
                     </div>*@
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Search</button>
@@ -77,32 +84,107 @@
         <table class="table mt-3" id="message-table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Sender</th>
                     <th>Receiver</th>
-                    <th>Message</th>
                     <th>Email</th>
+                    <th>Message</th>
                     <th>Date Sent</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var message in Model)
                 {
                     <tr>
-                        <td>@message.Id</td>
                         <td>@message.Sender</td>
                         <td>@message.Receiver</td>
-                        <td>@message.Content</td>
-                        <td>@message.Email</td>
+
+                        <td>
+                            <a class="email-link" data-bs-toggle="modal"
+                               data-bs-target="#emailModal"
+                               data-email="@message.Email">
+                                @message.Email
+                                <i class="fa fa-envelope envelope-icon" aria-hidden="true"></i>
+                            </a>
+                        </td>
+
+
+
+                        <td>
+                            @{
+                                string[] words = message.Content.Split(' ');
+                                int maxWords = 10;
+                                string truncatedContent = string.Join(' ', words.Take(maxWords));
+                            }
+
+                            <button class="btn btn-secondary content-link"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#contentModal" data-email="@message.Email"
+                                    data-content="@message.Content" data-truncated-content="@truncatedContent">
+                                View Message
+                            </button>
+
+                        </td>
                         <td>@message.DateSent</td>
                     </tr>
                 }
             </tbody>
-        </table>
 
+        </table>
 
     </div>
 </div>
+<!-- Modal for displaying Message content -->
+<div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contentModalLabel">Message Content</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="fw-bold" id="sentFrom"></p>
+                <h6 class="mt-2" id="untruncatedContent"></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Email Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailModalLabel">Send Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="emailForm" method="post" enctype="text/plain">
+                    <div class="mb-3">
+                        <label for="recipientEmail" class="form-label">Recipient Email</label>
+                        <input type="email" class="form-control" id="recipientEmail" name="to" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Message Body</label>
+                        <textarea class="form-control" id="body" name="body" rows="7" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <style>
     .form-control {
@@ -156,13 +238,63 @@
 </style>
 
 @section CutomerChatScript{
+
+
     <script>$(document).ready(function () {
+            // Reset the form fields when the modal is closed
+            $("#emailModal").on("hidden.bs.modal", function () {
+                $("#emailForm")[0].reset(); // Reset the form fields
+            });
+        });
+        $(document).ready(function () {
+            $("#emailForm").submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+                // Get the form data
+                var formData = $(this).serializeArray();
+                // Remove the "__RequestVerificationToken" parameter
+                formData = formData.filter(function (item) {
+                    return item.name !== "__RequestVerificationToken";
+                });
+                // Get the form action URL
+                var formAction = $(this).attr("action");
+                // Construct the URL
+                var url = formAction +
+                    "?subject=" + encodeURIComponent(formData.find(function (item) { return item.name === "subject"; }).value) +
+                    "&body=" + encodeURIComponent(formData.find(function (item) { return item.name === "body"; }).value);
+                console.log(url)
+                // Open the email client with the pre-filled fields
+                window.location.href = url;
+            });
+        });
+
+
+        $(document).ready(function () {
+            $('.email-link').on('click', function () {
+                var email = $(this).data('email');
+                $('#recipientEmail').val(email);
+
+                var formAction = 'mailto:' + email;
+                $('#emailForm').attr('action', formAction);
+            });
+
+
+            $('.content-link').click(function () {
+                var email = $(this).data('email');
+
+                var truncatedContent = $(this).data('truncated-content');
+                var untruncatedContent = $(this).data('content');
+
+                console.log(email);
+                $('#sentFrom').text("From: " + email);
+                let msg = "Message: " + untruncatedContent;
+                $('#untruncatedContent').text(msg);
+            });
+
             // Search for messages when the search button is clicked
             $('#search-form').submit(function (event) {
                 event.preventDefault();
                 var customerName = $('#customer-name').val();
-                //var purchaseDate = $('#purchase-date').val();
-                //var dueDate = $('#due-date').val();
+
                 var dateSent = $('#date-sent').val();
                 var url = '/contact/FilterMesseges';
                 $.ajax({
@@ -170,8 +302,7 @@
                     url: url,
                     data: {
                         customerName: customerName,
-                        //purchase_date: purchaseDate,
-                        //due_date: dueDate
+
                         dateSent: dateSent
                     },
                     success: function (response) {
@@ -179,16 +310,11 @@
                         if (response.length > 0) {
                             $.each(response, function (index, message) {
                                 results += '<tr>';
-                                results += '<td>' + message.id + '</td>';
-
                                 results += '<td>' + message.senderUserName + '</td>';
                                 results += '<td>' + message.receiverUserName + '</td>';
-
-                                results += '<td>' + message.content + '</td>';
                                 results += '<td>' + message.email + '</td>';
+                                results += '<td>' + message.content + '</td>';
 
-                                //results += '<td>' + message.purchase_date + '</td>';
-                                //results += '<td>' + message.due_date + '</td>';
                                 results += '<td>' + message.dateSent + '</td>';
                                 results += '</tr>';
                             });
