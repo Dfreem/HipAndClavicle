@@ -7,21 +7,21 @@
 <link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet" href="/css/Order.css" />
 
-<label class="h4 mx-5 text-secondary font-weight-bold ">Current Orders</label>
+
 <div class="body">
+    <div class="scroll-hide">
+        <div class="scroll">
+            <div class="current-orders">
+                @foreach (Order order in Model.CurrentOrders)
+                {
+                    @Html.DisplayFor(_ => order)
+                }
 
-    @* -- Current Orders -- *@
+            </div>
 
-
-    <div class="current-orders">
-        @foreach (Order order in Model.CurrentOrders)
-        {
-            @Html.DisplayFor(_ => order)
-        }
+        </div>
 
     </div>
-
-    @*end current orders*@
 
 
     @* -- shipped orders --*@
@@ -36,6 +36,8 @@
             <h4 class="text-muted">No orders have been shipped</h4>
         </div>
     }
+
+
 </div>
 
 @* end shipped orders*@
