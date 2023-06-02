@@ -43,14 +43,22 @@ namespace HIPNunitTests.Fakes
 
         public async Task<Listing> GetListingByIdAsync(int listingId)
         {
-            // Create a fake listing object with the necessary properties
-            var listing = new Listing
+            var listing = new Listing {ListingId = listingId};
+            if (listingId == 1)
             {
-                ListingId = 1,
-                ListingTitle = "Sample Listing",
-                ListingDescription = "Sample Description",
-                Price = 10.0
-            };
+                // Create a fake listing object with the necessary properties
+                listing.ListingTitle = "Sample Listing";
+                listing.ListingDescription = "Sample Description";
+                listing.Price = 10.0;
+                
+            }
+            else
+            {
+                // Create a fake listing object with the necessary properties
+                listing.ListingTitle = "Sample Listing";
+                listing.ListingDescription = "Sample of chaos";
+                listing.Price = 80.0;
+            }
 
             return listing;
         }

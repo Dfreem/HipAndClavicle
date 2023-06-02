@@ -186,7 +186,7 @@ namespace HipAndClavicle.Controllers
                 }
                 SetShoppingCartToCookie(simpleShoppingCart);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         // Removes all items from cart
@@ -204,7 +204,7 @@ namespace HipAndClavicle.Controllers
             {
                 ClearShoppingCartCookie();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         // Helper method to get the cart ID for the current user

@@ -86,13 +86,40 @@ namespace HIPNunitTests.Fakes
 
         public async Task RemoveItemAsync(ShoppingCartItem item)
         {
+            // Find the shopping cart the item belongs to
+            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.ShoppingCartItems.Contains(item));
+            if (shoppingCart != null)
+            {
+                // Remove the item from the ShoppingCart's Items
+                shoppingCart.ShoppingCartItems.Remove(item);
+            }
+
+            // Remove the item from shoppingCartItems list
             shoppingCartItems.Remove(item);
+
             await Task.CompletedTask;
         }
 
         public async Task ClearShoppingCartAsync(string cartId, string ownerId)
         {
-            shoppingCartItems.Clear();
+            // Find the shopping cart with the given cartId and ownerId
+            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.CartId == cartId && sc.Owner.Id == ownerId);
+
+            if (shoppingCart != null)
+            {
+                // Get the items in the cart
+                var itemsInCart = shoppingCart.ShoppingCartItems;
+
+                // Remove the items from the ShoppingCart's Items
+                shoppingCart.ShoppingCartItems.Clear();
+
+                // Remove the items from shoppingCartItems list
+                foreach (var item in itemsInCart)
+                {
+                    shoppingCartItems.Remove(item);
+                }
+            }
+
             await Task.CompletedTask;
         }
 
