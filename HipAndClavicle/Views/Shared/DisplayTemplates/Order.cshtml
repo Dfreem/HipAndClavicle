@@ -6,34 +6,38 @@
         totalPrice += (item.PricePerUnit * item.AmountOrdered);
     }
     string uid = Model.Purchaser.Id;
+
+    // set the color of the status icon.
     string statusColor;
     statusColor =
         Model.Status == OrderStatus.Paid ? "text-primary" :
         Model.Status == OrderStatus.ReadyToShip ? "text-warning" :
         Model.Status == OrderStatus.Received ? "text-secondary" :
         Model.Status == OrderStatus.Shipped ? "text-success" : "";
+
+    UserSettings settings = (UserSettings)ViewData["settings"]!;
 }
 <div class="order-wrapper">
     <div class="order-header">
 
         <ul class="list-group">
             <li class="list-inline-item mb-1">
-                <i class="bi bi-person mx-1 me-3"></i>
-                @*<i class="bi bi-chevron-double-right"></i>*@
-                @Model.Purchaser.FName[0]. @Model.Purchaser.LName
-                <i class="bi bi-calendar-plus-fill mx-1 ms-4 text-success"></i>
-                @*<i class="bi bi-chevron-double-right"></i>*@
-                @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
-
-                <a href="" class="contact-link bi bi-chat-heart-fill" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
-
+                <a asp-action="" class="bi bi-person" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
                 </a>
-            </li>
-            <li class="list-inline-item mb-1">
+                &nbsp;@Model.Purchaser.FName[0]. @Model.Purchaser.LName
                 <i class="bi bi-postcard-fill mx-1 me-3">
                 </i>
                 @Model.Address.CityTown, &nbsp; @Model.Address.StateAbr
-                <i class="bi bi-calendar-check-fill mx-1 ms-5 text-warning"></i>
+         
+                &nbsp;
+                <i class="bi bi-chat-heart-fill btn btn-link contact-link"></i>
+
+            </li>
+            <li class="list-inline-item mb-1 d-inline-flex">
+                &nbsp;<i class="bi bi-calendar-plus-fill text-success"></i>
+                &nbsp;@Model.DateOrdered.ToLongDateString().Split(",")[1]
+                &nbsp;<i class="bi bi-calendar-check-fill mx-1 text-warning"></i>
+                &nbsp;@Model.DateOrdered.AddDays(settings.DaysTillShipmentIsLate).ToLongDateString().Split(",")[1]
             </li>
         </ul>
     </div>

@@ -38,4 +38,17 @@ public class AdminRepo : IAdminRepo
             .ToListAsync();
         return orders;
     }
+
+    /// <summary>
+    /// Get the settings saved for this user, or create a new one if none exists
+    /// </summary>
+    /// <param name="id">The userId of the user who owns the settings we are looking for.</param>
+    /// <returns>A Task containg a <see cref="UserSettings"> object.</see>/></returns>
+    public async Task<UserSettings> GetSettingsForUserAsync(string id) => await _context.Settings.FirstOrDefaultAsync(s => s.User.Id == id) ?? new();
+
+    public async Task UpdateUserSettingsAsync(UserSettings settings)
+    {
+        _context.Settings.Update(settings);
+        await _context.SaveChangesAsync();
+    }
 }

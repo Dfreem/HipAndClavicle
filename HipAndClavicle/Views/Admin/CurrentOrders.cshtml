@@ -15,7 +15,7 @@
                 <div class="list-group" id="order-scroller">
                     @foreach (Order order in Model.CurrentOrders)
                     {
-                        @Html.DisplayFor(_ => order)
+                        @Html.DisplayFor(_ => order, new ViewDataDictionary(ViewData){ {"settings", Model.Settings}})
                     }
 
                 </div>

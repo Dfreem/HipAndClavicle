@@ -1,5 +1,6 @@
 ﻿namespace HipAndClavicle.Controllers;
 
+// Restrict Access of Controller and Views to only users with the "Admin" role
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
@@ -18,19 +19,26 @@ public class AdminController : Controller
         _toast = services.GetRequiredService<INotyfService>();
 
     }
-
+    
     public async Task<IActionResult> CurrentOrders()
     {
         // since the entire class is restricted to Admin Only,
         // no need to check for admin role in the controller methods.
         var admin = await _userManager.FindByNameAsync(User.Identity!.Name!);
-        MerchantVM mvm = new() { Admin = admin!};
+        var adminSettings = await _adminRepo.GetSettingsForUserAsync(admin!.Id);
+        if (adminSettings is default(UserSettings))
+        {
+            adminSettings!.User = admin;
+            await _adminRepo.UpdateUserSettingsAsync(adminSettings);
+        }
+        MerchantVM mvm = new() 
+        { 
+            Admin = admin!,
+            Settings = adminSettings!
+        };
         mvm.CurrentOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Paid | OrderStatus.ReadyToShip | OrderStatus.Late);
-        //var lates = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Late);
-        //var shipped = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Shipped);
 
-        //if (lates is not null) mvm.CurrentOrders.AddRange(lates);
-        //if (shipped is not null) mvm.CurrentOrders.AddRange(shipped);
+
         return View(mvm);
     }
 

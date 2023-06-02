@@ -6,9 +6,9 @@ namespace HipAndClavicle.Repositories;
 public static class SeedData
 {
 
-
     public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
     {
+        List<UserSettings> allAdminSettings;
         UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
         if (await context.NamedColors.AnyAsync())
         { return; }

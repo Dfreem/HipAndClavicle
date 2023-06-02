@@ -74,22 +74,21 @@ font-family: 'Manrope', sans-serif;
     min-height: 100%;
     margin-bottom: 0em;
     padding-inline: 2em;
-    /*    background-color: #83c5be33;
-    outline: 1px solid #007507;*/
+    display: flex;
+    /*outline: 1px solid #007507;*/
     /*border-radius: 10px;*/
 }
 
-
 .body {
-/*    position: relative;*/
+    /*    position: relative;*/
     min-height: 70vh;
     max-height: 70vh;
     display: flex;
     padding-top: 1em;
-/*    margin-bottom: 1em;*/
-/*    border-top: 2px solid #33a9aa;
+    /*    margin-bottom: 1em;*/
+    /*    border-top: 2px solid #33a9aa;
     border-bottom: 2px solid #33a9aa;*/
-/*    box-sizing: content-box;*/
+    /*    box-sizing: content-box;*/
 }
 
 .scroll-hide {
@@ -100,14 +99,14 @@ font-family: 'Manrope', sans-serif;
     position: relative;
     overflow: hidden;
     padding-block: 0;
-    border-top: 2px solid #33a9aa;
-    border-bottom: 2px solid #33a9aa;
     margin-block: 0;
 }
 
 .scroll {
-/*    background-color: red;*/
-/*    position: relative;*/
+    /*    background-color: red;*/
+    /*    position: relative;*/
+    border-top: 3px solid #33a9aa;
+    border-bottom: 3px solid #33a9aa;
     max-width: 35em;
     min-width: 35em;
     min-height: 35em;

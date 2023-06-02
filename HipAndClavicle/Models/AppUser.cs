@@ -14,6 +14,5 @@ public class AppUser : IdentityUser
     public int? ShippingAddressId { get; set; }
     public ShippingAddress? Address { get; set; }
     public bool IsDeleted { get; set; }
-
 }
 
