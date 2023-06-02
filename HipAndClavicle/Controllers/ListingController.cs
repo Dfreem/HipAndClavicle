@@ -57,7 +57,8 @@ namespace HipAndClavicle.Controllers
                 ListingDescription = addListingVM.Description,
                 Colors = colorsToAdd,
                 ListingProduct = productToAssoc,
-                SingleImage = addListingVM.SingleImage
+                SingleImage = addListingVM.SingleImage,
+                Price = addListingVM.Price,
 
             };
             await _context.Listings.AddAsync(addListingVM.NewListing);
