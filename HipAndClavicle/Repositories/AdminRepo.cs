@@ -1,4 +1,6 @@
 
+using System.Linq;
+
 namespace HipAndClavicle.Repositories;
 
 public class AdminRepo : IAdminRepo
@@ -31,6 +33,7 @@ public class AdminRepo : IAdminRepo
             .ThenInclude(i => i.ItemColors)
             .Include(o => o.Items)
             .ThenInclude(i => i.Item.ProductImage)
+            //.Aggregate<Order>(OrderStatus,  => model.Status == status)
             .Where(o => o.Status.Equals(status))
             .ToListAsync();
         return orders;

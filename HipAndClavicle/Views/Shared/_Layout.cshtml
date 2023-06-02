@@ -60,8 +60,8 @@
                         </li>
 
                         @*<li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>*@
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>*@
                     </ul>
                     <div class="logo-login">
                         <a asp-controller="Home" asp-action="Index">
@@ -72,12 +72,12 @@
             </div>
         </nav>
 
-    </header>
-
-    <div class="container">
         <div class="login-partial mx-auto">
             @await Html.PartialAsync("_LoginPartial.cshtml")
         </div>
+    </header>
+
+    <div class="container">
         <main role="main" class="px-1 py-5 my-5">
             @RenderBody()
 

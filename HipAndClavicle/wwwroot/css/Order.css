@@ -35,7 +35,7 @@ font-family: 'Manrope', sans-serif;
     min-width: 25em;
     max-height: 40vh;
     outline: 2px solid teal;
-    box-shadow: -2px -2px 16px 2px #dad7cd inset, -4px -4px 10px 5px #344e41aa;
+    box-shadow: -2px -2px 16px 2px #dad7cd inset, -4px -4px 15px 6px #344e41aa;
 }
 
     .order-wrapper:nth-child(n) {
@@ -70,7 +70,8 @@ font-family: 'Manrope', sans-serif;
 .current-orders {
     max-width: 30em;
     min-width: 30em;
-    max-height: 40em;
+    max-height: 100%;
+    min-height: 100%;
     margin-bottom: 0em;
     padding-inline: 2em;
     /*    background-color: #83c5be33;
@@ -78,34 +79,39 @@ font-family: 'Manrope', sans-serif;
     /*border-radius: 10px;*/
 }
 
+
 .body {
 /*    position: relative;*/
-    min-height: 60vh;
-    max-height: 60vh;
+    min-height: 70vh;
+    max-height: 70vh;
     display: flex;
     padding-top: 1em;
-    border-top: 2px solid #33a9aa;
-    border-bottom: 2px solid #33a9aa;
-    margin-bottom: 1em;
-    box-sizing: content-box;
+/*    margin-bottom: 1em;*/
+/*    border-top: 2px solid #33a9aa;
+    border-bottom: 2px solid #33a9aa;*/
+/*    box-sizing: content-box;*/
 }
 
 .scroll-hide {
     max-width: 30em;
     min-width: 30em;
-    min-height: 35em;
-    max-height: 35em;
+    min-height: 100%;
+    max-height: 100%;
     position: relative;
+    overflow: hidden;
+    padding-block: 0;
+    border-top: 2px solid #33a9aa;
+    border-bottom: 2px solid #33a9aa;
+    margin-block: 0;
 }
 
 .scroll {
 /*    background-color: red;*/
-    overflow: hidden;
 /*    position: relative;*/
     max-width: 35em;
     min-width: 35em;
-    min-height: 65vh;
+    min-height: 35em;
     position: absolute;
-    max-height: 65vh;
+    max-height: 35em;
     overflow-y: scroll;
 }

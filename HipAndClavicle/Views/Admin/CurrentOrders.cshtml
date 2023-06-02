@@ -12,17 +12,18 @@
     <div class="scroll-hide">
         <div class="scroll">
             <div class="current-orders">
-                @foreach (Order order in Model.CurrentOrders)
-                {
-                    @Html.DisplayFor(_ => order)
-                }
+                <div class="list-group" id="order-scroller">
+                    @foreach (Order order in Model.CurrentOrders)
+                    {
+                        @Html.DisplayFor(_ => order)
+                    }
+
+                </div>
 
             </div>
 
         </div>
-
     </div>
-
 
     @* -- shipped orders --*@
 

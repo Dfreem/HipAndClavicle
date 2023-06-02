@@ -16,21 +16,31 @@
 <div class="order-wrapper">
     <div class="order-header">
 
-        <ul class="list-inline">
-            <li class="list-inline-item">
-                &nbsp;<i class="bi bi-person mx-1"></i>
-                &nbsp;<i class="bi bi-chevron-double-right"></i>
-                &nbsp;@Model.Purchaser.FName[0]. @Model.Purchaser.LName
-                &nbsp;<i class="bi bi-calendar-day mx-1 ml-4"></i>
-                &nbsp;<i class="bi bi-chevron-double-right"></i>
-                &nbsp; @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
+        <ul class="list-group">
+            <li class="list-inline-item mb-1">
+                <i class="bi bi-person mx-1 me-3"></i>
+                @*<i class="bi bi-chevron-double-right"></i>*@
+                @Model.Purchaser.FName[0]. @Model.Purchaser.LName
+                <i class="bi bi-calendar-plus-fill mx-1 ms-4 text-success"></i>
+                @*<i class="bi bi-chevron-double-right"></i>*@
+                @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
 
                 <a href="" class="contact-link bi bi-chat-heart-fill" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
 
                 </a>
             </li>
+            <li class="list-inline-item mb-1">
+                <i class="bi bi-postcard-fill mx-1 me-3">
+                </i>
+                @Model.Address.CityTown, &nbsp; @Model.Address.StateAbr
+                <i class="bi bi-calendar-check-fill mx-1 ms-5 text-warning"></i>
+            </li>
         </ul>
     </div>
+    <ul class="list-inline list-group list-group-horizontal">
+        <li class="text-secondary list-inline-item">Items</li>
+        <li class="text-secondary list-inline-item position-absolute start-50 translate-middle-x">qty</li>
+    </ul>
     @foreach (OrderItem item in Model.Items)
     {
         <ul class="list-group list-group-horizontal d-block-flex">

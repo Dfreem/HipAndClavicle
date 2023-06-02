@@ -25,8 +25,6 @@ public class AdminController : Controller
         // no need to check for admin role in the controller methods.
         var admin = await _userManager.FindByNameAsync(User.Identity!.Name!);
         MerchantVM mvm = new() { Admin = admin!};
-
-        // TODO turn these enums into binary options in order to select multpile
         mvm.CurrentOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Paid);
         //var lates = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Late);
         //var shipped = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Shipped);
