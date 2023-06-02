@@ -153,7 +153,7 @@ namespace HipAndClavicle.Controllers
                 SetShoppingCartToCookie(simpleShoppingCart);
             }
             
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
                
         // Removes single item from cart

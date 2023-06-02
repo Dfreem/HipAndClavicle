@@ -11,18 +11,18 @@ namespace HIPNunitTests.Fakes
 {
     public class FakeShoppingCartRepo : IShoppingCartRepo
     {
-        private List<ShoppingCartItem> _shoppingCartItems;
-        private List<ShoppingCart> _shoppingCarts;
+        private List<ShoppingCartItem> shoppingCartItems;
+        private List<ShoppingCart> shoppingCarts;
 
         public FakeShoppingCartRepo()
         {
-            _shoppingCartItems = new List<ShoppingCartItem>();
-            _shoppingCarts = new List<ShoppingCart>();
+            shoppingCartItems = new List<ShoppingCartItem>();
+            shoppingCarts = new List<ShoppingCart>();
         }
 
         public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
         {
-            var shoppingCart = _shoppingCarts.FirstOrDefault(sc => sc.CartId == cartId);
+            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.CartId == cartId);
 
             if (shoppingCart == null)
             {
@@ -35,7 +35,7 @@ namespace HIPNunitTests.Fakes
                 };
 
                 // And add it to the list of shopping carts
-                _shoppingCarts.Add(shoppingCart);
+                shoppingCarts.Add(shoppingCart);
             }
 
             return await Task.FromResult(shoppingCart);
@@ -52,38 +52,53 @@ namespace HIPNunitTests.Fakes
 
         public Task<ShoppingCartItem> GetCartItem(int id)
         {
-            var item = _shoppingCartItems.FirstOrDefault(i => i.ShoppingCartItemId == id);
+            var item = shoppingCartItems.FirstOrDefault(i => i.ShoppingCartItemId == id);
             return Task.FromResult(item);
         }
 
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
         {
-            _shoppingCarts.FirstOrDefault(sc => sc.Id == item.ShoppingCartId)
-                .ShoppingCartItems.Add(item);
+            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.Id == item.ShoppingCartId);
+            if (shoppingCart != null)
+            {
+                item.ShoppingCartItemId = shoppingCartItems.Count + 1;  // Set ShoppingCartItemId
+
+                shoppingCartItems.Add(item); // Adding the item to shoppingCartItems list
+                shoppingCart.ShoppingCartItems.Add(item); // Adding the item to ShoppingCart's Items
+            }
+
             await Task.CompletedTask;
         }
 
         public async Task UpdateItemAsync(ShoppingCartItem item)
         {
-            // Implement the fake logic for UpdateItemAsync if needed
+            // Find the item that needs to be updated
+            var itemToUpdate = shoppingCartItems.FirstOrDefault(i => i.ShoppingCartItemId == item.ShoppingCartItemId);
+
+            if (itemToUpdate != null)
+            {
+                // Update the item
+                itemToUpdate.Quantity = item.Quantity;
+                itemToUpdate.ListingItem = item.ListingItem;
+            }
             await Task.CompletedTask;
         }
 
         public async Task RemoveItemAsync(ShoppingCartItem item)
         {
-            _shoppingCartItems.Remove(item);
+            shoppingCartItems.Remove(item);
             await Task.CompletedTask;
         }
 
         public async Task ClearShoppingCartAsync(string cartId, string ownerId)
         {
-            _shoppingCartItems.Clear();
+            shoppingCartItems.Clear();
             await Task.CompletedTask;
         }
 
         public ShoppingCart GetCartByUser(string ownerId)
         {
-            return _shoppingCarts.FirstOrDefault(sc => sc.Owner.Id == ownerId);
+            return shoppingCarts.FirstOrDefault(sc => sc.Owner.Id == ownerId);
         }
     }
 }

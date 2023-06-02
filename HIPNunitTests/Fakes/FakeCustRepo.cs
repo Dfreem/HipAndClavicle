@@ -111,15 +111,16 @@ namespace HIPNunitTests.Fakes
             }
         }
 
-        Task ICustRepo.AddColorFamilyAsync(ColorFamily colorFamily)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task AddListingAsync(Listing listing)
         {
             _listings.Add(listing);
             await Task.CompletedTask;
+        }
+
+        // Methods not implemented for tests currently
+        Task ICustRepo.AddColorFamilyAsync(ColorFamily colorFamily)
+        {
+            throw new NotImplementedException();
         }
 
         Task ICustRepo.AddListingImageAsync(Image image)
@@ -143,6 +144,11 @@ namespace HIPNunitTests.Fakes
         }
 
         Task<bool> ICustRepo.UserPurchasedProduct(int productId, AppUser currentUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ShoppingCart> ICustRepo.GetCartByCustId(string custId)
         {
             throw new NotImplementedException();
         }
