@@ -25,7 +25,7 @@ public class AdminController : Controller
         // no need to check for admin role in the controller methods.
         var admin = await _userManager.FindByNameAsync(User.Identity!.Name!);
         MerchantVM mvm = new() { Admin = admin!};
-        mvm.CurrentOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Paid);
+        mvm.CurrentOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Paid | OrderStatus.ReadyToShip | OrderStatus.Late);
         //var lates = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Late);
         //var shipped = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Shipped);
 

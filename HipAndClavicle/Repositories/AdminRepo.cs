@@ -34,7 +34,7 @@ public class AdminRepo : IAdminRepo
             .Include(o => o.Items)
             .ThenInclude(i => i.Item.ProductImage)
             //.Aggregate<Order>(OrderStatus,  => model.Status == status)
-            .Where(o => o.Status.Equals(status))
+            .Where(o => (o.Status & status) != 0)
             .ToListAsync();
         return orders;
     }
