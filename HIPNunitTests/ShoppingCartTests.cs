@@ -27,28 +27,29 @@ namespace HIPNunitTests
         [SetUp]
         public void SetUp()
         {
+            // Creates an instance of ServiceCollection to register services for Dependency Injection
             var serviceCollection = new ServiceCollection();
 
-            // Create a mock user store
+            // Creates a mock user store
             var userStoreMock = new Mock<IUserStore<AppUser>>();
 
-            // Create a new instance of UserManager with the mock user store
+            // Creates a new instance of UserManager with the mock user store
             var userManager = new UserManager<AppUser>(userStoreMock.Object, null, null, null, null, null, null, null, null);
 
-            // Add your fake repositories to the service collection
+            // Adds fake repositories to the service collection
             serviceCollection.AddScoped<IShoppingCartRepo, FakeShoppingCartRepo>();
             serviceCollection.AddScoped<ICustRepo, FakeCustRepo>();
 
-            // Add IHttpContextAccessor to the service collection
+            // Adds IHttpContextAccessor to the service collection
             serviceCollection.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
 
-            // Add UserManager to the service collection
+            // Adds UserManager to the service collection
             serviceCollection.AddSingleton<UserManager<AppUser>>(userManager);
 
-            // Build the service provider
+            // Builds the service provider
             serviceProvider = serviceCollection.BuildServiceProvider();
 
-            // Get the fake shopping cart repository
+            // Gets the fake shopping cart repository
             fakeShoppingCartRepo = serviceProvider.GetService<IShoppingCartRepo>() as FakeShoppingCartRepo;
             fakeCustRepo = serviceProvider.GetService<ICustRepo>() as FakeCustRepo;
         }
@@ -63,17 +64,21 @@ namespace HIPNunitTests
             var testListing = await fakeCustRepo.GetListingByIdAsync(testListingId);
 
             string userId = "test user";
+            // Creates a ClaimsPrincipal with the test user's Id. This will be used to mock the authenticated user in the HttpContext.
             var fakeClaimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userId)
             }, "TestAuthenticationType"));
 
+            // Mocks the HttpContext and set the User property to the fake ClaimsPrincipal
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(h => h.User).Returns(fakeClaimsPrincipal);
 
+            // Mocks the HttpContextAccessor to return the mocked HttpContext
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(hca => hca.HttpContext).Returns(httpContextMock.Object);
 
+            // Instantiate the ShoppingCartController, passing in our mocked dependencies
             shoppingCartController = new ShoppingCartController(
                 serviceProvider.GetRequiredService<IShoppingCartRepo>(),
                 serviceProvider.GetRequiredService<ICustRepo>(),
@@ -103,20 +108,20 @@ namespace HIPNunitTests
             int testListingId = 1;
             int testQuantity = 2;
 
-            var testListing = await fakeCustRepo.GetListingByIdAsync(testListingId);
-
+            // Sets up a mock HttpContext that simulates the state of an unauthenticated user
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(h => h.User).Returns<ClaimsPrincipal>(null);
 
-            // Mock the HttpContext.Request property and cookies collection
+            // Mocks the HttpContext.Request property and cookies collection
             var httpRequestMock = new Mock<HttpRequest>();
             httpRequestMock.Setup(r => r.Cookies).Returns(Mock.Of<IRequestCookieCollection>());
 
-            // Mock Response and Cookies
+            // Mocks the HttpResponse object and the Cookies collection
             var httpResponseMock = new Mock<HttpResponse>();
             var mockResponseCookies = new Mock<IResponseCookies>();
             httpResponseMock.Setup(r => r.Cookies).Returns(mockResponseCookies.Object);
 
+            // Prepares to capture the value of the cookie that will be added in the response
             string cookieValue = null;
             mockResponseCookies.Setup(c => c.Append(
                 It.IsAny<string>(),
@@ -124,13 +129,16 @@ namespace HIPNunitTests
                 It.IsAny<CookieOptions>()
             )).Callback<string, string, CookieOptions>((name, value, options) => cookieValue = value);
 
+            // Assigns the mocked Request and Response objects to the mocked HttpContext
             httpContextMock.Setup(h => h.Request).Returns(httpRequestMock.Object);
             httpContextMock.Setup(h => h.Response).Returns(httpResponseMock.Object);
             httpContextMock.Setup(h => h.User).Returns(new ClaimsPrincipal());
 
+            // Mocks the HttpContextAccessor to return the mocked HttpContext
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(hca => hca.HttpContext).Returns(httpContextMock.Object);
 
+            // Initializes a ShoppingCartController with the necessary services and mocked HttpContextAccessor
             shoppingCartController = new ShoppingCartController(
                 serviceProvider.GetRequiredService<IShoppingCartRepo>(),
                 serviceProvider.GetRequiredService<ICustRepo>(),
@@ -139,11 +147,11 @@ namespace HIPNunitTests
             // Act
             var result = await shoppingCartController.AddToCart(testListingId, testQuantity);
 
-            // Retrieve the shopping cart from the cookie.
+            // Retrieves the shopping cart from the cookie.
             var shoppingCart = JsonConvert.DeserializeObject<SimpleShoppingCart>(cookieValue);
 
             // Asserts
-            // Check if the deserialized shopping cart contains the item that was added
+            // Checks if the deserialized shopping cart contains the item that was added
             Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingId == testListingId && item.Qty == testQuantity));
 
             // Verify if the method results in a redirection
@@ -161,15 +169,14 @@ namespace HIPNunitTests
             int testQuantity = 2;
             int updatedQuantity = 3;
 
-            var testListing = await fakeCustRepo.GetListingByIdAsync(testListingId);
-
+            // Sets up a mock HttpContext that simulates the state of an unauthenticated user
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(h => h.User).Returns<ClaimsPrincipal>(null);
 
-            // Define a dictionary to act as cookie store
+            // Defines a dictionary to act as cookie store
             Dictionary<string, string> mockCookies = new Dictionary<string, string>();
 
-            // Prepare shopping cart with test item
+            // Prepares shopping cart with test item
             var initialShoppingCart = new SimpleShoppingCart
             {
                 Items = new List<SimpleCartItem>
@@ -179,37 +186,40 @@ namespace HIPNunitTests
             };
             mockCookies["Cart"] = JsonConvert.SerializeObject(initialShoppingCart);
 
-            // Mock the HttpContext.Request property and cookies collection
+            // Mocks the HttpContext.Request property and cookies collection
             var httpRequestMock = new Mock<HttpRequest>();
             httpRequestMock.Setup(r => r.Cookies[It.IsAny<string>()]).Returns((string key) => mockCookies.ContainsKey(key) ? mockCookies[key] : null);
 
-            // Mock Response and Cookies
+            // Mocks Response and Cookies
             var httpResponseMock = new Mock<HttpResponse>();
             var mockResponseCookies = new Mock<IResponseCookies>();
             httpResponseMock.Setup(r => r.Cookies).Returns(mockResponseCookies.Object);
 
-            // Set up HttpResponse mock to interact with this cookie store
+            // Sets up HttpResponse mock to interact with this cookie store
             mockResponseCookies.Setup(c => c.Append(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CookieOptions>()))
                 .Callback<string, string, CookieOptions>((name, value, options) => mockCookies[name] = value);
 
+            // Assigns the mocked Request and Response objects to the mocked HttpContext
             httpContextMock.Setup(h => h.Request).Returns(httpRequestMock.Object);
             httpContextMock.Setup(h => h.Response).Returns(httpResponseMock.Object);
             httpContextMock.Setup(h => h.User).Returns(new ClaimsPrincipal());
 
-            // Set up an unauthenticated user
+            // Sets up an unauthenticated user
             var anonymousIdentity = new ClaimsIdentity();
             var anonymousPrincipal = new ClaimsPrincipal(anonymousIdentity);
             httpContextMock.Setup(h => h.User).Returns(anonymousPrincipal);
 
+            // Mocks the HttpContextAccessor to return the mocked HttpContext
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(hca => hca.HttpContext).Returns(httpContextMock.Object);
 
+            // Initializes a ShoppingCartController with the necessary services and mocked HttpContextAccessor
             shoppingCartController = new ShoppingCartController(
                 serviceProvider.GetRequiredService<IShoppingCartRepo>(),
                 serviceProvider.GetRequiredService<ICustRepo>(),
                 httpContextAccessorMock.Object);
 
-            // Set the ControllerContext
+            // Sets the ControllerContext
             shoppingCartController.ControllerContext = new ControllerContext
             {
                 HttpContext = httpContextMock.Object
@@ -219,11 +229,11 @@ namespace HIPNunitTests
             await shoppingCartController.AddToCart(testListingId, testQuantity);
             var updateResult = await shoppingCartController.UpdateCart(testListingId, updatedQuantity);
 
-            // Retrieve the shopping cart from the cookie.
+            // Retrieves the shopping cart from the cookie.
             var shoppingCart = JsonConvert.DeserializeObject<SimpleShoppingCart>(mockCookies["Cart"]);
 
             // Asserts
-            // Check if the deserialized shopping cart contains the item that was updated
+            // Checks if the deserialized shopping cart contains the item that was updated
             Assert.IsTrue(shoppingCart.Items.Any(item => item.Id == testListingId && item.Qty == updatedQuantity));
 
             // Verify if the method results in a redirection
@@ -241,9 +251,8 @@ namespace HIPNunitTests
             int testQuantity = 2;
             int updatedQuantity = 3;
 
-            var testListing = await fakeCustRepo.GetListingByIdAsync(itemId);
-
             string userId = "test user";
+            // Mocks an HttpContext object
             var httpContextMock = new Mock<HttpContext>();
 
             // Set up an authenticated user
@@ -252,14 +261,18 @@ namespace HIPNunitTests
                 new Claim(ClaimTypes.NameIdentifier, userId),
             };
 
+            // Creates a ClaimsIdentity object from the user claims
             var userIdentity = new ClaimsIdentity(userClaims, "TestAuthenticationType");
+            // Creates a ClaimsPrincipal object from the ClaimsIdentity object
             var userPrincipal = new ClaimsPrincipal(userIdentity);
-
+            // Assigns the ClaimsPrincipal to the User property of the HttpContext
             httpContextMock.Setup(h => h.User).Returns(userPrincipal);
 
+            // Mocks the IHttpContextAccessor to return the mocked HttpContext
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(hca => hca.HttpContext).Returns(httpContextMock.Object);
 
+            // Initializes a ShoppingCartController with the necessary services and mocked HttpContextAccessor
             shoppingCartController = new ShoppingCartController(
             serviceProvider.GetRequiredService<IShoppingCartRepo>(),
             serviceProvider.GetRequiredService<ICustRepo>(),
@@ -296,8 +309,6 @@ namespace HIPNunitTests
             int testQuantity = 2;
             int itemId2 = 2;
             int testQuantity2 = 4;
-
-            var testListing = await fakeCustRepo.GetListingByIdAsync(itemId);
 
             string userId = "test user";
             var httpContextMock = new Mock<HttpContext>();
@@ -361,8 +372,6 @@ namespace HIPNunitTests
             int testQuantity = 2;
             int itemId2 = 2;
             int testQuantity2 = 4;
-
-            var testListing = await fakeCustRepo.GetListingByIdAsync(itemId);
 
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(h => h.User).Returns<ClaimsPrincipal>(null);
