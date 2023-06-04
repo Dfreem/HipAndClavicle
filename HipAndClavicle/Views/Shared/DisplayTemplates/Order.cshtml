@@ -5,7 +5,7 @@
     {
         totalPrice += (item.PricePerUnit * item.AmountOrdered);
     }
-    string uid = Model.Purchaser.Id;
+
 
     // set the color of the status icon.
     string statusColor;
@@ -18,44 +18,99 @@
     UserSettings settings = (UserSettings)ViewData["settings"]!;
 }
 <div class="order-wrapper">
-    <div class="order-header">
+    <table class="table table-sm order-header gap-0 table-borderless my-0">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="h5">
+                        @Model.Purchaser.FName[0]. @Model.Purchaser.LName
+                    </div>
+                    <div>
+                        @Model.Address.AddressLine1 <br />
+                        @Model.Address.CityTown, &nbsp; @Model.Address.StateAbr
 
-        <ul class="list-group">
-            <li class="list-inline-item mb-1">
-                <a asp-action="" class="bi bi-person" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
-                </a>
-                &nbsp;@Model.Purchaser.FName[0]. @Model.Purchaser.LName
-                <i class="bi bi-postcard-fill mx-1 me-3">
-                </i>
-                @Model.Address.CityTown, &nbsp; @Model.Address.StateAbr
-         
-                &nbsp;
-                <i class="bi bi-chat-heart-fill btn btn-link contact-link"></i>
+                    </div>
 
-            </li>
-            <li class="list-inline-item mb-1 d-inline-flex">
-                &nbsp;<i class="bi bi-calendar-plus-fill text-success"></i>
-                &nbsp;@Model.DateOrdered.ToLongDateString().Split(",")[1]
-                &nbsp;<i class="bi bi-calendar-check-fill mx-1 text-warning"></i>
-                &nbsp;@Model.DateOrdered.AddDays(settings.DaysTillShipmentIsLate).ToLongDateString().Split(",")[1]
-            </li>
-        </ul>
-    </div>
-    <ul class="list-inline list-group list-group-horizontal">
-        <li class="text-secondary list-inline-item">Items</li>
-        <li class="text-secondary list-inline-item position-absolute start-50 translate-middle-x">qty</li>
-    </ul>
-    @foreach (OrderItem item in Model.Items)
-    {
-        <ul class="list-group list-group-horizontal d-block-flex">
-            <li class="list-inline-item">@item.Item.Name</li>
+                </td>
+                <td class="truncate">
 
-            <li class="list-inline-item"> x @item.AmountOrdered</li>
-            @if (item.Item.ProductImage is not null)
+                    <i class="bi bi-calendar-plus-fill text-success"></i>
+                    @Model.DateOrdered.ToLongDateString().Split(",")[1]
+                    <br />
+                    <i class="bi bi-calendar-check-fill text-warning"></i>
+                    @Model.DateOrdered.AddDays(settings.DaysTillShipmentIsLate).ToLongDateString().Split(",")[1]
+                    <br />
+                    <span class="@statusColor">
+                        @Model.Status
+                    </span>
+                </td>
+                <td>
+                    <div class="order-buttons list-group">
+                        <a asp-action="" class="bi bi-chat-heart-fill btn btn-link contact-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
+                        </a>
+
+                        <a class="btn btn-link list-group-item-action list-group-item-success">
+
+                            <i class="bi bi-box2-heart-fill"></i>
+                        </a>
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table my-0">
+        <thead>
+            <tr>
+                <td>
+                    <div class="text-secondary list-inline-item">Items</div>
+                </td>
+                <td>
+                    color
+                </td>
+                <td>
+                    <div class="text-secondary list-inline-item">qty</div>
+                </td>
+                <td>
+                    <div class="text-secondary">price</div>
+                </td>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            @foreach (OrderItem item in Model.Items)
             {
-                <li class="list-inline-item ms-auto mx-2 p-1"><img class="img-thumbnail" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image"></li>
+                <tr>
+                    <td class="d-inline-flex flex-row flex-shrink-1">
+                        <div>
+                            @item.Item.Name
+                        </div>
+                        <div>
+                            @if (item.Item.ProductImage is not null)
+                            {
+                                <div class="list-inline-item p-1"><img class="img-thumbnail" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image"></div>
+                            }
+
+                        </div>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <div class="list-inline-item start-50 translate-middle-x position-absolute">@item.AmountOrdered</div>
+                    </td>
+                    <td>@item.PricePerUnit</td>
+                </tr>
             }
-        </ul>
-    }
+        </tbody>
+        <tfoot>
+            <tr class="table-group-divider">
+                <td colspan="2" class="text-left">Total</td>
+                <td colspan="2" class="text-right">@totalPrice</td>
+            </tr>
+
+        </tfoot>
+    </table>
 
 </div>
