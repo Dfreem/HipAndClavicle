@@ -1,9 +1,9 @@
 ﻿@model Order
 @{
-    double totalPrice = 0;
+    double totalPrice = 0D;
     foreach (var item in Model.Items)
     {
-        totalPrice += (item.PricePerUnit * item.AmountOrdered);
+        totalPrice += item.PricePerUnit * item.AmountOrdered;
     }
 
 
@@ -18,7 +18,7 @@
     UserSettings settings = (UserSettings)ViewData["settings"]!;
 }
 <div class="order-wrapper">
-    <table class="table table-sm order-header gap-0 table-borderless my-0">
+    <table class="table table-sm order-header gap-0 table-borderless my-1">
         <tbody>
             <tr>
                 <td>
@@ -45,12 +45,12 @@
                     </span>
                 </td>
                 <td>
-                   
+
                     <div class="order-buttons list-group">
                         <a asp-action="" class="bi bi-chat-heart-fill btn btn-link contact-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
                         </a>
 
-                        <a class="btn btn-link list-group-item-action list-group-item-success">
+                        <a asp-action="Ship" asp-controller="Ship" asp-route-orderId="@Model.OrderId" class="btn btn-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="Ship Order">
 
                             <i class="bi bi-box2-heart-fill"></i>
                         </a>
@@ -68,13 +68,16 @@
                     <div class="text-secondary list-inline-item">Items</div>
                 </td>
                 <td>
-                    color
+                    &emsp;
+                </td>
+                <td>
+                    <div class="text-secondary list-inline-item">colors</div>
                 </td>
                 <td>
                     <div class="text-secondary list-inline-item">qty</div>
                 </td>
                 <td>
-                    <div class="text-secondary">price</div>
+                    <div class="text-secondary list-inline-item">price</div>
                 </td>
             </tr>
 
@@ -88,34 +91,39 @@
                         <div>
                             @item.Item.Name
                         </div>
+
+                    </td>
+                    <td>
                         <div>
                             @if (item.Item.ProductImage is not null)
                             {
-                                <div class="list-inline-item p-1"><img class="img-thumbnail" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image"></div>
+                                <div class="list-inline-item p-1">
+                                    <img class="img-thumbnail mx-auto" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image">
+                                </div>
                             }
 
                         </div>
                     </td>
                     <td>
-                        <ul class="color-viewer" id="color-list-ModelProduct">
+                        <ul class="list-group">
                             @foreach (Color color in item.ItemColors)
                             {
-                                <li class="color-splotch" style="background-color:@color.HexValue;">
+                                <li class="list-group-item my-1" style="background-color:@color.HexValue; max-width: 40px;">
                                 </li>
                             }
                         </ul>
                     </td>
                     <td>
-                        <div class="list-inline-item start-50 translate-middle-x position-absolute">@item.AmountOrdered</div>
+                        <div class="list-inline-item">@item.AmountOrdered</div>
                     </td>
-                    <td>@item.PricePerUnit</td>
+                    <td>@item.PricePerUnit.ToString("C")</td>
                 </tr>
             }
         </tbody>
         <tfoot>
             <tr class="table-group-divider">
-                <td colspan="2" class="text-left">Total</td>
-                <td colspan="2" class="text-right">@totalPrice</td>
+                <td colspan="4" class="text-right">Total</td>
+                <td colspan="1" class="font-weight-bold">@totalPrice.ToString("C")</td>
             </tr>
 
         </tfoot>

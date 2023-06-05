@@ -37,7 +37,7 @@ public class AdminController : Controller
             Settings = adminSettings!
         };
         mvm.CurrentOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Paid | OrderStatus.ReadyToShip | OrderStatus.Late);
-
+        mvm.ShippedOrders = await _adminRepo.GetAdminOrdersAsync(OrderStatus.Shipped);
 
         return View(mvm);
     }
