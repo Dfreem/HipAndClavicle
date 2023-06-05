@@ -2,7 +2,7 @@
 
 public class UserMessage
 {
-    public int UserMessageId { get; set; }
+    public int Id { get; set; }
 
     //[4-23-23]Commented out the 'Required' attirbute to remedy adding message to db issue.
     //[Required]
