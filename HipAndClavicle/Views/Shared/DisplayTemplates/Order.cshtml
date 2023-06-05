@@ -45,6 +45,7 @@
                     </span>
                 </td>
                 <td>
+                   
                     <div class="order-buttons list-group">
                         <a asp-action="" class="bi bi-chat-heart-fill btn btn-link contact-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
                         </a>
@@ -96,6 +97,13 @@
                         </div>
                     </td>
                     <td>
+                        <ul class="color-viewer" id="color-list-ModelProduct">
+                            @foreach (Color color in item.ItemColors)
+                            {
+                                <li class="color-splotch" style="background-color:@color.HexValue;">
+                                </li>
+                            }
+                        </ul>
                     </td>
                     <td>
                         <div class="list-inline-item start-50 translate-middle-x position-absolute">@item.AmountOrdered</div>
