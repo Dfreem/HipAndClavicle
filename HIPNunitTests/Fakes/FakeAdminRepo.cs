@@ -57,5 +57,20 @@ namespace HIPNunitTests.Fakes
 
             return new List<Order> { order1, order2 };
         }
+
+        public Task<List<Order>> GetAdminOrdersAsync(OrderStatus status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserSettings> GetSettingsForUserAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateUserSettingsAsync(UserSettings settings)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
