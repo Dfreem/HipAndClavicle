@@ -116,7 +116,7 @@ namespace HipAndClavicle.Controllers
 
                    .Select(m => new MessageViewModel
                    {
-                       Id = m.UserMessageId,
+                       Id = m.Id,
                        Sender = m.SenderUserName,
                        Receiver = m.ReceiverUserName,
                        Content = m.Content,
@@ -133,7 +133,7 @@ namespace HipAndClavicle.Controllers
             var messages = _context.UserMessages
                 .Select(m => new MessageViewModel
                 {
-                    Id = m.UserMessageId,
+                    Id = m.Id,
                     Sender = m.SenderUserName,
                     Receiver = m.ReceiverUserName,
                     Email = m.Email,
