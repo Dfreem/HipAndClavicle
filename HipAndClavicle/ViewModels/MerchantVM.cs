@@ -14,4 +14,5 @@ public class MerchantVM
     public List<ColorFamily> Families { get; set; } = new();
     public List<Color> ProductColors { get; set; } = new();
     public Image? ProductImage { get; set; } = default!;
+    public UserSettings Settings { get; set; } = default!;
 }

@@ -24,6 +24,8 @@ html {
     }
 }
 
+}
+
 .user-class {
     background-color: lightblue;
 }
@@ -43,13 +45,8 @@ a:any-link.nav-link:hover {
 }
 
 body {
-    min-height: 100vh;
-    margin-bottom: 60px;
-    padding-block: 10px;
-}
-
-.body {
-    padding-block-end: 5em;
+    position: relative;
+    min-height: 100%;
 }
 
 
@@ -61,7 +58,7 @@ body {
 }
 
 .login-partial {
-    margin-block: .5em;
+    /*    margin-block: .5em;*/
     max-width: fit-content;
     font-family: 'Indie Flower', cursive;
     font-size: 1.5em;
@@ -87,7 +84,6 @@ body {
     .login-partial button {
         color: mediumturquoise;
     }
-
 
 
 footer ul a {
@@ -158,7 +154,7 @@ footer ul a {
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     height: 60px;
     width: 100%;

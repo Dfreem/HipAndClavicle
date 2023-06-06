@@ -1,211 +1,132 @@
 ﻿@model Order
 @{
-    // TODO add shipping time to settings.
-    // TODO come back and look at printing invoices
-    // TODO calculate total when order is created
-
-
-    double totalPrice = 0;
+    double totalPrice = 0D;
     foreach (var item in Model.Items)
     {
-        totalPrice += (item.PricePerUnit * item.AmountOrdered);
+        totalPrice += item.PricePerUnit * item.AmountOrdered;
     }
-    string uid = Model.Purchaser.Id;
+
+
+    // set the color of the status icon.
     string statusColor;
     statusColor =
         Model.Status == OrderStatus.Paid ? "text-primary" :
         Model.Status == OrderStatus.ReadyToShip ? "text-warning" :
         Model.Status == OrderStatus.Received ? "text-secondary" :
         Model.Status == OrderStatus.Shipped ? "text-success" : "";
+
+    UserSettings settings = (UserSettings)ViewData["settings"]!;
 }
-
-
-<tbody>
-    @foreach (OrderItem item in Model.Items)
-    {
-        <tr>
-            <th class="py-2">
-                <div class="text-center mx-auto">
-                    &nbsp;<i class="bi bi-person"></i>
-                    &nbsp;<i class="bi bi-chevron-double-right"></i>
-                    &nbsp;@Model.Purchaser.FName[0]. @Model.Purchaser.LName
-                    &nbsp;<i class="bi bi-calendar-day"></i>
-                    &nbsp;<i class="bi bi-chevron-double-right"></i>
-                    &nbsp; @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
-
-                </div>
-            </th>
-
-            <td>
-                <table class="table border border-left border-2 border-success-subtle my-0">
-                    <tbody>
-
-                        @foreach (OrderItem orderItem in Model.Items)
-                        {
-                            <tr class="table-group-divider">
-                                <td>
-                                    @orderItem.Item.Name
-                                </td>
-                                <td>
-                                    @if (orderItem.Item.ProductImage is not null)
-                                    {
-                                        <img class="img-thumbnail" width="60" src="data:image;base64,@Convert.ToBase64String(orderItem.Item.ProductImage.ImageData)" alt="Product Image">
-
-                                    }
-
-
-                                </td>
-                                <td class="text-center" style="width: 2em;">
-                                    @(orderItem.SetSize?.Size ?? 1)
-                                </td>
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    }
-
-</tbody>
-
-@*<div class="d-grid page-content">
-        <div class="row">
-            <div class="table d-table-cell col-sm-3">
-                <a data-bs-toggle="collapse" href="#@Model.Purchaser.FName" class="btn btn-order">
-                    <h4 class="btn-text text-start btn-text">
-                        @Model.Purchaser.FName[0].  @Model.Purchaser.LName
-                        <small>
-                            <i class="fa fa-angle-double-right text-80"></i>
-                            @Model.DateOrdered.DayOfWeek.ToString()[..3] @Model.DateOrdered.Day
-                        </small>
-                    </h4>
-                </a>
-
-            </div>
-        </div>
-
-
-
-        <!-- Maybe Later.
-            <div class="page-tools">
-                <div class="action-buttons">
-                    <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print">
-                        <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
-                        Print
-                    </a>
-                    <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
-                        <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
-                        Export
-                    </a>
-                </div>
-            </div>
-        </div>
-            -->
-        <!--TODO write javascript for copy to clipboard-->
-        <!--Shipping Address-->
-
-        <div class="collapse" id="@Model.Purchaser.FName">
-            <div class="row">
-
-
-                <div class="col-4 address-info">
-                    <div>
-                        <span class="text-600 text-110 align-middle">@Model.Purchaser.FName @Model.Purchaser.LName</span>
+<div class="order-wrapper">
+    <table class="table table-sm order-header gap-0 table-borderless my-1">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="h5">
+                        @Model.Purchaser.FName[0]. @Model.Purchaser.LName
                     </div>
-                    <div class="text-grey-m3">
-                        <div class="my-1">
-                            @Model.Address.AddressLine1
-                        </div>
-                        @if (Model.Address.AddressLine2 is not null)
-                        {
-                            <div class="my-1">
-                                @Model.Address.AddressLine2
-                            </div>
-                        }
-                        <div class="my-1">
-                            @Model.Address.CityTown, @Model.Address.StateAbr
-                        </div>
-                        @if (Model.Purchaser.PhoneNumber != null)
-                        {
-                            <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">@Model.Purchaser.PhoneNumber</b></div>
-                        }
-                        <a asp-action="Ship" asp-controller="Ship" asp-route-orderId="@Model.OrderId">
-                            <i class="bi bi-box2-heart  text-success"></i>
+                    <div>
+                        @Model.Address.AddressLine1 <br />
+                        @Model.Address.CityTown, &nbsp; @Model.Address.StateAbr
+
+                    </div>
+
+                </td>
+                <td class="truncate">
+
+                    <i class="bi bi-calendar-plus-fill text-success"></i>
+                    @Model.DateOrdered.ToLongDateString().Split(",")[1]
+                    <br />
+                    <i class="bi bi-calendar-check-fill text-warning"></i>
+                    @Model.DateOrdered.AddDays(settings.DaysTillShipmentIsLate).ToLongDateString().Split(",")[1]
+                    <br />
+                    <span class="@statusColor">
+                        @Model.Status
+                    </span>
+                </td>
+                <td>
+
+                    <div class="order-buttons list-group">
+                        <a asp-action="" class="bi bi-chat-heart-fill btn btn-link contact-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="contact @Model.Purchaser.FName @Model.Purchaser.LName">
+                        </a>
+
+                        <a asp-action="Ship" asp-controller="Ship" asp-route-orderId="@Model.OrderId" class="btn btn-link list-group-item-action list-group-item-success" data-bs-toggle="tooltip" data-bs-title="Ship Order">
+
+                            <i class="bi bi-box2-heart-fill"></i>
                         </a>
                     </div>
-                </div>
+                </td>
 
-                <div class="col-sm-6">
-                    <div class="text-grey-m2 w-100 align-top text-90 text-nowrap row">
-                        <div class="my-2 text-center">
-                            <span class="text-600">
-                                Incoive # @Model.OrderId
+            </tr>
+        </tbody>
+    </table>
 
-                            </span>
-                            &emsp;
-                            <i class="fa fa-angle-double-right text-80"></i>
-                            &emsp;
-                            <span class="text-600 text-90">Ship By:</span> @Model.DateOrdered.AddDays(14).ToShortDateString()
-                            &emsp;
-                            <i class="fa fa-circle @statusColor"></i>
-                            <span class="text-600 text-90 text-end">Status:</span> <span class="badge @statusColor badge-pill px-25">@Html.DisplayName(Model.StatusName[Model.Status])</span>
+    <table class="table my-0">
+        <thead>
+            <tr>
+                <td>
+                    <div class="text-secondary list-inline-item">Items</div>
+                </td>
+                <td>
+                    &emsp;
+                </td>
+                <td>
+                    <div class="text-secondary list-inline-item">colors</div>
+                </td>
+                <td>
+                    <div class="text-secondary list-inline-item">qty</div>
+                </td>
+                <td>
+                    <div class="text-secondary list-inline-item">price</div>
+                </td>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            @foreach (OrderItem item in Model.Items)
+            {
+                <tr>
+                    <td class="d-inline-flex flex-row flex-shrink-1">
+                        <div>
+                            @item.Item.Name
                         </div>
-                    </div>
 
-
-                    <table class="table table-info text-nowrap">
-                        <!--order table header-->
-
-                        <thead>
-                            <tr>
-                                <th scope="col">Item</th>
-                                <th scope="col">Set Size</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Unit Price<br /><small>each/set</small></th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (OrderItem item in Model.Items)
+                    </td>
+                    <td>
+                        <div>
+                            @if (item.Item.ProductImage is not null)
                             {
-                                <tr>
-                                    <th scope="row" class="text-nowrap">@item.Item.Name</th>
-                                    @if (item.SetSize is not null)
-                                    {
-                                        <td class="table d-table-cell">@item.SetSize.Size</td>
-                                    }
-                                    else
-                                    {
-                                        <td class="table d-table-cell">Single</td>
-                                    }
-                                    <td class="table d-table-cell">@item.AmountOrdered</td>
-
-                                    <td class="table d-table-cell">
-                                        @item.PricePerUnit.ToString("C")
-
-                                    </td>
-                                    @{
-                                        double itemTotal = (item.AmountOrdered * item.PricePerUnit);
-                                    }
-                                    <td class="table d-table-cell">@itemTotal.ToString("C") </td>
-                                </tr>
-
+                                <div class="list-inline-item p-1">
+                                    <img class="img-thumbnail mx-auto" width="50" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image">
+                                </div>
                             }
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th scope="row">Total</th>
-                                <td colspan="4" class="text-end">
-                                    @totalPrice
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
 
-            </div>
-        </div>
-    </div>
-*@
+                        </div>
+                    </td>
+                    <td>
+                        <ul class="list-group">
+                            @foreach (Color color in item.ItemColors)
+                            {
+                                <li class="list-group-item my-1" style="background-color:@color.HexValue; max-width: 40px;">
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="list-inline-item">@item.AmountOrdered</div>
+                    </td>
+                    <td>@item.PricePerUnit.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="table-group-divider">
+                <td colspan="4" class="text-right">Total</td>
+                <td colspan="1" class="font-weight-bold">@totalPrice.ToString("C")</td>
+            </tr>
+
+        </tfoot>
+    </table>
+
+</div>
