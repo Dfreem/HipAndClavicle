@@ -108,67 +108,67 @@ namespace HipAndClavicle.Controllers
             return View(orders);
         }
 
+        ////[HttpPost]
+        //public async Task<IActionResult> Checkout(string cartId)
+        //{
+        //    var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
+        //    CheckoutVM checkout = new CheckoutVM()
+        //    {
+        //        Cart = cart,
+        //    };
+        //    return View(checkout);
+        //}
+
         //[HttpPost]
-        public async Task<IActionResult> Checkout(string cartId)
-        {
-            var cart = await _repo.GetOrCreateShoppingCartAsync(cartId);
-            CheckoutVM checkout = new CheckoutVM()
-            {
-                Cart = cart,
-            };
-            return View(checkout);
-        }
+        //public async Task<IActionResult> Checkout(CheckoutVM checkoutVm)
+        //{
+        //    var userName = _signInManager.Context.User.Identity!.Name!;
+        //    var currentUser = await _userManager.FindByNameAsync(userName);
 
-        [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutVM checkoutVm)
-        {
-            var userName = _signInManager.Context.User.Identity!.Name!;
-            var currentUser = await _userManager.FindByNameAsync(userName);
+        //    var cart = await _repo.GetCartByCustId(currentUser.Id);
 
-            var cart = await _repo.GetCartByCustId(currentUser.Id);
+        //    var items = new List<OrderItem>() { };
+        //    foreach (var item in cart.Items)
+        //    {
+        //        OrderItem itemToAdd = new OrderItem()
+        //        {
+        //            ItemColors = item.ListingItem.Colors,
+        //            Item = item.ListingItem.ListingProduct,
+        //            ItemType = item.ListingItem.ListingProduct.Category,
+        //            AmountOrdered = item.Quantity,
+        //            PricePerUnit = item.ListingItem.Price,
 
-            var items = new List<OrderItem>() { };
-            foreach (var item in cart.ShoppingCartItems)
-            {
-                OrderItem itemToAdd = new OrderItem()
-                {
-                    ItemColors = item.ListingItem.Colors,
-                    Item = item.ListingItem.ListingProduct,
-                    ItemType = item.ListingItem.ListingProduct.Category,
-                    AmountOrdered = item.Quantity,
-                    PricePerUnit = item.ListingItem.Price,
+        //        };
+        //        items.Add(itemToAdd);
+        //    }
 
-                };
-                items.Add(itemToAdd);
-            }
-
-            ShippingAddress address = new ShippingAddress()
-            {
-                AddressLine1 = checkoutVm.Street,
-                CityTown = checkoutVm.City,
-                StateAbr = checkoutVm.State,
-                PostalCode = checkoutVm.Zip,
-                Name = checkoutVm.Name
-            };
+        //    ShippingAddress address = new ShippingAddress()
+        //    {
+        //        AddressLine1 = checkoutVm.Street,
+        //        CityTown = checkoutVm.City,
+        //        StateAbr = checkoutVm.State,
+        //        PostalCode = checkoutVm.Zip,
+        //        Name = checkoutVm.Name
+        //    };
 
 
-            checkoutVm.Cart = cart;
-            checkoutVm.Order = new Order()
-            {
-                Status = OrderStatus.Paid,
-                DateOrdered = DateTime.Now,
-                Address = address,
-                Purchaser = currentUser!,
-                Items = items
+        //    checkoutVm.Cart = cart;
+        //    checkoutVm.Order = new Order()
+        //    {
+        //        Status = OrderStatus.Paid,
+        //        DateOrdered = DateTime.Now,
+        //        Address = address,
+        //        Purchaser = currentUser!,
+        //        Items = items
 
-            };
-
-
-            await _repo.AddOrderByCheckoutVmAsync(checkoutVm);
-            await _repo.ClearShoppingCartAsync(currentUser!.Id);
+        //    };
 
 
-            return RedirectToAction("Orders");
-        }
+        //    await _repo.AddOrderByCheckoutVmAsync(checkoutVm);
+        //    await _repo.ClearShoppingCartAsync(currentUser!.Id);
+
+
+        //    return RedirectToAction("Orders");
+        //}
     }
 }

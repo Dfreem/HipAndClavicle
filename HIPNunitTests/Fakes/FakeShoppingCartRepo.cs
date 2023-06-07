@@ -31,7 +31,7 @@ namespace HIPNunitTests.Fakes
                 {
                     CartId = cartId,
                     Owner = new AppUser { Id = ownerId},
-                    ShoppingCartItems = new List<ShoppingCartItem>()
+                    Items = new List<ShoppingCartItem>()
                 };
 
                 // And add it to the list of shopping carts
@@ -87,7 +87,7 @@ namespace HIPNunitTests.Fakes
         public async Task RemoveItemAsync(ShoppingCartItem item)
         {
             // Find the shopping cart the item belongs to
-            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.ShoppingCartItems.Contains(item));
+            var shoppingCart = shoppingCarts.FirstOrDefault(sc => sc.Items.Contains(item));
             if (shoppingCart != null)
             {
                 // Remove the item from the ShoppingCart's Items

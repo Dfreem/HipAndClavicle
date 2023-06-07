@@ -1,7 +1,11 @@
-﻿@model HipAndClavicle.ViewModels.ShoppingCartViewModel;
-<link rel="stylesheet" href="~/css/styles.css" />
+﻿@model ShoppingCartViewModel
 @{
     ViewData["Title"] = "Shopping Cart";
+    double cartTotal = 00.00d;
+    foreach(OrderItem orderItem in Model.ShoppingCartItems)
+    {
+        cartTotal += (orderItem.PricePerUnit * orderItem.AmountOrdered);
+    }
 }
 
 @if (Model.ShoppingCartItems == null || !Model.ShoppingCartItems.Any())
@@ -33,24 +37,24 @@ else
                                 <td><img src="~/images/hp-logo.png" alt="missing image" width="100" /></td>
                                 @*<td><img src="@item.Img" alt="missing image" width="100" /></td>*@
                                 <td>
-                                    <strong>@item.Name</strong><br />
-                                    @item.Desc
+                                    <strong>@item.Item.Name</strong><br />
+                                    @item.Item.Description
                                 </td>
                                 <td>
                                     <form asp-action="UpdateCart" asp-controller="ShoppingCart" method="post">
                                         <label>Quantity:</label>
-                                        <input type="hidden" name="itemId" value="@item.Id" />
-                                        <input type="number" name="quantity" value="@item.Qty" min="1" size="2" />
+                                        <input type="hidden" name="itemId" value="@item.OrderItemId" />
+                                        <input type="number" name="quantity" value="@item.AmountOrdered" min="1" size="2" />
                                         <button type="submit" name="submit" class="btn btn-dark">Update</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <strong>Price Total:</strong> $@item.ItemTotal<br />
-                                    <em>($@item.ItemPrice each)</em>
+                                    <strong>Price Total:</strong> $@((item.PricePerUnit * item.AmountOrdered).ToString("C")) <br />
+                                    @*<em>($@item.ItemPrice each)</em>*@
                                 </td>
                                 <td>
                                 <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="post">
-                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <input type="hidden" name="itemId" value="@item.OrderItemId" />
                                     <button type="submit" class="btn btn-dark" onclick="return confirm('Are you sure you want to remove this item from the cart?');">Delete</button>
                                 </form>
 
@@ -61,15 +65,15 @@ else
                 </table>
                     
         </div>
-        <strong class="float-end">Cart Total: @Model.CartTotal</strong><br />
+        <strong class="float-end">Cart Total: @cartTotal</strong><br />
         <div class="float-start">
             <form asp-action="ClearCart" asp-controller="ShoppingCart" method="post" class="float-start">
-                <input type="hidden" name="cartId" value="@Model.CartId" />
+                <input type="hidden" name="cartId" value="@Model.ShoppingCart.ShoppingCartId" />
                 <button type="submit" class="float-end btn btn-outline-danger" onclick="return confirm('Are you sure you want to clear your entire cart?');">Empty Cart</button>
             </form>
         </div>
         <div class="float-end">
-            <a asp-controller="Customer" asp-action="Checkout" asp-route-cartId="@Model.CartId" class="btn btn-dark">Checkout ></a>
+            <a asp-controller="Customer" asp-action="Checkout" asp-route-cartId="@Model.ShoppingCart.ShoppingCartId" class="btn btn-dark">Checkout ></a>
 
 
         </div>

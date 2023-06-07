@@ -90,11 +90,11 @@ namespace HIPNunitTests
             // Assert
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
             Assert.IsNotNull(shoppingCart);
-            var addedItem = shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.ListingItem.ListingId == testListingId);
+            var addedItem = shoppingCart.Items.FirstOrDefault(item => item.ListingItem.ListingId == testListingId);
             Assert.IsNotNull(addedItem);
             Assert.AreEqual(testQuantity, addedItem.Quantity);
-            Assert.AreEqual(testQuantity, shoppingCart.ShoppingCartItems.Sum(item => item.Quantity));
-            Assert.AreEqual(testQuantity * testListing.Price, shoppingCart.ShoppingCartItems.Sum(item => item.ListingItem.Price * item.Quantity));
+            Assert.AreEqual(testQuantity, shoppingCart.Items.Sum(item => item.Quantity));
+            Assert.AreEqual(testQuantity * testListing.Price, shoppingCart.Items.Sum(item => item.ListingItem.Price * item.Quantity));
             Assert.AreEqual(userId, shoppingCart.Owner.Id);
         }
 
@@ -287,13 +287,13 @@ namespace HIPNunitTests
             // Act
             var addResult = await shoppingCartController.AddToCart(itemId, testQuantity);
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
-            Assert.IsTrue(shoppingCart.ShoppingCartItems.Any(item => item.ListingItem.ListingId == itemId));
+            Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingItem.ListingId == itemId));
             var updatedResult = await shoppingCartController.UpdateCart(itemId, updatedQuantity);
 
             // Assert
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
             Assert.IsNotNull(shoppingCart);
-            var updatedItem = shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.ListingItem.ListingId == itemId);
+            var updatedItem = shoppingCart.Items.FirstOrDefault(item => item.ListingItem.ListingId == itemId);
             Assert.IsNotNull(updatedItem);
             Assert.AreEqual(updatedQuantity, updatedItem.Quantity);
         }
@@ -348,20 +348,20 @@ namespace HIPNunitTests
             await shoppingCartController.AddToCart(itemId, testQuantity);
             await shoppingCartController.AddToCart(itemId2, testQuantity2);
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
-            Assert.IsTrue(shoppingCart.ShoppingCartItems.Any(item => item.ListingItem.ListingId == itemId));
-            Assert.IsTrue(shoppingCart.ShoppingCartItems.Any(item => item.ListingItem.ListingId == itemId2));
+            Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingItem.ListingId == itemId));
+            Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingItem.ListingId == itemId2));
 
             // Remove item from cart
-            var initialItemCount = shoppingCart.ShoppingCartItems.Count;
+            var initialItemCount = shoppingCart.Items.Count;
             var removeResult = await shoppingCartController.RemoveFromCart(itemId);
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
-            var finalItemCount = shoppingCart.ShoppingCartItems.Count;
+            var finalItemCount = shoppingCart.Items.Count;
 
             // Assert
             // Check that cart still exists
             Assert.IsNotNull(shoppingCart);
             // Check that item has been removed from cart
-            var removedItem = shoppingCart.ShoppingCartItems.FirstOrDefault(item => item.ListingItem.ListingId == itemId);
+            var removedItem = shoppingCart.Items.FirstOrDefault(item => item.ListingItem.ListingId == itemId);
             Assert.IsNull(removedItem);
             Assert.AreEqual(initialItemCount - 1, finalItemCount);
             Assert.IsInstanceOf<RedirectToActionResult>(removeResult);
@@ -508,8 +508,8 @@ namespace HIPNunitTests
             shoppingCart = await fakeShoppingCartRepo.GetOrCreateShoppingCartAsync(userId, userId);
 
             // Check that items have been added to the cart
-            Assert.IsTrue(shoppingCart.ShoppingCartItems.Any(item => item.ListingItem.ListingId == itemId1));
-            Assert.IsTrue(shoppingCart.ShoppingCartItems.Any(item => item.ListingItem.ListingId == itemId2));
+            Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingItem.ListingId == itemId1));
+            Assert.IsTrue(shoppingCart.Items.Any(item => item.ListingItem.ListingId == itemId2));
 
             // Act
             // Clear the shopping cart
@@ -519,7 +519,7 @@ namespace HIPNunitTests
             // Assert
             // Check that cart still exists but is empty
             Assert.IsNotNull(shoppingCart);
-            Assert.IsEmpty(shoppingCart.ShoppingCartItems);
+            Assert.IsEmpty(shoppingCart.Items);
             Assert.IsInstanceOf<RedirectToActionResult>(clearResult);
         }
 

@@ -6,42 +6,31 @@ namespace HipAndClavicle.Repositories
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager) 
+        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId, string ownerId)
+        public async Task<ShoppingCart> GetShoppingCartByOwnerId(string? ownerId)
         {
-         
-            // Load the cart from the database
-            var shoppingCart = await _context.ShoppingCarts
-                .Include(cart => cart.ShoppingCartItems)
-                .ThenInclude(item => item.ListingItem)
-                .FirstOrDefaultAsync(cart => cart.CartId == cartId);
-
-            if (shoppingCart != null)
+            if (ownerId == null)
             {
+                // Load the cart from the database
+                var shoppingCart = await _context.ShoppingCarts
+                    .Include(cart => cart.Items)
+                    .ThenInclude(items => items.SetSize)
+                    .Include(cart => cart.Items)
+                    .ThenInclude(items => items.ItemColors)
+                    .Include(cart => cart.Items)
+                    .ThenInclude(items => items.Item)
+                    .Include(i => i.Owner)
+                    .FirstAsync(cart => cart.OwnerId == ownerId);
                 return shoppingCart;
             }
-            else
-            {
-                if (ownerId != null)
-                {
-                    var owner = await _userManager.FindByIdAsync(ownerId);
-                    shoppingCart = new ShoppingCart { CartId = cartId, Owner = owner };
-                    _context.ShoppingCarts.Add(shoppingCart);
-                    await _context.SaveChangesAsync();
-                    return shoppingCart;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return new ShoppingCart();
         }
-       
+
         public async Task<List<ShoppingCartItemViewModel>> GetShoppingCartItemsAsync(IEnumerable<ShoppingCartItem> items)
         {
             var viewModels = new List<ShoppingCartItemViewModel>();
@@ -90,14 +79,14 @@ namespace HipAndClavicle.Repositories
         public async Task RemoveItemAsync(ShoppingCartItem item)
         {
             _context.ShoppingCartItems.Remove(item);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
         }
 
         public async Task ClearShoppingCartAsync(string cartId, string ownerId)
         {
             ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId, ownerId);
 
-            _context.ShoppingCartItems.RemoveRange(shoppingCart.ShoppingCartItems);
+            _context.ShoppingCartItems.RemoveRange(shoppingCart.Items);
             await _context.SaveChangesAsync();
         }
     }

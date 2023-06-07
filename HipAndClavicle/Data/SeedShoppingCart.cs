@@ -48,7 +48,7 @@ namespace HipAndClavicle.Data
                     Quantity = 1
                 };
 
-                cart.ShoppingCartItems = new List<ShoppingCartItem> { shoppingCartItem1, shoppingCartItem2 };
+                cart.Items = new List<ShoppingCartItem> { shoppingCartItem1, shoppingCartItem2 };
                 await context.ShoppingCarts.AddAsync(cart);
             }
 

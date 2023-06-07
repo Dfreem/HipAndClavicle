@@ -131,14 +131,14 @@ public class CustRepo : ICustRepo
     public async Task<ShoppingCart> GetCartByCustId(string custId)
     {
         var cart = await _context.ShoppingCarts
-            .Include(c => c.ShoppingCartItems)
+            .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
             .ThenInclude(l => l.Colors)
-            .Include(c => c.ShoppingCartItems)
+            .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
             .ThenInclude(l => l.ListingProduct)
             .ThenInclude(p => p.AvailableColors)
-            .Include(c => c.ShoppingCartItems)
+            .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
             .ThenInclude(l => l.SingleImage).FirstAsync(c => c.CartId == custId);
 
@@ -150,10 +150,10 @@ public class CustRepo : ICustRepo
 
         // Load the cart from the database
         var shoppingCart = await _context.ShoppingCarts
-            .Include(cart => cart.ShoppingCartItems)
+            .Include(cart => cart.Items)
             .ThenInclude(item => item.ListingItem)
             .ThenInclude(li => li.ListingProduct)
-            .Include(cart => cart.ShoppingCartItems)
+            .Include(cart => cart.Items)
             .ThenInclude(item => item.ListingItem)
             .ThenInclude(li => li.Colors)
             .FirstOrDefaultAsync(cart => cart.CartId == cartId);
@@ -226,7 +226,7 @@ public class CustRepo : ICustRepo
     {
         ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId);
 
-        _context.ShoppingCartItems.RemoveRange(shoppingCart.ShoppingCartItems);
+        _context.ShoppingCartItems.RemoveRange(shoppingCart.Items);
         await _context.SaveChangesAsync();
     }
 

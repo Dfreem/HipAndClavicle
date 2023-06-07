@@ -36,18 +36,17 @@ namespace HipAndClavicle.Controllers
 
                 viewModel = new ShoppingCartViewModel
                 {
-                    CartId = shoppingCart.CartId,
-                    ShoppingCartItems = await _shoppingCartRepo.GetShoppingCartItemsAsync(shoppingCart.ShoppingCartItems),
+                    ShoppingCart = shoppingCart,
+                    ShoppingCartItems = shoppingCart.Items,
                 };
             }
             else
             {
-                SimpleShoppingCart simpleShoppingCart = GetShoppingCartFromCookie();
+                //SimpleShoppingCart simpleShoppingCart = GetShoppingCartFromCookie();
 
                 viewModel = new ShoppingCartViewModel
                 {
-                    CartId = cartId,
-                    ShoppingCartItems = simpleShoppingCart.Items.Select(item => new ShoppingCartItemViewModel(item)).ToList(),
+                    ShoppingCart = new()
                 };
             }
 
