@@ -18,11 +18,16 @@ namespace HipAndClavicle
         {
             _toast = services.GetRequiredService<INotyfService>();
             _config = configuration;
-            _config[""]
+            _stripeKey = _config["StripeKey"]??"";
 
         }
         public IActionResult Index()
         {
+            if (_stripeKey == "")
+            {
+                _toast.Warning("**Administrator** stripe api key must be set in order to activate payments.");
+                return RedirectToAction("Checkout");
+            }
             return View();
         }
 
