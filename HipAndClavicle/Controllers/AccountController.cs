@@ -128,7 +128,7 @@ public class AccountController : Controller
             await _userManager.ChangePasswordAsync(upvm.CurrentUser, upvm.CurrentPassword, upvm.NewPassword);
         }
         var user = await _userManager.FindByNameAsync(User.Identity!.Name!);
-       
+
 
         if (upvm.CurrentUser.FName != user!.FName)
         {
@@ -156,4 +156,6 @@ public class AccountController : Controller
         _toast.Success("Your information was updated");
         return RedirectToAction("Index");
     }
+
+   
 }
