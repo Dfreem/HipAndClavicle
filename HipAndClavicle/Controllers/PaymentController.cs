@@ -8,17 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HipAndClavicle
 {
+    [ApiController]
     public class PaymentController : Controller
     {
         INotyfService _toast;
         IConfiguration _config;
-        private readonly string _stripeKey;
+        private readonly string? _stripeKey;
 
         public PaymentController(IServiceProvider services, IConfiguration configuration)
         {
             _toast = services.GetRequiredService<INotyfService>();
             _config = configuration;
-            _config[""]
+            _stripeKey = _config["stripeKey"];
 
         }
         public IActionResult Index()
@@ -27,12 +28,12 @@ namespace HipAndClavicle
         }
 
         /// <summary>
-        /// Create and register a <see cref="Stripe.Customer"/></see>
-        ///  with the [Stripe api](https://github.com/stripe/stripe-dotnet)
+        /// Create and register a <see cref="Stripe.Customer"></see>
+        ///  with the Stripe Api https://github.com/stripe/stripe-dotnet
         /// </summary>
-        /// <param name="customer"></param>
-        /// <returns></returns>
-        async Task<Customer?> CreateStripeCustomerAsync(AppUser customer)
+        /// <param name="customer">the AppUser who made the purchase</param>
+        /// <returns>A <see cref="Stripe.Customer"></see></returns>
+        public async Task<Customer?> CreateStripeCustomerAsync(AppUser customer)
         {
             if (customer.Address is null)
             {
@@ -44,16 +45,18 @@ namespace HipAndClavicle
             {
                 Email = customer.Email,
                 Address =
-            {
-                Line1 = customer.Address!.AddressLine1,
-                City = customer.Address!.CityTown,
-                Country = "us",
-                PostalCode = customer.Address!.PostalCode,
-                State = customer.Address.StateAbr.ToDescriptionString()
-            },
+                {
+                    Line1 = customer.Address!.AddressLine1,
+                    City = customer.Address!.CityTown,
+                    Country = "us",
+                    PostalCode = customer.Address!.PostalCode,
+                    State = customer.Address.StateAbr.ToDescriptionString()
+                },
+
                 Name = $"{customer.FName} {customer.LName}",
                 Phone = customer.PhoneNumber
             };
+
             var service = new CustomerService();
             return await service.CreateAsync(options);
         }

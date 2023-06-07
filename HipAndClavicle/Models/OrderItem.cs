@@ -5,25 +5,25 @@
     /// </summary>
     public class OrderItem
     {
-        /// <summary>
-        /// The number of units ordered of this product. May be number of items or number of sets depending on <see cref="OrderItem.SetOrEach()"></see>/>
-        /// </summary>
+        public int OrderItemId { get; set; }
+        /// <summary> Single items have a set set of 1. 
+        /// This holds the number of sets of this item that was ordered, 
+        /// even if the set size is one.</summary>
         public int AmountOrdered { get; set; } = 1;
+        public Product Item { get; set; } = default!;
 
         public int? ColorId { get; set; }
-        public Product Item { get; set; } = default!;
         /// <summary>
         /// The color or colors that this item has been ordered in/>
         /// </summary>
         public List<Color> ItemColors { get; set; } = new();
-
+                                    
         /// <summary>
-        /// An enum separating products in to the typ that they are such as Dragons, Dragonflies or Butterflies.
+        /// ex: Butterfly, dragon, dragonfly
         /// </summary>
         public ProductCategory ItemType { get; set; } = default!;
 
         public int OrderId { get; set; }
-        public int OrderItemId { get; set; }
         /// <summary>
         /// The Order the this item belongs to
         /// </summary>

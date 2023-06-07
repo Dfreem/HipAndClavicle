@@ -47,6 +47,7 @@ global using Microsoft.AspNetCore.Mvc.Rendering;
 global using ShipEngineSDK.CreateLabelFromShipmentDetails;
 global using ShipEngineSDK.Common.Enums;
 global using Stripe;
+global using Stripe.Checkout;
 global using StripeProduct = Stripe.Product;
 global using StripeReview = Stripe.Review;
 global using StripeAddress = Stripe.Address;
@@ -58,4 +59,3 @@ global using StripeAddress = Stripe.Address;
 // TODO Product creation needs to create a Stripe Product.
 // TODO add shipping time to settings.
 // TODO come back and look at printing invoices
-// TODO calculate total when order is created
