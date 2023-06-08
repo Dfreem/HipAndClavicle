@@ -50,7 +50,7 @@ namespace HIPNunitTests.Fakes
             return Task.FromResult(viewModels);
         }
 
-        public Task<ShoppingCartItem> GetCartItem(int id)
+        public Task<ShoppingCartItem> GetOrderItemByIdAsync(int id)
         {
             var item = shoppingCartItems.FirstOrDefault(i => i.ShoppingCartItemId == id);
             return Task.FromResult(item);

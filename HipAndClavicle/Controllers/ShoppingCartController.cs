@@ -11,14 +11,17 @@ namespace HipAndClavicle.Controllers
         private readonly IShoppingCartRepo _shoppingCartRepo;
         private readonly ICustRepo _custRepo;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly string _shoppingCartCookieName = "Cart";
 
-        public ShoppingCartController(IShoppingCartRepo shoppingCartRepository, ICustRepo custRepo, IHttpContextAccessor httpContextAccessor)
+        public ShoppingCartController(IServiceProvider services)
         {
-            _shoppingCartRepo = shoppingCartRepository;
-            _custRepo = custRepo;
-            _contextAccessor = httpContextAccessor;
+            _shoppingCartRepo = services.GetRequiredService<IShoppingCartRepo>();
+            _custRepo = services.GetRequiredService<ICustRepo>();
+            _contextAccessor = services.GetRequiredService<HttpContextAccessor>();
+            _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
+            _userManager = _signInManager.UserManager;
         }
 
         [HttpGet]
@@ -82,7 +85,6 @@ namespace HipAndClavicle.Controllers
                 // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
                 var shoppingCartItem = new ShoppingCartItem
                 {
-                    ShoppingCartId = shoppingCart.Id,
                     ListingItem = listing,
                     Quantity = quantity
                 };
@@ -127,7 +129,7 @@ namespace HipAndClavicle.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 // Handle logged-in users
-                var item = await _shoppingCartRepo.GetCartItem(itemId);
+                var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
                 if (item == null)
                 {
                     return NotFound();
@@ -162,7 +164,7 @@ namespace HipAndClavicle.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 // Handle logged-in users
-                var item = await _shoppingCartRepo.GetCartItem(itemId);
+                var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
                 if (item == null)
                 {
                     return NotFound();
@@ -209,24 +211,8 @@ namespace HipAndClavicle.Controllers
         // Helper method to get the cart ID for the current user
         private string GetCartId()
         {
-            /*var httpContext = _contextAccessor.HttpContext;
-            if (httpContext.User.Identity.IsAuthenticated)
-            {
-                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-            else
-            {
-                return null;
-            }*/
-            var httpContext = _contextAccessor.HttpContext;
-            if (httpContext?.User?.Identity?.IsAuthenticated ?? false)
-            {
-                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-            else
-            {
-                return null;
-            }
+            var currentUser = _userManager.FindByIdAsync(_signInManager.Context.User.Identity!.Name!);
+            _shoppingCartRepo.
         }
 
         // Helper method to get the shopping cart from the cookie

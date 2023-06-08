@@ -25,31 +25,15 @@ namespace HipAndClavicle.Repositories
                     .Include(cart => cart.Items)
                     .ThenInclude(items => items.Item)
                     .Include(i => i.Owner)
+                    .Include(cart => cart.Items)
+                    .ThenInclude(items => items.Item)
+                    .ThenInclude(i => i.ProductImage)
                     .FirstAsync(cart => cart.OwnerId == ownerId);
                 return shoppingCart;
             }
             return new ShoppingCart();
         }
 
-        public async Task<List<ShoppingCartItemViewModel>> GetShoppingCartItemsAsync(IEnumerable<ShoppingCartItem> items)
-        {
-            var viewModels = new List<ShoppingCartItemViewModel>();
-
-            foreach (var item in items)
-            {
-                var viewModel = new ShoppingCartItemViewModel(item);
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
-        }
-
-        public async Task<ShoppingCartItem> GetCartItem(int id)
-        {
-            return await _context.ShoppingCartItems
-                .Include(item => item.ListingItem)
-                .FirstOrDefaultAsync(item => item.ShoppingCartItemId == id);
-        }
         public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
         {
             // Check if the listing is already in the cart
@@ -84,9 +68,9 @@ namespace HipAndClavicle.Repositories
 
         public async Task ClearShoppingCartAsync(string cartId, string ownerId)
         {
-            ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId, ownerId);
+            ShoppingCart shoppingCart = await GetShoppingCartByOwnerId(ownerId);
 
-            _context.ShoppingCartItems.RemoveRange(shoppingCart.Items);
+            _context.OrderItems.RemoveRange(shoppingCart.Items);
             await _context.SaveChangesAsync();
         }
     }
