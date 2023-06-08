@@ -18,9 +18,6 @@ namespace HipAndClavicle.Models
         public int QuantitySold { get; set; } = default!;
         public DateTime DateCreated { get; } = DateTime.Now;
         [Range(0, int.MaxValue)]
-        public int OnHand { get; set; } = default!;
-        public string? shape { get; set; }
-
         public List<ListingColorJT> ListingColorJTs { get; set; } = new List<ListingColorJT>();
         public int OrderItemId { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();

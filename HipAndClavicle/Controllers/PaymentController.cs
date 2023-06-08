@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-using HipAndClavicle.ViewModels.Stripe;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿namespace HipAndClavicle.Controllers;
 
-namespace HipAndClavicle.Controllers;
 [Route("create-payment-intent")]
 [ApiController]
 public class PaymentController : Controller
 {
-    INotyfService _toast;
+    readonly INotyfService _toast;
     IConfiguration _config;
     private readonly string? _stripeKey;
 
@@ -66,6 +57,11 @@ public class PaymentController : Controller
         var service = new CustomerService();
         return await service.CreateAsync(options);
     }
+    /// <summary>
+    /// Create a payment intent for stripe checkout.
+    /// </summary>
+    /// <param name="request">A <see cref="PaymentIntentCreateRequest"/></param>
+    /// <returns></returns>
     [HttpPost]
     public ActionResult Create(PaymentIntentCreateRequest request)
     {

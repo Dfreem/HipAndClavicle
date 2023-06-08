@@ -1,252 +1,234 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using STJ = System.Text.Json;
+﻿
+using static HipAndClavicle.ViewModels.ShoppingCartViewModel;
 
-namespace HipAndClavicle.Controllers
+namespace HipAndClavicle.Controllers;
+
+public class ShoppingCartController : Controller
 {
-    public class ShoppingCartController : Controller
+    private readonly IShoppingCartRepo _shoppingCartRepo;
+    private readonly ICustRepo _custRepo;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
+    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly string _shoppingCartCookieName = "Cart";
+
+    public ShoppingCartController(IServiceProvider services)
     {
-        private readonly IShoppingCartRepo _shoppingCartRepo;
-        private readonly ICustRepo _custRepo;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly string _shoppingCartCookieName = "Cart";
+        _shoppingCartRepo = services.GetRequiredService<IShoppingCartRepo>();
+        _custRepo = services.GetRequiredService<ICustRepo>();
+        _contextAccessor = services.GetRequiredService<HttpContextAccessor>();
+        _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
+        _userManager = _signInManager.UserManager;
+    }
 
-        public ShoppingCartController(IServiceProvider services)
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var httpContext = _contextAccessor.HttpContext;
+        ShoppingCartViewModel viewModel;
+
+        // Determine if the user is logged in and retrieve the shopping cart accordingly
+        if (User.Identity!.IsAuthenticated)
         {
-            _shoppingCartRepo = services.GetRequiredService<IShoppingCartRepo>();
-            _custRepo = services.GetRequiredService<ICustRepo>();
-            _contextAccessor = services.GetRequiredService<HttpContextAccessor>();
-            _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
-            _userManager = _signInManager.UserManager;
+            var owner = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+            ShoppingCart shoppingCart;
+                shoppingCart = await _shoppingCartRepo.GetShoppingCartByOwnerId(owner!.Id);
+            viewModel = new ShoppingCartViewModel
+            {
+                ShoppingCart = shoppingCart,
+            };
+        }
+        else
+        {
+            //SimpleShoppingCart simpleShoppingCart = GetShoppingCartFromCookie();
+
+            viewModel = new ShoppingCartViewModel
+            {
+                ShoppingCart = new()
+            };
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        return View(viewModel);
+    }
+
+    // This action method adds a listing to the cart with the specified quantity
+    // TODO: For testing Will be changed to add items from catalog.
+    [HttpPost]
+    public async Task<IActionResult> AddToCart(int listingId, int quantity = 1)
+    {
+
+        if (_signInManager.Context.User.Identity is not null)
         {
-            var httpContext = _contextAccessor.HttpContext;
-            string cartId = GetCartId();
-            ShoppingCartViewModel viewModel;
+            // Handle logged-in users
 
-            // Determine if the user is logged in and retrieve the shopping cart accordingly
-            if (User.Identity.IsAuthenticated)
+            var owner = await _userManager.FindByIdAsync(_signInManager.Context.User.Identity!.Name!);
+
+            // Get the shopping cart using the cart ID
+            var shoppingCart = await _shoppingCartRepo.GetShoppingCartByOwnerId(owner!.Id);
+
+            // Find the listing with the given listingId
+            var listing = await _custRepo.GetListingByIdAsync(listingId);
+
+            if (listing == null)
             {
-                string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                ShoppingCart shoppingCart = await _shoppingCartRepo.GetOrCreateShoppingCartAsync(cartId, ownerId);
+                return NotFound();
+            }
 
-                viewModel = new ShoppingCartViewModel
+            // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
+            var shoppingCartItem = new ShoppingCartItem
+            {
+                ListingItem = new() { Item = listing.ListingProduct, AmountOrdered = quantity }
+            };
+            shoppingCart.Items.Add(shoppingCartItem);
+            await _shoppingCartRepo.UpdateShoppingCartAsync(shoppingCart);
+        }
+        else
+        {
+            // Handle non-logged-in users
+
+            var shoppingCart = GetShoppingCartFromCookie();
+            var listing = await _custRepo.GetListingByIdAsync(listingId);
+
+            // Check if the listing already exists in the shopping cart
+            var simpleCartItem = shoppingCart.Items.FirstOrDefault(item => item.ListingId == listingId);
+            if (simpleCartItem != null)
+            {
+                simpleCartItem.Qty += quantity;
+            }
+            else
+            {
+                simpleCartItem = new SimpleCartItem
                 {
-                    ShoppingCart = shoppingCart,
-                    ShoppingCartItems = shoppingCart.Items,
+                    ListingId = listing.ListingId,
+                    Name = listing.ListingTitle,
+                    Desc = listing.ListingDescription,
+                    Qty = quantity,
+                    ItemPrice = listing.Price
                 };
+                shoppingCart.Items.Add(simpleCartItem);
+            }
+            // Save the updated shopping cart in the cookie
+            SetShoppingCartToCookie(shoppingCart);
+        }
+
+        return RedirectToAction("Index", "ShoppingCart");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateCart(int itemId, int quantity)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            // Handle logged-in users
+            var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.Quantity = quantity;
+            await _shoppingCartRepo.UpdateItemAsync(item);
+        }
+        else
+        {
+            // Handle non-logged-in users
+            var simpleShoppingCart = GetShoppingCartFromCookie();
+            var simpleCartItem = simpleShoppingCart.Items.FirstOrDefault(item => item.Id == itemId);
+            if (simpleCartItem != null)
+            {
+                simpleCartItem.Qty = quantity;
             }
             else
             {
-                //SimpleShoppingCart simpleShoppingCart = GetShoppingCartFromCookie();
-
-                viewModel = new ShoppingCartViewModel
-                {
-                    ShoppingCart = new()
-                };
+                return NotFound();
             }
-
-            return View(viewModel);
+            SetShoppingCartToCookie(simpleShoppingCart);
         }
 
-        // This action method adds a listing to the cart with the specified quantity
-        // TODO: For testing Will be changed to add items from catalog.
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(int listingId, int quantity = 1)
+        return RedirectToAction("Index", "ShoppingCart");
+    }
+
+    // Removes single item from cart
+    [HttpPost]
+    public async Task<IActionResult> RemoveFromCart(int itemId)
+    {
+        if (User.Identity.IsAuthenticated)
         {
-            // Get the cart ID
-            var cartId = GetCartId();
-
-            if (cartId != null)
+            // Handle logged-in users
+            var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
+            if (item == null)
             {
-                // Handle logged-in users
+                return NotFound();
+            }
 
-                var httpContext = _contextAccessor.HttpContext;
-                string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-                // Get the shopping cart using the cart ID
-                var shoppingCart = await _shoppingCartRepo.GetOrCreateShoppingCartAsync(cartId, ownerId);
-
-                // Find the listing with the given listingId
-                var listing = await _custRepo.GetListingByIdAsync(listingId);
-
-                if (listing == null)
-                {
-                    return NotFound();
-                }
-
-                // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
-                var shoppingCartItem = new ShoppingCartItem
-                {
-                    ListingItem = listing,
-                    Quantity = quantity
-                };
-
-                await _shoppingCartRepo.AddShoppingCartItemAsync(shoppingCartItem);
+            await _shoppingCartRepo.RemoveItemAsync(item);
+        }
+        else
+        {
+            // Handle non-logged-in users
+            var simpleShoppingCart = GetShoppingCartFromCookie();
+            var simpleCartItem = simpleShoppingCart.Items.FirstOrDefault(item => item.Id == itemId);
+            if (simpleCartItem != null)
+            {
+                simpleShoppingCart.Items.Remove(simpleCartItem);
             }
             else
             {
-                // Handle non-logged-in users
-
-                var shoppingCart = GetShoppingCartFromCookie();
-                var listing = await _custRepo.GetListingByIdAsync(listingId);
-
-                // Check if the listing already exists in the shopping cart
-                var simpleCartItem = shoppingCart.Items.FirstOrDefault(item => item.ListingId == listingId);
-                if (simpleCartItem != null)
-                {
-                    simpleCartItem.Qty += quantity;
-                }
-                else
-                {
-                    simpleCartItem = new SimpleCartItem
-                    {
-                        ListingId = listing.ListingId,
-                        Name = listing.ListingTitle,
-                        Desc = listing.ListingDescription,
-                        Qty = quantity,
-                        ItemPrice = listing.Price
-                    };
-                    shoppingCart.Items.Add(simpleCartItem);
-                }
-                // Save the updated shopping cart in the cookie
-                SetShoppingCartToCookie(shoppingCart);
+                return NotFound();
             }
-
-            return RedirectToAction("Index", "ShoppingCart");
+            SetShoppingCartToCookie(simpleShoppingCart);
         }
+        return RedirectToAction("Index", "ShoppingCart");
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateCart(int itemId, int quantity)
+    // Removes all items from cart
+    [HttpPost]
+    public async Task<IActionResult> ClearCart(string cartId)
+    {
+        var httpContext = _contextAccessor.HttpContext;
+
+        if (User.Identity.IsAuthenticated)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Handle logged-in users
-                var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
-                if (item == null)
-                {
-                    return NotFound();
-                }
-
-                item.Quantity = quantity;
-                await _shoppingCartRepo.UpdateItemAsync(item);
-            }
-            else
-            {
-                // Handle non-logged-in users
-                var simpleShoppingCart = GetShoppingCartFromCookie();
-                var simpleCartItem = simpleShoppingCart.Items.FirstOrDefault(item => item.Id == itemId);
-                if (simpleCartItem != null)
-                {
-                    simpleCartItem.Qty = quantity;
-                }
-                else
-                {
-                    return NotFound();
-                }
-                SetShoppingCartToCookie(simpleShoppingCart);
-            }
-            
-            return RedirectToAction("Index", "ShoppingCart");
+            string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await _shoppingCartRepo.ClearShoppingCartAsync(cartId, ownerId);
         }
-               
-        // Removes single item from cart
-        [HttpPost]
-        public async Task<IActionResult> RemoveFromCart(int itemId)
+        else
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Handle logged-in users
-                var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
-                if (item == null)
-                {
-                    return NotFound();
-                }
-
-                await _shoppingCartRepo.RemoveItemAsync(item);
-            }
-            else
-            {
-                // Handle non-logged-in users
-                var simpleShoppingCart = GetShoppingCartFromCookie();
-                var simpleCartItem = simpleShoppingCart.Items.FirstOrDefault(item => item.Id == itemId);
-                if (simpleCartItem != null)
-                {
-                    simpleShoppingCart.Items.Remove(simpleCartItem);
-                }
-                else
-                {
-                    return NotFound();
-                }
-                SetShoppingCartToCookie(simpleShoppingCart);
-            }
-            return RedirectToAction("Index", "ShoppingCart");
+            ClearShoppingCartCookie();
         }
+        return RedirectToAction("Index", "ShoppingCart");
+    }
 
-        // Removes all items from cart
-        [HttpPost]
-        public async Task<IActionResult> ClearCart(string cartId)
+    // Helper method to get the shopping cart from the cookie
+    private SimpleShoppingCart GetShoppingCartFromCookie()
+    {
+        var cartCookie = _contextAccessor.HttpContext.Request.Cookies[_shoppingCartCookieName];
+        if (cartCookie == null)
         {
-            var httpContext = _contextAccessor.HttpContext;
-
-            if (User.Identity.IsAuthenticated)
-            {
-                string ownerId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                await _shoppingCartRepo.ClearShoppingCartAsync(cartId, ownerId);
-            }
-            else
-            {
-                ClearShoppingCartCookie();
-            }
-            return RedirectToAction("Index", "ShoppingCart");
+            // If the cart cookie doesn't exist, create an empty SimpleShoppingCart
+            return new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
         }
-
-        // Helper method to get the cart ID for the current user
-        private string GetCartId()
+        else
         {
-            var currentUser = _userManager.FindByIdAsync(_signInManager.Context.User.Identity!.Name!);
-            _shoppingCartRepo.
-        }
-
-        // Helper method to get the shopping cart from the cookie
-        private SimpleShoppingCart GetShoppingCartFromCookie()
-        {
-            var cartCookie = _contextAccessor.HttpContext.Request.Cookies[_shoppingCartCookieName];
-            if (cartCookie == null)
-            {
-                // If the cart cookie doesn't exist, create an empty SimpleShoppingCart
-                return new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
-            }
-            else
-            {
-                // Deserialize the SimpleShoppingCart from the cart cookie
-                return JsonConvert.DeserializeObject<SimpleShoppingCart>(cartCookie);
-            }
-        }
-
-        // Helper method to save the shopping cart in the cookie
-        private void SetShoppingCartToCookie(SimpleShoppingCart shoppingCart)
-        {
-            // Serialize the shopping cart and save it in the cookie
-            var cartJson = JsonConvert.SerializeObject(shoppingCart);
-            _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, cartJson, new CookieOptions()); // Cookie will expire once browser is closed
-        }
-
-        // Helper method to empty the cart
-        private void ClearShoppingCartCookie()
-        {
-            var emptyCart = new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
-            var json = STJ.JsonSerializer.Serialize(emptyCart);
-            _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, json, new CookieOptions()); // Cookie will expire once browser is closed
+            // Deserialize the SimpleShoppingCart from the cart cookie
+            return JsonConvert.DeserializeObject<SimpleShoppingCart>(cartCookie);
         }
     }
 
+    // Helper method to save the shopping cart in the cookie
+    private void SetShoppingCartToCookie(SimpleShoppingCart shoppingCart)
+    {
+        // Serialize the shopping cart and save it in the cookie
+        var cartJson = JsonConvert.SerializeObject(shoppingCart);
+        _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, cartJson, new CookieOptions()); // Cookie will expire once browser is closed
+    }
+
+    // Helper method to empty the cart
+    private void ClearShoppingCartCookie()
+    {
+        var emptyCart = new SimpleShoppingCart { Items = new List<SimpleCartItem>() };
+        var json = STJ.JsonSerializer.Serialize(emptyCart);
+        _contextAccessor.HttpContext.Response.Cookies.Append(_shoppingCartCookieName, json, new CookieOptions()); // Cookie will expire once browser is closed
+    }
 }
 

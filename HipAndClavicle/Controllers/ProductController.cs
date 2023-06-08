@@ -87,7 +87,7 @@ public class ProductController : Controller
         {
             // error if not valid
             ModelState.AddModelError("Edit", ModelState.ValidationState.ToDescriptionString());
-            _toast.Error("somethihg went wrong while trying to save" + "\n" + ModelState.GetFieldValidationState("Edit").ToDescriptionString());
+            _toast.Error("something went wrong while trying to save" + "\n" + ModelState.GetFieldValidationState("Edit").ToDescriptionString());
             return View(pvm);
         }
         // check if image is valid before trying to save

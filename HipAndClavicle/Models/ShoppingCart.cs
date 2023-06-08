@@ -6,6 +6,6 @@ namespace HipAndClavicle.Models
         public int ShoppingCartId { get; set; }
         public string? OwnerId { get; set; }
         public AppUser? Owner { get; set; }
-        public List<OrderItem> Items { get; set; } = new();
+        public List<ShoppingCartItem> Items { get; set; } = new();
     }
 }

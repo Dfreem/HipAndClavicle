@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace HipAndClavicle.ViewModels.Stripe;
+namespace HipAndClavicle.ViewModels.Payment;
 
 public class Item
 {

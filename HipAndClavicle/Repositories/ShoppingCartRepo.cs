@@ -5,11 +5,13 @@ namespace HipAndClavicle.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public ShoppingCartRepo(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<ShoppingCart> GetShoppingCartByOwnerId(string? ownerId)
@@ -34,23 +36,29 @@ namespace HipAndClavicle.Repositories
             return new ShoppingCart();
         }
 
-        public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
+        //public async Task AddShoppingCartItemAsync(ShoppingCartItem item)
+        //{
+            //// Check if the listing is already in the cart
+            //var existingItem = await _context.ShoppingCartItems
+            //    .FirstOrDefaultAsync(i => i.ShoppingCartId == item.ShoppingCartId && i.ListingItem.ListingId == item.ListingItem.ListingId);
+
+            //if (existingItem == null)
+            //{
+            //    // Add the listing to the cart
+            //    await _context.ShoppingCartItems.AddAsync(item);
+            //}
+            //else
+            //{
+            //    // Increment the quantity of the listing in the cart
+            //    existingItem.Quantity += item.Quantity;
+            //}
+
+            //await _context.SaveChangesAsync();
+        //}
+
+        public async Task UpdateShoppingCartAsync(ShoppingCart sc)
         {
-            // Check if the listing is already in the cart
-            var existingItem = await _context.ShoppingCartItems
-                .FirstOrDefaultAsync(i => i.ShoppingCartId == item.ShoppingCartId && i.ListingItem.ListingId == item.ListingItem.ListingId);
-
-            if (existingItem == null)
-            {
-                // Add the listing to the cart
-                await _context.ShoppingCartItems.AddAsync(item);
-            }
-            else
-            {
-                // Increment the quantity of the listing in the cart
-                existingItem.Quantity += item.Quantity;
-            }
-
+            _context.ShoppingCarts.Update(sc);
             await _context.SaveChangesAsync();
         }
 
