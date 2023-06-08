@@ -28,4 +28,15 @@ public class UserMessage
 
     public string? Product { get; set; }
     public string? City { get; set; }
+
+    // Added 6-5-23 NJ
+    public string? CustomerId { get; set; }
+    public int? CustomerMessageId { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public string? CustomerName { get; set; }
+    public bool IsNewQuestion { get; set; }
+
+    public bool IsResolved { get; set; }
+    public bool IsRead { get; set; }
 }
