@@ -30,13 +30,6 @@ public class OrderRepo : IOrderRepo
         await _context.SaveChangesAsync();
     }
 
-    public async Task<OrderItem> GetOrderItemById(int id) =>
-        await _context.OrderItems
-            .Include(oi => oi.Item)
-            .ThenInclude(i => i.ProductImage)
-            .Include(oi => oi.ParentOrder)
-            .FirstAsync(p => p.OrderItemId.Equals(id));
-
     /// <summary>
     /// gets all the <see cref="OrderItem"/>'s in all of the orders stored in the database.
     /// </summary>

@@ -8,7 +8,7 @@
     }
 }
 
-@if (Model.ShoppingCartItems == null || !Model.ShoppingCartItems.Any())
+@if (Model.ShoppingCart.Items.Count <= 0)
 {
     <p class="text-center">Your shopping cart is empty.</p>
     <br />
@@ -35,9 +35,9 @@ else
                     {
                         <tr class="table-borderless">
                             <td>
-                                @if (item.ListingItem.Item.ProductImage is not null)
+                                @if (item.Item.ProductImage is not null)
                                 {
-                                    <img class="img-thumbnail" width="60" src="data:image;base64,@Convert.ToBase64String(item.ListingItem.Item.ProductImage.ImageData)" alt="Product Image" />
+                                    <img class="img-thumbnail" width="60" src="data:image;base64,@Convert.ToBase64String(item.Item.ProductImage.ImageData)" alt="Product Image" />
 
                                 }
                                 else
@@ -47,13 +47,13 @@ else
                             </td>
                             @*<td><img src="@item.Img" alt="missing image" width="100" /></td>*@
                             <td>
-                                <strong>@item.ListingItem.Item.Name</strong><br />
-                                @item.ListingItem.Item.Description
+                                <strong>@item.Item.Name</strong><br />
+                                @item.Item.Description
                             </td>
                             <td>
                                 <form asp-action="UpdateCart" asp-controller="ShoppingCart" method="post">
                                     <label>Quantity:</label>
-                                    <input type="hidden" asp-for="@item.ListingItem.OrderItemId" />
+                                    <input type="hidden" asp-for="@item.OrderItemId" />
                                     <input type="number" asp-for="@item.ListingItem.AmountOrdered" />
                                     <button type="submit" name="submit" class="btn btn-dark">Update</button>
                                 </form>
@@ -63,10 +63,8 @@ else
                                 @*<em>($@item.ItemPrice each)</em>*@
                             </td>
                             <td>
-                                <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="post">
-                                    <input type="hidden" name="itemId" value="@item.ListingItem.OrderItemId" />
-                                    <button type="submit" class="btn btn-dark" onclick="return confirm('Are you sure you want to remove this item from the cart?');">Delete</button>
-                                </form>
+
+                                <a asp-action="RemoveFromCart" class="btn btn-dark delete-button" asp-route-itemId="@item.OrderItemId">Delete</a>
 
                             </td>
                         </tr>
@@ -89,3 +87,11 @@ else
         </div>
     </div>
 }
+<script>
+    let deletes = document.getElementsByClassName('delete-button');
+    for(let i = 0; i < deletes.length; i++) {
+        deletes[i].addEventListener("click", () => {
+            confirm('Are you sure you want to remove this item from the cart?');
+        })
+    }
+</script>

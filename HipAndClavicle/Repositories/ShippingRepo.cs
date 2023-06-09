@@ -19,15 +19,6 @@ public class ShippingRepo : IShippingRepo
             .Include(o => o.Address)
             .FirstAsync(o => o.OrderId.Equals(orderId));
 
-    public async Task<List<OrderItem>> GetItemsToShipAsync(int OrderId)
-    {
-        return await _context.OrderItems
-            .Include(i => i.ItemColors)
-            .Include(i => i.Item)
-            .Include(i => i.SetSize)
-            .Where(i => i.OrderId == OrderId).ToListAsync();
-    }
-
     #endregion
 
     #region Shipping

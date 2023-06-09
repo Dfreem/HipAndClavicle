@@ -23,13 +23,13 @@ namespace HipAndClavicle.Data
             var nehemiah = await userManager.FindByNameAsync("nehemiah123");
 
             ShoppingCart[] carts = {
-            new ShoppingCart { CartId = devin.Id, Owner = devin },
-            new ShoppingCart { CartId = michael.Id, Owner = michael },
-            new ShoppingCart { CartId = steven.Id, Owner = steven },
-            new ShoppingCart { CartId = nehemiah.Id, Owner = nehemiah }
+            new ShoppingCart { Owner = devin },
+            new ShoppingCart { Owner = michael },
+            new ShoppingCart { Owner = steven },
+            new ShoppingCart { Owner = nehemiah }
             };
 
-            var listing1 = await context.Listings.FirstOrDefaultAsync(p => p.ListingId == 1);
+            var listing1 = await context.OrderItems.FirstOrDefaultAsync(p => p. == 1);
             var listing2 = await context.Listings.FirstOrDefaultAsync(p => p.ListingId == 3);
 
             for (int i = 0; i < carts.Length; i++)

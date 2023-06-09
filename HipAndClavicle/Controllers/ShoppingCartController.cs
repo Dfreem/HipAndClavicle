@@ -12,11 +12,11 @@ public class ShoppingCartController : Controller
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly string _shoppingCartCookieName = "Cart";
 
-    public ShoppingCartController(IServiceProvider services)
+    public ShoppingCartController(IServiceProvider services, IHttpContextAccessor accessor)
     {
         _shoppingCartRepo = services.GetRequiredService<IShoppingCartRepo>();
         _custRepo = services.GetRequiredService<ICustRepo>();
-        _contextAccessor = services.GetRequiredService<HttpContextAccessor>();
+        _contextAccessor = accessor;
         _signInManager = services.GetRequiredService<SignInManager<AppUser>>();
         _userManager = _signInManager.UserManager;
     }
@@ -61,7 +61,7 @@ public class ShoppingCartController : Controller
         {
             // Handle logged-in users
 
-            var owner = await _userManager.FindByIdAsync(_signInManager.Context.User.Identity!.Name!);
+            var owner = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
 
             // Get the shopping cart using the cart ID
             var shoppingCart = await _shoppingCartRepo.GetShoppingCartByOwnerId(owner!.Id);
@@ -77,7 +77,8 @@ public class ShoppingCartController : Controller
             // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
             var shoppingCartItem = new ShoppingCartItem
             {
-                ListingItem = new() { Item = listing.ListingProduct, AmountOrdered = quantity }
+                ListingItem = new() { Item = listing.ListingProduct, AmountOrdered = quantity },
+                Item = listing.ListingProduct
             };
             shoppingCart.Items.Add(shoppingCartItem);
             await _shoppingCartRepo.UpdateShoppingCartAsync(shoppingCart);
@@ -120,13 +121,14 @@ public class ShoppingCartController : Controller
         if (User.Identity.IsAuthenticated)
         {
             // Handle logged-in users
+
             var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
             if (item == null)
             {
                 return NotFound();
             }
 
-            item.Quantity = quantity;
+            item.AmountOrdered = quantity;
             await _shoppingCartRepo.UpdateItemAsync(item);
         }
         else
@@ -149,18 +151,18 @@ public class ShoppingCartController : Controller
     }
 
     // Removes single item from cart
-    [HttpPost]
     public async Task<IActionResult> RemoveFromCart(int itemId)
     {
         if (User.Identity.IsAuthenticated)
         {
+            var owner = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
+
             // Handle logged-in users
-            var item = await _shoppingCartRepo.GetOrderItemByIdAsync(itemId);
+            var item = await _shoppingCartRepo.GetShoppingCartItemByIdAsync(itemId);
             if (item == null)
             {
                 return NotFound();
             }
-
             await _shoppingCartRepo.RemoveItemAsync(item);
         }
         else

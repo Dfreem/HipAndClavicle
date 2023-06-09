@@ -84,9 +84,14 @@ public class PaymentController : Controller
     /// </summary>
     /// <param name="items">json cerialized Order Item</param>
     /// <returns>total amount for the payment being created.</returns>
-    private long? CalculateOrderAmount(Item[] items)
+    private static long? CalculateOrderAmount(OrderItem[] items)
     {
-        
+        long orderTotal = 0;
+        foreach (OrderItem item in items)
+        {
+            orderTotal += (long)(item.AmountOrdered * item.PricePerUnit);
+        }
+        return orderTotal;
     }
 }
 

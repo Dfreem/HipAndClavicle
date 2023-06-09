@@ -15,6 +15,7 @@
 	  <None Remove="Views\CustomerProductCatalog\**" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Remove="Data\SeedShoppingCart.cs" />
 		<Compile Remove="Models\Customer.cs" />
 		<Compile Remove="Models\Merchant.cs" />
 		<Compile Remove="Models\Address.cs" />

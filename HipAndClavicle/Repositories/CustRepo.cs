@@ -133,30 +133,30 @@ public class CustRepo : ICustRepo
         var cart = await _context.ShoppingCarts
             .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
-            .ThenInclude(l => l.Colors)
+            .ThenInclude(l => l.ItemColors)
             .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
-            .ThenInclude(l => l.ListingProduct)
+            .ThenInclude(l => l.Item)
             .ThenInclude(p => p.AvailableColors)
             .Include(c => c.Items)
             .ThenInclude(i => i.ListingItem)
-            .ThenInclude(l => l.SingleImage).FirstAsync(c => c.CartId == custId);
+            .ThenInclude(l => l.Item.ProductImage).FirstAsync(c => c.Owner!.Id == custId);
 
         return cart;
     }
 
-    public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(string cartId)
+    public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(int cartId)
     {
 
         // Load the cart from the database
         var shoppingCart = await _context.ShoppingCarts
             .Include(cart => cart.Items)
             .ThenInclude(item => item.ListingItem)
-            .ThenInclude(li => li.ListingProduct)
+            .ThenInclude(li => li.Item)
             .Include(cart => cart.Items)
             .ThenInclude(item => item.ListingItem)
-            .ThenInclude(li => li.Colors)
-            .FirstOrDefaultAsync(cart => cart.CartId == cartId);
+            .ThenInclude(li => li.ItemColors)
+            .FirstOrDefaultAsync(cart => cart.ShoppingCartId == cartId);
 
         return shoppingCart;
     }
@@ -222,7 +222,7 @@ public class CustRepo : ICustRepo
         await _context.SaveChangesAsync();
     }
 
-    public async Task ClearShoppingCartAsync(string cartId)
+    public async Task ClearShoppingCartAsync(int cartId)
     {
         ShoppingCart shoppingCart = await GetOrCreateShoppingCartAsync(cartId);
 
@@ -264,6 +264,19 @@ public class CustRepo : ICustRepo
 
         return false;
     }
+
+    //public async Task<ShoppingCart> GetOrCreateShoppingCartAsync(int cartId)
+    //{
+    //    return await _context.ShoppingCarts
+    //        .Include(cart => cart.Items)
+    //        .ThenInclude(items => items.Item)
+    //        .ThenInclude(i => i.ProductImage)
+    //        .Include(cart => cart.Items)
+    //        .ThenInclude(items => items.Item)
+    //        .ThenInclude(i => i.Reviews)
+    //        .FirstAsync(cart => cart.ShoppingCartId == cartId);
+   
+    //}
 
     #endregion Checks
 }

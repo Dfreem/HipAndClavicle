@@ -56,7 +56,7 @@
 
                         @*Add cart Icon for this link*@
                         <li class="nav-item">
-                            <a class="nav-link" id="cart" asp-area="" asp-controller="ShoppingCart" asp-action=""><img src="/images/cart.png" alt="Shopping Cart" /></a>
+                            <a class="nav-link" id="cart" asp-controller="ShoppingCart" asp-action="Index"><img src="/images/cart.png" alt="Shopping Cart" /></a>
                         </li>
 
                         @*<li class="nav-item">
@@ -107,7 +107,6 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script srv="~"
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 @await Component.InvokeAsync("Notyf")

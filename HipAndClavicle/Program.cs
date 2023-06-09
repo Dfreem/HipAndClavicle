@@ -80,7 +80,6 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedRoles.KeepMessagesWorking(services);
     await SeedData.Seed(services, context);
     await SeedListings.Seed(services, context);
-    await SeedShoppingCart.Seed(context, services);
 
 }
 #endregion

@@ -23,11 +23,11 @@
         /// </summary>
         public ProductCategory ItemType { get; set; } = default!;
 
-        public int OrderId { get; set; }
-        /// <summary>
-        /// The Order the this item belongs to
-        /// </summary>
-        public Order ParentOrder { get; set; } = default!;
+        //public int OrderId { get; set; }
+        ///// <summary>
+        ///// The Order the this item belongs to
+        ///// </summary>
+        //public Order ParentOrder { get; set; } = default!;
         [Display(Name = "Item Price")]
         public double PricePerUnit { get; set; }
 
