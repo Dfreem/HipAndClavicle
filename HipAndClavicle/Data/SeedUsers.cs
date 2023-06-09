@@ -34,6 +34,17 @@ namespace HipAndClavicle.Repositories
                 Country = "US"
             };
 
+            AppUser HCadmin = new()
+            {
+                UserName = "hcsadmin",
+                Email = "hcadmin@hipclavicle.com",
+                EmailConfirmed = true,
+                FName = "H",
+                LName = "Cadmin",
+                PhoneNumber = "555-555-5555",
+                Address = fakeSt
+            };
+
             AppUser anne = new()
             {
                 UserName = "Anne123",
@@ -166,6 +177,7 @@ namespace HipAndClavicle.Repositories
             _ = await userManager!.CreateAsync(nehemiah, "@Password123");
             _ = await userManager!.CreateAsync(michael, "@Password123");
             _ = await userManager!.CreateAsync(steven, "@Password123");
+            _ = await userManager!.CreateAsync(HCadmin, "NiceDragon123!");
 
             _ = await userManager!.CreateAsync(anne, ANNE_PASS);
             _ = await userManager!.CreateAsync(anneMarie, ANNE_PASS);
