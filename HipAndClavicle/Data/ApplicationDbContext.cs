@@ -22,7 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     public DbSet<Color> NamedColors { get; set; }
-    public DbSet<AdminSettings> Settings { get; set; }
+    public DbSet<UserSettings> Settings { get; set; }
     public DbSet<Listing> Listings { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<UserMessage> Messages { get; set; }

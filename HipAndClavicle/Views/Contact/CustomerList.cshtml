@@ -1,142 +1,67 @@
-﻿@model List<MessageViewModel>
-<style>
-    /* .container {
-                max-width: 500px;
-                margin: 0 auto;
-                text-align: center;
-                padding-top: 50px;
-            }*/
+﻿@model List<CustomerListVM>
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+<table class="table mt-3" id="message-table">
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Read or Unread</th>
+            @*<th>Last Date Sent</th>*@
+            @*<th>Product</th>
+                <th>City</th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.CustomerName</td>
+                <td>
+                    <a class="email-link" data-bs-toggle="modal"
+                       data-bs-target="#emailModal"
+                       data-email="@customer.Email">
+                        @customer.Email
+                        <i class="fa fa-envelope envelope-icon" aria-hidden="true"></i>
+                    </a>
+                </td>
 
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
 
-    input[type="date"] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-    }
+                <td>
+                    @if (customer.HasUnreadMessage)
+                    {
+                        <span class="badge badge-pill badge-warning">Unread messages</span>
 
-    button[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-info">all messages read</span>
+                    }
 
-        button[type="submit"]:hover {
-            background-color: #0069d9;
+                </td>
+                @*<td>@customer.LName</td>*@
+                @* <td>@customer.Product</td>
+                    <td>@customer.City</td>*@
+                <td>
+                    @if (customer.Id != "" && customer.Id != null)
+                    {
+                        <a class="btn btn-primary" asp-action="MessagesFromCustomer" asp-route-id="@customer.Id">
+                            Messages
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="content-link btn btn-secondary"
+                           data-bs-toggle="modal"
+                           data-bs-target="#contentModal" data-email="@customer.Email"
+                           data-content="@customer.Content" data-truncated-content="">View Message</a>
+                    }
+
+                </td>
+            </tr>
         }
-</style>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-
-
-<div class="container">
-    <div class="row">
-        <h3>Search Customer Messages</h3>
-        <div class="div">
-            <form class="row" id="search-form">
-                <div class="form-group col-md-3">
-                    @*CHANGED THE FIELD BELOW FROM CUSTOMER NAME TO SENDER DUE TO PR-95*@
-                    <label for="customer-name">Customer Name:</label>
-                    <input type="text" class="form-control" id="customer-name">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="customer-name">Date Sent: </label>
-                    <input type="date" class="form-control" id="date-sent">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="product">Product: </label>
-                    <select class="js-example-basic-single form-select" id="product" name="product" asp-items="@ViewBag.products">
-                        <option value="">-- select Product --</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="city">City: </label>
-                    <select class="js-example-basic-single form-select" id="city" name="city" asp-items="@ViewBag.cities">
-                        <option value="">-- select City --</option>
-                    </select>
-                </div>
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <button type="button" id="clear-query" class="btn btn-warning btn-sm float-end">Clear Result</button>
-                </div>
-            </form>
-            <div id="results"></div>
-
-        </div>
-        <div>
-        </div>
-        <table class="table mt-3" id="message-table">
-            <thead>
-                <tr>
-                    <th>Sender</th>
-                    <th>Receiver</th>
-                    <th>Email</th>
-                    <th>Messeage</th>
-                    <th>Date Sent</th>
-                    <th>Product</th>
-                    <th>City</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var message in Model)
-                {
-                    <tr>
-                        <td>@message.Sender</td>
-                        <td>@message.Receiver</td>
-                        <td>
-                            <a class="email-link" data-bs-toggle="modal"
-                               data-bs-target="#emailModal"
-                               data-email="@message.Email">
-                                @message.Email
-                                <i class="fa fa-envelope envelope-icon" aria-hidden="true"></i>
-                            </a>
-                        </td>
-
-                        <td>
-                            @*@{
-                                string[] words = message.Content.Split(' ');
-                                int maxWords = 10;
-                                string truncatedContent = string.Join(' ', words.Take(maxWords));
-                                }
-
-                                <a href="#" class="content-link"
-                                data-bs-toggle="modal"
-                                data-bs-target="#contentModal" data-email="@message.Email"
-                                data-content="@message.Content" data-truncated-content="@truncatedContent">@truncatedContent</a>*@
-                            <a href="#" class="content-link btn btn-secondary"
-                               data-bs-toggle="modal"
-                               data-bs-target="#contentModal" data-email="@message.Email"
-                               data-content="@message.Content" data-truncated-content="">View Message</a>
-                        </td>
-
-
-
-
-                        <td>@message.DateSent</td>
-                        <td>@message.Product</td>
-                        <td>@message.City</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    </div>
-</div>
+    </tbody>
+</table>
 <!-- Modal for displaying Message content -->
 <div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -186,7 +111,6 @@
         </div>
     </div>
 </div>
-
 
 <style>
     .form-control {

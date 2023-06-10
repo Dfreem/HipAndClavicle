@@ -153,7 +153,7 @@ namespace HipAndClavicle.Controllers
                 SetShoppingCartToCookie(simpleShoppingCart);
             }
             
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
                
         // Removes single item from cart
@@ -186,7 +186,7 @@ namespace HipAndClavicle.Controllers
                 }
                 SetShoppingCartToCookie(simpleShoppingCart);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         // Removes all items from cart
@@ -204,14 +204,23 @@ namespace HipAndClavicle.Controllers
             {
                 ClearShoppingCartCookie();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         // Helper method to get the cart ID for the current user
         private string GetCartId()
         {
-            var httpContext = _contextAccessor.HttpContext;
+            /*var httpContext = _contextAccessor.HttpContext;
             if (httpContext.User.Identity.IsAuthenticated)
+            {
+                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            else
+            {
+                return null;
+            }*/
+            var httpContext = _contextAccessor.HttpContext;
+            if (httpContext?.User?.Identity?.IsAuthenticated ?? false)
             {
                 return httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             }

@@ -94,6 +94,12 @@ h1 {
     height: 200px;
 }
 
+.contact-link {
+    position: relative;
+    top: 0;
+    right: 1em;
+}
+
 .text-muted i {
     margin: 0 10px;
 }

@@ -10,5 +10,9 @@
         public DateTime DateSent { get; set; } = DateTime.Now;
 
         public string Email { get; set; }
+
+
+        public string? Product { get; set; }
+        public string? City { get; set; }
     }
 }

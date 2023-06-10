@@ -12,6 +12,8 @@ public class UserMessage
     public string? ReceiverUserName { get; set; }
     public AppUser? Receiver { get; set; } = default!;
 
+    public string? ReceiverId { get; set; }
+
     public DateTime DateSent { get; set; }
     public bool Read { get; set; }
     public string? Content { get; set; }
@@ -21,5 +23,20 @@ public class UserMessage
     public string? Email { get; set; }
     public string? Number { get; set; }
 
+    // Archive user message
+    public bool IsArchived { get; set; }
 
+    public string? Product { get; set; }
+    public string? City { get; set; }
+
+    // Added 6-5-23 NJ
+    public string? CustomerId { get; set; }
+    public int? CustomerMessageId { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public string? CustomerName { get; set; }
+    public bool IsNewQuestion { get; set; }
+
+    public bool IsResolved { get; set; }
+    public bool IsRead { get; set; }
 }

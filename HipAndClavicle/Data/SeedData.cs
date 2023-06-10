@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Color = HipAndClavicle.Models.Color;
 namespace HipAndClavicle.Repositories;
@@ -5,9 +6,9 @@ namespace HipAndClavicle.Repositories;
 public static class SeedData
 {
 
-
     public static async Task Seed(IServiceProvider services, ApplicationDbContext context)
     {
+        List<UserSettings> allAdminSettings;
         UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
         if (await context.NamedColors.AnyAsync())
         { return; }
@@ -53,6 +54,7 @@ public static class SeedData
         #endregion
 
         // TODO add a check to see if the app user has purchased the product before being able to leave a review.
+        #region Products
 
         Product butterfly = new()
         {
@@ -91,7 +93,8 @@ public static class SeedData
                 twelve
             }
         };
-        //await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
+
+        #endregion
 
         await context.Products.AddRangeAsync(dragon, dragonfly, butterfly);
 
@@ -106,7 +109,7 @@ public static class SeedData
         {
             DateOrdered = DateTime.Now,
             Purchaser = devin!,
-            Address = devin!.Address!           
+            Address = devin!.Address!
 
         };
         Order order2 = new()
@@ -154,7 +157,7 @@ public static class SeedData
         {
             Item = dragon,
             ItemType = ProductCategory.Dragons,
-            ItemColors = { red , blue},
+            ItemColors = { red, blue },
             AmountOrdered = 2,
             PricePerUnit = 22.00d
         };
@@ -188,7 +191,7 @@ public static class SeedData
             Item = dragon,
             ItemType = ProductCategory.Dragons,
             SetSize = ten,
-            ItemColors = { red, blue},
+            ItemColors = { red, blue },
             PricePerUnit = 12d
         };
         OrderItem item7 = new()

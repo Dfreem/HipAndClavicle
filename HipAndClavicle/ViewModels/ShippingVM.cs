@@ -13,7 +13,7 @@ public class ShippingVM
     public ShipEngineSDK.ListCarriers.Result? Carriers { get; set; }
     public ShipEngineSDK.Common.Enums.LabelFormat LabelFormat { get; set; } = LabelFormat.PDF;
     public ShipEngineSDK.Common.Enums.LabelLayout LabelLayout { get; set; } = LabelLayout.FourBySix;
-    public AdminSettings Settings { get; set; } = new();
+    public UserSettings Settings { get; set; } = new();
     public DateTime ShipDate { get; set; }
 }
 

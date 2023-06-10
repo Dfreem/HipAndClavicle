@@ -1,17 +1,50 @@
 ﻿@model MerchantVM
 @{
 }
+
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
 <link rel="stylesheet" href="/css/site.css" />
-<link rel="stylesheet" href="~/css/Order.css" />
+<link rel="stylesheet" href="/css/Order.css" />
 
-<label class="h4 mx-5 text-secondary font-weight-bold ">Current Orders</label>
-<table class="table border border-2 border-success-subtle table-sm col-6 mx-4 me-auto mt-4 order-table">
-    @foreach (Order order in Model.CurrentOrders)
+
+<div class="body">
+    <div class="scroll-hide">
+        <div class="scroll">
+            <div class="current-orders">
+                <div class="list-group" id="order-scroller">
+                    @foreach (Order order in Model.CurrentOrders)
+                    {
+                        @Html.DisplayFor(_ => order, new ViewDataDictionary(ViewData){ {"settings", Model.Settings}})
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    @* -- shipped orders --*@
+
+    @if (Model.ShippedOrders.Count > 0)
     {
-        @Html.DisplayFor(_ => order)
+        @Html.DisplayFor(model => model.ShippedOrders)
+    }
+    else
+    {
+        <div class="m-auto col-4">
+            <h4 class="text-muted">No orders have been shipped</h4>
+        </div>
     }
 
-</table>
 
+</div>
+
+@* end shipped orders*@
+
+<script>
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>

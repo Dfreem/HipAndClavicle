@@ -81,6 +81,7 @@ using (var scope = app.Services.CreateAsyncScope())
     await SeedData.Seed(services, context);
     await SeedListings.Seed(services, context);
     await SeedShoppingCart.Seed(context, services);
+
 }
 #endregion
 app.Run();
