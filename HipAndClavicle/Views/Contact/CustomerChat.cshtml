@@ -2,40 +2,76 @@
 @{
     // Get all non-admin users
     var customers = ViewBag.customers;
-
+    var isAchivedView = (bool)ViewBag.ArchivedChat;
 }
 
-<br />
-<br />
-<br />
-<br />
-
-<div class="container">
-    <div class="row justify-content-center">
-
-
+<div class="container mt-4">
+    <div class="row">
         @if (User.IsInRole("Admin"))
         {
-            <!-- User list -->
-            @* <ul class="list-group">
+            if (isAchivedView)
+            {
+                <div class="float-end mb-3">
+                    <a class="btn btn-outline-dark" asp-action="CustomerChat">Chats</a>
+                </div>
+            }
+            else
+            {
+                <div class="float-end mb-3">
+                    <a class="btn btn-outline-dark" asp-action="ArchivedChats">Archived Chats</a>
+                </div>
+            }
+        }
+        <div class="col-md-4">
+
+            @if (User.IsInRole("Admin"))
+            {
+
+                <!-- User list -->
+                @* <ul class="list-group">
                     <li class="list-group-item active">Users</li>
                     <li class="list-group-item">User 1</li>
                     <li class="list-group-item">User 2</li>
                     <li class="list-group-item">User 3</li>
-                </ul>*@
-            <div class="col-md-4">
+                    </ul>*@
                 <ul class="list-group">
                     <li class="list-group-item active">Users</li>
                     @foreach (var user in customers)
                     {
-                        <li class="list-group-item user-item" data-user="@user.UserName">@user.UserName</li>
+                        string activeClass = string.Empty;
+                        if (user.UserName == ViewBag.SelectedUser)
+                        {
+                            activeClass = "active";
+                        }
+
+                        <li class="list-group-item user-item @activeClass">
+                            @*<span class="username-item" data-user="@user.UserName">@user.UserName</span>*@
+                            <span class="username-item" data-user="@user.UserName" data-userid="@user.Id">@user.UserName</span>
+
+                            @if (isAchivedView)
+                            {
+                                <span class="float-end text-warning">
+                                    <a class="btn btn-outline-danger" asp-action="UnArchiveChat"
+                                       asp-controller="Contact" asp-route-username="@user.UserName">
+                                        UnArchive
+                                    </a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="float-end text-warning">
+                                    <a class="btn btn-outline-danger"
+                                       asp-action="ArchiveChat" asp-controller="Contact"
+                                       asp-route-username="@user.UserName">
+                                        Archive
+                                    </a>
+                                </span>
+                            }
+                        </li>
                     }
                 </ul>
-            </div>
-
-        }
-
-
+            }
+        </div>
         <div class="col-md-8">
             <!-- Bordered message area with a specific height and rounded borders -->
             <div class="message-area rounded" style="border: 2px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; padding-bottom: 50px;">
@@ -73,11 +109,6 @@
 </div>
 
 <style>
-    .user-item-hover {
-        background-color: #cfe4f7; /* set the background color you want to use */
-    }
-
-
     .form-control {
         border-radius: 20px;
     }
@@ -190,72 +221,93 @@
                 sendButton.click();
             });
 
-            $(function () {
+               $(function () {
                 // Get the chat UI element
                 var $chat = $('.message-list');
 
                 // Add click event handler to user list items
-                $('.user-item').click(function () {
+                $('.username-item').click(function () {
+                    // Remove active class from all list items
+                    $('.list-group-item').removeClass('active');
+
+                    // Add active class to the clicked list item
+                    $(this).closest('.list-group-item').addClass('active');
+
                     // Get the selected user's username from the data-user attribute
                     var username = $(this).data('user');
+                    var userId = $(this).data('userid');
                     $("#sendTo").val(username);
 
-                    console.log(username)
+                    // Store the selected user in ViewBag.SelectedUser
+                    '@ViewBag.SelectedUser = "' + username + '";'
+
                     // Load the messages for the selected user in the chat UI
                     $.get('/contact/MesseagesWithCustomer?username=' + username, function (data) {
                         // Clear the chat UI
                         $chat.empty();
-                        console.log(data)
+
                         // Add the messages for the selected user to the chat UI
                         $.each(data, function (index, message) {
                             var $message = $('<div>').addClass('message');
                             if (message.senderUserName == username) {
                                 $message.addClass('received');
                                 $message.text(username + ': ' + message.content);
-                                //console.log(username + ': ' + message.content)
                             } else {
                                 $message.addClass('sent');
                                 $message.text('You: ' + message.content);
-                                //console.log('You: ' + message.content)
-
                             }
                             $chat.append($message);
                         });
 
                         // Scroll to the bottom of the chat UI
-                        //$chat.scrollTop($chat[0].scrollHeight);
                         $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
-
                     });
-
-
-
                 });
             });
 
-        });</script>
+            $(function () {
+    // Get the chat UI element
+    var $chat = $('.message-list');
 
-    <script>var currentSelection = null; // keep track of the currently selected user
-        // Add event listener to all user items
-        var userItems = document.querySelectorAll('.user-item');
-        userItems.forEach(function (item) {
-            item.addEventListener('mouseover', function () {
-                if (currentSelection !== item) {
-                    item.classList.add('user-item-hover');
-                }
-            });
-            item.addEventListener('mouseout', function () {
-                if (currentSelection !== item) {
-                    item.classList.remove('user-item-hover');
-                }
-            });
-            item.addEventListener('click', function () {
-                if (currentSelection !== null) {
-                    currentSelection.classList.remove('user-item-hover');
-                }
-                item.classList.add('user-item-hover');
-                currentSelection = item;
-            });
-        });</script>
+    // Add click event handler to user list items
+    $('.username-item').click(function () {
+        // Remove active class from all list items
+        $('.user-item').removeClass('active');
 
+        // Add active class to the clicked list item
+        $(this).closest('.user-item').addClass('active');
+
+        // Get the selected user's username from the data-user attribute
+        var username = $(this).data('user');
+        $("#sendTo").val(username);
+
+        // Store the selected user in ViewBag.SelectedUser
+        '@ViewBag.SelectedUser = "' + username + '";'
+
+        // Load the messages for the selected user in the chat UI
+        $.get('/contact/MesseagesWithCustomer?username=' + username, function (data) {
+            // Clear the chat UI
+            $chat.empty();
+
+            // Add the messages for the selected user to the chat UI
+            $.each(data, function (index, message) {
+                var $message = $('<div>').addClass('message');
+                if (message.senderUserName == username) {
+                    $message.addClass('received');
+                    $message.text(username + ': ' + message.content);
+                } else {
+                    $message.addClass('sent');
+                    $message.text('You: ' + message.content);
+                }
+                $chat.append($message);
+            });
+
+            // Scroll to the bottom of the chat UI
+            $(".message-area").scrollTop($(".message-list")[0].scrollHeight);
+        });
+    });
+});
+
+
+        });</script>
 }

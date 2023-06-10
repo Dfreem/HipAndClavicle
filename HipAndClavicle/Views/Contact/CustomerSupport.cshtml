@@ -1,0 +1,397 @@
+﻿@model List<UserMessage>?
+
+<style>
+    .custom-card {
+        /*height: 150px;*/ /* Adjust the height as per your requirement */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Customize the shadow effect */
+    }
+
+    /* .custom-card .card-body {
+                            padding: 25px;
+                        }*/
+</style>
+<div class=" mt-4">
+    <h3 style="margin-left:250px;">Support Requests </h3>
+    <div class="
+text-right">
+        <a class="btn btn-success text-light" asp-action="ContactSupport">contact admins</a>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-9">
+            @foreach (var item in Model)
+            {
+                <div class="card mt-4 custom-card">
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-12 col-md-6">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text">@item.Description</p>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                @*<a asp-action="Responses" class="btn btn-primary">Responses</a>*@
+
+                                <button type="button" class="btn btn-primary respond" data-messageid="@item.Id" data-bs-toggle="modal" data-bs-target="#supportModal">
+                                    Responses
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="modal fade" id="supportModal" tabindex="-1" aria-labelledby="supportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="supportModalLabel">Customer Support</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Admin Response -->
+                @*<div class="row mt-4 reponses">
+
+                        <div class="col">
+                            <div class="admin-inf">
+                                <p class="fw-bold">{{Username}}</p>
+                                <p class="time-stamp mt-0">{{time}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                            <p class="res">{{Thank you for your inquiry. Our support team will get back to you shortly.}}</p>
+                        </div>
+                    </div>*@
+                <div class="modal-messages">
+
+                </div>
+            </div>
+            <!-- Message textarea -->
+            <div class="row m-1">
+                <div class="col">
+                    <textarea class="form-control" id="messageTextarea" rows="8" cols="20" placeholder="Write a message..."></textarea>
+
+
+                </div>
+                <input type="hidden" id="MainMessageId" />
+
+            </div>
+            <!-- Send button -->
+            <div class="row me-2 mb-2 text-right">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" id="sendButton" disabled>Send</button>
+
+                </div>
+            </div>
+
+            @* <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@section CutomerChatScript{
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+
+        // Update the submit button state based on textarea content
+        $('#messageTextarea').on('input', function () {
+            var textareaValue = $(this).val().trim();
+            var submitButton = $('#sendButton');
+
+            if (textareaValue === '') {
+                submitButton.prop('disabled', true);
+            } else {
+                submitButton.prop('disabled', false);
+            }
+        });
+
+        // Disable the submit button after sending a message
+        $('#sendButton').on('click', function () {
+            var submitButton = $(this);
+
+            setTimeout(function () {
+                submitButton.prop('disabled', true);
+            }, 500);
+        });
+
+        var senderName = "@User.Identity?.Name?.ToString()";
+                console.log(senderName)
+                 $('#supportModal').on('shown.bs.modal', function () {
+      $("#supportModal .modal-body").animate({ scrollTop: $('#supportModal .modal-body').prop("scrollHeight")}, 'slow');
+                 });
+
+
+        $(document).ready(function () {
+            // Send button click event
+            $('#sendButton').click(function () {
+                // Get the message from the textarea
+                var message = $('#messageTextarea').val();
+                var mainMessageId = $('#MainMessageId').val();
+
+
+
+
+                console.log()
+                $('#messageTextarea').val('');
+                $('#MainMessageId').val('');
+
+                // Append the new message to the admin response section
+                var newMessage = `<div class="row mt-1 reponses">
+                                         <div class="col">
+                                            <div class="admin-inf">
+                                                        <p class="fw-bold m-0">${senderName}</p>
+                                                        <p class="time-stamp mb-1 text-secondary">${getCurrentTime()}</p>
+                                            </div>
+                                        </div>
+                                 </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="res">${message}</p>
+                                    </div>
+                                </div>
+                                `;
+                $('#supportModal .modal-body .modal-messages').append(newMessage);
+
+                // Save the message to the API (replace the API_URL with your actual API endpoint)
+                $.ajax({
+                    type: 'GET',
+                    url: '/contact/ResponseToMessage',
+                    data: {
+                        message: message,
+                        customerMessageId: mainMessageId
+                    },
+                    success: function (response) {
+                        // Reset the textarea after successful submission
+                       console.log("success:"+ response)
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            // Helper function to get the current time
+            function getCurrentTime() {
+                var now = new Date();
+                var timeString = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+                return now.toDateString() + ' - ' + timeString;
+            }
+
+
+        });
+    </script>
+
+    <script>$(document).ready(function () {
+            $('#clear-query').on('click', function () {
+                //  $('#customer-name').val('');
+                //$('#date-sent').val('');
+                // $('#product').val('');
+                //$('#city').val('');
+                window.location.reload()
+            });
+            $('.email-link').on('click', function () {
+                var email = $(this).data('email');
+                $('#recipientEmail').val(email);
+
+                var formAction = 'mailto:' + email;
+                $('#emailForm').attr('action', formAction);
+            });
+
+            $('.respond').on('click', function () {
+                console.log("Message Id")
+                let messageId = $(this).data('messageid');
+                console.log("Message Id:" + messageId);
+                $('#MainMessageId').val(messageId);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/contact/MessagesForQuestion',
+                    data: {
+                        id: messageId,
+                    },
+                    success: function (response) {
+                        // Reset the textarea after successful submission
+                        console.log(response)
+                        // Loop through the JSON data array
+                        $.each(response, function (index, item) {
+                            // Create the HTML elements
+                            var container = $('<div class="row"></div>');
+                            var row = $('<div class="row mt-1 reponses"></div>');
+                            var col = $('<div class="col"></div>');
+                            var adminInfo = $('<div class="admin-inf"></div>');
+                            var username = $('<p class="fw-bold m-0">' + item.senderUserName + '</p>');
+                            var timestamp = $('<p class="time-stamp text-secondary mb-1">' + formatDateTime(item.dateSent) + '</p>');
+                            var responseMessage = $('<div class="row"></div>');
+                            var resp = $('<p class="res">' + item.description + '</p>');
+
+                            // Append the elements to the DOM
+                            adminInfo.append(username, timestamp);
+                            col.append(adminInfo);
+                            row.append(col);
+                            responseMessage.append($('<div class="col"></div>').append(resp));
+                            container.append(row)
+                            container.append(responseMessage)
+                            //$('#modal-messages').append(container)
+                            console.log(resp)
+                            $('.modal-messages').append(container);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+
+                //$('#respond').attr('value', messageId);
+            });
+
+
+            $(document).ready(function () {
+                // Reset the form fields when the modal is closed
+                $("#emailModal").on("hidden.bs.modal", function () {
+                    $("#emailForm")[0].reset(); // Reset the form fields
+                });
+
+
+                $("#supportModal").on("hidden.bs.modal", function () {
+                    $(".modal-messages").html(''); // Reset the form fields
+                });
+            });
+            // Email Form
+            $(document).ready(function () {
+                $("#emailForm").submit(function (event) {
+                    event.preventDefault(); // Prevent the default form submission behavior
+
+                    // Get the form data
+                    var formData = $(this).serializeArray();
+
+                    // Remove the "__RequestVerificationToken" parameter
+                    formData = formData.filter(function (item) {
+                        return item.name !== "__RequestVerificationToken";
+                    });
+                    // Get the form action URL
+                    var formAction = $(this).attr("action");
+
+                    // Construct the URL
+                    var url = formAction +
+                        "?subject=" + encodeURIComponent(formData.find(function (item) { return item.name === "subject"; }).value) +
+                        "&body=" + encodeURIComponent(formData.find(function (item) { return item.name === "body"; }).value);
+                    console.log(url)
+                    // Open the email client with the pre-filled fields
+                    window.location.href = url;
+                });
+            });
+
+            // Select 2 product list
+            $(document).ready(function () {
+                $('#product').select2();
+                $('#city').select2();
+            });
+
+            // Message content View
+            $('.content-link').click(function () {
+                var email = $(this).data('email');
+
+                var truncatedContent = $(this).data('truncated-content');
+                var untruncatedContent = $(this).data('content');
+
+                console.log(email);
+                $('#sentFrom').text("From: " + email);
+                let msg = "Message: " + untruncatedContent;
+                $('#untruncatedContent').text(msg);
+            });
+
+            // Search for messages when the search button is clicked
+            $('#search-form').submit(function (event) {
+                event.preventDefault();
+                var customerName = $('#customer-name').val();
+                //var purchaseDate = $('#purchase-date').val();
+                //var dueDate = $('#due-date').val();
+                var dateSent = $('#date-sent').val();
+                var product = $('#product').val();
+                var city = $('#city').val();
+                console.log(`customerName:${customerName} dateSent:${dateSent} Product:${product} City:${city}`)
+                var url = '/contact/FilterMesseges';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: {
+                        customerName: customerName,
+                        //purchase_date: purchaseDate,
+                        //due_date: dueDate
+                        dateSent: dateSent,
+                        product: product,
+                        city: city,
+                    },
+                    success: function (response) {
+                        var results = '';
+                        if (response.length > 0) {
+                            $.each(response, function (index, message) {
+                                results += '<tr>';
+                                results += '<td>' + message.customerName + '</td>';
+                                results += '<td>' + message.email + '</td>';
+                                results += '<td>' + message.content + '</td>';
+                                //results += '<td>' + message.purchase_date + '</td>';
+                                //results += '<td>' + message.due_date + '</td>';
+                                results += '<td>' + message.dateSent + '</td>';
+                                results += '<td>' + message.product + '</td>';
+                                results += '<td>' + message.city + '</td>';
+                                results += '<td>' + message.customerMessageId + '</td>';
+                                results += '</tr>';
+
+                            });
+                        } else {
+                            results += '<tr><td colspan="4">No messages found.</td></tr>';
+                        }
+                        $('#message-table tbody').html(results);
+                        $('#message-table tbody').html(results);
+                    },
+                    error: function () {
+                        alert('An error occurred while searching messages.');
+                    }
+                });
+            });
+        });
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+
+            // Format the date
+            const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            const formattedDate = `${daysOfWeek[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} - ${formatTime(date)}`;
+
+            // Format the time
+            function formatTime(date) {
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                let amOrPm = "AM";
+
+                if (hours > 12) {
+                    hours -= 12;
+                    amOrPm = "PM";
+                } else if (hours === 12) {
+                    amOrPm = "PM";
+                }
+
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+
+                return `${hours}:${minutes} ${amOrPm}`;
+            }
+
+            return formattedDate;
+        }</script>
+}

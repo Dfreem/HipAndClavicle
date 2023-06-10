@@ -41,16 +41,17 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Contact" asp-action="AllCustomerMesseges">Customer Messages</a>
+                                <a class="nav-link" asp-controller="Contact" asp-action="CustomerList">Customer Messages</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Contact" asp-action="CustomerChat">Customer Chat</a>
-                            </li>
+
+                            @*<li class="nav-item">
+                                    <a class="nav-link" asp-controller="Contact" asp-action="CustomerChat">Customer Chat</a>
+                                </li>*@
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
+                                <a class="nav-link" asp-controller="Contact" asp-action="CustomerSupport">Contact</a>
                             </li>
                         }
 
