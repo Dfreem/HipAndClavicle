@@ -7,5 +7,6 @@
         public Listing Listing { get; set; } = default!;
         public bool ProductIsPurchaced { get; set; } = default!;
         public ShoppingCart ShoppingCart { get; set; } = default!;
+        public SetSize SetSize { get; set; } = default!;
     }
 }

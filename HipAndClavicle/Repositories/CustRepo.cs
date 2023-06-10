@@ -17,6 +17,7 @@ public class CustRepo : ICustRepo
     {
         var listings = await _context.Listings
             .Include(l => l.Colors)
+            .Include(l => l.SingleImage)
             .Include(l => l.ListingProduct)
             .ThenInclude(p => p.AvailableColors)
             .Include(l => l.ListingProduct)
@@ -53,6 +54,8 @@ public class CustRepo : ICustRepo
             .ThenInclude(p => p.AvailableColors)
             .Include(l => l.ListingProduct)
             .ThenInclude(p => p.ProductImage)
+            .Include(l => l.ListingProduct)
+            .ThenInclude(p => p.SetSizes)
             .Include(l => l.ListingColorJTs)
             .ThenInclude(lc => lc.ListingColor)
             .Include(l => l.ListingProduct)
@@ -77,6 +80,7 @@ public class CustRepo : ICustRepo
         var listings = await _context.Listings
             .Include(l => l.Colors)
             .Include(l => l.ListingProduct)
+            .Include(l => l.SingleImage)
             .Where(l => l.Colors.Any(c =>  colors.Contains(c))).ToListAsync();
         return listings;
     }
@@ -113,6 +117,8 @@ public class CustRepo : ICustRepo
             .ThenInclude(m => m.ProductImage)
             .Include(o => o.Items)
             .ThenInclude(i => i.Item)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.SetSize)
             .Include(o => o.Items)
             .ThenInclude(oi => oi.ItemColors)
             .Where(o => o.PurchaserId == customerId).ToListAsync();

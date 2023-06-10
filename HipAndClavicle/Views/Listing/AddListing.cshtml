@@ -18,24 +18,33 @@
 </style>
 
 <form method="post" asp-action="AddListing" enctype="multipart/form-data">
+    <div class="row">
+        <div class="mb-3 col-6">
+            <div class="row mb-3">
+                <label asp-for="@Model.Title" class="form-label">Listing Title: </label>
+                <input asp-for="@Model.Title" class="form-control"/>
+            </div>
 
-    <div>
-        <label asp-for="@Model.Title">Listing Title: </label>
-        <input asp-for="@Model.Title" />
+            <div class="row mb-3">
+                <label asp-for="@Model.Description" class="form-label">Listing Description: </label>
+                <textarea asp-for="@Model.Description" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <div class="mb-3 col">
+            <label asp-for="@Model.Price" class="form-label">Price: </label>
+            <input asp-for="@Model.Price" class="form-control col-2"/>
+        </div>
+
     </div>
 
-    <div>
-        <label asp-for="@Model.Description">Listing Description: </label>
-        <textarea asp-for="@Model.Description"></textarea>
-    </div>
-
-    <div class="row col-9 g-4">
+    <div class="row col-9 g-4 mb-5">
         
         @foreach (var color in Model.AvailableColors)
         {
             <div class="col col-4 colorCard" id="colorCard- @color.ColorName">
-                <div class="btn-outline-light card p-4 colorCardChild " style="width: 15rem; background-color: @color.HexValue ;">
-                    <label class="btn" style="background-color: white ;" for="ColorBtn @color.ColorName">@color.ColorName</label>
+                <div class="btn-outline-light card pt-0 pb-5 colorCardChild" style="width: 15rem; background-color: @color.HexValue ;">
+                    <label class="btn" style="background-color: white; width: 100%; border-radius: .25rem .25rem 0 0;" for="ColorBtn @color.ColorName">@color.ColorName</label>
                     <div class="text-center">
                         <input type="checkbox" name="SelectedColors" value="@color.ColorId" class="colorCheckBox" id="ColorBtn @color.ColorName" hidden
                         @(Model.ListingColors?.Contains(color) == true ? "checked" : "")>
@@ -45,7 +54,7 @@
         }
     </div>
 
-    <select asp-for="@Model.ListingProductId">
+    <select asp-for="@Model.ListingProductId" class="mb-3">
         Product:
         @foreach (var prod in Model.Products)
         {
@@ -54,9 +63,9 @@
     </select>
 
     <label asp-for="ImageFile" > Upload images:  </label>
-    <input class="form-control form-file" type="file" asp-for="ImageFile" />
+    <input class="form-control form-file mb-3 col-4" type="file" asp-for="ImageFile" />
 
-    <input type="submit" value="Save"/>
+    <input type="submit" value="Save" class="mb-3"/>
 </form>
 
 
