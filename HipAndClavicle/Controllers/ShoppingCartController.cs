@@ -80,8 +80,7 @@ public class ShoppingCartController : Controller
             // Create a new ShoppingCartItem with the shoppingCartId, listing, and quantity
             var shoppingCartItem = new ShoppingCartItem
             {
-                ListingItem = new() { Item = listing.ListingProduct, AmountOrdered = quantity },
-                Item = listing.ListingProduct
+               
             };
             shoppingCart.Items.Add(shoppingCartItem);
             await _shoppingCartRepo.UpdateShoppingCartAsync(shoppingCart);
