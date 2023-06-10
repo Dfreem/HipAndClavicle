@@ -197,7 +197,7 @@
 
                 </div>
 
-                //LOOKING TO IMPLEMENT THIS AFTER THE TERM -NJ (6/8/23)
+                @*LOOKING TO IMPLEMENT THIS AFTER THE TERM -NJ (6/8/23)*@
                 <!-- Admin Response -->
                 @*<div class="row mt-4 reponses">
 
@@ -359,16 +359,16 @@
                 let description = $(this).data('description');
                 let messageId = $(this).data('messageid');
                 let mainMessageAppend = ` <div class="row">
-                                                            <div class="col-6">
-                                                                <h3>${title}</h3>
-                                                                <h5>${description}</h5>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="text-end">
-                                                                    <button type="button" id="issueResolved" data-messagereolvedid=${messageId} class="btn btn-warning">Issue Resolved</button>
-                                                                </p>
-                                                            </div>
-                                                        </div>`;
+                                                                <div class="col-6">
+                                                                    <h3>${title}</h3>
+                                                                    <h5>${description}</h5>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <p class="text-end">
+                                                                        <button type="button" id="issueResolved" data-messagereolvedid=${messageId} class="btn btn-warning">Issue Resolved</button>
+                                                                    </p>
+                                                                </div>
+                                                            </div>`;
                 $('#supportModal .modal-body .mainMessageContainer').append(mainMessageAppend);
 
                 console.log("Message Id")
@@ -520,9 +520,9 @@
                                 results += '<td>' + message.product + '</td>';
                                 results += '<td>' + message.city + '</td>';
                                 results += '<td>' + `<button
-                                                        type="button"
-                                                        class="btn btn-primary respond" data-messageid="${message.id} data-bs-toggle="modal"
-                                                                data-bs-target="#supportModal"> respond to request </button>` + '</td>';
+                                                            type="button"
+                                                            class="btn btn-primary respond" data-messageid="${message.id} data-bs-toggle="modal"
+                                                                    data-bs-target="#supportModal"> respond to request </button>` + '</td>';
                                 results += '</tr>';
                             });
                         } else {
