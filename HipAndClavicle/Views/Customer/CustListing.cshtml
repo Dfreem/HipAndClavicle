@@ -25,7 +25,14 @@
         <div class="col col-7">
             <h1> @Model.Listing.ListingTitle </h1>
             <h4>@Model.Listing.ListingDescription </h4>
+            
             <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
+                <select asp-for="@Model.SetSize">
+                    @foreach(var size in Model.Product.SetSizes)
+                    {
+                        <option value="@size">@size.Size.ToString()</option>
+                    }
+                </select>
                 <input type="hidden" name="listingId" value="@Model.Listing.ListingId" />
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
             </form>

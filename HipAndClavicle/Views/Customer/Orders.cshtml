@@ -50,6 +50,10 @@
                             <div class="col item-title-and-desc">
                                 <div class="row item-name-row">@item.Item.Name in @colorsString </div>
                                 <div class="row item-desc-row">@item.Item.Description</div>
+                                @if(item.SetSize != null)
+                                {
+                                <div class="row item-set-size-row">Set of @item.SetSize.Size.ToString()</div>                                    
+                                }
                             </div>
                         </div>
                     </div>
