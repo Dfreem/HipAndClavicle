@@ -6,6 +6,12 @@
     {
         cartTotal += (orderItem.PricePerUnit * orderItem.AmountOrdered);
     }
+    
+    Order newOrder = new()
+    {
+        Items = Model.ShoppingCart.Items,
+        Purchaser = Model.ShoppingCart.Owner!
+    };
 }
 
 @if (Model.ShoppingCart.Items.Count <= 0)
@@ -53,8 +59,8 @@ else
                             <td>
                                 <form asp-action="UpdateCart" asp-controller="ShoppingCart" method="post">
                                     <label>Quantity:</label>
-                                    <input type="hidden" asp-for="@item.OrderItemId" />
-                                    <input type="number" asp-for="@item.ListingItem.AmountOrdered" />
+                                    <input type="hidden" name="itemId" for="itemId" value="@item.ListingItem.OrderItemId" />
+                                    <input type="number" name="qty" for="@item.ListingItem.AmountOrdered" value="@item.ListingItem.AmountOrdered" />
                                     <button type="submit" name="submit" class="btn btn-dark">Update</button>
                                 </form>
                             </td>
@@ -81,7 +87,7 @@ else
             </form>
         </div>
         <div class="float-end">
-            <a asp-controller="Payment" asp-action="Checkout" asp-route-cartId="@Model.ShoppingCart.ShoppingCartId" class="btn btn-dark">Checkout ></a>
+            <a asp-controller="Payment" asp-action="Index" asp-route-order="@newOrder" class="btn btn-dark">Checkout</a>
 
 
         </div>
@@ -89,7 +95,7 @@ else
 }
 <script>
     let deletes = document.getElementsByClassName('delete-button');
-    for(let i = 0; i < deletes.length; i++) {
+    for (let i = 0; i < deletes.length; i++) {
         deletes[i].addEventListener("click", () => {
             confirm('Are you sure you want to remove this item from the cart?');
         })

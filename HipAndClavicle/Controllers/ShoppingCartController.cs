@@ -32,7 +32,10 @@ public class ShoppingCartController : Controller
         {
             var owner = await _userManager.FindByNameAsync(_signInManager.Context.User.Identity!.Name!);
             ShoppingCart shoppingCart;
-                shoppingCart = await _shoppingCartRepo.GetShoppingCartByOwnerId(owner!.Id);
+
+            // TODO something's missing here, fell asleep and forgot what it was.
+            shoppingCart = await _shoppingCartRepo.GetShoppingCartByOwnerId(owner!.Id);
+            shoppingCart.Owner = owner;
             viewModel = new ShoppingCartViewModel
             {
                 ShoppingCart = shoppingCart,
@@ -116,7 +119,7 @@ public class ShoppingCartController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateCart(int itemId, int quantity)
+    public async Task<IActionResult> UpdateCart([Bind("itemId, qty")] int itemId, int qty)
     {
         if (User.Identity.IsAuthenticated)
         {
@@ -128,7 +131,7 @@ public class ShoppingCartController : Controller
                 return NotFound();
             }
 
-            item.AmountOrdered = quantity;
+            item.AmountOrdered = qty;
             await _shoppingCartRepo.UpdateItemAsync(item);
         }
         else
@@ -138,7 +141,7 @@ public class ShoppingCartController : Controller
             var simpleCartItem = simpleShoppingCart.Items.FirstOrDefault(item => item.Id == itemId);
             if (simpleCartItem != null)
             {
-                simpleCartItem.Qty = quantity;
+                simpleCartItem.Qty = qty;
             }
             else
             {

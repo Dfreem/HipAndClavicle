@@ -1,9 +1,5 @@
-﻿// This is your test publishable API key.
-const secrets = require()
+﻿const secrets = require()
 const stripe = Stripe("pk_test_51LTWR8IwsyflkWqgGyNi4yg9xoaQ7tjgRFIULc4ZWEeGrjpzS5UhR9OsGaoD6qHnuVu1bP8TWsUszPsxJRWdMAsS00xRVSdTYP");
-// The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
-
 let elements;
 
 initialize();
@@ -51,7 +47,7 @@ async function handleSubmit(e) {
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "http://localhost:4242/checkout.html",
+            return_url: "/Payment/",
             receipt_email: emailAddress,
         },
     });

@@ -4,6 +4,11 @@ namespace HipAndClavicle.Repositories;
 
 public class OrderRepo : IOrderRepo
 {
+    ApplicationDbContext _context;
+    public OrderRepo(ApplicationDbContext context)
+    {
+        _context = context;
+    }
     #region Orders
     public async Task UpdateOrderAsync(Order order)
     {
@@ -16,10 +21,16 @@ public class OrderRepo : IOrderRepo
         _context.Orders.Remove(order);
         await _context.SaveChangesAsync();
     }
-    ApplicationDbContext _context;
-    public OrderRepo(ApplicationDbContext context)
+
+    public async Task<Order> GetOrderForPaymentAsync(int orderId)
     {
-        _context = context;
+        return await _context.Orders
+            .Include(order => order.Items)
+            .ThenInclude(items => items.Item)
+            .ThenInclude(product => product.ProductImage)
+            .Include(order => order.Items)
+            .ThenInclude(items => items.SetSize)
+            .FirstAsync(o => o.OrderId == orderId);
     }
     #endregion
 

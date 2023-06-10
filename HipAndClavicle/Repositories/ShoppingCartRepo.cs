@@ -29,7 +29,8 @@ namespace HipAndClavicle.Repositories
                     .Include(cart => cart.Items)
                     .ThenInclude(items => items.Item)
                     .ThenInclude(i => i.ProductImage)
-                    .FirstAsync(cart => cart.OwnerId == ownerId);            
+                    .FirstAsync(cart => cart.OwnerId == ownerId);
+            
         }
 
 
