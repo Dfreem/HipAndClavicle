@@ -8,6 +8,9 @@
 		<UserSecretsId>6f897991-82fe-4d0c-b74d-e185b585428f</UserSecretsId>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	  <WarningLevel>4</WarningLevel>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Views\CustomerProductCatalog\**" />
 	  <Content Remove="Views\CustomerProductCatalog\**" />
