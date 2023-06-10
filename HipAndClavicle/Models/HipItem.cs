@@ -3,6 +3,7 @@ namespace HipAndClavicle.Models;
 
 public abstract class HipItem
 {
+    public string Name { get; set; } = default!;
     public int Qty { get; set; } = 1;
     public int? ProductId { get; set; }
     public Product Item { get; set; } = default!;
@@ -17,7 +18,7 @@ public abstract class HipItem
     ///// </summary>
     //public Order ParentOrder { get; set; } = default!;
     [Display(Name = "Item Price")]
-    public double PricePerUnit { get; set; }
+    public double SetPrice { get; set; }
     public int? SetSizeId { get; set; }
     public SetSize? SetSize { get; set; }
     public OrderStatus Status { get; set; }
@@ -37,7 +38,6 @@ public abstract class HipItem
         return (ShoppingCartItem)item;
     }
 }
-
 
 
 public enum ItemType
