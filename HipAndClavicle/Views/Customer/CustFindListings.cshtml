@@ -6,17 +6,24 @@
 @foreach (var listing in Model)
 {
     string backgroundColor = "gray";
-    @if (listing.Colors.Count > 0)
-    {
-        backgroundColor = listing.Colors.First().HexValue.ToString();
-    }
-    else if (listing.ListingColorJTs.Count() > 0)
-    {
-        backgroundColor = listing.ListingColorJTs.First().ListingColor.HexValue.ToString();
-    }
-    <a asp-action="CustListing" asp-route-listingId="@listing.ListingId" class="card test-center m-3 p-3 col  text-center">
-
-        <div class="text-center" style="width:100%; aspect-ratio=1/1; margin: 0 auto; position:relative; padding-bottom: 100%; background:@backgroundColor;"> </div>
+    <a asp-action="CustListing" asp-route-listingId="@listing.ListingId" class="card test-center m-3 p-3 col col-2 text-center">
+        <div class="col " id="imageContainer">
+            @if (listing.SingleImage != null)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(listing.SingleImage.ImageData)" width="100%" />
+            }
+            else if (listing.Colors.Count > 0)
+            {
+                backgroundColor = listing.Colors.First().HexValue.ToString();
+                <div class="text-center" style="width:100%; aspect-ratio=1/1; margin: 0 auto; position:relative; padding-bottom: 100%; background:@backgroundColor;"> </div>
+            }
+            else if (listing.ListingColorJTs.Count() > 0)
+            {
+                backgroundColor = listing.ListingColorJTs.First().ListingColor.HexValue.ToString();
+                <div class="text-center" style="width:100%; aspect-ratio=1/1; margin: 0 auto; position:relative; padding-bottom: 100%; background:@backgroundColor;"> </div>
+            }
+        </div>
+        
         <h3 class="text-center">@listing.ListingTitle</h3>
     </a>
 }
