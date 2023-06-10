@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace HipAndClavicle.ViewModels.Payment;

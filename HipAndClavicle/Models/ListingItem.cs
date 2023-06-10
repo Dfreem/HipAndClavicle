@@ -5,9 +5,9 @@ public class ListingItem : HipItem
 {
     public int ListingItemId { get; set; }
 
-    //public ListingItem() : base()
-    //{
+    public ListingItem() : base()
+    {
 
-    //}
+    }
 }
 

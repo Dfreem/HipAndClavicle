@@ -100,13 +100,14 @@ public class ShoppingCartController : Controller
             }
             else
             {
+
                 simpleCartItem = new SimpleCartItem
                 {
                     ListingId = listing.ListingId,
                     Name = listing.ListingTitle,
                     Desc = listing.ListingDescription,
                     Qty = quantity,
-                    ItemPrice = listing.Price
+                    ItemPrice = listing.
                 };
                 shoppingCart.Items.Add(simpleCartItem);
             }
