@@ -25,7 +25,7 @@ public class PaymentController : Controller
     public async Task<IActionResult> Index(Order order)
     {
         var purchaser = await _userManager.GetUserAsync(User);
-        Customer? customer = await CreateStripeCustomerAsync(purchaser);
+        Customer? customer = await CreateStripeCustomerAsync(purchaser!);
         var paymentIntent = CreatePaymentIntent(order);
         ViewData["ClientSecret"] = paymentIntent.ClientSecret;
         return View();

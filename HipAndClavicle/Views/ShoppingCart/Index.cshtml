@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Shopping Cart";
     double cartTotal = 00.00d;
-    foreach (OrderItem orderItem in Model.ShoppingCartItems)
+    foreach (OrderItem orderItem in Model.ShoppingCart.Items)
     {
         cartTotal += (orderItem.PricePerUnit * orderItem.AmountOrdered);
     }
