@@ -11,6 +11,8 @@
         [MaxLength(30)]
         [Required(ErrorMessage = "user name should be under 30 characters")]
         public string UserName { get; set; } = "";
+
+        [EmailAddress]
         [Required(ErrorMessage = "Email is required for order communication")]
         public string Email { get; set; } = "";
         [Required]
