@@ -25,16 +25,17 @@
 
                     @*<a  data-bs-toggle="offcanvas" href="#offcanvas-edit-product" role="button" aria-controls="offcanvas-edit-product"><i class="bi bi-pencil"></i></a>*@
                     <div class="hide-card">
-                        @if (product.ProductImage is not null)
-                        {
-                            <img class="card-img-top" width="200" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image">
-                        }
-                        else
-                        {
+                        <div class="image-wrapper">
+                            @if (product.ProductImage is not null)
+                            {
+                                <img class="card-img-top" src="data:image;base64,@Convert.ToBase64String(product.ProductImage.ImageData)" alt="Product Image">
+                            }
+                            else
+                            {
 
-                            <img src="~/images/butterflys.png" class="card-img-top" />
-                        }
-
+                                <img src="~/images/blue_dragons.png" class="card-img-top" />
+                            }
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="card-title d-flex flex-row">
